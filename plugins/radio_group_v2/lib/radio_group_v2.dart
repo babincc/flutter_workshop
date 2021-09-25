@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 1.0.0
+// @version 1.0.1
 // https://github.com/babincc/flutter_workshop/blob/master/plugins/radio_group_v2/lib/radio_group_v2.dart
 
 import 'package:flutter/material.dart';

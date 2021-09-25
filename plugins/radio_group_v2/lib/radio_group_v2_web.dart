@@ -31,7 +31,8 @@ class RadioGroupV2Web {
       default:
         throw PlatformException(
           code: 'Unimplemented',
-          details: 'radio_group_v2 for web doesn\'t implement \'${call.method}\'',
+          details:
+              'radio_group_v2 for web doesn\'t implement \'${call.method}\'',
         );
     }
   }
