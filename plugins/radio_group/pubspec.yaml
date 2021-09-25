@@ -1,7 +1,7 @@
 name: radio_group
 description: A widget which contains radio buttons that a user can click to make selections within the app.
 version: 1.0.0
-homepage:
+homepage: https://github.com/babincc/flutter_workshop/tree/master/plugins/radio_group
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
