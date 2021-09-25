@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 
 /// Describes how the radio button list will be layed out on the screen.
-enum RadioListOrientation {
+enum RadioGroupOrientation {
   /// When this is set as the orientation, the buttons will be layed out on top
   /// of each other in a single stack.
   Vertical,
@@ -29,7 +29,7 @@ enum RadioListOrientation {
 ///
 /// ### Vertical Layout
 ///
-/// When the [RadioListOrientation.Vertical] orientation is selected, this
+/// When the [RadioGroupOrientation.Vertical] orientation is selected, this
 /// returns a [Column] which contains the [ListTile] widgets described above in
 /// the "Individual Radio Button" section.
 ///
@@ -49,7 +49,7 @@ enum RadioListOrientation {
 ///
 /// ### Horizontal Layout
 ///
-/// When the [RadioListOrientation.Horizontal] orientation is selected, this
+/// When the [RadioGroupOrientation.Horizontal] orientation is selected, this
 /// returns a [Wrap] which contains the [ListTile] widgets described above in
 /// the "Individual Radio Button" section.
 ///
@@ -101,7 +101,7 @@ class RadioGroup extends StatefulWidget {
     required this.values,
     this.onChanged,
     this.indexOfDefault = -1,
-    this.orientation = RadioListOrientation.Vertical,
+    this.orientation = RadioGroupOrientation.Vertical,
     this.decoration,
   })  : assert(
             indexOfDefault < values.length,
@@ -138,7 +138,7 @@ class RadioGroup extends StatefulWidget {
   final RadioGroupDecoration? decoration;
 
   /// How the radio button list will be layed out on the screen.
-  final RadioListOrientation orientation;
+  final RadioGroupOrientation orientation;
 
   @override
   _RadioGroupState createState() => _RadioGroupState();
@@ -172,7 +172,7 @@ class _RadioGroupState extends State<RadioGroup> {
   @override
   Widget build(BuildContext context) {
     // If the orientation of the radio button list is vertical, do this.
-    if (widget.orientation == RadioListOrientation.Vertical) {
+    if (widget.orientation == RadioGroupOrientation.Vertical) {
       return Column(
         children: [
           for (Object currValue in widget.values) _radioItemBuilder(currValue),
@@ -255,11 +255,19 @@ class _RadioGroupState extends State<RadioGroup> {
                 // If `toggleable` is turned on and the same value is clicked,
                 // deselect all buttons.
                 this.value = null;
+
+                if (widget.onChanged != null) {
+                  widget.onChanged!(value);
+                }
               }
             }
           } else {
             // Set the new value.
             this.value = value;
+
+            if (widget.onChanged != null) {
+              widget.onChanged!(value);
+            }
           }
         },
         child: Padding(

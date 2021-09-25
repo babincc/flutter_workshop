@@ -26,6 +26,6 @@ pub.dev link goes here once published
 
 This is a widget which contains radio buttons that a user can click to make selections within the app.
 
-#### [source code](radio_group.dart)
+#### [source code](radio_group/lib/radio_group.dart)
 
 [back to top](#table-of-contents)
