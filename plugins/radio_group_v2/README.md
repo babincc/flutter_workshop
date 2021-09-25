@@ -8,11 +8,11 @@ A widget that groups radio buttons so they can work together to give the user a 
 
 In the `pubspec.yaml` of your flutter project, add the following dependency:
  ``` yaml dependencies:
- radio_group: ^1.0.0
+ radio_group_v2: ^1.0.0
 ```
 Import it to each file you use it in:
  ``` dart
- import 'package:radio_group/radio_group.dart';
+ import 'package:radio_group_v2/radio_group_v2.dart';
  ```
 
 ## Usage
