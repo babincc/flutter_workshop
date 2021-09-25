@@ -412,6 +412,8 @@ class RadioGroupDecoration {
   }) : assert(spacing >= 0.0, "ERROR: \`spacing\` cannot be less than 0.0!");
 
   /// The amount of space between each button.
+  ///
+  /// **Note:** This only applies to horizontal radio group elements.
   final double spacing;
 
   /// The text style for the radio buttons labels.
