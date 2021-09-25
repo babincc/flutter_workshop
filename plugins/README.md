@@ -17,15 +17,15 @@ Brief summary on the plug-in...
 [back to top](#table-of-contents)
 --->
 
-## radio_group
+## radio_group_v2
 
 <!---
 pub.dev link goes here once published
 #### [view on pub.dev](pub.dev) (external link)
 --->
 
-This is a widget which contains radio buttons that a user can click to make selections within the app.
+A widget that groups radio buttons so they can work together to give the user a pleasant experience when making selections within the app.
 
-#### [source code](radio_group/lib/radio_group.dart)
+#### [source code](radio_group_v2/lib/radio_group_v2.dart)
 
 [back to top](#table-of-contents)
