@@ -8,21 +8,21 @@ Here are all of the plug-ins I have made. There will be a link on each one to te
 <!---     TEMPLATE
 ## class_name
 
-#### [view on pub.dev](pub.dev/link) (external link)
+**[view on pub.dev](pub.dev/link)** (external link)
+
+**[source code](class_name.dart)**
 
 Brief summary on the plug-in...
-
-#### [source code](class_name.dart)
 
 [back to top](#table-of-contents)
 --->
 
 ## radio_group_v2
 
-#### [view on pub.dev](https://pub.dev/packages/radio_group_v2) (external link)
+**[view on pub.dev](https://pub.dev/packages/radio_group_v2)** (external link)
+
+**[source code](radio_group_v2)**
 
 A widget that groups radio buttons so they can work together to give the user a pleasant experience when making selections within the app.
-
-#### [source code](radio_group_v2/lib/radio_group_v2.dart)
 
 [back to top](#table-of-contents)
