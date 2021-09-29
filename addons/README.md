@@ -14,13 +14,13 @@ Brief summary on the add-on...
 
 Brief explanation of how the add-on works...
 
-#### Dependencies
+### Dependencies
 
 | Add-ons from this list | .yaml dependencies |
 | --- | --- |
 | - item_1<br>-item_2 | *none* |
 
-#### Usage
+### Usage
 
 Example explanation...
 
@@ -63,13 +63,13 @@ ClassName/methodName: !!!!!!!! IMPORTANT !!!!!!!!<br>
 ClassName/methodName: !!!!!!! IMPORTANT !!!!!!!<br>
 ClassName/methodName: !!!!!! IMPORTANT !!!!!!
 
-#### Dependencies
+### Dependencies
 
 | Add-ons from this list | .yaml dependencies |
 | --- | --- |
 | *none* | *none* |
 
-#### Usage
+### Usage
 
 This example below shows the `debug_log` being used make a print statement in a method run.
 
