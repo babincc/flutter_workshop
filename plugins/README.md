@@ -21,7 +21,7 @@ Brief summary on the plug-in...
 
 **[view on pub.dev](https://pub.dev/packages/radio_group_v2)** (external link)
 
-**[source code](radio_group_v2)**
+**[source code](radio_group_v2#readme)**
 
 A widget that groups radio buttons so they can work together to give the user a pleasant experience when making selections within the app.
 
