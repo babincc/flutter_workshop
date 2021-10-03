@@ -4,6 +4,7 @@ Add-ons are basically plug-ins that either aren't finished yet, didn't need to b
 
 ## Table of Contents
 - [debug_log](#debug_log)
+- [tools](#tools)
 
 <!---     TEMPLATE
 ## class_name
@@ -98,5 +99,25 @@ void problemMethod(String passedInWord) {
   // Do more stuff
 }
 ```
+
+[back to top](#table-of-contents)
+
+## tools
+
+**[source code](tools.dart)**
+
+This is a collection of generic tools. These range from random number generators to network connection checkers.
+
+This is an add-on because each individual method is too small to be a plug-in, and together they are too unrelated to be a single plug-in.
+
+### Dependencies
+
+| Add-ons from this list | .yaml dependencies |
+| --- | --- |
+| *none* | *none* |
+
+### Usage
+
+*Examples can be found in the source code.*
 
 [back to top](#table-of-contents)
