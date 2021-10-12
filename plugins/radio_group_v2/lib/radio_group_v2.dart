@@ -1,16 +1,16 @@
 // @author Christian Babin
-// @version 1.0.1
+// @version 1.0.2
 // https://github.com/babincc/flutter_workshop/blob/master/plugins/radio_group_v2/lib/radio_group_v2.dart
 
 import 'package:flutter/material.dart';
 
-/// Describes how the radio button list will be layed out on the screen.
+/// Describes how the radio button list will be laid out on the screen.
 enum RadioGroupOrientation {
-  /// When this is set as the orientation, the buttons will be layed out on top
+  /// When this is set as the orientation, the buttons will be laid out on top
   /// of each other in a single stack.
   Vertical,
 
-  /// When this is set as the orientation, the buttons will be layed out side by
+  /// When this is set as the orientation, the buttons will be laid out side by
   /// side and wrap around to the next line when they reach the edge of the
   /// screen.
   Horizontal,
@@ -23,19 +23,20 @@ enum RadioGroupOrientation {
 ///
 /// Each radio button is a [Radio] widget housed inside of a [Row] along with a
 /// either the value itself if it is a widget or a [Text] widget with the value
-/// as a string as a label for the user to know what the button is representing.
+/// as a string to label the button for the user to know what the button is
+/// representing.
 ///
 /// One of these is created for every value that comes into this builder.
 ///
 /// ### Vertical Layout
 ///
 /// When the [RadioGroupOrientation.Vertical] orientation is selected, this
-/// returns a [Column] which contains the [ListTile] widgets described above in
-/// the "Individual Radio Button" section.
+/// returns a [Column] which contains the [Row] widgets described in the
+/// "Individual Radio Button" section above.
 ///
 /// {@tool snippet}
 ///
-/// This sample shows the creation of a radio group that is aligned vertically.
+/// This example shows the creation of a radio group that is aligned vertically.
 ///
 /// ```dart
 /// RadioGroupController myController = RadioGroupController();
@@ -50,12 +51,12 @@ enum RadioGroupOrientation {
 /// ### Horizontal Layout
 ///
 /// When the [RadioGroupOrientation.Horizontal] orientation is selected, this
-/// returns a [Wrap] which contains the [ListTile] widgets described above in
-/// the "Individual Radio Button" section.
+/// returns a [Wrap] which contains the [Row] widgets described in the
+/// "Individual Radio Button" section above.
 ///
 /// {@tool snippet}
 ///
-/// This sample shows the creation of a radio group that is aligned
+/// This example shows the creation of a radio group that is aligned
 /// horizontally. It also has a real time updating method sent into it which
 /// will be called every time the buttons switch.
 ///
@@ -77,7 +78,7 @@ enum RadioGroupOrientation {
 ///
 /// {@tool snippet}
 ///
-/// This sample shows what to do if you want to see which choice is selected
+/// This example shows what to do if you want to see which choice is selected
 /// from the two examples above.
 ///
 /// ```dart
@@ -94,7 +95,7 @@ class RadioGroup extends StatefulWidget {
   /// make selections within the app.
   ///
   /// **Note:** Any value in `values` that is not a [Widget] will be displayed
-  /// as a string in a [Text] widget as the label.
+  /// as a string in a [Text] widget for the button's label.
   RadioGroup({
     Key? key,
     this.controller,
@@ -137,7 +138,7 @@ class RadioGroup extends StatefulWidget {
   /// The style and design of the radio group.
   final RadioGroupDecoration? decoration;
 
-  /// How the radio button list will be layed out on the screen.
+  /// How the radio button list will be laid out on the screen.
   final RadioGroupOrientation orientation;
 
   @override
