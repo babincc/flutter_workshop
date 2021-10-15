@@ -3,6 +3,7 @@
 Add-ons are basically plug-ins that either aren't finished yet, didn't need to be finished, or aren't high enough quality to be on [pub.dev](https://pub.dev/) (external link). They are just files to add to your project manually.
 
 ## Table of Contents
+- [alert](#alert)
 - [debug_log](#debug_log)
 - [tools](#tools)
 
@@ -39,6 +40,84 @@ code example...
 
 [back to top](#table-of-contents)
 --->
+
+## alert
+
+**[source code](alert.dart)**
+
+This file allows for the creation of a pop-up that will cover a lot of the screen with an opaque message box and fills the rest of the screen with a translucent overlay to disable touching the page in the background.
+
+This pop-up can be used to give the user warnings, give them information, allow for confirmation before certain actions, etc.
+
+To use it, you must first create an Alert object with all of the parameters for the alert. Then, when you are ready to show it to the user, call that Alert object's .show() method. The alert will automatically be closed when the user clicks any of the buttons or if they click outside of the alert.
+
+### Dependencies
+
+| Add-ons from this list | .yaml dependencies |
+| --- | --- |
+| *none* | *none* |
+
+### Usage
+
+The example below shows the creation of an alert that is used as a warning. It can explain to the user why they are not being allowed to do a certain thing.
+
+```dart
+/// The alert dialog that will be shown to the user.
+Alert myAlert = Alert(
+  context: context,
+  title: "Action Blocked!",
+  content: "Your attempt to do this action has been blocked because this "
+      "action can not be completed at this time. Thank you!",
+  buttons: {
+    "ok": () => null,
+  },
+);
+
+// Show [myAlert] to the user.
+myAlert.show();
+```
+
+<br>
+
+The example below shows the creation of an alert that is used as a way of giving the user information.
+
+```dart
+/// The alert dialog that will be shown to the user.
+Alert myAlert = Alert(
+  context: context,
+  title: "Did you know?",
+  content: Text("Flutter was initially released in May of 2017?"),
+  buttons: {
+    "Now I Know": () => null,
+  },
+);
+
+// Show [myAlert] to the user.
+myAlert.show();
+```
+
+<br>
+
+The example below shows the creation of an alert that is used as a way of confirming something with the user.
+
+```dart
+/// The alert dialog that will be shown to the user.
+Alert myAlert = Alert(
+  context: context,
+  title: "Are you sure?",
+  content: "Are you sure you want to leave this page? Any unsaved data "
+      "will be lost.",
+  buttons: {
+    "leave": () => leavePageAnyway(),
+    "cancel": () => null,
+  },
+);
+
+// Show [myAlert] to the user.
+myAlert.show();
+```
+
+[back to top](#table-of-contents)
 
 ## debug_log
 
