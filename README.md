@@ -4,7 +4,7 @@ This repo is a place to store all of the add-ons, plug-ins, and helpful code tha
 
 ## Skeleton Code
 
-By clicking [here](skeleton_code#readme), you can view and download skeleton or starter code for a new Flutter project.
+By clicking [here](my_skeleton#readme), you can view skeleton or starter code for a new Flutter project.
 
 ## Plug-Ins
 
