@@ -14,15 +14,15 @@ class MyTheme {
     appBarTheme: AppBarTheme(
       systemOverlayStyle: const SystemUiOverlayStyle(
         statusBarColor: MyColors.background,
-        statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
-        statusBarBrightness: Brightness.light, // For iOS (dark icons)
+        statusBarIconBrightness: Brightness.light, // For Android (light icons)
+        statusBarBrightness: Brightness.dark, // For iOS (light icons)
       ),
       color: MyColors.primary,
       toolbarTextStyle: MyTextTheme.appBar.copyWith(
-        color: MyColors.primary,
+        color: MyColors.background,
       ),
       iconTheme: const IconThemeData(
-        color: MyColors.primary,
+        color: MyColors.background,
       ),
     ),
     textTheme: TextTheme(

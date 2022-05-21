@@ -138,7 +138,7 @@ class _MenuController {
           function();
         }
         if (route != null) {
-          GoRouter.of(context).goNamed(route);
+          GoRouter.of(context).pushNamed(route);
         }
         closeMenu();
       },
