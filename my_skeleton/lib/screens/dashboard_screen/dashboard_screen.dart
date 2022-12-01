@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_skeleton/screens/components/my_drawer_menu.dart';
 import 'package:my_skeleton/screens/components/my_safe_area.dart';
-import 'package:my_skeleton/screens/components/my_settings_menu.dart';
+import 'package:my_skeleton/screens/components/my_search_bar.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -9,14 +10,15 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text("Dashboard"),
-        actions: const [
-          MySettingsMenu(),
-        ],
+        title: const MySearchBar(),
       ),
-      body: const MySafeArea(
-        child: Text("Howdy!"),
+      drawer: const MyDrawerMenu(),
+      body: MySafeArea(
+        child: Column(
+          children: const [
+            Text("Howdy"),
+          ],
+        ),
       ),
     );
   }

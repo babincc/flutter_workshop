@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_skeleton/my_theme/my_theme.dart';
 
 class MyTextField extends StatelessWidget {
   const MyTextField({
@@ -20,11 +19,7 @@ class MyTextField extends StatelessWidget {
     return TextField(
       controller: controller,
       style: Theme.of(context).textTheme.bodyText2,
-      decoration: decoration ??
-          MyTheme.myInputDecoration(
-            context,
-            controller ?? TextEditingController(),
-          ),
+      decoration: decoration,
       obscureText: isPassword,
     );
   }

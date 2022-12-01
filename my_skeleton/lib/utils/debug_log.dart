@@ -2,8 +2,6 @@
 // @version 1.1.1
 // https://github.com/babincc/flutter_workshop/blob/master/addons/debug_log.dart
 
-// ignore_for_file: avoid_print
-
 import 'dart:math';
 
 /// This class is used to help with debugging.
@@ -35,6 +33,7 @@ class DebugLog {
     }
 
     // Print the message.
+    // ignore: avoid_print
     print(className +
         "/" +
         methodName +
@@ -107,6 +106,7 @@ class DebugLog {
         }
       }
 
+      // ignore: avoid_print
       print(toPrint);
     }
   }

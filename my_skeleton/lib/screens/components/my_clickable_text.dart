@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:my_skeleton/my_theme/my_colors.dart';
+import 'package:my_skeleton/my_theme/colors/my_dark_theme_colors.dart';
 
 class MyClickableText extends StatelessWidget {
-  const MyClickableText({
-    Key? key,
-    this.onTap,
-    required this.text,
-  }) : super(key: key);
+  const MyClickableText({Key? key, this.onTap, required this.text})
+      : super(key: key);
 
   final void Function()? onTap;
 
@@ -20,7 +17,7 @@ class MyClickableText extends StatelessWidget {
         text,
         style: (Theme.of(context).textTheme.bodyText2 ?? const TextStyle())
             .copyWith(
-          color: MyColors.tertiary,
+          color: MyDarkThemeColors().tertiary,
           decoration: TextDecoration.underline,
         ),
       ),

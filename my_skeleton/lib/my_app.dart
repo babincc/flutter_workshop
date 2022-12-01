@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_skeleton/my_theme/my_theme.dart';
+import 'package:my_skeleton/my_theme/theme/my_theme.dart';
 import 'package:my_skeleton/navigation/my_router.dart';
 import 'package:my_skeleton/utils/database/auth_provider.dart';
 import 'package:provider/provider.dart';
@@ -14,18 +15,31 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthProvider authProvider = AuthProvider();
+    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-    GoRouter router = MyRouter.getRoutes(authProvider);
+    final AuthProvider authProvider = AuthProvider(firebaseAuth);
+    final MyTheme myTheme = MyTheme();
+
+    final GoRouter router = MyRouter.getRoutes(authProvider);
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<AuthProvider>(create: (_) => authProvider),
+        ChangeNotifierProvider<AuthProvider>(
+          create: (context) => authProvider,
+        ),
+        ChangeNotifierProvider<MyTheme>(
+          create: (context) => myTheme,
+        ),
       ],
-      child: MaterialApp.router(
-        routeInformationParser: router.routeInformationParser,
-        routerDelegate: router.routerDelegate,
-        theme: MyTheme.themeData,
+      builder: (context, child) => AnnotatedRegion<SystemUiOverlayStyle>(
+        value: context.watch<MyTheme>().themeType == ThemeType.dark
+            ? SystemUiOverlayStyle.light
+            : SystemUiOverlayStyle.dark,
+        child: MaterialApp.router(
+          routerConfig: router,
+          theme: context.select<MyTheme, ThemeData>(
+              (MyTheme myTheme) => myTheme.themeData),
+        ),
       ),
     );
   }
