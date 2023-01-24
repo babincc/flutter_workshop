@@ -14,4 +14,4 @@ By clicking [here](plugins#readme), you can view the plug-ins I've made and lear
 
 By clicking [here](addons#readme), you can view and download add-ons I've made and learn how to use them.
 
-Add-ons are basically plug-ins that either aren't finished yet, didn't need to be finished, or aren't high enough quality to be on [pub.dev](https://pub.dev/) (external link). They are just files to add to your project manually.
+Add-ons are basically plug-ins that aren't high enough quality to be on [pub.dev](https://pub.dev/) (external link). They are just files to add to your project manually.
