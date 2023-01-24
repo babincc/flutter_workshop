@@ -1,10 +1,11 @@
 // @author Christian Babin
-// @version 1.1.0
-// https://github.com/babincc/flutter_workshop/blob/master/addons/alert.dart
+// @version 2.0.0
+// https://github.com/babincc/flutter_workshop/blob/master/addons/my_alert.dart
 
 import 'dart:io' show Platform;
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// This file allows for the creation of a pop-up that will cover a lot of the
@@ -26,18 +27,17 @@ import 'package:flutter/material.dart';
 ///
 /// ```dart
 /// /// The alert dialog that will be shown to the user.
-/// Alert myAlert = Alert(
-///   context: context,
+/// MyAlert myAlert = MyAlert(
 ///   title: "Action Blocked!",
 ///   content: "Your attempt to do this action has been blocked because this "
 ///       "action can not be completed at this time. Thank you!",
 ///   buttons: {
-///     "ok": () => null,
+///     "ok": () {},
 ///   },
 /// );
 ///
 /// // Show [myAlert] to the user.
-/// myAlert.show();
+/// myAlert.show(context);
 /// ```
 /// {@end-tool}
 ///
@@ -50,17 +50,16 @@ import 'package:flutter/material.dart';
 ///
 /// ```dart
 /// /// The alert dialog that will be shown to the user.
-/// Alert myAlert = Alert(
-///   context: context,
+/// MyAlert myAlert = MyAlert(
 ///   title: "Did you know?",
 ///   content: Text("Flutter was initially released in May of 2017?"),
 ///   buttons: {
-///     "Now I Know": () => null,
+///     "Now I Know": () {},
 ///   },
 /// );
 ///
 /// // Show [myAlert] to the user.
-/// myAlert.show();
+/// myAlert.show(context);
 /// ```
 /// {@end-tool}
 ///
@@ -73,8 +72,7 @@ import 'package:flutter/material.dart';
 ///
 /// ```dart
 /// /// The alert dialog that will be shown to the user.
-/// Alert myAlert = Alert(
-///   context: context,
+/// MyAlert myAlert = MyAlert(
 ///   title: "Are you sure?",
 ///   content: "Are you sure you want to leave this page? Any unsaved data "
 ///       "will be lost.",
@@ -85,32 +83,28 @@ import 'package:flutter/material.dart';
 /// );
 ///
 /// // Show [myAlert] to the user.
-/// myAlert.show();
+/// myAlert.show(context);
 /// ```
 /// {@end-tool}
-class Alert extends StatelessWidget {
+class MyAlert extends StatelessWidget {
   /// Creates a pop-up that covers a lot of the screen with an opaque message
   /// box and fills the rest of the screen with a translucent overlay to disable
   /// touching the page in the background.
   ///
-  /// **Note:** To display this pop-up, call `this` Alert's [show] method.
+  /// **Note:** To display this pop-up, call `this` alert's [show] method.
   ///
   /// This pop-up can be used to display messages to the user. These messages
   /// can be warnings, information, confirmation for certain actions, etc.
   ///
   /// **Note:** Any `content` that is not a widget will be displayed as a string
-  /// withing a [Text] widget.
-  Alert({
+  /// within a [Text] widget.
+  MyAlert({
     Key? key,
-    required this.context,
     this.title,
     dynamic content,
     this.buttons,
   })  : body = (content is Widget) ? content : Text(content.toString()),
         super(key: key);
-
-  /// The current app build context.
-  final BuildContext context;
 
   /// The title at the top of the alert dialog box.
   final String? title;
@@ -123,28 +117,24 @@ class Alert extends StatelessWidget {
   final Map<String?, Function>? buttons;
 
   /// This method displays `this` alert to the screen.
-  void show() {
-    showDialog(
-      context: context,
-      builder: (BuildContext dialogContext) {
-        return this;
-      },
-    );
-  }
+  void show(BuildContext context) => showDialog(
+        context: context,
+        builder: (dialogContext) => this,
+      );
 
   @override
   Widget build(BuildContext context) {
     // Display an alert that looks native to the device's platform.
-    if (Platform.isIOS) {
-      return _iosAlert();
+    if (!kIsWeb && Platform.isIOS) {
+      return _iosAlert(context);
     } else {
-      return _androidAlert();
+      return _androidAlert(context);
     }
   }
 
   /// This method displays an alert using a layout that looks more native to
   /// Android devices.
-  _androidAlert() {
+  _androidAlert(BuildContext context) {
     /// The list of buttons that will be displayed at the bottom of the dialog
     /// box.
     List<Widget> builtButtons = [];
@@ -157,7 +147,7 @@ class Alert extends StatelessWidget {
             TextButton(
               onPressed: () {
                 // Close the dialog box once a button is pressed.
-                _closeAlert();
+                _closeAlert(context);
 
                 // Preform the action associated with that button.
                 action();
@@ -178,7 +168,7 @@ class Alert extends StatelessWidget {
 
   /// This method displays an alert using a layout that looks more native to iOS
   /// devices.
-  _iosAlert() {
+  _iosAlert(BuildContext context) {
     /// The list of buttons that will be displayed at the bottom of the dialog
     /// box.
     List<Widget> builtButtons = [];
@@ -191,7 +181,7 @@ class Alert extends StatelessWidget {
             CupertinoDialogAction(
               onPressed: () {
                 // Close the dialog box once a button is pressed.
-                _closeAlert();
+                _closeAlert(context);
 
                 // Preform the action associated with that button.
                 action();
@@ -211,7 +201,7 @@ class Alert extends StatelessWidget {
   }
 
   /// This method closes the alert dialog box.
-  _closeAlert() {
+  _closeAlert(BuildContext context) {
     Navigator.pop(context);
   }
 }

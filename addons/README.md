@@ -43,13 +43,13 @@ code example...
 
 ## alert
 
-**[source code](alert.dart)**
+**[source code](my_alert.dart)**
 
 This file allows for the creation of a pop-up that will cover a lot of the screen with an opaque message box and fills the rest of the screen with a translucent overlay to disable touching the page in the background.
 
 This pop-up can be used to give the user warnings, give them information, allow for confirmation before certain actions, etc.
 
-To use it, you must first create an Alert object with all of the parameters for the alert. Then, when you are ready to show it to the user, call that Alert object's .show() method. The alert will automatically be closed when the user clicks any of the buttons or if they click outside of the alert.
+To use it, you must first create a MyAlert object with all of the parameters for the alert. Then, when you are ready to show it to the user, call that MyAlert object's `show` method. The alert will automatically be closed when the user clicks any of the buttons or if they click outside of the alert.
 
 ### Dependencies
 
@@ -62,20 +62,19 @@ To use it, you must first create an Alert object with all of the parameters for 
 The example below shows the creation of an alert that is used as a warning. It can explain to the user why they are not being allowed to do a certain thing.
 
 ```dart
-/// The alert dialog that will be shown to the user.
-Alert myAlert = Alert(
-  context: context,
-  title: "Action Blocked!",
-  content: "Your attempt to do this action has been blocked because this "
-      "action can not be completed at this time. Thank you!",
-  buttons: {
-    "ok": () => null,
-  },
-);
+  /// The alert dialog that will be shown to the user.
+  MyAlert myAlert = MyAlert(
+    title: "Action Blocked!",
+    content: "Your attempt to do this action has been blocked because this "
+        "action can not be completed at this time. Thank you!",
+    buttons: {
+      "ok": () {},
+    },
+  );
 
-// Show [myAlert] to the user.
-myAlert.show();
-```
+ // Show [myAlert] to the user.
+ myAlert.show(context);
+ ```
 
 <br>
 
@@ -83,8 +82,7 @@ The example below shows the creation of an alert that is used as a way of giving
 
 ```dart
 /// The alert dialog that will be shown to the user.
-Alert myAlert = Alert(
-  context: context,
+MyAlert myAlert = MyAlert(
   title: "Did you know?",
   content: Text("Flutter was initially released in May of 2017?"),
   buttons: {
@@ -93,7 +91,7 @@ Alert myAlert = Alert(
 );
 
 // Show [myAlert] to the user.
-myAlert.show();
+myAlert.show(context);
 ```
 
 <br>
@@ -102,8 +100,7 @@ The example below shows the creation of an alert that is used as a way of confir
 
 ```dart
 /// The alert dialog that will be shown to the user.
-Alert myAlert = Alert(
-  context: context,
+MyAlert myAlert = MyAlert(
   title: "Are you sure?",
   content: "Are you sure you want to leave this page? Any unsaved data "
       "will be lost.",
@@ -114,7 +111,7 @@ Alert myAlert = Alert(
 );
 
 // Show [myAlert] to the user.
-myAlert.show();
+myAlert.show(context);
 ```
 
 [back to top](#table-of-contents)
@@ -127,9 +124,9 @@ This add-on is a tool designed to assist in the debugging process. Rather than m
 
 Print statements can easily be forgotten and left in the code; later on, you'll see print statements coming out when running your program and not be able to find and remove them.
 
-`debug_log` remedies this by getting you to format your print statements in such a way that they can easily be found later on. It also has a feature that makes the `debug_log` statement more prominent in the console than a print statement (set `isImportant` to `true`).
+`DebugLog` remedies this by getting you to format your print statements in such a way that they can easily be found later on. It also has a feature that makes the `DebugLog` statement more prominent in the console than a print statement (set `isImportant` to `true`).
 
-Rather than just being a random print statement, `debug_log` makes a print statement with searchable parts. It formats the statement like so:
+Rather than just being a random print statement, `DebugLog` makes a print statement with searchable parts. It formats the statement like so:
 
 ClassName/methodName: Debugging message set by developer
 
@@ -151,7 +148,7 @@ ClassName/methodName: !!!!!! IMPORTANT !!!!!!
 
 ### Usage
 
-This example below shows the `debug_log` being used make a print statement in a method run.
+This example below shows the `DebugLog` being used make a print statement in a method run.
 
 ```dart
 void problemMethod(String passedInWord) {
@@ -166,7 +163,7 @@ void problemMethod(String passedInWord) {
 
 <br>
 
-This example below shows the `debug_log` being used make a print statement in a method run. The difference between this and the last example; however, is that this one is using the feature that makes the print statement more prominent in the console.
+This example below shows the `DebugLog` being used make a print statement in a method run. The difference between this and the last example; however, is that this one is using the feature that makes the print statement more prominent in the console.
 
 ```dart
 void problemMethod(String passedInWord) {
@@ -183,7 +180,7 @@ void problemMethod(String passedInWord) {
 
 ## tools
 
-**[source code](tools.dart)**
+**[source code](my_tools.dart)**
 
 This is a collection of generic tools. These range from random number generators to network connection checkers.
 
