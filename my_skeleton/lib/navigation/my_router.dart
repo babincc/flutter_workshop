@@ -7,12 +7,12 @@ import 'package:my_skeleton/screens/help_screen/help_screen.dart';
 import 'package:my_skeleton/screens/settings_screen/settings_screen.dart';
 import 'package:my_skeleton/screens/user_account/login_screen/login_screen.dart';
 import 'package:my_skeleton/screens/user_account/profile_screen/profile_screen.dart';
-import 'package:my_skeleton/utils/database/auth_provider.dart';
+import 'package:my_skeleton/utils/database/my_auth_provider.dart';
 
 /// This router is in control of navigation throughout the app.
 class MyRouter {
   /// This returns the customized router with all of its credentials.
-  static GoRouter getRoutes(AuthProvider authProvider) {
+  static GoRouter getRoutes(MyAuthProvider authProvider) {
     return GoRouter(
       restorationScopeId: "router",
       refreshListenable: authProvider,
@@ -68,19 +68,19 @@ class MyRouter {
           ),
         ),
         GoRoute(
+          name: MyRoutes.errorScreen,
+          path: MyRoutes.errorScreen,
+          pageBuilder: (context, state) => MaterialPage<void>(
+            key: state.pageKey,
+            child: const ErrorScreen(),
+          ),
+        ),
+        GoRoute(
           name: MyRoutes.helpScreen,
           path: MyRoutes.helpScreen,
           pageBuilder: (context, state) => MaterialPage<void>(
             key: state.pageKey,
             child: const HelpScreen(),
-          ),
-        ),
-        GoRoute(
-          name: MyRoutes.settingsScreen,
-          path: MyRoutes.settingsScreen,
-          pageBuilder: (context, state) => MaterialPage<void>(
-            key: state.pageKey,
-            child: const SettingsScreen(),
           ),
         ),
         GoRoute(
@@ -97,6 +97,14 @@ class MyRouter {
           pageBuilder: (context, state) => MaterialPage<void>(
             key: state.pageKey,
             child: const ProfileScreen(),
+          ),
+        ),
+        GoRoute(
+          name: MyRoutes.settingsScreen,
+          path: MyRoutes.settingsScreen,
+          pageBuilder: (context, state) => MaterialPage<void>(
+            key: state.pageKey,
+            child: const SettingsScreen(),
           ),
         ),
       ],

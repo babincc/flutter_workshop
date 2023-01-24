@@ -1,11 +1,12 @@
 // @author Christian Babin
-// @version 1.0.0
+// @version 1.1.0
 // https://github.com/babincc/flutter_workshop/blob/master/addons/tools.dart
 
 import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:my_skeleton/my_theme/theme/my_theme.dart';
 import 'package:my_skeleton/utils/debug_log.dart';
 
 /// This is a collection of generic tools. These range from random number
@@ -138,6 +139,24 @@ class MyTools {
 
     return Color.fromRGBO(
         red, green, blue, randomizeOpacity ? randDouble(0.0, 1.0) : 1.0);
+  }
+
+  /// This method returns a color for text, icons, etc. based on the given
+  /// `bgColor` that it will be displayed on top of.
+  static Color getForegroundColor(Color bgColor) {
+    int red = bgColor.red;
+    int green = bgColor.green;
+    int blue = bgColor.blue;
+
+    double darkness =
+        1 - (((0.299 * red) + (0.587 * green) + (0.114 * blue)) / 255);
+    if (darkness < 0.5) {
+      // The background is light.
+      return Colors.black;
+    } else {
+      // The background is dark.
+      return Colors.white;
+    }
   }
 
   /// This method rounds a double to a certain number of places after the

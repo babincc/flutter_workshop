@@ -2,10 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-class AuthProvider extends ChangeNotifier {
+class MyAuthProvider extends ChangeNotifier {
   /// Creates an auth service that keeps track of and controls the user's access
   /// to Firebase.
-  AuthProvider(this._firebaseAuth) {
+  MyAuthProvider(this._firebaseAuth) {
     isLoggedIn = _firebaseAuth.currentUser != null;
   }
 
@@ -70,6 +70,6 @@ class AuthProvider extends ChangeNotifier {
     await _firebaseAuth.signOut().then((value) => isLoggedIn = false);
   }
 
-  static AuthProvider of(BuildContext context, {bool listen = false}) =>
-      Provider.of<AuthProvider>(context, listen: listen);
+  static MyAuthProvider of(BuildContext context, {bool listen = false}) =>
+      Provider.of<MyAuthProvider>(context, listen: listen);
 }

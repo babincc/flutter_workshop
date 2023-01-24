@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 1.1.1
+// @version 1.1.2
 // https://github.com/babincc/flutter_workshop/blob/master/addons/debug_log.dart
 
 import 'dart:math';
@@ -34,11 +34,7 @@ class DebugLog {
 
     // Print the message.
     // ignore: avoid_print
-    print(className +
-        "/" +
-        methodName +
-        ": " +
-        (message ?? "Message value is Null"));
+    print("$className/$methodName: $message");
 
     // Pad the message if necessary.
     if (isImportant) {
@@ -75,7 +71,7 @@ class DebugLog {
     // Print the attention getter `padding` number of times.
     for (int i = 0; i < padding; i++) {
       // The base of the string tells where the print statement is coming from.
-      String toPrint = className + "/" + methodName + ": ";
+      String toPrint = "$className/$methodName: ";
 
       // Add the exclamation marks.
       toPrint += baseExclamation;
@@ -93,7 +89,7 @@ class DebugLog {
 
       // Add the attention grabbing message and the base number of exclamation
       // marks.
-      toPrint += " IMPORTANT " + baseExclamation;
+      toPrint += " IMPORTANT $baseExclamation";
 
       // Add more exclamation marks based on what line is being printed.
       if (isPrePadding) {

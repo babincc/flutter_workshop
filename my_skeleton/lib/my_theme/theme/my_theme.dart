@@ -30,8 +30,8 @@ class MyTheme extends ChangeNotifier implements MyThemeInterface {
 
   set themeType(ThemeType themeType) {
     _themeType = themeType;
-    MyThemePrefCache.cacheThemeType(themeType);
-    notifyListeners();
+    MyThemePrefCache.cacheThemeType(themeType)
+        .then((value) => notifyListeners());
   }
 
   ThemeType get themeType => _themeType;

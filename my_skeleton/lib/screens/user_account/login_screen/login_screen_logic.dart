@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_skeleton/navigation/my_routes.dart';
-import 'package:my_skeleton/utils/database/auth_provider.dart';
+import 'package:my_skeleton/utils/database/my_auth_provider.dart';
 import 'package:my_skeleton/utils/my_validator.dart';
 
 /// This is used to control all of the logic on the login screen that is not
@@ -36,7 +36,7 @@ class LoginScreenLogic {
 
     // Only continue if the user's input is formatted correctly.
     if (!hasInputErrors()) {
-      AuthProvider.of(context)
+      MyAuthProvider.of(context)
           .logIn(
         email: email,
         password: password,
