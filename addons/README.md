@@ -1,10 +1,13 @@
 # Add-Ons
 
-Add-ons are basically plug-ins that either aren't finished yet, didn't need to be finished, or aren't high enough quality to be on [pub.dev](https://pub.dev/) (external link). They are just files to add to your project manually.
+Add-ons are basically plug-ins that aren't high enough quality to be on [pub.dev](https://pub.dev/) (external link). They are just files to add to your project manually.
 
 ## Table of Contents
 - [debug_log](#debug_log)
 - [my_alert](#my_alert)
+- [my_file_explorer_sdk](#my_file_explorer_sdk)
+- [my_image_cropper](#my_image_cropper)
+- [my_image_importer](#my_image_importer)
 - [my_tools](#my_tools)
 
 <!---     TEMPLATE
@@ -174,6 +177,107 @@ MyAlert myAlert = MyAlert(
 
 // Show [myAlert] to the user.
 myAlert.show(context);
+```
+
+[back to top](#table-of-contents)
+
+## my_file_explorer_sdk
+
+**[source code](my_file_explorer_sdk/my_file_explorer_sdk.dart)**
+
+This allows for the easy exploration of your app's working directory on the device.
+
+### Dependencies
+
+| Add-ons from this list | .yaml dependencies |
+| --- | --- |
+| *none* | - path_provider |
+
+### Usage
+
+*Examples can be found in the source code.*
+
+[back to top](#table-of-contents)
+
+## my_image_cropper
+
+**[source code](my_image_cropper.dart)**
+
+This add-on allows users to crop images.
+
+### Dependencies
+
+| Add-ons from this list | .yaml dependencies |
+| --- | --- |
+| - my_file_explorer_sdk | - image_cropper |
+
+### Usage
+
+This example shows how to create an image cropper that only allows the user to create a square image.
+
+```dart
+/// Original sized image.
+File myImage = File("/path/to/image.jpg");
+
+// Crop the image.
+File? croppedImage = MyImageCropper.crop(
+  image: myImage,
+  aspectRatioPresets: [CropAspectRatioPreset.square],
+  uiSettings: [
+    AndroidUiSettings(
+      initAspectRatio: CropAspectRatioPreset.square,
+      lockAspectRatio: true,
+    ),
+    IOSUiSettings(
+      minimumAspectRatio: 1.0,
+      aspectRatioLockEnabled: true,
+    ),
+    WebUiSettings(
+      context: context,
+    ),
+  ],
+);
+```
+
+[back to top](#table-of-contents)
+
+## my_image_importer
+
+**[source code](my_image_importer.dart)**
+
+This is used to import an image into the program. It can get an image from the device's default gallery or the camera.
+
+### Dependencies
+
+| Add-ons from this list | .yaml dependencies |
+| --- | --- |
+| - my_file_explorer_sdk | - image_picker |
+
+### Usage
+
+This example shows how to get the image from the device's default gallery. This is most useful when you know you will always want to pull from the gallery and not the camera.
+
+```dart
+File? myImage = await MyImageImporter.importFromGallery();
+```
+
+<br>
+
+This is an example of the generic `import` method. This method is most useful when you don't know if the user will want an image from their gallery or from the camera.
+
+```dart
+/// Whether the user wants the image to come from the camera or not.
+bool isCamera;
+
+// ...
+// Something sets [isCamera]
+// ...
+
+/// The location the image will be coming from.
+ImageOrigin imageOrigin = isCamera ? ImageOrigin.camera : ImageOrigin.gallery;
+
+/// The imported image.
+File? myImage = await MyImageImporter.import(imageOrigin);
 ```
 
 [back to top](#table-of-contents)
