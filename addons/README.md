@@ -3,9 +3,9 @@
 Add-ons are basically plug-ins that either aren't finished yet, didn't need to be finished, or aren't high enough quality to be on [pub.dev](https://pub.dev/) (external link). They are just files to add to your project manually.
 
 ## Table of Contents
-- [alert](#alert)
 - [debug_log](#debug_log)
-- [tools](#tools)
+- [my_alert](#my_alert)
+- [my_tools](#my_tools)
 
 <!---     TEMPLATE
 ## class_name
@@ -41,7 +41,69 @@ code example...
 [back to top](#table-of-contents)
 --->
 
-## alert
+## debug_log
+
+**[source code](debug_log.dart)**
+
+This add-on is a tool designed to assist in the debugging process. Rather than making a bunch of print statements to find an error, use this in their stead.
+
+Print statements can easily be forgotten and left in the code; later on, you'll see print statements coming out when running your program and not be able to find and remove them.
+
+`DebugLog` remedies this by getting you to format your print statements in such a way that they can easily be found later on. It also has a feature that makes the `DebugLog` statement more prominent in the console than a print statement (set `isImportant` to `true`).
+
+Rather than just being a random print statement, `DebugLog` makes a print statement with searchable parts. It formats the statement like so:
+
+ClassName/methodName: Debugging message set by developer
+
+-- or --
+
+ClassName/methodName: !!!!!! IMPORTANT !!!!!!<br>
+ClassName/methodName: !!!!!!! IMPORTANT !!!!!!!<br>
+ClassName/methodName: !!!!!!!! IMPORTANT !!!!!!!!<br>
+ClassName/methodName: Debugging message set by developer<br>
+ClassName/methodName: !!!!!!!! IMPORTANT !!!!!!!!<br>
+ClassName/methodName: !!!!!!! IMPORTANT !!!!!!!<br>
+ClassName/methodName: !!!!!! IMPORTANT !!!!!!
+
+### Dependencies
+
+| Add-ons from this list | .yaml dependencies |
+| --- | --- |
+| *none* | *none* |
+
+### Usage
+
+This example below shows the `DebugLog` being used make a print statement in a method run.
+
+```dart
+void problemMethod(String passedInWord) {
+  // Do stuff
+
+  // Print the value of passedInWord to see if it is as expected.
+  DebugLog.out("ClassName", "problemMethod", "passedInWord = $passedInWord");
+
+  // Do more stuff
+}
+```
+
+<br>
+
+This example below shows the `DebugLog` being used make a print statement in a method run. The difference between this and the last example; however, is that this one is using the feature that makes the print statement more prominent in the console.
+
+```dart
+void problemMethod(String passedInWord) {
+  // Do stuff
+
+  // Print the value of passedInWord to see if it is as expected.
+  DebugLog.out("ClassName", "problemMethod", "passedInWord = $passedInWord", isImportant = true);
+
+  // Do more stuff
+}
+```
+
+[back to top](#table-of-contents)
+
+## my_alert
 
 **[source code](my_alert.dart)**
 
@@ -116,69 +178,7 @@ myAlert.show(context);
 
 [back to top](#table-of-contents)
 
-## debug_log
-
-**[source code](debug_log.dart)**
-
-This add-on is a tool designed to assist in the debugging process. Rather than making a bunch of print statements to find an error, use this in their stead.
-
-Print statements can easily be forgotten and left in the code; later on, you'll see print statements coming out when running your program and not be able to find and remove them.
-
-`DebugLog` remedies this by getting you to format your print statements in such a way that they can easily be found later on. It also has a feature that makes the `DebugLog` statement more prominent in the console than a print statement (set `isImportant` to `true`).
-
-Rather than just being a random print statement, `DebugLog` makes a print statement with searchable parts. It formats the statement like so:
-
-ClassName/methodName: Debugging message set by developer
-
--- or --
-
-ClassName/methodName: !!!!!! IMPORTANT !!!!!!<br>
-ClassName/methodName: !!!!!!! IMPORTANT !!!!!!!<br>
-ClassName/methodName: !!!!!!!! IMPORTANT !!!!!!!!<br>
-ClassName/methodName: Debugging message set by developer<br>
-ClassName/methodName: !!!!!!!! IMPORTANT !!!!!!!!<br>
-ClassName/methodName: !!!!!!! IMPORTANT !!!!!!!<br>
-ClassName/methodName: !!!!!! IMPORTANT !!!!!!
-
-### Dependencies
-
-| Add-ons from this list | .yaml dependencies |
-| --- | --- |
-| *none* | *none* |
-
-### Usage
-
-This example below shows the `DebugLog` being used make a print statement in a method run.
-
-```dart
-void problemMethod(String passedInWord) {
-  // Do stuff
-
-  // Print the value of passedInWord to see if it is as expected.
-  DebugLog.out("ClassName", "problemMethod", "passedInWord = $passedInWord");
-
-  // Do more stuff
-}
-```
-
-<br>
-
-This example below shows the `DebugLog` being used make a print statement in a method run. The difference between this and the last example; however, is that this one is using the feature that makes the print statement more prominent in the console.
-
-```dart
-void problemMethod(String passedInWord) {
-  // Do stuff
-
-  // Print the value of passedInWord to see if it is as expected.
-  DebugLog.out("ClassName", "problemMethod", "passedInWord = $passedInWord", isImportant = true);
-
-  // Do more stuff
-}
-```
-
-[back to top](#table-of-contents)
-
-## tools
+## my_tools
 
 **[source code](my_tools.dart)**
 
