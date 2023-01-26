@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_skeleton/screens/components/my_safe_area.dart';
+import 'package:my_skeleton/widgets/my_safe_area.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);

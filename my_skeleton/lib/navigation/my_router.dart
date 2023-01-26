@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_skeleton/screens/error_screen/error_screen.dart';
+import 'package:my_skeleton/features/dashboard/screens/views/dashboard_screen.dart';
+import 'package:my_skeleton/features/error_404/screens/views/error_screen.dart';
+import 'package:my_skeleton/features/help/screens/views/help_screen.dart';
+import 'package:my_skeleton/features/login/screens/views/login_screen.dart';
+import 'package:my_skeleton/features/profile/screens/views/profile_screen.dart';
+import 'package:my_skeleton/features/settings/screens/views/settings_screen.dart';
 import 'package:my_skeleton/navigation/my_routes.dart';
-import 'package:my_skeleton/screens/dashboard_screen/dashboard_screen.dart';
-import 'package:my_skeleton/screens/help_screen/help_screen.dart';
-import 'package:my_skeleton/screens/settings_screen/settings_screen.dart';
-import 'package:my_skeleton/screens/user_account/login_screen/login_screen.dart';
-import 'package:my_skeleton/screens/user_account/profile_screen/profile_screen.dart';
-import 'package:my_skeleton/utils/database/my_auth_provider.dart';
+import 'package:my_skeleton/providers/my_auth_provider.dart';
 
 /// This router is in control of navigation throughout the app.
 class MyRouter {
   /// This returns the customized router with all of its credentials.
-  static GoRouter getRoutes(MyAuthProvider authProvider) {
+  static GoRouter getRoutes(MyAuthProvider myAuthProvider) {
     return GoRouter(
       restorationScopeId: "router",
-      refreshListenable: authProvider,
+      refreshListenable: myAuthProvider,
       initialLocation: MyRoutes.loginScreen,
       redirect: (context, state) {
         /// All of the pages that do not need the user to be logged in for them
@@ -32,7 +32,7 @@ class MyRouter {
         bool isLoggingIn = (state.location.startsWith(MyRoutes.loginScreen));
 
         /// This will be `true` if the user is logged in.
-        bool isLoggedIn = authProvider.isLoggedIn;
+        bool isLoggedIn = myAuthProvider.isLoggedIn;
 
         /// This will be `true` if the user is attempting to access a page from
         /// [publicPages].

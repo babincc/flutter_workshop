@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_skeleton/my_theme/theme/my_theme.dart';
 import 'package:my_skeleton/navigation/my_router.dart';
-import 'package:my_skeleton/utils/database/my_auth_provider.dart';
+import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:provider/provider.dart';
 
 /// This file sets up the app and is the root file connecting all of the others

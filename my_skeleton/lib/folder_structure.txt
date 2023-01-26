@@ -1,0 +1,64 @@
+lib/
+├── constants/
+├── exceptions/
+├── features/
+│   ├── feature_one/
+│   │   ├── domain/
+│   │   │   ├── models/
+│   │   │   │   ├── feature_one_obj.dart
+│   │   │   │   ├── feature_one_thing.dart
+│   │   │   │   └── ...
+│   │   │   ├── repos/
+│   │   │   │   └── feature_one_repo.dart
+│   │   │   └── services/
+│   │   │       ├── feature_one_service_local.dart
+│   │   │       └── feature_one_service_remote.dart
+│   │   ├── providers/
+│   │   │   ├── feature_one_obj_provider.dart
+│   │   │   ├── feature_one_thing_provider.dart
+│   │   │   └── ...
+│   │   ├── screens/
+│   │   │   ├── views/
+│   │   │   │   ├── feature_one_screen.dart
+│   │   │   │   ├── feature_one_other_page.dart
+│   │   │   │   ├── feature_one_another_page.dart
+│   │   │   │   └── ...
+│   │   │   └── view_models/
+│   │   │       ├── feature_one_screen_view_model.dart
+│   │   │       ├── feature_one_other_page_view_model.dart
+│   │   │       ├── feature_one_another_page_view_model.dart
+│   │   │       └── ...
+│   │   └── widgets/
+│   │       ├── feature_one_foo.dart
+│   │       ├── feature_one_bar.dart
+│   │       └── ...
+│   └── feature_two/
+│       └── ...
+├── models/
+├── my_theme/
+│   ├── colors/
+│   │   ├── my_color_interface.dart
+│   │   ├── my_dark_theme_colors.dart
+│   │   └── my_light_theme_colors.dart
+│   ├── theme/
+│   │   ├── my_theme.dart
+│   │   ├── my_theme_interface.dart
+│   │   ├── my_dark_theme.dart
+│   │   ├── my_light_theme.dart
+│   │   └── my_theme_pref_cache.dart
+│   ├── my_spacing.dart
+│   └── my_text_theme.dart
+├── navigation/
+│   ├── my_router.dart
+│   └── my_routes.dart
+├── providers/
+├── utils/
+├── widgets/
+├── main.dart
+└── my_app.dart
+
+/domain/repo/ -> The abstract class that describes how to get data into the app.
+/domain/services/ -> Implement repos and get data into the app from remote or local
+/screens/views/ -> Contain scaffold. As far as naming: screens are the main views and pages are sub-views. Ex. Profile_Screen vs Change_Password_Page
+/screens/view_models/ -> All of the logic for the views.
+/widgets/ -> Don't contain scaffold.

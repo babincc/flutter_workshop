@@ -294,7 +294,7 @@ This is an add-on because each individual method is too small to be a plug-in, a
 
 | Add-ons from this list | .yaml dependencies |
 | --- | --- |
-| *none* | *none* |
+| - debug_log | *none* |
 
 ### Usage
 

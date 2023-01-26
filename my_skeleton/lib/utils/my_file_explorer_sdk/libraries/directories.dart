@@ -1,3 +1,7 @@
+// @author Christian Babin
+// @version 1.0.0
+// https://github.com/babincc/flutter_workshop/blob/master/addons/my_file_explorer_sdk.dart
+
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';

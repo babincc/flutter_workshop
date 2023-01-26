@@ -1,3 +1,7 @@
+// @author Christian Babin
+// @version 1.0.0
+// https://github.com/babincc/flutter_workshop/blob/master/addons/my_file_explorer_sdk.dart
+
 import 'dart:io';
 
 import 'libraries/directories.dart';
@@ -191,7 +195,7 @@ class MyFileExplorerSDK {
   /// subPath: "" => throws FormatException
   /// ```
   static Future<String> createPath({
-    LocalDir localDir = LocalDir.appSupportDir,
+    required LocalDir localDir,
     required String subPath,
   }) async {
     final String localDirPath =
@@ -221,7 +225,7 @@ class MyFileExplorerSDK {
   /// `fileName` is not a valid file name. See [createPath] and
   /// [isValidFileName] for examples of invalid inputs.
   static Future<String> createPathToFile({
-    LocalDir localDir = LocalDir.appSupportDir,
+    required LocalDir localDir,
     String? subPath,
     required String fileName,
   }) async {

@@ -97,6 +97,7 @@ class MyTheme extends ChangeNotifier implements MyThemeInterface {
     }
   }
 
+  // ignore: library_private_types_in_public_api
   _ColorFetcher get color => _ColorFetcher(_themeType);
 
   /// Checks the phone for which theme it should apply to the app.

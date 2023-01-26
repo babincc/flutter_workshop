@@ -9,11 +9,11 @@ class MySearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _searchController = TextEditingController();
+    final TextEditingController searchController = TextEditingController();
 
     return TypeAheadField(
       textFieldConfiguration: TextFieldConfiguration(
-        controller: _searchController,
+        controller: searchController,
         style: Theme.of(context).textTheme.bodyText2,
         onSubmitted: (text) {
           // TODO
@@ -23,7 +23,7 @@ class MySearchBar extends StatelessWidget {
         },
         decoration: MyTheme.of(context).myInputDecoration(
           context,
-          _searchController,
+          searchController,
           hint: "Search",
         ),
       ),

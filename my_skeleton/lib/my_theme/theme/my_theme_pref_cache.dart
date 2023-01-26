@@ -9,6 +9,9 @@ class MyThemePrefCache {
   /// The name of the local file that the theme type preference is saved in.
   static const String fileName = "THEME_PREF.txt";
 
+  /// The name of the parent directory of the them preference file.
+  static const String dirName = "theme";
+
   /// The code that is written in the local files that means [ThemeType.dark].
   static const String dark = "dark";
 
@@ -17,7 +20,11 @@ class MyThemePrefCache {
 
   /// The file that stores the user's theme preference.
   static Future<File> get themePref async =>
-      File(await MyFileExplorerSDK.createPathToFile(fileName: fileName));
+      File(await MyFileExplorerSDK.createPathToFile(
+        localDir: LocalDir.appSupportDir,
+        subPath: dirName,
+        fileName: fileName,
+      ));
 
   /// Reads the user's preferred theme type from their local files.
   ///

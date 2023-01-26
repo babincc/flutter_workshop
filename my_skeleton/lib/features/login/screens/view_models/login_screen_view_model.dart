@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_skeleton/navigation/my_routes.dart';
-import 'package:my_skeleton/utils/database/my_auth_provider.dart';
+import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/utils/my_validator.dart';
 
-/// This is used to control all of the logic on the login screen that is not
-/// directly related to the UI.
-///
-/// See also:
-///
-/// * login_screen.dart
-class LoginScreenLogic {
+/// This is used to control all of the logic on the login screen.
+class LoginScreenViewModel extends ChangeNotifier {
   /// Creates a controller for the login screen's UI.
-  LoginScreenLogic()
+  LoginScreenViewModel()
       : emailController = TextEditingController(),
         passwordController = TextEditingController();
 

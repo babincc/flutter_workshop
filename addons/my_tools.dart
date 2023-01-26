@@ -1,11 +1,12 @@
 // @author Christian Babin
-// @version 1.1.0
-// https://github.com/babincc/flutter_workshop/blob/master/addons/my_tools.dart
+// @version 1.1.1
+// https://github.com/babincc/flutter_workshop/blob/master/addons/tools.dart
 
 import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:my_skeleton/utils/debug_log.dart';
 
 /// This is a collection of generic tools. These range from random number
 /// generators to network connection checkers.
@@ -18,10 +19,18 @@ class MyTools {
     try {
       assert(min <= max);
     } on AssertionError catch (e) {
-      print("WARNING: \`min\` must be less than or equal to \`max\`! To " +
-          "avoid returning \`null\`, the values of \`min\` and \`max\` have " +
-          "been swapped.");
-      print(e);
+      DebugLog.out(
+        "MyTools",
+        "randInt",
+        "WARNING: `min` must be less than or equal to `max`! To avoid "
+            "returning `null`, the values of `min` and `max` have been "
+            "swapped.",
+      );
+      DebugLog.out(
+        "MyTools",
+        "randInt",
+        e.toString(),
+      );
     }
 
     // If `min` and `max` are the same number, just return that number.
@@ -51,10 +60,18 @@ class MyTools {
     try {
       assert(min <= max);
     } on AssertionError catch (e) {
-      print("WARNING: \`min\` must be less than or equal to \`max\`! To " +
-          "avoid returning \`null\`, the values of \`min\` and \`max\` have " +
-          "been swapped.");
-      print(e);
+      DebugLog.out(
+        "MyTools",
+        "randDouble",
+        "WARNING: `min` must be less than or equal to `max`! To avoid "
+            "returning `null`, the values of `min` and `max` have been "
+            "swapped.",
+      );
+      DebugLog.out(
+        "MyTools",
+        "randDouble",
+        e.toString(),
+      );
     }
 
     // If `roundTo` is greater than 18, this method will break. Let the
@@ -62,9 +79,17 @@ class MyTools {
     try {
       assert(min <= max);
     } on AssertionError catch (e) {
-      print("WARNING: \`roundTo\` must be less than or equal to 18! It has " +
-          "been automatically switched to 18.");
-      print(e);
+      DebugLog.out(
+        "MyTools",
+        "randDouble",
+        "WARNING: `roundTo` must be less than or equal to 18! It has been "
+            "automatically switched to 18.",
+      );
+      DebugLog.out(
+        "MyTools",
+        "randDouble",
+        e.toString(),
+      );
     }
 
     // If `min` and `max` are the same number, just return that number.
@@ -170,10 +195,18 @@ class MyTools {
     try {
       assert(maxPlaces >= 0);
     } on AssertionError catch (e) {
-      print("WARNING: \`places\` must be greater than or equal to 0! To " +
-          "avoid returning \`null\`, 0 will be used instead of " +
-          "\"${maxPlaces.toString()}\".");
-      print(e);
+      DebugLog.out(
+        "MyTools",
+        "roundDouble",
+        "WARNING: `places` must be greater than or equal to 0! To avoid "
+            "returning `null`, 0 will be used instead of "
+            "\"${maxPlaces.toString()}\".",
+      );
+      DebugLog.out(
+        "MyTools",
+        "roundDouble",
+        e.toString(),
+      );
     }
 
     // If `places` is less than 0, change it to 0.
@@ -190,10 +223,10 @@ class MyTools {
   }
 
   /// This method converts degrees to radians.
-  static double degToRad(num deg) => deg * (pi / 180.0);
+  static double deg2Rad(num deg) => deg * (pi / 180.0);
 
   /// This method converts radians to degrees.
-  static double radToDeg(num rad) => rad * (180.0 / pi);
+  static double rad2Deg(num rad) => rad * (180.0 / pi);
 
   /// This method determines if a given string is a number.
   ///

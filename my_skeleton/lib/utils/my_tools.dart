@@ -1,12 +1,11 @@
 // @author Christian Babin
-// @version 1.1.0
+// @version 1.1.1
 // https://github.com/babincc/flutter_workshop/blob/master/addons/tools.dart
 
 import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:my_skeleton/my_theme/theme/my_theme.dart';
 import 'package:my_skeleton/utils/debug_log.dart';
 
 /// This is a collection of generic tools. These range from random number
@@ -224,10 +223,10 @@ class MyTools {
   }
 
   /// This method converts degrees to radians.
-  static double degToRad(num deg) => deg * (pi / 180.0);
+  static double deg2Rad(num deg) => deg * (pi / 180.0);
 
   /// This method converts radians to degrees.
-  static double radToDeg(num rad) => rad * (180.0 / pi);
+  static double rad2Deg(num rad) => rad * (180.0 / pi);
 
   /// This method determines if a given string is a number.
   ///

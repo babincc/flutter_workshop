@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:my_skeleton/my_theme/my_spacing.dart';
 import 'package:my_skeleton/my_theme/theme/my_theme.dart';
 import 'package:my_skeleton/navigation/my_routes.dart';
-import 'package:my_skeleton/utils/database/my_auth_provider.dart';
+import 'package:my_skeleton/providers/my_auth_provider.dart';
 
 class MyDrawerMenu extends StatelessWidget {
   const MyDrawerMenu({Key? key}) : super(key: key);
