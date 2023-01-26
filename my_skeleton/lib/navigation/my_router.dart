@@ -88,7 +88,7 @@ class MyRouter {
           path: MyRoutes.loginScreen,
           pageBuilder: (context, state) => MaterialPage<void>(
             key: state.pageKey,
-            child: LoginScreen(),
+            child: const LoginScreen(),
           ),
         ),
         GoRoute(
