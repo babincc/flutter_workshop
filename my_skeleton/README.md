@@ -8,4 +8,4 @@ This is skeleton or starter code for a new Flutter project.
 
 ## Folder Structure
 
-[Here](folder_structure.txt) is the folder structure I like to use for Flutter projects.
+[Here](lib/folder_structure.txt) is the folder structure I like to use for Flutter projects.
