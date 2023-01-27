@@ -9,7 +9,19 @@
 .history
 .svn/
 migrate_working_dir/
+
+# Environment files
+.env
+.env.example
+
+# Secret files
+.secret
+.key
+
+#Firebase related
 firebase_options.dart
+google-services.json
+GoogleService-Info.plist
 
 #VS Code related
 .VSCodeCounter
