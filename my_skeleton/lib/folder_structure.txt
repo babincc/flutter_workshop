@@ -1,5 +1,9 @@
 lib/
 ├── constants/
+├── domain/
+│   ├── models/
+│   ├── repos/
+│   └── services/
 ├── exceptions/
 ├── features/
 │   ├── feature_one/
@@ -32,9 +36,22 @@ lib/
 │   │       ├── feature_one_foo.dart
 │   │       ├── feature_one_bar.dart
 │   │       └── ...
-│   └── feature_two/
-│       └── ...
-├── models/
+│   ├── feature_two/
+│   │   └── ...
+│   └── large_feature/
+│       ├── domain/
+│       │   ├── models/
+│       │   ├── repos/
+│       │   └── services/
+│       ├── features/
+│       │   ├── feature_three/
+│       │   │   └── ...
+│       │   ├── feature_four/
+│       │   │   └── ...
+│       │   └── feature_five/
+│       │       └── ...
+│       ├── providers/
+│       └── widgets/
 ├── my_theme/
 │   ├── colors/
 │   │   ├── my_color_interface.dart
