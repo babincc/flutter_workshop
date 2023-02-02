@@ -2,13 +2,22 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:my_skeleton/my_theme/theme/my_theme.dart';
+import 'package:my_skeleton/constants/strings/strings.dart';
+import 'package:my_skeleton/providers/my_theme_provider.dart';
+import 'package:my_skeleton/providers/my_string_provider.dart';
+import 'package:my_skeleton/utils/my_tools.dart';
 
 class MySearchBar extends StatelessWidget {
   const MySearchBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    /// All of the strings on this page.
+    final Strings strings = MyStringProvider.of(
+      context,
+      listen: true,
+    ).strings;
+
     final TextEditingController searchController = TextEditingController();
 
     return TypeAheadField(
@@ -21,10 +30,8 @@ class MySearchBar extends StatelessWidget {
         onChanged: (String newText) {
           // TODO
         },
-        decoration: MyTheme.of(context).myInputDecoration(
-          context,
-          searchController,
-          hint: "Search",
+        decoration: MyThemeProvider.myInputDecoration(
+          hint: MyTools.capitalizeFirstLetter(strings.search),
         ),
       ),
       suggestionsCallback: (String currentText) async {

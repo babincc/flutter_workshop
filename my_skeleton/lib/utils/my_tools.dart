@@ -1,6 +1,6 @@
 // @author Christian Babin
-// @version 1.1.1
-// https://github.com/babincc/flutter_workshop/blob/master/addons/tools.dart
+// @version 1.2.0
+// https://github.com/babincc/flutter_workshop/blob/master/addons/my_tools.dart
 
 import 'dart:io';
 import 'dart:math';
@@ -254,5 +254,35 @@ class MyTools {
     }
 
     return isConnected;
+  }
+
+  /// Capitalizes the first letter of the given `text`.
+  ///
+  /// ```dart
+  /// capitalizeFirstLetter("howdy") == "Howdy"
+  /// capitalizeFirstLetter("hello world") == "Hello world"
+  /// ```
+  static String capitalizeFirstLetter(String text) {
+    if (text.length > 1) {
+      return text[0].toUpperCase() + text.substring(1);
+    } else {
+      return text[0].toUpperCase();
+    }
+  }
+
+  /// Capitalizes the first letter of each word in the given `text`.
+  ///
+  /// ```dart
+  /// capitalizeEachWord("howdy") == "Howdy"
+  /// capitalizeEachWord("hello world") == "Hello World"
+  /// ```
+  static String capitalizeEachWord(String text) {
+    final words = text.split(" ");
+
+    for (int i = 0; i < words.length; i++) {
+      words[i] = capitalizeFirstLetter(words[i]);
+    }
+
+    return words.join(" ");
   }
 }

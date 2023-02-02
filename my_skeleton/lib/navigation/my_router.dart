@@ -3,8 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:my_skeleton/features/dashboard/screens/views/dashboard_screen.dart';
 import 'package:my_skeleton/features/error_404/screens/views/error_screen.dart';
 import 'package:my_skeleton/features/help/screens/views/help_screen.dart';
-import 'package:my_skeleton/features/login/screens/views/login_screen.dart';
-import 'package:my_skeleton/features/profile/screens/views/profile_screen.dart';
+import 'package:my_skeleton/features/user_account/features/create_account/screens/views/create_account_screen.dart';
+import 'package:my_skeleton/features/user_account/features/login/screens/views/login_screen.dart';
+import 'package:my_skeleton/features/user_account/features/profile/screens/views/profile_screen.dart';
 import 'package:my_skeleton/features/settings/screens/views/settings_screen.dart';
 import 'package:my_skeleton/navigation/my_routes.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
@@ -25,7 +26,7 @@ class MyRouter {
           MyRoutes.helpScreen,
           MyRoutes.loginScreen,
           MyRoutes.settingsScreen,
-          MyRoutes.signupScreen,
+          MyRoutes.createAccountScreen,
         ];
 
         /// This will be `true` if the user is attempting to log in.
@@ -59,6 +60,22 @@ class MyRouter {
         return null;
       },
       routes: [
+        GoRoute(
+          name: "/",
+          path: "/",
+          pageBuilder: (context, state) => MaterialPage<void>(
+            key: state.pageKey,
+            child: const LoginScreen(),
+          ),
+        ),
+        GoRoute(
+          name: MyRoutes.createAccountScreen,
+          path: MyRoutes.createAccountScreen,
+          pageBuilder: (context, state) => MaterialPage<void>(
+            key: state.pageKey,
+            child: const CreateAccountScreen(),
+          ),
+        ),
         GoRoute(
           name: MyRoutes.dashboardScreen,
           path: MyRoutes.dashboardScreen,

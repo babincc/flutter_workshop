@@ -1,10 +1,25 @@
 lib/
 ├── constants/
+│   ├── strings/
+│   │   ├── lang_code.dart
+│   │   ├── strings_en.dart
+│   │   └── strings.dart
+│   ├── theme/
+│   │   ├── my_color_scheme.dart
+│   │   ├── my_spacing.dart
+│   │   └── my_text_theme.dart
+│   ├── config.dart
+│   └── ...
 ├── domain/
 │   ├── models/
+│   │   └── ...
 │   ├── repos/
+│   │   └── ...
 │   └── services/
+│       ├── my_theme_pref.dart
+│       └── ...
 ├── exceptions/
+│   └── ...
 ├── features/
 │   ├── feature_one/
 │   │   ├── domain/
@@ -13,10 +28,12 @@ lib/
 │   │   │   │   ├── feature_one_thing.dart
 │   │   │   │   └── ...
 │   │   │   ├── repos/
-│   │   │   │   └── feature_one_repo.dart
+│   │   │   │   ├── feature_one_repo.dart
+│   │   │   │   └── ...
 │   │   │   └── services/
 │   │   │       ├── feature_one_service_local.dart
-│   │   │       └── feature_one_service_remote.dart
+│   │   │       ├── feature_one_service_remote.dart
+│   │   │       └── ...
 │   │   ├── providers/
 │   │   │   ├── feature_one_obj_provider.dart
 │   │   │   ├── feature_one_thing_provider.dart
@@ -41,8 +58,11 @@ lib/
 │   └── large_feature/
 │       ├── domain/
 │       │   ├── models/
+│       │   │   └── ...
 │       │   ├── repos/
+│       │   │   └── ...
 │       │   └── services/
+│       │       └── ...
 │       ├── features/
 │       │   ├── feature_three/
 │       │   │   └── ...
@@ -51,26 +71,18 @@ lib/
 │       │   └── feature_five/
 │       │       └── ...
 │       ├── providers/
+│       │   └── ...
 │       └── widgets/
-├── my_theme/
-│   ├── colors/
-│   │   ├── my_color_interface.dart
-│   │   ├── my_dark_theme_colors.dart
-│   │   └── my_light_theme_colors.dart
-│   ├── theme/
-│   │   ├── my_theme.dart
-│   │   ├── my_theme_interface.dart
-│   │   ├── my_dark_theme.dart
-│   │   ├── my_light_theme.dart
-│   │   └── my_theme_pref_cache.dart
-│   ├── my_spacing.dart
-│   └── my_text_theme.dart
+│           └── ...
 ├── navigation/
 │   ├── my_router.dart
 │   └── my_routes.dart
 ├── providers/
+│   └── ...
 ├── utils/
+│   └── ...
 ├── widgets/
+│   └── ...
 ├── main.dart
 └── my_app.dart
 

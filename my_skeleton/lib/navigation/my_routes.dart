@@ -2,6 +2,9 @@
 class MyRoutes {
   // static const String aboutScreen = "/about_screen";
 
+  static const String createAccountScreen =
+      "${_MyFolders.userAccount}/create_account_screen";
+
   static const String dashboardScreen = "/dashboard_screen";
 
   static const String errorScreen = "/error_screen";
@@ -14,8 +17,6 @@ class MyRoutes {
       "${_MyFolders.userAccount}/profile_screen";
 
   static const String settingsScreen = "/settings_screen";
-
-  static const String signupScreen = "${_MyFolders.userAccount}/signup_screen";
 }
 
 /// These are navigation folders or packages that some pages may be found in.

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_skeleton/models/my_user.dart';
+import 'package:my_skeleton/domain/models/my_user.dart';
 import 'package:provider/provider.dart';
 
 class MyUserProvider extends ChangeNotifier {

@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:my_skeleton/widgets/my_safe_area.dart';
+import 'package:my_skeleton/widgets/my_scaffold.dart';
 
 class HelpScreen extends StatelessWidget {
   const HelpScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MyScaffold(
       appBar: AppBar(
         title: const Text("Help"),
       ),
-      body: const MySafeArea(
-        child: Text("Howdy!"),
-      ),
+      child: const Text("Howdy!"),
     );
   }
 }

@@ -1,16 +1,17 @@
 import 'dart:io';
 
-import 'package:my_skeleton/my_theme/theme/my_theme.dart';
+import 'package:my_skeleton/constants/config.dart';
+import 'package:my_skeleton/providers/my_theme_provider.dart';
 import 'package:my_skeleton/utils/my_file_explorer_sdk/my_file_explorer_sdk.dart';
 
 /// This object has the ability to check local files and manipulate them to save
 /// or retrieve the user's preferred theme type.
-class MyThemePrefCache {
+class MyThemePref {
   /// The name of the local file that the theme type preference is saved in.
-  static const String fileName = "THEME_PREF.txt";
+  static final String fileName = Config.file.theme;
 
-  /// The name of the parent directory of the them preference file.
-  static const String dirName = "theme";
+  /// The name of the parent directory of the theme preference file.
+  static final String dirName = Config.dir.preferences;
 
   /// The code that is written in the local files that means [ThemeType.dark].
   static const String dark = "dark";
@@ -19,12 +20,13 @@ class MyThemePrefCache {
   static const String light = "light";
 
   /// The file that stores the user's theme preference.
-  static Future<File> get themePref async =>
-      File(await MyFileExplorerSDK.createPathToFile(
-        localDir: LocalDir.appSupportDir,
-        subPath: dirName,
-        fileName: fileName,
-      ));
+  static Future<File> get themePref async => File(
+        await MyFileExplorerSDK.createPathToFile(
+          localDir: LocalDir.appSupportDir,
+          subPath: dirName,
+          fileName: fileName,
+        ),
+      );
 
   /// Reads the user's preferred theme type from their local files.
   ///
@@ -56,6 +58,13 @@ class MyThemePrefCache {
 
     File themePrefFile = await themePref;
 
-    await themePrefFile.writeAsString(theme);
+    if (!themePrefFile.existsSync()) {
+      await themePrefFile.create(recursive: true);
+    }
+
+    await themePrefFile.writeAsString(
+      theme,
+      flush: true,
+    );
   }
 }

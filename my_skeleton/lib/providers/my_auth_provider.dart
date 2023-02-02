@@ -31,12 +31,14 @@ class MyAuthProvider extends ChangeNotifier {
     required String password,
   }) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      await _firebaseAuth
+          .createUserWithEmailAndPassword(
+            email: email,
+            password: password,
+          )
+          .then((value) => isLoggedIn = value.user != null);
     } on FirebaseAuthException catch (e) {
-      return e.message;
+      return e.code;
     }
 
     return null;
@@ -57,9 +59,9 @@ class MyAuthProvider extends ChangeNotifier {
             email: email,
             password: password,
           )
-          .then((UserCredential value) => isLoggedIn = value.user != null);
+          .then((value) => isLoggedIn = value.user != null);
     } on FirebaseAuthException catch (e) {
-      return e.message;
+      return e.code;
     }
 
     return null;
@@ -67,7 +69,21 @@ class MyAuthProvider extends ChangeNotifier {
 
   /// Logs the user out of their Firebase account.
   Future<void> logOut() async {
-    await _firebaseAuth.signOut().then((value) => isLoggedIn = false);
+    await _firebaseAuth.signOut().then((_) => isLoggedIn = false);
+  }
+
+  /// Sends a password reset link to the user's `email`.
+  ///
+  /// Returns `null` if there are no errors; otherwise, it returns the error
+  /// message.
+  Future<String?> forgotPassword(String email) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      return e.code;
+    }
+
+    return null;
   }
 
   static MyAuthProvider of(BuildContext context, {bool listen = false}) =>

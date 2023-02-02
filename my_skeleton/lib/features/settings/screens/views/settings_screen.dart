@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_skeleton/my_theme/colors/my_dark_theme_colors.dart';
-import 'package:my_skeleton/my_theme/theme/my_theme.dart';
-import 'package:my_skeleton/widgets/my_safe_area.dart';
+import 'package:my_skeleton/providers/my_theme_provider.dart';
+import 'package:my_skeleton/widgets/my_scaffold.dart';
 import 'package:provider/provider.dart';
 
 import '../view_models/settings_screen_view_model.dart';
@@ -17,20 +16,14 @@ class SettingsScreen extends StatelessWidget {
 
     return ChangeNotifierProvider.value(
       value: viewModel,
-      builder: (context, _) => Scaffold(
+      builder: (context, _) => MyScaffold(
         appBar: AppBar(
           title: const Text("Settings"),
         ),
-        body: MySafeArea(
-          child: TextButton(
-            onPressed: () => viewModel.toggleTheme(MyTheme.of(context)),
-            style: MyTheme.of(context).myButtonStyle,
-            child: Text(
-              "Toggle Theme",
-              style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                    color: MyDarkThemeColors().background,
-                  ),
-            ),
+        child: TextButton(
+          onPressed: () => viewModel.toggleTheme(MyThemeProvider.of(context)),
+          child: const Text(
+            "Toggle Theme",
           ),
         ),
       ),
