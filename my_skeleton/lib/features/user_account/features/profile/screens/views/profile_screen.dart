@@ -10,7 +10,7 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Profile"),
       ),
-      child: const Text("Howdy!"),
+      builder: (context) => const Text("Howdy!"),
     );
   }
 }

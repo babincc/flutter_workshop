@@ -10,7 +10,7 @@ class HelpScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Help"),
       ),
-      child: const Text("Howdy!"),
+      builder: (context) => const Text("Howdy!"),
     );
   }
 }

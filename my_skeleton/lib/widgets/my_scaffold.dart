@@ -12,7 +12,7 @@ class MyScaffold extends StatelessWidget {
   /// [Scaffold] > [SafeArea] > [Padding]
   const MyScaffold({
     Key? key,
-    required this.child,
+    required this.builder,
     this.appBar,
     this.drawer,
     this.isCentered = true,
@@ -25,7 +25,7 @@ class MyScaffold extends StatelessWidget {
   final Widget? drawer;
 
   /// The body of this scaffold.
-  final Widget child;
+  final Widget Function(BuildContext) builder;
 
   /// Whether or not the contents of this scaffold should be centered on the
   /// screen.
@@ -39,20 +39,20 @@ class MyScaffold extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(MySpacing.distanceFromEdge),
-          child: _buildLayout(),
+          child: _buildLayout(context),
         ),
       ),
     );
   }
 
   /// This method lays out the given [child] based on [isCentered].
-  Widget _buildLayout() {
+  Widget _buildLayout(BuildContext context) {
     if (isCentered) {
       return Center(
-        child: child,
+        child: builder(context),
       );
     }
 
-    return child;
+    return builder(context);
   }
 }

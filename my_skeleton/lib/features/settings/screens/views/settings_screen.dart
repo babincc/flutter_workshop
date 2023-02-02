@@ -20,7 +20,7 @@ class SettingsScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text("Settings"),
         ),
-        child: TextButton(
+        builder: (context) => TextButton(
           onPressed: () => viewModel.toggleTheme(MyThemeProvider.of(context)),
           child: const Text(
             "Toggle Theme",

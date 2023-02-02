@@ -31,7 +31,7 @@ class LoginScreen extends StatelessWidget {
         context.read<LoginScreenViewModel?>() ?? LoginScreenViewModel(strings);
 
     return MyScaffold(
-      child: Column(
+      builder: (context) => Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           /// LOGO image

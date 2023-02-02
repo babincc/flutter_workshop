@@ -35,7 +35,7 @@ class CreateAccountScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(MyTools.capitalizeEachWord(strings.createAccount)),
         ),
-        child: Column(
+        builder: (context) => Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             /// EMAIL text field

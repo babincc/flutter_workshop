@@ -13,7 +13,7 @@ class DashboardScreen extends StatelessWidget {
         title: const MySearchBar(),
       ),
       drawer: const MyDrawerMenu(),
-      child: Column(
+      builder: (context) => Column(
         children: const [
           Text("Howdy"),
         ],
