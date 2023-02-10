@@ -93,6 +93,9 @@ String selected = myController.value.toString();
 
 <h3 align="center">If you found this helpful, please consider donating. Thanks!</h3>
 <p align="center">
+  <a href="https://www.buymeacoffee.com/babincc" target="_blank">
+    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="buy me a coffee" height="50">
+  </a>
   <a href="https://paypal.me/cssbabin" target="_blank">
     <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" alt="paypal" height="50">
   </a>
