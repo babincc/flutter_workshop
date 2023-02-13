@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:my_skeleton/providers/my_theme_provider.dart';
 
 /// A custom text field that only contains the parameters I need in this app.
@@ -11,15 +12,19 @@ class MyTextField extends StatefulWidget {
     Key? key,
     this.controller,
     this.isPassword = false,
+    this.isNumber = false,
     this.label,
     this.hint,
     this.prefixIcon,
     this.validators,
+    this.onChanged,
+    this.onEditingComplete,
     required this.isLastField,
   }) : super(key: key);
 
   final TextEditingController? controller;
 
+  /// Whether of not this is the last text field in a group of text fields.
   final bool isLastField;
 
   /// Tells the user what to input into this text field.
@@ -39,9 +44,20 @@ class MyTextField extends StatefulWidget {
   /// typed.
   final bool isPassword;
 
+  /// If `true` the user will only be allowed to enter a number into the text
+  /// field.
+  final bool isNumber;
+
   /// Tests that can be run on this text field's input as well as error messages
   /// if it fails.
   final List<MyTextFieldValidator>? validators;
+
+  /// Called every time the user makes a change to this text field's input.
+  final void Function(String)? onChanged;
+
+  /// Called when the user is finished making changes to this text field's
+  /// input.
+  final void Function()? onEditingComplete;
 
   @override
   State<MyTextField> createState() => MyTextFieldState();
@@ -56,15 +72,33 @@ class MyTextFieldState extends State<MyTextField> {
   Widget build(BuildContext context) {
     return TextField(
       controller: widget.controller ?? TextEditingController(),
-      decoration: MyThemeProvider.myInputDecoration(
+      decoration: MyThemeProvider.of(context).myInputDecoration(
         label: widget.label,
         hint: widget.hint,
         prefixIcon: widget.prefixIcon,
         errorText: errorText,
       ),
       obscureText: widget.isPassword,
-      onChanged: (_) => hasErrors(testTrigger: TestTrigger.onChange),
+      keyboardType: widget.isNumber
+          ? const TextInputType.numberWithOptions(decimal: true)
+          : null,
+      inputFormatters: widget.isNumber
+          ? [FilteringTextInputFormatter.allow(RegExp(r"^[0-9]*(\.[0-9]*)?$"))]
+          : null,
+      onChanged: (value) {
+        // Run the function that was passed into this text field, if it exists.
+        if (widget.onChanged != null) {
+          widget.onChanged!(value);
+        }
+
+        hasErrors(testTrigger: TestTrigger.onChange);
+      },
       onEditingComplete: () {
+        // Run the function that was passed into this text field, if it exists.
+        if (widget.onEditingComplete != null) {
+          widget.onEditingComplete!();
+        }
+
         hasErrors(testTrigger: TestTrigger.onComplete);
 
         if (widget.isLastField) {

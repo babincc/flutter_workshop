@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:my_skeleton/constants/strings/strings.dart';
-import 'package:my_skeleton/constants/theme/my_spacing.dart';
-import 'package:my_skeleton/features/user_account/features/login/screens/view_models/login_forgot_password_popup_view_model.dart';
+import 'package:my_skeleton/constants/theme/my_measurements.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/providers/my_string_provider.dart';
 import 'package:my_skeleton/utils/my_tools.dart';
 import 'package:my_skeleton/widgets/my_alert.dart';
+import 'package:my_skeleton/widgets/my_modal_bottom_sheet_scaffold.dart';
 import 'package:my_skeleton/widgets/my_text_field.dart';
+
+import '../screens/view_models/login_forgot_password_popup_view_model.dart';
 
 class LoginForgotPasswordPopup extends StatefulWidget {
   const LoginForgotPasswordPopup({super.key});
@@ -33,39 +35,9 @@ class _LoginForgotPasswordPopupState extends State<LoginForgotPasswordPopup> {
     final LoginForgotPasswordPopupViewModel viewModel =
         LoginForgotPasswordPopupViewModel(strings);
 
-    return FractionallySizedBox(
-      heightFactor: 0.9,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(
-          MySpacing.distanceFromEdge,
-          MySpacing.elementSpread,
-          MySpacing.distanceFromEdge,
-          MySpacing.distanceFromEdge,
-        ),
-        child: Column(
-          children: [
-            // RESIZE BAR
-            Container(
-              height: 5.0,
-              width: 60.0,
-              decoration: BoxDecoration(
-                color: Theme.of(context).disabledColor,
-                borderRadius: BorderRadius.circular(999.0),
-              ),
-            ),
-
-            // TITLE
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: MySpacing.elementSpread,
-              ),
-              child: Text(MyTools.capitalizeEachWord(strings.forgotPassword)),
-            ),
-
-            _buildBody(context, viewModel),
-          ],
-        ),
-      ),
+    return MyModalBottomSheetScaffold(
+      title: strings.forgotPassword,
+      child: _buildBody(context, viewModel),
     );
   }
 
@@ -79,64 +51,59 @@ class _LoginForgotPasswordPopupState extends State<LoginForgotPasswordPopup> {
   }
 
   Widget _buildForm(LoginForgotPasswordPopupViewModel viewModel) {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // INSTRUCTIONS
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: MySpacing.elementSpread,
-            ),
-            child: Text(
-              "${MyTools.capitalizeFirstLetter(viewModel.strings.resetPasswordInstructions)}.",
-            ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        // INSTRUCTIONS
+        Padding(
+          padding: const EdgeInsets.only(
+            bottom: MyMeasurements.elementSpread,
           ),
+          child: Text(
+            "${MyTools.capitalizeFirstLetter(viewModel.strings.resetPasswordInstructions)}.",
+          ),
+        ),
 
-          // EMAIL text field
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: MySpacing.elementSpread,
-            ),
-            child: MyTextField(
-              key: viewModel.emailFieldKey,
-              controller: viewModel.emailController,
-              isLastField: true,
-              hint: viewModel.strings.email,
-              prefixIcon: const Icon(
-                Icons.email,
-              ),
-              validators: viewModel.emailValidators,
-            ),
+        // EMAIL text field
+        Padding(
+          padding: const EdgeInsets.only(
+            bottom: MyMeasurements.elementSpread,
           ),
+          child: MyTextField(
+            key: viewModel.emailFieldKey,
+            controller: viewModel.emailController,
+            isLastField: true,
+            hint: viewModel.strings.email,
+            prefixIcon: const Icon(
+              Icons.email,
+            ),
+            validators: viewModel.emailValidators,
+          ),
+        ),
 
-          // RESET button
-          TextButton(
-            onPressed: () async {
-              FocusScope.of(context).unfocus();
-              await viewModel
-                  .onReset(MyAuthProvider.of(context))
-                  .then((result) {
-                if (result > 0) {
-                  setState(() {
-                    linkSent = true;
-                  });
-                } else if (result < 0) {
-                  MyAlert(
-                    title:
-                        MyTools.capitalizeFirstLetter(viewModel.strings.error),
-                    content:
-                        "${MyTools.capitalizeFirstLetter(viewModel.strings.failedPasswordReset)}! "
-                        "${MyTools.capitalizeFirstLetter(viewModel.strings.tryAgainLater)}.",
-                    buttons: {viewModel.strings.ok: () {}},
-                  ).show(context);
-                }
-              });
-            },
-            child: Text(MyTools.capitalizeEachWord(viewModel.strings.reset)),
-          ),
-        ],
-      ),
+        // RESET button
+        TextButton(
+          onPressed: () async {
+            FocusScope.of(context).unfocus();
+            await viewModel.onReset(MyAuthProvider.of(context)).then((result) {
+              if (result > 0) {
+                setState(() {
+                  linkSent = true;
+                });
+              } else if (result < 0) {
+                MyAlert(
+                  title: MyTools.capitalizeFirstLetter(viewModel.strings.error),
+                  content:
+                      "${MyTools.capitalizeFirstLetter(viewModel.strings.failedPasswordReset)}! "
+                      "${MyTools.capitalizeFirstLetter(viewModel.strings.tryAgainLater)}.",
+                  buttons: {viewModel.strings.ok: () {}},
+                ).show(context);
+              }
+            });
+          },
+          child: Text(MyTools.capitalizeEachWord(viewModel.strings.reset)),
+        ),
+      ],
     );
   }
 
@@ -149,22 +116,22 @@ class _LoginForgotPasswordPopupState extends State<LoginForgotPasswordPopup> {
           // SUCCESS icon
           Padding(
             padding: const EdgeInsets.only(
-              bottom: MySpacing.elementSpread,
+              bottom: MyMeasurements.elementSpread,
             ),
             child: Icon(
               Icons.check_circle_outline,
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
 
           // Success text
           Padding(
             padding: const EdgeInsets.only(
-              bottom: MySpacing.elementSpread,
+              bottom: MyMeasurements.elementSpread,
             ),
             child: Text(
               "${MyTools.capitalizeFirstLetter(viewModel.strings.passwordResetLinkSent)}!",
-              style: TextStyle(color: Theme.of(context).primaryColor),
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
             ),
           ),
         ],

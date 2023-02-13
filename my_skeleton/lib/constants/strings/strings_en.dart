@@ -15,6 +15,12 @@ class StringsEN implements Strings {
   String get confirmPassword => "confirm password";
 
   @override
+  String get back => "back";
+
+  @override
+  String get cancel => "cancel";
+
+  @override
   String get createAccount => "create account";
 
   @override

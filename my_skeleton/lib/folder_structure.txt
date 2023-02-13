@@ -87,7 +87,7 @@ lib/
 └── my_app.dart
 
 /domain/repo/ -> The abstract class that describes how to get data into the app.
-/domain/services/ -> Implement repos and get data into the app from remote or local
+/domain/services/ -> Implement repos and get data into the app from remote or local. Generally, only the repos will talk with services and the rest of the app will talk with the repos.
 /screens/views/ -> Contain scaffold. As far as naming: screens are the main views and pages are sub-views. Ex. Profile_Screen vs Change_Password_Page
 /screens/view_models/ -> All of the logic for the views.
 /widgets/ -> Don't contain scaffold.

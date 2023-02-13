@@ -8,6 +8,10 @@ abstract class Strings {
   /// The [LangCode] associated with this specific language.
   LangCode get langCode;
 
+  String get back;
+
+  String get cancel;
+
   String get confirmPassword;
 
   String get createAccount;

@@ -2,10 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:my_skeleton/domain/models/my_user.dart';
 import 'package:my_skeleton/providers/my_theme_provider.dart';
 import 'package:my_skeleton/navigation/my_router.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/providers/my_string_provider.dart';
+import 'package:my_skeleton/providers/my_user_provider.dart';
 import 'package:provider/provider.dart';
 
 /// This file sets up the app and is the root file connecting all of the others
@@ -19,6 +22,7 @@ class MyApp extends StatelessWidget {
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
     final MyAuthProvider myAuthProvider = MyAuthProvider(firebaseAuth);
+    final MyUserProvider myUserProvider = MyUserProvider(MyUser.empty());
     final MyThemeProvider myTheme = MyThemeProvider();
     final MyStringProvider myStringProvider = MyStringProvider();
 
@@ -28,6 +32,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<MyAuthProvider>(
           create: (_) => myAuthProvider,
+        ),
+        ChangeNotifierProvider<MyUserProvider>(
+          create: (_) => myUserProvider,
         ),
         ChangeNotifierProvider<MyThemeProvider>(
           create: (_) => myTheme,
@@ -40,12 +47,14 @@ class MyApp extends StatelessWidget {
         value: context.watch<MyThemeProvider>().themeType == ThemeType.dark
             ? SystemUiOverlayStyle.light
             : SystemUiOverlayStyle.dark,
-        child: GestureDetector(
-          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: MaterialApp.router(
-            routerConfig: router,
-            theme: context.select<MyThemeProvider, ThemeData>(
-                (MyThemeProvider myTheme) => myTheme.themeData),
+        child: GlobalLoaderOverlay(
+          child: GestureDetector(
+            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+            child: MaterialApp.router(
+              routerConfig: router,
+              theme: context.select<MyThemeProvider, ThemeData>(
+                  (MyThemeProvider myTheme) => myTheme.themeData),
+            ),
           ),
         ),
       ),

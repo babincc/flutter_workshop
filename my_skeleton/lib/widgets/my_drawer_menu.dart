@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_skeleton/constants/strings/strings.dart';
-import 'package:my_skeleton/constants/theme/my_spacing.dart';
+import 'package:my_skeleton/constants/theme/my_measurements.dart';
 import 'package:my_skeleton/navigation/my_routes.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/providers/my_string_provider.dart';
@@ -34,7 +34,7 @@ class MyDrawerMenu extends StatelessWidget {
             title: Row(
               children: [
                 const Padding(
-                  padding: EdgeInsets.only(right: MySpacing.textPadding),
+                  padding: EdgeInsets.only(right: MyMeasurements.textPadding),
                   child: Icon(
                     Icons.person,
                   ),
@@ -56,7 +56,7 @@ class MyDrawerMenu extends StatelessWidget {
             title: Row(
               children: [
                 const Padding(
-                  padding: EdgeInsets.only(right: MySpacing.textPadding),
+                  padding: EdgeInsets.only(right: MyMeasurements.textPadding),
                   child: Icon(
                     Icons.settings,
                   ),
@@ -78,7 +78,7 @@ class MyDrawerMenu extends StatelessWidget {
             title: Row(
               children: [
                 const Padding(
-                  padding: EdgeInsets.only(right: MySpacing.textPadding),
+                  padding: EdgeInsets.only(right: MyMeasurements.textPadding),
                   child: Icon(
                     Icons.help,
                   ),
@@ -95,35 +95,12 @@ class MyDrawerMenu extends StatelessWidget {
             },
           ),
 
-          // ABOUT
-          // ListTile(
-          //   title: Row(
-          //     children: [
-          //       Padding(
-          //         padding: const EdgeInsets.only(right: MySpacing.textPadding),
-          //         child: Icon(
-          //           Icons.info,
-          //           color: MyTheme.of(context).color.primary,
-          //         ),
-          //       ),
-          //       Text(
-          //         "About",
-          //         style: Theme.of(context).textTheme.bodyText2,
-          //       ),
-          //     ],
-          //   ),
-          //   onTap: () {
-          //     closeDrawer(context);
-          //     goToScreen(context, MyRoutes.aboutScreen);
-          //   },
-          // ),
-
           // LOG OUT
           ListTile(
             title: Row(
               children: [
                 const Padding(
-                  padding: EdgeInsets.only(right: MySpacing.textPadding),
+                  padding: EdgeInsets.only(right: MyMeasurements.textPadding),
                   child: Icon(
                     Icons.logout,
                   ),
@@ -141,7 +118,7 @@ class MyDrawerMenu extends StatelessWidget {
             },
           ),
           const SizedBox(
-            height: MySpacing.distanceFromEdge,
+            height: MyMeasurements.distanceFromEdge,
           ),
         ],
       ),

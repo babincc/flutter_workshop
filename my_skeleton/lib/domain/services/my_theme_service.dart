@@ -6,7 +6,7 @@ import 'package:my_skeleton/utils/my_file_explorer_sdk/my_file_explorer_sdk.dart
 
 /// This object has the ability to check local files and manipulate them to save
 /// or retrieve the user's preferred theme type.
-class MyThemePref {
+class MyThemeService {
   /// The name of the local file that the theme type preference is saved in.
   static final String fileName = Config.file.theme;
 

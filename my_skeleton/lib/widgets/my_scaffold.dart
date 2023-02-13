@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_skeleton/constants/theme/my_spacing.dart';
+import 'package:my_skeleton/constants/theme/my_measurements.dart';
 
 class MyScaffold extends StatelessWidget {
   /// Creates a custom scaffold.
@@ -38,7 +38,7 @@ class MyScaffold extends StatelessWidget {
       drawer: drawer,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(MySpacing.distanceFromEdge),
+          padding: const EdgeInsets.all(MyMeasurements.distanceFromEdge),
           child: _buildLayout(context),
         ),
       ),

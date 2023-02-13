@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:my_skeleton/constants/theme/my_color_schemes.dart';
-import 'package:my_skeleton/constants/theme/my_spacing.dart';
-import 'package:my_skeleton/domain/services/my_theme_pref.dart';
+import 'package:my_skeleton/constants/theme/my_colors.dart';
+import 'package:my_skeleton/constants/theme/my_measurements.dart';
+import 'package:my_skeleton/domain/services/my_theme_service.dart';
 import 'package:provider/provider.dart';
 
 /// The main brightness level of the app's UI.
@@ -27,36 +27,41 @@ class MyThemeProvider extends ChangeNotifier {
 
   set themeType(ThemeType themeType) {
     _themeType = themeType;
-    MyThemePref.cacheThemeType(themeType).then((value) => notifyListeners());
+    MyThemeService.cacheThemeType(themeType).then((value) => notifyListeners());
   }
 
   ThemeType get themeType => _themeType;
 
+  MyColors get colors => MyColors(themeType);
+
   /// Returns the app UI's theme data based on the selected [_themeType].
   ThemeData get themeData => ThemeData(
         useMaterial3: true,
-        colorScheme: _themeType == ThemeType.light
-            ? MyColorSchemes.lightColorScheme
-            : MyColorSchemes.darkColorScheme,
-        appBarTheme: const AppBarTheme(
+        colorScheme: colors.colorScheme,
+        appBarTheme: AppBarTheme(
           systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarIconBrightness:
-                Brightness.dark, // For Android (dark icons)
-            statusBarBrightness: Brightness.light, // For iOS (dark icons)
+            statusBarIconBrightness: _themeType == ThemeType.light
+                ? Brightness.dark
+                : Brightness.light, // For Android (dark == dark icons)
+            statusBarBrightness: _themeType == ThemeType.light
+                ? Brightness.light
+                : Brightness.dark, // For iOS (light == dark icons)
           ),
         ),
+        canvasColor: colors.colorScheme.background,
       );
 
   /// The decoration for all of the text fields used in this app.
-  static InputDecoration myInputDecoration({
+  InputDecoration myInputDecoration({
     String? label,
     String? hint,
     Icon? prefixIcon,
     String? errorText,
   }) {
     OutlineInputBorder border = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(MySpacing.borderRadius),
-      gapPadding: MySpacing.textPadding,
+      borderSide: BorderSide.none,
+      borderRadius: BorderRadius.circular(MyMeasurements.borderRadius),
+      gapPadding: MyMeasurements.textPadding,
     );
 
     return InputDecoration(
@@ -66,9 +71,11 @@ class MyThemeProvider extends ChangeNotifier {
       hintText: hint,
       errorText: errorText,
       contentPadding: const EdgeInsets.symmetric(
-        horizontal: MySpacing.textPadding * 2,
-        vertical: MySpacing.textPadding,
+        horizontal: MyMeasurements.textPadding * 2,
+        vertical: MyMeasurements.textPadding,
       ),
+      filled: true,
+      fillColor: colors.textField,
       enabledBorder: border,
       focusedBorder: border,
       errorBorder: border,
@@ -79,7 +86,7 @@ class MyThemeProvider extends ChangeNotifier {
   /// Checks the phone for which theme it should apply to the app.
   Future<void> initThemeType() async {
     // See if the user has a theme preference saved in their local files.
-    ThemeType? tempThemeType = await MyThemePref.cachedThemeType;
+    ThemeType? tempThemeType = await MyThemeService.cachedThemeType;
     if (tempThemeType != null) {
       themeType = tempThemeType;
       return;

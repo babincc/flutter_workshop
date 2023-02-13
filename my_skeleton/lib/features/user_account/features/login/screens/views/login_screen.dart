@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_skeleton/constants/assets.dart';
 import 'package:my_skeleton/constants/strings/strings.dart';
-import 'package:my_skeleton/constants/theme/my_spacing.dart';
-import 'package:my_skeleton/features/user_account/features/login/screens/view_models/login_screen_view_model.dart';
-import 'package:my_skeleton/features/user_account/features/login/widgets/login_forgot_password_popup.dart';
+import 'package:my_skeleton/constants/theme/my_measurements.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/providers/my_string_provider.dart';
 import 'package:my_skeleton/utils/my_tools.dart';
-import 'package:my_skeleton/widgets/my_clickable_text.dart';
 import 'package:my_skeleton/widgets/my_scaffold.dart';
 import 'package:my_skeleton/widgets/my_text_field.dart';
 import 'package:provider/provider.dart';
+
+import '../../widgets/login_forgot_password_popup.dart';
+import '../view_models/login_screen_view_model.dart';
 
 /// The screen the user is sent to when they are not connected to Firebase.
 class LoginScreen extends StatelessWidget {
@@ -37,10 +38,10 @@ class LoginScreen extends StatelessWidget {
           /// LOGO image
           Padding(
             padding: const EdgeInsets.only(
-              bottom: MySpacing.elementSpread,
+              bottom: MyMeasurements.elementSpread,
             ),
             child: Image.asset(
-              "assets/images/logo.png",
+              Assets.logo,
               width: 175,
             ),
           ),
@@ -48,7 +49,7 @@ class LoginScreen extends StatelessWidget {
           /// EMAIL text field
           Padding(
             padding: const EdgeInsets.only(
-              bottom: MySpacing.elementSpread,
+              bottom: MyMeasurements.elementSpread,
             ),
             child: MyTextField(
               key: viewModel.emailFieldKey,
@@ -65,7 +66,7 @@ class LoginScreen extends StatelessWidget {
           /// PASSWORD text field
           Padding(
             padding: const EdgeInsets.only(
-              bottom: MySpacing.elementSpread,
+              bottom: MyMeasurements.elementSpread,
             ),
             child: MyTextField(
               key: viewModel.passwordFieldKey,
@@ -82,9 +83,9 @@ class LoginScreen extends StatelessWidget {
           /// LOG IN button
           Padding(
             padding: const EdgeInsets.only(
-              bottom: MySpacing.elementSpread,
+              bottom: MyMeasurements.elementSpread * 2.0,
             ),
-            child: TextButton(
+            child: ElevatedButton(
               onPressed: () async {
                 FocusScope.of(context).unfocus();
                 await viewModel
@@ -101,10 +102,10 @@ class LoginScreen extends StatelessWidget {
           /// FORGOT PASSWORD button
           Padding(
             padding: const EdgeInsets.only(
-              bottom: MySpacing.elementSpread,
+              bottom: MyMeasurements.elementSpread,
             ),
-            child: MyClickableText(
-              onTap: () {
+            child: TextButton(
+              onPressed: () {
                 FocusScope.of(context).unfocus();
                 showModalBottomSheet(
                   context: context,
@@ -112,17 +113,27 @@ class LoginScreen extends StatelessWidget {
                   builder: ((context) => const LoginForgotPasswordPopup()),
                 );
               },
-              text: strings.forgotPassword,
+              style: const ButtonStyle(
+                minimumSize: MaterialStatePropertyAll<Size>(Size.zero),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                padding: MaterialStatePropertyAll<EdgeInsets>(EdgeInsets.zero),
+              ),
+              child: Text(strings.forgotPassword),
             ),
           ),
 
           /// CREATE ACCOUNT button
-          MyClickableText(
-            onTap: () {
+          TextButton(
+            onPressed: () {
               FocusScope.of(context).unfocus();
               viewModel.onSignUp(GoRouter.of(context));
             },
-            text: strings.createAccount,
+            style: const ButtonStyle(
+              minimumSize: MaterialStatePropertyAll<Size>(Size.zero),
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              padding: MaterialStatePropertyAll<EdgeInsets>(EdgeInsets.zero),
+            ),
+            child: Text(strings.createAccount),
           ),
         ],
       ),

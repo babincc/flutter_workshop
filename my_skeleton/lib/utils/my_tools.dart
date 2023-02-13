@@ -2,6 +2,7 @@
 // @version 1.2.0
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_tools.dart
 
+import 'dart:collection';
 import 'dart:io';
 import 'dart:math';
 
@@ -284,5 +285,28 @@ class MyTools {
     }
 
     return words.join(" ");
+  }
+
+  /// Returns `true` if the given lists contain all the same values.
+  static bool listsMatch(List list1, List list2) {
+    final set1 = SplayTreeSet.from(list1);
+    final set2 = SplayTreeSet.from(list2);
+
+    return set1.intersection(set2).length == set1.length;
+  }
+
+  /// Returns `true` if the given lists contain all the same keys and values.
+  static bool mapsMatch(Map map1, Map map2) {
+    if (map1.length != map2.length) {
+      return false;
+    }
+
+    for (var key in map1.keys) {
+      if (!map2.containsKey(key) || map2[key] != map1[key]) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }

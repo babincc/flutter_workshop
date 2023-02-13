@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:my_skeleton/domain/repos/my_user_repo.dart';
 import 'package:provider/provider.dart';
 
 class MyAuthProvider extends ChangeNotifier {
@@ -14,6 +15,8 @@ class MyAuthProvider extends ChangeNotifier {
   final FirebaseAuth _firebaseAuth;
 
   bool _isLoggedIn = false;
+
+  /// Whether or not the current user is logged in.
   bool get isLoggedIn => _isLoggedIn;
   set isLoggedIn(bool value) {
     if (_isLoggedIn != value) {
@@ -21,6 +24,9 @@ class MyAuthProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  /// The currently logged in user.
+  User? get user => _firebaseAuth.currentUser;
 
   /// Creates a Firebase account using the given `email` and `password`.
   ///
@@ -33,10 +39,21 @@ class MyAuthProvider extends ChangeNotifier {
     try {
       await _firebaseAuth
           .createUserWithEmailAndPassword(
-            email: email,
-            password: password,
-          )
-          .then((value) => isLoggedIn = value.user != null);
+        email: email,
+        password: password,
+      )
+          .then(
+        (value) async {
+          if (value.user == null) {
+            isLoggedIn = false;
+            return;
+          }
+
+          await MyUserRepo.createUserDoc(value.user!.uid);
+
+          isLoggedIn = true;
+        },
+      );
     } on FirebaseAuthException catch (e) {
       return e.code;
     }

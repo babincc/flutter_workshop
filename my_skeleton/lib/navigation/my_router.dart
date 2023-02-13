@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:my_skeleton/domain/models/my_user.dart';
+import 'package:my_skeleton/domain/repos/my_user_repo.dart';
 import 'package:my_skeleton/features/dashboard/screens/views/dashboard_screen.dart';
 import 'package:my_skeleton/features/error_404/screens/views/error_screen.dart';
 import 'package:my_skeleton/features/help/screens/views/help_screen.dart';
@@ -9,6 +13,7 @@ import 'package:my_skeleton/features/user_account/features/profile/screens/views
 import 'package:my_skeleton/features/settings/screens/views/settings_screen.dart';
 import 'package:my_skeleton/navigation/my_routes.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
+import 'package:my_skeleton/providers/my_user_provider.dart';
 
 /// This router is in control of navigation throughout the app.
 class MyRouter {
@@ -18,7 +23,7 @@ class MyRouter {
       restorationScopeId: "router",
       refreshListenable: myAuthProvider,
       initialLocation: MyRoutes.loginScreen,
-      redirect: (context, state) {
+      redirect: (context, state) async {
         /// All of the pages that do not need the user to be logged in for them
         /// to be accessed.
         const List<String> publicPages = [
@@ -41,7 +46,7 @@ class MyRouter {
 
         // If the user is trying to log in and they are not logged in already,
         // let them proceed.
-        if (state.location.startsWith(MyRoutes.loginScreen) && !isLoggedIn) {
+        if (isLoggingIn && !isLoggedIn) {
           return null;
         }
 
@@ -49,6 +54,20 @@ class MyRouter {
         // requires log in, stop them.
         if (!isLoggedIn && !isGoingToPublicPage) {
           return MyRoutes.loginScreen;
+        }
+
+        // If the user is logged in, but they don't have their info in the user
+        // provider, collect that info and fill the provider.
+        if (isLoggedIn && MyUserProvider.of(context).myUser.isEmpty) {
+          User? user = myAuthProvider.user;
+
+          // If there is no user info from Firebase, make them log in again.
+          if (user == null) return MyRoutes.loginScreen;
+
+          context.loaderOverlay.show();
+          MyUserProvider.of(context).myUser =
+              await MyUserRepo.fetchUser(user.uid) ?? MyUser.empty();
+          context.loaderOverlay.hide();
         }
 
         // If the user is already logged in, don't let them go to the login

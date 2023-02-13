@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_skeleton/constants/strings/strings.dart';
-import 'package:my_skeleton/constants/theme/my_spacing.dart';
-import 'package:my_skeleton/features/user_account/features/create_account/screens/view_models/create_account_screen_view_model.dart';
+import 'package:my_skeleton/constants/theme/my_measurements.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/providers/my_string_provider.dart';
 import 'package:my_skeleton/utils/my_tools.dart';
-import 'package:my_skeleton/widgets/my_clickable_text.dart';
 import 'package:my_skeleton/widgets/my_scaffold.dart';
 import 'package:my_skeleton/widgets/my_text_field.dart';
 import 'package:provider/provider.dart';
+
+import '../view_models/create_account_screen_view_model.dart';
 
 /// Where the user goes to create a new account for this app.
 class CreateAccountScreen extends StatelessWidget {
@@ -26,8 +26,7 @@ class CreateAccountScreen extends StatelessWidget {
 
     /// All of the logic that controls this page's UI.
     final CreateAccountScreenViewModel viewModel =
-        context.read<CreateAccountScreenViewModel?>() ??
-            CreateAccountScreenViewModel(strings);
+        CreateAccountScreenViewModel(strings);
 
     return ChangeNotifierProvider.value(
       value: viewModel,
@@ -41,7 +40,7 @@ class CreateAccountScreen extends StatelessWidget {
             /// EMAIL text field
             Padding(
               padding: const EdgeInsets.only(
-                bottom: MySpacing.elementSpread,
+                bottom: MyMeasurements.elementSpread,
               ),
               child: MyTextField(
                 key: viewModel.emailFieldKey,
@@ -58,7 +57,7 @@ class CreateAccountScreen extends StatelessWidget {
             /// PASSWORD text field
             Padding(
               padding: const EdgeInsets.only(
-                bottom: MySpacing.elementSpread,
+                bottom: MyMeasurements.elementSpread,
               ),
               child: MyTextField(
                 key: viewModel.passwordFieldKey,
@@ -76,7 +75,7 @@ class CreateAccountScreen extends StatelessWidget {
             /// CONFIRM PASSWORD text field
             Padding(
               padding: const EdgeInsets.only(
-                bottom: MySpacing.elementSpread,
+                bottom: MyMeasurements.elementSpread,
               ),
               child: MyTextField(
                 key: viewModel.confirmPasswordFieldKey,
@@ -94,9 +93,9 @@ class CreateAccountScreen extends StatelessWidget {
             /// SIGN UP button
             Padding(
               padding: const EdgeInsets.only(
-                bottom: MySpacing.elementSpread,
+                bottom: MyMeasurements.elementSpread,
               ),
-              child: TextButton(
+              child: ElevatedButton(
                 onPressed: () async {
                   FocusScope.of(context).unfocus();
                   await viewModel
@@ -113,12 +112,12 @@ class CreateAccountScreen extends StatelessWidget {
             ),
 
             /// EXISTING ACCOUNT button
-            MyClickableText(
-              onTap: () {
+            TextButton(
+              onPressed: () {
                 FocusScope.of(context).unfocus();
                 viewModel.goToLogin(GoRouter.of(context));
               },
-              text: strings.existingAccount,
+              child: Text(strings.existingAccount),
             ),
           ],
         ),
