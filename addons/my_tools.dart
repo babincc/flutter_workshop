@@ -1,7 +1,8 @@
 // @author Christian Babin
-// @version 1.1.1
-// https://github.com/babincc/flutter_workshop/blob/master/addons/tools.dart
+// @version 1.2.0
+// https://github.com/babincc/flutter_workshop/blob/master/addons/my_tools.dart
 
+import 'dart:collection';
 import 'dart:io';
 import 'dart:math';
 
@@ -254,5 +255,58 @@ class MyTools {
     }
 
     return isConnected;
+  }
+
+  /// Capitalizes the first letter of the given `text`.
+  ///
+  /// ```dart
+  /// capitalizeFirstLetter("howdy") == "Howdy"
+  /// capitalizeFirstLetter("hello world") == "Hello world"
+  /// ```
+  static String capitalizeFirstLetter(String text) {
+    if (text.length > 1) {
+      return text[0].toUpperCase() + text.substring(1);
+    } else {
+      return text[0].toUpperCase();
+    }
+  }
+
+  /// Capitalizes the first letter of each word in the given `text`.
+  ///
+  /// ```dart
+  /// capitalizeEachWord("howdy") == "Howdy"
+  /// capitalizeEachWord("hello world") == "Hello World"
+  /// ```
+  static String capitalizeEachWord(String text) {
+    final words = text.split(" ");
+
+    for (int i = 0; i < words.length; i++) {
+      words[i] = capitalizeFirstLetter(words[i]);
+    }
+
+    return words.join(" ");
+  }
+
+  /// Returns `true` if the given lists contain all the same values.
+  static bool listsMatch(List list1, List list2) {
+    final set1 = SplayTreeSet.from(list1);
+    final set2 = SplayTreeSet.from(list2);
+
+    return set1.intersection(set2).length == set1.length;
+  }
+
+  /// Returns `true` if the given lists contain all the same keys and values.
+  static bool mapsMatch(Map map1, Map map2) {
+    if (map1.length != map2.length) {
+      return false;
+    }
+
+    for (var key in map1.keys) {
+      if (!map2.containsKey(key) || map2[key] != map1[key]) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }
