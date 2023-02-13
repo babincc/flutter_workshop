@@ -1,6 +1,6 @@
 // @author Christian Babin
 // @version 2.0.0
-// https://github.com/babincc/flutter_workshop/blob/master/addons/alert.dart
+// https://github.com/babincc/flutter_workshop/blob/master/addons/my_alert.dart
 
 import 'dart:io' show Platform;
 
