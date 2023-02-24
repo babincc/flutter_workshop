@@ -1,3 +1,7 @@
+## 2.1.0 - February 24, 2023
+- Lowered Dart SDK requirement
+- Lowered Flutter SDK requirement
+
 ## 2.0.0 - February 23, 2023
 - Major update fixing lots of bugs
 
