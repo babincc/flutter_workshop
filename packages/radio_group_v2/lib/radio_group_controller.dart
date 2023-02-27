@@ -41,7 +41,17 @@ class RadioGroupController {
 
   GlobalKey<RadioGroupState>? get myRadioGroupKey => _myRadioGroupKey;
   set myRadioGroupKey(GlobalKey<RadioGroupState>? key) {
-    if (key == _myRadioGroupKey) return;
+    if (key == null) return;
+
+    if (key == _myRadioGroupKey) {
+      if (_myRadioGroupKey!.currentState != null &&
+          _myRadioGroupKey!.currentState!.mounted &&
+          _myRadioGroupKey!.currentState! != _myRadioGroup) {
+        _myRadioGroup = _myRadioGroupKey!.currentState!;
+      }
+
+      return;
+    }
 
     if (_myRadioGroup == null || !_myRadioGroup!.mounted) {
       _myRadioGroupKey = key;

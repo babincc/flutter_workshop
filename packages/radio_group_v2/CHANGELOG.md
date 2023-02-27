@@ -1,3 +1,6 @@
+## 2.1.1 - February 27, 2023
+- Fixed bug that caused issue with parent state changes
+
 ## 2.1.0 - February 24, 2023
 - Lowered Dart SDK requirement
 - Lowered Flutter SDK requirement
