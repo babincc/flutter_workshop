@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 2.0.0
+// @version 2.0.1
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_alert.dart
 
 import 'dart:io' show Platform;
@@ -117,7 +117,7 @@ class MyAlert extends StatelessWidget {
   final Map<String?, Function>? buttons;
 
   /// This method displays `this` alert to the screen.
-  void show(BuildContext context) => showDialog(
+  Future<void> show(BuildContext context) async => await showDialog(
         context: context,
         builder: (dialogContext) => this,
       );
