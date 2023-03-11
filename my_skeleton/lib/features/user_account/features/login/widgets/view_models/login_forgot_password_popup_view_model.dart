@@ -23,6 +23,7 @@ class LoginForgotPasswordPopupViewModel {
 
   /// The tests that are run to see if the user's email input is valid.
   List<MyTextFieldValidator> get emailValidators => [
+        const MyTextFieldValidator.testEmpty(testTrigger: TestTrigger.never),
         MyTextFieldValidator(
           test: (value) => MyValidator.isValidEmail(value),
           expected: true,
@@ -73,36 +74,27 @@ class LoginForgotPasswordPopupViewModel {
   Future<bool> hasInputError({bool displayErrorMsg = false}) async {
     // Check the email.
     bool emailHasError = false;
-    if (emailController.text.isEmpty) {
-      emailHasError = true;
 
+    if (emailFieldKey.currentState != null) {
+      emailHasError = await emailFieldKey.currentState!.hasErrors(
+        displayErrorMsg: displayErrorMsg,
+      );
+    }
+
+    // If it is a validly formatted email, see if it exists in Firebase.
+    if (!emailHasError &&
+        (await FirebaseAuth.instance
+                .fetchSignInMethodsForEmail(emailController.text.trim()))
+            .isEmpty) {
       if (displayErrorMsg) {
         MyTextFieldState.setErrorText(
           key: emailFieldKey,
-          errorText: strings.required,
+          errorText: strings.emailDoesNotExist,
         );
-      }
-    } else {
-      if (emailFieldKey.currentState != null) {
-        emailHasError = await emailFieldKey.currentState!.hasErrors(
-          displayErrorMsg: displayErrorMsg,
-        );
-      }
-
-      // If it is a validly formatted email, see if it exists in Firebase.
-      if (!emailHasError &&
-          (await FirebaseAuth.instance
-                  .fetchSignInMethodsForEmail(emailController.text.trim()))
-              .isEmpty) {
-        if (displayErrorMsg) {
-          MyTextFieldState.setErrorText(
-            key: emailFieldKey,
-            errorText: strings.emailDoesNotExist,
-          );
-        }
       }
     }
 
     return emailHasError;
   }
 }
+
