@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:my_skeleton/providers/my_theme_provider.dart';
 
 /// A custom text field that only contains the parameters I need in this app.
 ///
@@ -12,10 +11,15 @@ class MyTextField extends StatefulWidget {
     Key? key,
     this.controller,
     this.isPassword = false,
-    this.isNumber = false,
+    this.inputType,
+    this.keyboardType,
+    this.inputFormatters,
     this.label,
     this.hint,
     this.prefixIcon,
+    this.minLines,
+    this.maxLines,
+    this.maxLength,
     this.validators,
     this.onChanged,
     this.onEditingComplete,
@@ -44,9 +48,28 @@ class MyTextField extends StatefulWidget {
   /// typed.
   final bool isPassword;
 
-  /// If `true` the user will only be allowed to enter a number into the text
-  /// field.
-  final bool isNumber;
+  /// The minimum number of lines to display.
+  final int? minLines;
+
+  /// The maximum number of lines to display.
+  final int? maxLines;
+
+  /// The maximum number of characters allowed in the input.
+  final int? maxLength;
+
+  /// A preset input type that will be used to decide what kind of data can be
+  /// put into this field.
+  ///
+  /// Note if [keyboardType] or [inputFormatters] is not `null`, they will be
+  /// prioritized over this value.
+  final InputType? inputType;
+
+  /// Describes the layout of the soft keyboard that appears on screen for the
+  /// user.
+  final TextInputType? keyboardType;
+
+  /// [TextField.inputFormatters]
+  final List<TextInputFormatter>? inputFormatters;
 
   /// Tests that can be run on this text field's input as well as error messages
   /// if it fails.
@@ -68,23 +91,75 @@ class MyTextFieldState extends State<MyTextField> {
   /// know their input is invalid.
   String? errorText;
 
+  TextInputType? keyboardType;
+  List<TextInputFormatter>? inputFormatters;
+
+  @override
+  void initState() {
+    keyboardType = widget.keyboardType;
+    inputFormatters = widget.inputFormatters;
+
+    switch (widget.inputType) {
+      case InputType.email:
+        keyboardType ??= TextInputType.emailAddress;
+        break;
+      case InputType.phone:
+        keyboardType ??= TextInputType.phone;
+        inputFormatters ??= [
+          FilteringTextInputFormatter.allow(RegExp(r"^[0-9-]*$")),
+        ];
+        break;
+      case InputType.integer:
+        keyboardType ??= TextInputType.number;
+        inputFormatters ??= [
+          FilteringTextInputFormatter.allow(RegExp(r"^[0-9]*$")),
+        ];
+        break;
+      case InputType.signedInteger:
+        keyboardType ??= const TextInputType.numberWithOptions(signed: true);
+        inputFormatters ??= [
+          FilteringTextInputFormatter.allow(RegExp(r"^-?[0-9]*$")),
+        ];
+        break;
+      case InputType.decimal:
+        keyboardType ??= const TextInputType.numberWithOptions(decimal: true);
+        inputFormatters ??= [
+          FilteringTextInputFormatter.allow(RegExp(r"^[0-9]*(\.[0-9]*)?$")),
+        ];
+        break;
+      case InputType.signedDecimal:
+        keyboardType ??= const TextInputType.numberWithOptions(
+          signed: true,
+          decimal: true,
+        );
+        inputFormatters ??= [
+          FilteringTextInputFormatter.allow(RegExp(r"^-?[0-9]*(\.[0-9]*)?$")),
+        ];
+        break;
+      case InputType.any:
+      default:
+    }
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: widget.controller ?? TextEditingController(),
-      decoration: MyThemeProvider.of(context).myInputDecoration(
-        label: widget.label,
-        hint: widget.hint,
+      decoration: InputDecoration(
+        labelText: widget.label,
         prefixIcon: widget.prefixIcon,
+        hintText: widget.hint,
         errorText: errorText,
       ),
+      style: Theme.of(context).textTheme.bodyMedium,
       obscureText: widget.isPassword,
-      keyboardType: widget.isNumber
-          ? const TextInputType.numberWithOptions(decimal: true)
-          : null,
-      inputFormatters: widget.isNumber
-          ? [FilteringTextInputFormatter.allow(RegExp(r"^[0-9]*(\.[0-9]*)?$"))]
-          : null,
+      minLines: widget.minLines,
+      maxLines: widget.maxLines ?? 1,
+      maxLength: widget.maxLength,
+      keyboardType: keyboardType,
+      inputFormatters: inputFormatters,
       onChanged: (value) {
         // Run the function that was passed into this text field, if it exists.
         if (widget.onChanged != null) {
@@ -204,7 +279,7 @@ class MyTextFieldValidator {
   /// Pre-built validator to test if the text field input is empty.
   const MyTextFieldValidator.testEmpty({
     this.key,
-    this.errorText = "required",
+    this.errorText = "Required",
     this.testTrigger = TestTrigger.onComplete,
   })  : _test = _isEmpty,
         expected = false;
@@ -247,4 +322,28 @@ enum TestTrigger {
 
   /// Do not automatically run the validation tests.
   never,
+}
+
+/// Presets for [MyTextField].
+enum InputType {
+  /// Allows any characters to be input into the field.
+  any,
+
+  /// Changes the keyboard for easier email input.
+  email,
+
+  /// Changes they keyboard and input formatting.
+  phone,
+
+  /// Changes the keyboard to numbers only.
+  integer,
+
+  /// Changes the keyboard to numbers and negative sign only.
+  signedInteger,
+
+  /// Changes the keyboard to numbers and decimal only.
+  decimal,
+
+  /// Changes the keyboard to numbers, decimal, and negative sign only.
+  signedDecimal,
 }

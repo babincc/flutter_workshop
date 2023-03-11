@@ -3,15 +3,14 @@ import 'package:go_router/go_router.dart';
 import 'package:my_skeleton/constants/assets.dart';
 import 'package:my_skeleton/constants/strings/strings.dart';
 import 'package:my_skeleton/constants/theme/my_measurements.dart';
+import 'package:my_skeleton/features/user_account/features/login/screens/view_models/login_screen_view_model.dart';
+import 'package:my_skeleton/features/user_account/features/login/widgets/views/login_forgot_password_popup.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/providers/my_string_provider.dart';
 import 'package:my_skeleton/utils/my_tools.dart';
-import 'package:my_skeleton/widgets/my_scaffold.dart';
-import 'package:my_skeleton/widgets/my_text_field.dart';
+import 'package:my_skeleton/widgets/views/my_scaffold.dart';
+import 'package:my_skeleton/widgets/views/my_text_field.dart';
 import 'package:provider/provider.dart';
-
-import '../../widgets/login_forgot_password_popup.dart';
-import '../view_models/login_screen_view_model.dart';
 
 /// The screen the user is sent to when they are not connected to Firebase.
 class LoginScreen extends StatelessWidget {

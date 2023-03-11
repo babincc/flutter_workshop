@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:my_skeleton/domain/models/my_user.dart';
 import 'package:my_skeleton/domain/repos/my_user_repo.dart';
 import 'package:provider/provider.dart';
 
@@ -49,7 +50,13 @@ class MyAuthProvider extends ChangeNotifier {
             return;
           }
 
-          await MyUserRepo.createUserDoc(value.user!.uid);
+          MyUser myUser = MyUser(
+            id: value.user!.uid,
+            firstName: "",
+            lastName: "",
+          );
+
+          await MyUserRepo.createUserDoc(myUser);
 
           isLoggedIn = true;
         },

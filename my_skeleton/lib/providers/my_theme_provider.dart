@@ -6,17 +6,6 @@ import 'package:my_skeleton/constants/theme/my_measurements.dart';
 import 'package:my_skeleton/domain/services/my_theme_service.dart';
 import 'package:provider/provider.dart';
 
-/// The main brightness level of the app's UI.
-enum ThemeType {
-  /// All of the main background colors will be dark with lighter foreground
-  /// colors for contrast.
-  dark,
-
-  /// All of the main background colors will be light with darker foreground
-  /// colors for contrast.
-  light,
-}
-
 class MyThemeProvider extends ChangeNotifier {
   MyThemeProvider() : _themeType = ThemeType.dark {
     initThemeType();
@@ -35,51 +24,55 @@ class MyThemeProvider extends ChangeNotifier {
   MyColors get colors => MyColors(themeType);
 
   /// Returns the app UI's theme data based on the selected [_themeType].
-  ThemeData get themeData => ThemeData(
-        useMaterial3: true,
-        colorScheme: colors.colorScheme,
-        appBarTheme: AppBarTheme(
-          systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarIconBrightness: _themeType == ThemeType.light
-                ? Brightness.dark
-                : Brightness.light, // For Android (dark == dark icons)
-            statusBarBrightness: _themeType == ThemeType.light
-                ? Brightness.light
-                : Brightness.dark, // For iOS (light == dark icons)
-          ),
-        ),
-        canvasColor: colors.colorScheme.background,
-      );
-
-  /// The decoration for all of the text fields used in this app.
-  InputDecoration myInputDecoration({
-    String? label,
-    String? hint,
-    Icon? prefixIcon,
-    String? errorText,
-  }) {
-    OutlineInputBorder border = OutlineInputBorder(
+  ThemeData get themeData {
+    final OutlineInputBorder border = OutlineInputBorder(
       borderSide: BorderSide.none,
       borderRadius: BorderRadius.circular(MyMeasurements.borderRadius),
       gapPadding: MyMeasurements.textPadding,
     );
 
-    return InputDecoration(
-      labelText: label,
-      floatingLabelBehavior: FloatingLabelBehavior.always,
-      prefixIcon: prefixIcon,
-      hintText: hint,
-      errorText: errorText,
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: MyMeasurements.textPadding * 2,
-        vertical: MyMeasurements.textPadding,
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: colors.colorScheme,
+      appBarTheme: AppBarTheme(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarIconBrightness: _themeType == ThemeType.light
+              ? Brightness.dark
+              : Brightness.light, // For Android (dark == dark icons)
+          statusBarBrightness: _themeType == ThemeType.light
+              ? Brightness.light
+              : Brightness.dark, // For iOS (light == dark icons)
+        ),
       ),
-      filled: true,
-      fillColor: colors.textField,
-      enabledBorder: border,
-      focusedBorder: border,
-      errorBorder: border,
-      focusedErrorBorder: border,
+      canvasColor: colors.colorScheme.background,
+      inputDecorationTheme: InputDecorationTheme(
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: MyMeasurements.textPadding * 2,
+          vertical: MyMeasurements.textPadding,
+        ),
+        filled: true,
+        fillColor: colors.textField,
+        enabledBorder: border,
+        focusedBorder: border,
+        errorBorder: border,
+        focusedErrorBorder: border,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+          foregroundColor: MaterialStateColor.resolveWith(
+            (states) => colors.colorScheme.onPrimary,
+          ),
+          backgroundColor: MaterialStateColor.resolveWith(
+            (states) => colors.colorScheme.primary,
+          ),
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+      ),
+      dividerTheme: const DividerThemeData(
+        space: MyMeasurements.textPadding * 2.0,
+        thickness: 2.0,
+      ),
     );
   }
 
@@ -104,4 +97,15 @@ class MyThemeProvider extends ChangeNotifier {
 
   static MyThemeProvider of(BuildContext context, {bool listen = false}) =>
       Provider.of<MyThemeProvider>(context, listen: listen);
+}
+
+/// The main brightness level of the app's UI.
+enum ThemeType {
+  /// All of the main background colors will be dark with lighter foreground
+  /// colors for contrast.
+  dark,
+
+  /// All of the main background colors will be light with darker foreground
+  /// colors for contrast.
+  light,
 }

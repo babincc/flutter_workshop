@@ -133,7 +133,7 @@ class MyModalBottomSheetScaffold extends StatelessWidget {
                               Icons.arrow_back_ios,
                               size: Theme.of(context)
                                   .textTheme
-                                  .bodyText2
+                                  .bodyMedium
                                   ?.fontSize,
                             ),
                             Text(MyTools.capitalizeFirstLetter(strings.back))

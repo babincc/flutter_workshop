@@ -8,15 +8,12 @@ class MyUserService {
       FirebaseFirestore.instance.collection(DBCollections.col1);
 
   /// Creates a new user, and adds them to Firebase.
-  static Future<MyUser> createUserDoc(String userId) async {
-    /// The user object that is being created and sent to Firebase.
-    final MyUser myUser = MyUser(id: userId, firstName: "", lastName: "");
-
+  static Future<MyUser> createUserDoc(MyUser myUser) async {
     /// The bundle of documents that will be sent to Firebase to be created.
     WriteBatch batch = FirebaseFirestore.instance.batch();
 
     // The documents being sent to Firebase.
-    DocumentReference userDoc = usersCol.doc(userId);
+    DocumentReference userDoc = usersCol.doc(myUser.id);
     // TODO create other docs that should be sent with user creation
 
     // Prep the docs to go to Firebase.

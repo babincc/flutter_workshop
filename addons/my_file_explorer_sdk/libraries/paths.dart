@@ -1,7 +1,8 @@
 // @author Christian Babin
-// @version 1.0.0
+// @version 1.0.1
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_file_explorer_sdk.dart
 
+// ignore_for_file: always_use_package_imports
 import 'dart:io';
 
 import 'directories.dart';

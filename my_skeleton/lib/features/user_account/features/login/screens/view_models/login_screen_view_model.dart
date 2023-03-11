@@ -5,8 +5,8 @@ import 'package:my_skeleton/navigation/my_routes.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/utils/my_tools.dart';
 import 'package:my_skeleton/utils/my_validator.dart';
-import 'package:my_skeleton/widgets/my_alert.dart';
-import 'package:my_skeleton/widgets/my_text_field.dart';
+import 'package:my_skeleton/widgets/views/my_alert.dart';
+import 'package:my_skeleton/widgets/views/my_text_field.dart';
 
 /// This is used to control all of the logic on the login screen.
 class LoginScreenViewModel {
@@ -34,6 +34,7 @@ class LoginScreenViewModel {
 
   /// The tests that are run to see if the user's email input is valid.
   List<MyTextFieldValidator> get emailValidators => [
+        const MyTextFieldValidator.testEmpty(testTrigger: TestTrigger.never),
         MyTextFieldValidator(
           test: (value) => MyValidator.isValidEmail(value),
           expected: true,
@@ -124,21 +125,10 @@ class LoginScreenViewModel {
   /// Returns `true` if there are any errors.
   Future<bool> hasInputError({bool displayErrorMsg = false}) async {
     bool emailHasError = false;
-    if (emailController.text.isEmpty) {
-      emailHasError = true;
-
-      if (displayErrorMsg) {
-        MyTextFieldState.setErrorText(
-          key: emailFieldKey,
-          errorText: strings.required,
-        );
-      }
-    } else {
-      if (emailFieldKey.currentState != null) {
-        emailHasError = await emailFieldKey.currentState!.hasErrors(
-          displayErrorMsg: displayErrorMsg,
-        );
-      }
+    if (emailFieldKey.currentState != null) {
+      emailHasError = await emailFieldKey.currentState!.hasErrors(
+        displayErrorMsg: displayErrorMsg,
+      );
     }
 
     bool passwordHasError = false;

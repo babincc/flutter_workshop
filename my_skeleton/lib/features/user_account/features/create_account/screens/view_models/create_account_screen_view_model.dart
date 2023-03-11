@@ -6,8 +6,8 @@ import 'package:my_skeleton/navigation/my_routes.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/utils/my_tools.dart';
 import 'package:my_skeleton/utils/my_validator.dart';
-import 'package:my_skeleton/widgets/my_alert.dart';
-import 'package:my_skeleton/widgets/my_text_field.dart';
+import 'package:my_skeleton/widgets/views/my_alert.dart';
+import 'package:my_skeleton/widgets/views/my_text_field.dart';
 
 /// This is used to control all of the logic on the account creation screen.
 class CreateAccountScreenViewModel extends ChangeNotifier {
@@ -43,6 +43,7 @@ class CreateAccountScreenViewModel extends ChangeNotifier {
 
   /// The tests that are run to see if the user's email input is valid.
   List<MyTextFieldValidator> get emailValidators => [
+        const MyTextFieldValidator.testEmpty(testTrigger: TestTrigger.never),
         MyTextFieldValidator(
           test: (value) => MyValidator.isValidEmail(value),
           expected: true,
@@ -59,6 +60,7 @@ class CreateAccountScreenViewModel extends ChangeNotifier {
 
   /// The tests that are run to see if the user's password input is valid.
   List<MyTextFieldValidator> get passwordValidators => [
+        const MyTextFieldValidator.testEmpty(testTrigger: TestTrigger.never),
         MyTextFieldValidator(
           test: (value) => MyValidator.isValidPassword(value),
           expected: true,
@@ -68,6 +70,7 @@ class CreateAccountScreenViewModel extends ChangeNotifier {
 
   /// The tests that are run to see if the user's confirm input is valid.
   List<MyTextFieldValidator> get confirmPasswordValidators => [
+        const MyTextFieldValidator.testEmpty(testTrigger: TestTrigger.never),
         MyTextFieldValidator(
           test: (value) => value == passwordController.text.trim(),
           expected: true,
@@ -130,60 +133,27 @@ class CreateAccountScreenViewModel extends ChangeNotifier {
   Future<bool> hasInputError({bool displayErrorMsg = false}) async {
     // Check the email.
     bool emailHasError = false;
-    if (emailController.text.isEmpty) {
-      emailHasError = true;
-
-      if (displayErrorMsg) {
-        MyTextFieldState.setErrorText(
-          key: emailFieldKey,
-          errorText: strings.required,
-        );
-      }
-    } else {
-      if (emailFieldKey.currentState != null) {
-        emailHasError = await emailFieldKey.currentState!.hasErrors(
-          displayErrorMsg: displayErrorMsg,
-        );
-      }
+    if (emailFieldKey.currentState != null) {
+      emailHasError = await emailFieldKey.currentState!.hasErrors(
+        displayErrorMsg: displayErrorMsg,
+      );
     }
 
     // Check the password.
     bool passwordHasError = false;
-    if (passwordController.text.isEmpty) {
-      passwordHasError = true;
-
-      if (displayErrorMsg) {
-        MyTextFieldState.setErrorText(
-          key: passwordFieldKey,
-          errorText: strings.required,
-        );
-      }
-    } else {
-      if (passwordFieldKey.currentState != null) {
-        passwordHasError = await passwordFieldKey.currentState!.hasErrors(
-          displayErrorMsg: displayErrorMsg,
-        );
-      }
+    if (passwordFieldKey.currentState != null) {
+      passwordHasError = await passwordFieldKey.currentState!.hasErrors(
+        displayErrorMsg: displayErrorMsg,
+      );
     }
 
     // Check confirm password.
     bool confirmPasswordHasError = false;
-    if (confirmPasswordController.text.isEmpty) {
-      confirmPasswordHasError = true;
-
-      if (displayErrorMsg) {
-        MyTextFieldState.setErrorText(
-          key: confirmPasswordFieldKey,
-          errorText: strings.required,
-        );
-      }
-    } else {
-      if (confirmPasswordFieldKey.currentState != null) {
-        confirmPasswordHasError =
-            await confirmPasswordFieldKey.currentState!.hasErrors(
-          displayErrorMsg: displayErrorMsg,
-        );
-      }
+    if (confirmPasswordFieldKey.currentState != null) {
+      confirmPasswordHasError =
+          await confirmPasswordFieldKey.currentState!.hasErrors(
+        displayErrorMsg: displayErrorMsg,
+      );
     }
 
     return emailHasError || passwordHasError || confirmPasswordHasError;

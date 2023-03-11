@@ -16,6 +16,7 @@ class MyScaffold extends StatelessWidget {
     this.appBar,
     this.drawer,
     this.isCentered = true,
+    this.padEdges = true,
   }) : super(key: key);
 
   /// The app bar of this scaffold.
@@ -31,14 +32,34 @@ class MyScaffold extends StatelessWidget {
   /// screen.
   final bool isCentered;
 
+  /// Whether or not the preset padding will be applied to the edges of the screen.
+  final bool padEdges;
+
   @override
   Widget build(BuildContext context) {
+    EdgeInsets padding;
+
+    if (padEdges) {
+      if (appBar == null) {
+        padding = const EdgeInsets.all(MyMeasurements.distanceFromEdge);
+      } else {
+        padding = const EdgeInsets.fromLTRB(
+          MyMeasurements.distanceFromEdge,
+          0.0,
+          MyMeasurements.distanceFromEdge,
+          MyMeasurements.distanceFromEdge,
+        );
+      }
+    } else {
+      padding = EdgeInsets.zero;
+    }
+
     return Scaffold(
       appBar: appBar,
       drawer: drawer,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(MyMeasurements.distanceFromEdge),
+          padding: padding,
           child: _buildLayout(context),
         ),
       ),

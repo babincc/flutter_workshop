@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 1.2.0
+// @version 1.3.0
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_tools.dart
 
 import 'dart:collection';
@@ -308,5 +308,32 @@ class MyTools {
     }
 
     return true;
+  }
+
+  /// This method puts a zero width space in between every character in the
+  /// given `text`.
+  ///
+  /// This is useful when you want a string that wraps to the next line at the
+  /// character that hit the overflow limit rather than taking that whole word
+  /// to the next line.
+  ///
+  /// ```
+  /// Without this method:
+  /// aaaaaaaaaa-bbbbbbbbbb-
+  /// cccccccccc-dddddddddd
+  ///
+  /// With this method:
+  /// aaaaaaaaaa-bbbbbbbbbb-cccccc
+  /// cccc-dddddddddd
+  /// ```
+  static String wordBreak(String text) {
+    StringBuffer buffer = StringBuffer();
+
+    for (var element in text.runes) {
+      buffer.write(String.fromCharCode(element));
+      buffer.write("\u200B");
+    }
+
+    return buffer.toString();
   }
 }

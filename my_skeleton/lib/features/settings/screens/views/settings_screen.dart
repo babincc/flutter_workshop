@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:my_skeleton/features/settings/screens/view_models/settings_screen_view_model.dart';
 import 'package:my_skeleton/providers/my_theme_provider.dart';
-import 'package:my_skeleton/widgets/my_scaffold.dart';
+import 'package:my_skeleton/widgets/views/my_scaffold.dart';
 import 'package:provider/provider.dart';
-
-import '../view_models/settings_screen_view_model.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);

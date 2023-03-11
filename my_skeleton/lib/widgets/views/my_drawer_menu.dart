@@ -41,7 +41,7 @@ class MyDrawerMenu extends StatelessWidget {
                 ),
                 Text(
                   MyTools.capitalizeEachWord(strings.profile),
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
             ),
@@ -63,7 +63,7 @@ class MyDrawerMenu extends StatelessWidget {
                 ),
                 Text(
                   MyTools.capitalizeEachWord(strings.settings),
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
             ),
@@ -85,7 +85,7 @@ class MyDrawerMenu extends StatelessWidget {
                 ),
                 Text(
                   MyTools.capitalizeEachWord(strings.help),
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
             ),
@@ -107,7 +107,7 @@ class MyDrawerMenu extends StatelessWidget {
                 ),
                 Text(
                   MyTools.capitalizeEachWord(strings.logOut),
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
             ),

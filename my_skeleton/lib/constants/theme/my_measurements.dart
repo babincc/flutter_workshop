@@ -6,6 +6,9 @@ class MyMeasurements {
   /// The spacing between elements on the screen.
   static const double elementSpread = 12.5;
 
+  /// The spacing between sections on the screen.
+  static const double sectionSpread = 40.0;
+
   /// The space around text.
   ///
   /// This is normally applied to text within a button or text box.

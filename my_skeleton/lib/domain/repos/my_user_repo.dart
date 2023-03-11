@@ -3,8 +3,8 @@ import 'package:my_skeleton/domain/services/my_user_service.dart';
 
 class MyUserRepo {
   /// Creates a new user, and adds them to Firebase.
-  static Future<MyUser> createUserDoc(String userId) async {
-    return await MyUserService.createUserDoc(userId);
+  static Future<MyUser> createUserDoc(MyUser myUser) async {
+    return await MyUserService.createUserDoc(myUser);
   }
 
   /// Fetches the user from Firebase.

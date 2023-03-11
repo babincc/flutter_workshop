@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_skeleton/widgets/my_scaffold.dart';
+import 'package:my_skeleton/widgets/views/my_scaffold.dart';
 
 class HelpScreen extends StatelessWidget {
   const HelpScreen({Key? key}) : super(key: key);

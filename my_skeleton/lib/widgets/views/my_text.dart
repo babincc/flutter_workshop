@@ -99,10 +99,10 @@ class MyText extends StatelessWidget {
               fontWeight: FontWeight.bold,
             );
       case MyTextStyle.caption:
-        return Theme.of(context).textTheme.caption;
+        return Theme.of(context).textTheme.bodySmall;
       case MyTextStyle.body:
       default:
-        return Theme.of(context).textTheme.bodyText2;
+        return Theme.of(context).textTheme.bodyMedium;
     }
   }
 }

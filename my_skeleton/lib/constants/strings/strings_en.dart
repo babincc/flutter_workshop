@@ -1,6 +1,5 @@
 import 'package:my_skeleton/constants/strings/lang_code.dart';
-
-import 'strings.dart';
+import 'package:my_skeleton/constants/strings/strings.dart';
 
 /// A collection of all of the strings within the app.
 ///

@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 2.0.0
+// @version 2.1.0
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_alert.dart
 
 import 'dart:io' show Platform;
@@ -103,7 +103,10 @@ class MyAlert extends StatelessWidget {
     this.title,
     dynamic content,
     this.buttons,
-  })  : body = (content is Widget) ? content : Text(content.toString()),
+    this.barrierDismissible = true,
+  })  : body = (content is Widget)
+            ? content
+            : (content == null ? null : Text(content.toString())),
         super(key: key);
 
   /// The title at the top of the alert dialog box.
@@ -116,11 +119,37 @@ class MyAlert extends StatelessWidget {
   /// what they do.
   final Map<String?, Function>? buttons;
 
+  /// Whether or not this alert will close if the user clicks outside of it.
+  final bool barrierDismissible;
+
+  /// Keeps track of whether or not this alert is currently being displayed.
+  final _VisManager _visManager = _VisManager();
+
   /// This method displays `this` alert to the screen.
-  void show(BuildContext context) => showDialog(
+  Future<void> show(BuildContext context) async {
+    if (!_visManager.isVisible) {
+      _visManager.isBuilding = true;
+
+      await showDialog(
         context: context,
-        builder: (dialogContext) => this,
-      );
+        barrierDismissible: barrierDismissible,
+        builder: (dialogContext) {
+          _visManager.context = dialogContext;
+
+          return this;
+        },
+      ).whenComplete(() {
+        _visManager.isBuilding = false;
+      });
+    }
+  }
+
+  // This method closes `this` alert if it is currently being shown.
+  Future<void> close() async {
+    if (_visManager.isVisible || _visManager.isBuilding) {
+      await _closeAlert();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +176,7 @@ class MyAlert extends StatelessWidget {
             TextButton(
               onPressed: () {
                 // Close the dialog box once a button is pressed.
-                _closeAlert(context);
+                _closeAlert();
 
                 // Preform the action associated with that button.
                 action();
@@ -181,7 +210,7 @@ class MyAlert extends StatelessWidget {
             CupertinoDialogAction(
               onPressed: () {
                 // Close the dialog box once a button is pressed.
-                _closeAlert(context);
+                _closeAlert();
 
                 // Preform the action associated with that button.
                 action();
@@ -201,7 +230,30 @@ class MyAlert extends StatelessWidget {
   }
 
   /// This method closes the alert dialog box.
-  _closeAlert(BuildContext context) {
-    Navigator.pop(context);
+  Future<void> _closeAlert() async {
+    if (_visManager.isBuilding) {
+      await Future.doWhile(() =>
+          Future.delayed(const Duration(milliseconds: 100))
+              .then((value) => _visManager.isBuilding));
+    }
+
+    if (_visManager.isVisible) {
+      Navigator.pop(_visManager.context!);
+      _visManager.context = null;
+    }
   }
+}
+
+/// Keeps track of whether or not this alert is currently being displayed.
+class _VisManager {
+  /// If `null`, then the alert is not currently being shown.
+  BuildContext? context;
+
+  bool _isBuilding = false;
+
+  bool get isBuilding => _isBuilding && !isVisible;
+  set isBuilding(bool isBuilding) => _isBuilding = isBuilding;
+
+  /// Whether or not this alert is currently being shown.
+  bool get isVisible => context != null;
 }
