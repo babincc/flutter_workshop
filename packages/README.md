@@ -3,7 +3,8 @@
 Here are all the packages I have made. There will be a link on each one to tell you how to download each one for your project, as well as how to use each one, and other useful information.
 
 ### Table of Contents
-- [radio_group_v2](#radio_group_v2)
+- [Flutter Hue](#flutter_hue)
+- [Radio Group](#radio_group_v2)
 
 <!---     TEMPLATE
 ## class_name
@@ -16,6 +17,16 @@ Brief summary on the package...
 
 [back to top](#table-of-contents)
 --->
+
+## flutter_hue
+
+**[view on pub.dev](https://pub.dev/packages/flutter_hue)** (external link)
+
+**[source code](flutter_hue#readme)**
+
+An SDK designed for the Flutter framework that enables developers to easily integrate Philips Hue smart devices into their applications.
+
+[back to top](#table-of-contents)
 
 ## radio_group_v2
 
