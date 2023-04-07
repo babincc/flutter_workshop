@@ -1,3 +1,6 @@
+## 2.1.2 - April 7, 2023
+- Documentation updates
+
 ## 2.1.1 - February 27, 2023
 - Fixed bug that caused issue with parent state changes
 

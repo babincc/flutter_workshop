@@ -1,15 +1,10 @@
 # Flutter Hue
 
-<table style="border:hidden; margin: 0; padding: 0;">
-	<tr>
-		<td width="130" style="border:hidden; margin: 0; padding: 0;">
-			<img src="../resources/logos/flutter_hue_logo.png" alt="Flutter Hue logo" height="110" width="110">
-		</td>
-		<td style="vertical-align:top; border:hidden; margin: 0; padding: 0;">
-			An SDK designed for the Flutter framework that enables developers to easily integrate Philips Hue smart devices into their applications.
-		</td>
-	</tr>
-</table>
+<img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/logos/flutter_hue_logo.png" alt="Flutter Hue logo" height="110" width="110">
+
+An SDK designed for the Flutter framework that enables developers to easily integrate Philips Hue smart devices into their applications.
+
+Note: This SDK uses Philips Hue's new API v2.
 
 With Flutter Hue, developers can easily discover Hue bridges on the network, establish communication with them, and manipulate their connected devices. All of this is shown in the examples below. Also shown is how to chang the color of lights and turning them on and off.
 
@@ -24,7 +19,7 @@ Shown in this demo gif:
 5. Toggle a light on and off
 6. Change the color of a light
 
-![A gif demonstrating Flutter Hue in action.](../resources/demos/flutter_hue_demo.gif)
+![A gif demonstrating Flutter Hue in action.](https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/demos/flutter_hue_demo.gif)
 
 ## Installation
 
@@ -32,7 +27,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 
 ```yaml
 dependencies:
- flutter_hue: ^0.1.0
+ flutter_hue: ^0.1.1
 ```
 
 Import it to each file you use it in:
@@ -131,13 +126,15 @@ myBridge.put(myGroupedLight);
 <h3 align="center">If you found this helpful, please consider donating. Thanks!</h3>
 <p align="center">
   <a href="https://www.buymeacoffee.com/babincc" target="_blank">
-    <img src="../resources/donate_icons/buy_me_a_coffee_logo.png" alt="buy me a coffee" height="45">
+    <img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/donate_icons/buy_me_a_coffee_logo.png" alt="buy me a coffee" height="45">
   </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://paypal.me/cssbabin" target="_blank">
-    <img src="../resources/donate_icons/pay_pal_logo.png" alt="paypal" style="margin: 0px 15px;" height="45">
+    <img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/donate_icons/pay_pal_logo.png" alt="paypal" height="45">
   </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://venmo.com/u/babincc" target="_blank">
-    <img src="../resources/donate_icons/venmo_logo.png" alt="venmo" height="45">
+    <img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/donate_icons/venmo_logo.png" alt="venmo" height="45">
   </a>
 </p>
 <br><br>

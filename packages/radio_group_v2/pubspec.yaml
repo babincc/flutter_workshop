@@ -1,6 +1,6 @@
 name: radio_group_v2
 description: A widget that groups radio buttons so they can work together to give the user a pleasant experience when making selections within the app.
-version: 2.1.1
+version: 2.1.2
 repository: https://github.com/babincc/flutter_workshop/tree/master/packages/radio_group_v2
 issue_tracker: https://github.com/babincc/flutter_workshop/labels/plugin%3A%20radio_group_v2
 
