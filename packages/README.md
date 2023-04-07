@@ -22,7 +22,7 @@ Brief summary on the package...
 
 **[view on pub.dev](https://pub.dev/packages/flutter_hue)** (external link)
 
-**[source code](flutter_hue#README)**
+**[source code](flutter_hue#readme)**
 
 An SDK designed for the Flutter framework that enables developers to easily integrate Philips Hue smart devices into their applications.
 
@@ -32,7 +32,7 @@ An SDK designed for the Flutter framework that enables developers to easily inte
 
 **[view on pub.dev](https://pub.dev/packages/radio_group_v2)** (external link)
 
-**[source code](radio_group_v2#README)**
+**[source code](radio_group_v2#readme)**
 
 A widget that groups radio buttons so they can work together to give the user a pleasant experience when making selections within the app.
 
