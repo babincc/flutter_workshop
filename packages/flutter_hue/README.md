@@ -2,7 +2,7 @@
 
 <table style="border:hidden; margin: 0; padding: 0;">
 	<tr>
-		<td width="125" style="border:hidden; margin: 0; padding: 0;">
+		<td width="130" style="border:hidden; margin: 0; padding: 0;">
 			<img src="../resources/logos/flutter_hue_logo.png" alt="Flutter Hue logo" height="110" width="110">
 		</td>
 		<td style="vertical-align:top; border:hidden; margin: 0; padding: 0;">
