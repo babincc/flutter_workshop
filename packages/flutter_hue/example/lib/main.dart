@@ -96,6 +96,16 @@ class _HomePageState extends State<HomePage> {
         }
       },
     );
+
+    // Initialize Flutter Hue and keep all of the locally stored data up to
+    // date.
+    FlutterHueMaintenanceRepo.maintain(
+      clientId: "[clientId]",
+      clientSecret: "[clientSecret]",
+      redirectUri: "flutterhue://auth",
+      deviceName: "TestDevice",
+      stateEncrypter: (plaintext) => "abcd${plaintext}1234",
+    );
   }
 
   @override

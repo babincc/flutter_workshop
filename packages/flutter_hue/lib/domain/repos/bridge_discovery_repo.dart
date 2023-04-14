@@ -35,10 +35,11 @@ class BridgeDiscoveryRepo {
   /// decrypted. This parameter allows you to provide your own decryption
   /// method. This will be used in addition to the default decryption method.
   /// This will be performed after the default decryption method.
-  static Future<List<String>> discoverBridges(
-      {Directory? savedBridgesDir,
-      bool writeToLocal = true,
-      String Function(String ciphertext)? decrypter}) async {
+  static Future<List<String>> discoverBridges({
+    Directory? savedBridgesDir,
+    bool writeToLocal = true,
+    String Function(String ciphertext)? decrypter,
+  }) async {
     /// The bridges already saved to this device.
     List<Bridge> savedBridges;
 
@@ -178,7 +179,7 @@ class BridgeDiscoveryRepo {
           counter++;
 
           // Timeout after [timeoutSeconds].
-          if (counter >= timeoutController.timeoutSeconds) return false;
+          if (counter > timeoutController.timeoutSeconds) return false;
 
           // Cancel if called to do so, early.
           if (timeoutController.cancelDiscovery) {
@@ -201,7 +202,7 @@ class BridgeDiscoveryRepo {
                   "link button not pressed";
             } else {
               appKey = response![ApiFields.success][ApiFields.username];
-              return appKey!.isEmpty;
+              return appKey == null || appKey!.isEmpty;
             }
           } catch (_) {
             return true;
@@ -365,6 +366,9 @@ class BridgeDiscoveryRepo {
   /// decrypted. This parameter allows you to provide your own decryption
   /// method. This will be used in addition to the default decryption method.
   /// This will be performed after the default decryption method.
+  ///
+  /// `directory` The directory where the bridge data will be saved. If this is
+  /// not provided, the default directory will be used.
   ///
   /// If the bridges are not saved to the default folder location, provide their
   /// location with `directory`.

@@ -79,7 +79,7 @@ class HueHttpRepo {
     ).timeout(
       const Duration(seconds: 1),
       onTimeout: () async {
-        String? token = await TokenRepo.getToken(decrypter: decrypter);
+        String? token = await TokenRepo.fetchToken(decrypter: decrypter);
 
         return await HueHttpClient.get(
           url: getTargetUrl(
@@ -139,7 +139,7 @@ class HueHttpRepo {
     ).timeout(
       const Duration(seconds: 1),
       onTimeout: () async {
-        String? token = await TokenRepo.getToken(decrypter: decrypter);
+        String? token = await TokenRepo.fetchToken(decrypter: decrypter);
 
         return await HueHttpClient.post(
           url: getTargetUrl(
@@ -200,7 +200,7 @@ class HueHttpRepo {
     ).timeout(
       const Duration(seconds: 1),
       onTimeout: () async {
-        String? token = await TokenRepo.getToken(decrypter: decrypter);
+        String? token = await TokenRepo.fetchToken(decrypter: decrypter);
 
         return await HueHttpClient.put(
           url: getTargetUrl(
@@ -257,7 +257,7 @@ class HueHttpRepo {
     ).timeout(
       const Duration(seconds: 1),
       onTimeout: () async {
-        String? token = await TokenRepo.getToken(decrypter: decrypter);
+        String? token = await TokenRepo.fetchToken(decrypter: decrypter);
 
         return await HueHttpClient.delete(
           url: getTargetUrl(

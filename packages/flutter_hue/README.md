@@ -27,7 +27,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 
 ```yaml
 dependencies:
- flutter_hue: ^1.0.0
+	flutter_hue: ^1.0.0
 ```
 
 Import it to each file you use it in:
@@ -46,6 +46,22 @@ Due to the length of these instructions, they have been placed in their own docu
 
 Once you have completed the steps in the above document, you will be able to communicate with a bridge remotely using the same steps as all of the examples below.
 
+### Highly Recommended
+
+It is not necessary, but it is highly recommended that you add this code snippet to the root of your app. It will keep the locally stored data (bridges, tokens, etc.) up to date.
+
+```dart
+FlutterHueMaintenanceRepo.maintain(
+	clientId: "[clientId]",
+	clientSecret: "[clientSecret]",
+	redirectUri: "flutterhue://auth",
+	deviceName: "TestDevice",
+	stateEncrypter: (plaintext) => "abcd${plaintext}1234",
+);
+```
+
+Note: If your app does not support remote connection, just use `FlutterHueMaintenanceRepo.maintainBridges` to maintain your local data.
+
 ### Example 1
 
 This example shows how to get a list of all of the IP addresses of the Philips Hue bridges on the network.
@@ -62,8 +78,8 @@ Warning: Any device with this key will have access to the bridge. It is meant to
 
 ``` dart
 Bridge myBridge = await BridgeDiscoveryRepo.firstContact(
-  bridgeIpAddr: 192.168.1.1, // Get IP in example 1
-  controller: timeoutController,
+	bridgeIpAddr: 192.168.1.1, // Get IP in example 1
+	controller: timeoutController,
 );
 ```
 
@@ -119,7 +135,7 @@ Relative myRelative = myHueNetwork
 
 // Get the group who's ID was just found
 GroupedLight myGroupedLight = myHueNetwork.groupedLights.firstWhere(
-  (groupedLight) => groupedLight.id == myRelative.id,
+	(groupedLight) => groupedLight.id == myRelative.id,
 );
 
 // Toggle the on/off state

@@ -180,13 +180,6 @@ class TokenRepo {
 
   /// Returns a token for remote access.
   ///
-  /// `clientId` Identifies the client that is making the request. The value
-  /// passed in this parameter must exactly match the value you receive from
-  /// hue.
-  ///
-  /// `clientSecret` The client secret you have received from Hue when
-  /// registering for the Hue Remote API.
-  ///
   /// `decrypter` When the old tokens are read from local storage, they are
   /// decrypted. This parameter allows you to provide your own decryption
   /// method. This will be used in addition to the default decryption method.
@@ -196,22 +189,13 @@ class TokenRepo {
   ///
   /// May throw [ExpiredAccessTokenException] if the token is expired. If this
   /// happens, refresh the token with [refreshRemoteToken].
-  static Future<String?> getToken({
+  static Future<String?> fetchToken({
     String Function(String ciphertext)? decrypter,
   }) async {
-    /// The state token data that is stored in local storage.
-    String storedTokenDataStr;
+    Map<String, dynamic>? storedTokenData =
+        await fetchTokenData(decrypter: decrypter);
 
-    // Read the state secret from local storage.
-    storedTokenDataStr = await LocalStorageRepo.read(
-          folder: Folder.remoteTokens,
-          fileName: remoteTokenFile,
-          decrypter: decrypter,
-        ) ??
-        "";
-
-    Map<String, dynamic> storedTokenData =
-        JsonTool.readJson(storedTokenDataStr);
+    if (storedTokenData == null) return null;
 
     String? token = storedTokenData[ApiFields.accessToken];
     String? expirationDateStr = storedTokenData[ApiFields.expirationDate];
@@ -228,5 +212,46 @@ class TokenRepo {
     }
 
     return token;
+  }
+
+  /// Returns a token for remote access.
+  ///
+  /// `decrypter` When the old tokens are read from local storage, they are
+  /// decrypted. This parameter allows you to provide your own decryption
+  /// method. This will be used in addition to the default decryption method.
+  /// This will be performed after the default decryption method.
+  ///
+  /// If the token is not found, returns `null`.
+  ///
+  /// May throw [ExpiredAccessTokenException] if the token is expired. If this
+  /// happens, refresh the token with [refreshRemoteToken].
+  @Deprecated('Use fetchToken instead')
+  static Future<String?> getToken({
+    String Function(String ciphertext)? decrypter,
+  }) async =>
+      fetchToken(decrypter: decrypter);
+
+  /// Returns a token for remote access along with its refresh token, expiration
+  /// date, and type.
+  ///
+  /// `decrypter` When the old tokens are read from local storage, they are
+  /// decrypted. This parameter allows you to provide your own decryption
+  /// method. This will be used in addition to the default decryption method.
+  /// This will be performed after the default decryption method.
+  ///
+  /// If the token is not found, returns `null`.
+  static Future<Map<String, dynamic>?> fetchTokenData({
+    String Function(String ciphertext)? decrypter,
+  }) async {
+    /// The state token data that is stored in local storage.
+    String? storedTokenDataStr = await LocalStorageRepo.read(
+      folder: Folder.remoteTokens,
+      fileName: remoteTokenFile,
+      decrypter: decrypter,
+    );
+
+    if (storedTokenDataStr == null) return null;
+
+    return JsonTool.readJson(storedTokenDataStr);
   }
 }
