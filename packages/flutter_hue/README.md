@@ -38,6 +38,14 @@ Import it to each file you use it in:
 
 ## Usage
 
+### Establishing Remote Connection
+
+Without doing this, your app will only be able to communicate with Philips Hue bridges that are on the same network as the user's device. This section will show you how to establish a remote connection with a bridge; that way, it can be controlled from anywhere in the world.
+
+Due to the length of these instructions, they have been placed in their own document, [here](https://github.com/babincc/flutter_workshop/blob/master/packages/flutter_hue/remote_connection_instructions.md).
+
+Once you have completed the steps in the above document, you will be able to communicate with a bridge remotely using the same steps as all of the examples below.
+
 ### Example 1
 
 This example shows how to get a list of all of the IP addresses of the Philips Hue bridges on the network.
@@ -120,14 +128,6 @@ myGroupedLight.on.isOn = !myGroupedLight.on.isOn;
 // PUT the new state
 myBridge.put(myGroupedLight);
 ```
-
-### Establishing Remote Connection
-
-So far, the examples have only shown how to communicate with Philips Hue bridges that are on the same network as the user's device. This section will show you how to establish a remote connection with a bridge; that way, it can be controlled from anywhere in the world.
-
-Due to the length of these instructions, they have been placed in their own document, [here](https://github.com/babincc/flutter_workshop/blob/master/packages/flutter_hue/remote_connection_instructions.md).
-
-Once you have completed the steps in the above document, you will be able to communicate with a bridge remotely using the same steps as all of the other examples above.
 
 <hr>
 
