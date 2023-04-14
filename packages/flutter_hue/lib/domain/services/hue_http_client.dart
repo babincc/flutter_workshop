@@ -23,10 +23,12 @@ class HueHttpClient {
   static Future<Map<String, dynamic>?> get({
     required String url,
     required String applicationKey,
+    required String? token,
   }) async =>
-      _submitRequest(
+      await _submitRequest(
         url: url,
         applicationKey: applicationKey,
+        token: token,
         body: null,
         requestType: _RequestType.get,
       );
@@ -42,11 +44,13 @@ class HueHttpClient {
   static Future<Map<String, dynamic>?> post({
     required String url,
     required String? applicationKey,
+    required String? token,
     required String body,
   }) async =>
-      _submitRequest(
+      await _submitRequest(
         url: url,
         applicationKey: applicationKey,
+        token: token,
         body: body,
         requestType: _RequestType.post,
       );
@@ -62,11 +66,13 @@ class HueHttpClient {
   static Future<Map<String, dynamic>?> put({
     required String url,
     required String applicationKey,
+    required String? token,
     required String body,
   }) async =>
-      _submitRequest(
+      await _submitRequest(
         url: url,
         applicationKey: applicationKey,
+        token: token,
         body: body,
         requestType: _RequestType.put,
       );
@@ -80,10 +86,12 @@ class HueHttpClient {
   static Future<Map<String, dynamic>?> delete({
     required String url,
     required String applicationKey,
+    required String? token,
   }) async =>
-      _submitRequest(
+      await _submitRequest(
         url: url,
         applicationKey: applicationKey,
+        token: token,
         body: null,
         requestType: _RequestType.delete,
       );
@@ -101,10 +109,16 @@ class HueHttpClient {
   static Future<Map<String, dynamic>?> _submitRequest({
     required String url,
     required String? applicationKey,
+    required String? token,
     required String? body,
     required _RequestType requestType,
   }) async {
-    _HuePacket huePacket = _HuePacket(url: url, appKey: applicationKey);
+    _HuePacket huePacket = _HuePacket(
+      type: requestType,
+      url: url,
+      appKey: applicationKey,
+      token: token,
+    );
 
     Response response;
     switch (requestType) {
@@ -139,19 +153,38 @@ class HueHttpClient {
 /// It is included in its own class to reduce boilerplate.
 class _HuePacket {
   const _HuePacket({
+    required this.type,
     required this.url,
     required this.appKey,
+    required this.token,
   });
 
+  final _RequestType type;
   final String url;
   final String? appKey;
+  final String? token;
 
   Uri get uri => Uri.parse(url);
-  Map<String, String>? get headers => appKey == null
-      ? null
-      : {
-          "hue-application-key": appKey!,
-        };
+  Map<String, String>? get headers {
+    Map<String, String> toReturn = {};
+
+    if (token != null) {
+      toReturn["Authorization"] = "Bearer ${token!}";
+    }
+
+    if (appKey != null) {
+      toReturn["hue-application-key"] = appKey!;
+    }
+
+    if (identical(type, _RequestType.put) ||
+        identical(type, _RequestType.post)) {
+      toReturn["Content-Type"] = "application/json";
+    }
+
+    if (toReturn.isEmpty) return null;
+
+    return toReturn;
+  }
 }
 
 /// The type of HTTP request being made.

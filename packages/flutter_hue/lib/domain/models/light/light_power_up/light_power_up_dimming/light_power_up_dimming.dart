@@ -19,7 +19,7 @@ class LightPowerUpDimming extends LightDimming {
 
     return LightPowerUpDimming(
       mode: LightPowerUpDimmingMode.fromString(dataMap[ApiFields.mode] ?? ""),
-      brightness: (dimmingMap[ApiFields.brightness] ?? 0.0).toDouble(),
+      brightness: ((dimmingMap[ApiFields.brightness] ?? 0.0) as num).toDouble(),
     );
   }
 

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_hue/constants/api_fields.dart';
 
 /// Miscellanies tools that are used throughout the app.
@@ -156,5 +158,24 @@ class MiscTools {
     map.forEach((key, value) => hashes.add(Object.hash(key, value)));
 
     return Object.hashAllUnordered(hashes);
+  }
+
+  /// This method generates and returns a random integer from `min` to `max`
+  /// (inclusive).
+  static int randInt(int min, int max) {
+    // If `min` and `max` are the same number, just return that number.
+    if (min == max) {
+      return min;
+    }
+
+    // If `min` is greater than `max`, swap their values.
+    if (min > max) {
+      int temp = min;
+      min = max;
+      max = temp;
+    }
+
+    // Find the random number in the range, and return it.
+    return Random().nextInt((max + 1) - min) + min;
   }
 }

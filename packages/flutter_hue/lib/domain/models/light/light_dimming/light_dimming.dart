@@ -16,7 +16,7 @@ class LightDimming {
   /// Creates a [LightDimming] object from the JSON response to a GET request.
   factory LightDimming.fromJson(Map<String, dynamic> dataMap) {
     return LightDimming(
-      brightness: dataMap[ApiFields.brightness] ?? 0.0,
+      brightness: ((dataMap[ApiFields.brightness] ?? 0.0) as num).toDouble(),
     );
   }
 

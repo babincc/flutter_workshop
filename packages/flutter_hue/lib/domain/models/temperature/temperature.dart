@@ -38,7 +38,9 @@ class Temperature extends Resource {
       owner: Relative.fromJson(
           Map<String, dynamic>.from(data[ApiFields.owner] ?? {})),
       isEnabled: data[ApiFields.isEnabled] ?? false,
-      temperatureCelsius: innerTemperatureMap[ApiFields.temperature] ?? 0.0,
+      temperatureCelsius:
+          ((innerTemperatureMap[ApiFields.temperature] ?? 0.0) as num)
+              .toDouble(),
       isValidTemperature:
           innerTemperatureMap[ApiFields.temperatureValid] ?? false,
     );

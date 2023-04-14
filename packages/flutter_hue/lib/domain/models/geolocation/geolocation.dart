@@ -39,8 +39,8 @@ class Geolocation extends Resource {
       id: data[ApiFields.id] ?? "",
       idV1: data[ApiFields.idV1] ?? "",
       isConfigured: data[ApiFields.isConfigured] ?? false,
-      latitude: data[ApiFields.latitude],
-      longitude: data[ApiFields.longitude],
+      latitude: (data[ApiFields.latitude] as num?)?.toDouble(),
+      longitude: (data[ApiFields.longitude] as num?)?.toDouble(),
     );
   }
 

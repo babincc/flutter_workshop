@@ -21,8 +21,8 @@ class LightColorXy {
   /// Creates a [LightColorXy] object from the JSON response to a GET request.
   factory LightColorXy.fromJson(Map<String, dynamic> dataMap) {
     return LightColorXy(
-      x: dataMap[ApiFields.x] ?? 0.0,
-      y: dataMap[ApiFields.y] ?? 0.0,
+      x: ((dataMap[ApiFields.x] ?? 0.0) as num).toDouble(),
+      y: ((dataMap[ApiFields.y] ?? 0.0) as num).toDouble(),
     );
   }
 

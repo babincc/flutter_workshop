@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 0.1.1
+// @version 1.0.0
 // https://github.com/babincc/flutter_workshop/blob/master/packages/flutter_hue/lib/flutter_hue.dart
 
 library flutter_hue;
@@ -105,7 +105,10 @@ export 'package:flutter_hue/domain/models/zigbee_device_discovery/zigbee_device_
 export 'package:flutter_hue/domain/models/zone/zone.dart';
 export 'package:flutter_hue/domain/repos/bridge_discovery_repo.dart';
 export 'package:flutter_hue/domain/repos/hue_http_repo.dart';
+export 'package:flutter_hue/domain/repos/local_storage_repo.dart';
+export 'package:flutter_hue/domain/repos/token_repo.dart';
 export 'package:flutter_hue/exceptions/coordinate_exception.dart';
+export 'package:flutter_hue/exceptions/expired_token_exception.dart';
 export 'package:flutter_hue/exceptions/gradient_exception.dart';
 export 'package:flutter_hue/exceptions/invalid_id_exception.dart';
 export 'package:flutter_hue/exceptions/invalid_name_exception.dart';

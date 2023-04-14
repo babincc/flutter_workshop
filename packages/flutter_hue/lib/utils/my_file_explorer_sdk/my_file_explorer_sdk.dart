@@ -229,6 +229,7 @@ class MyFileExplorerSDK {
     required LocalDir localDir,
     String? subPath,
     required String fileName,
+    bool validateFileName = true,
   }) async {
     String path;
     final String fileNameSterile = sterilizeFileName(fileName);
@@ -240,8 +241,10 @@ class MyFileExplorerSDK {
     }
 
     // Check for valid file name.
-    if (!isValidFileName(fileName)) {
-      throw FormatException("$fileName is not a valid file name!");
+    if (validateFileName) {
+      if (!isValidFileName(fileName)) {
+        throw FormatException("$fileName is not a valid file name!");
+      }
     }
 
     return "$path${Platform.pathSeparator}$fileNameSterile";

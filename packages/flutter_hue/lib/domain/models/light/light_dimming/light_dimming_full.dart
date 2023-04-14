@@ -16,8 +16,8 @@ class LightDimmingFull extends LightDimming {
   /// request.
   factory LightDimmingFull.fromJson(Map<String, dynamic> dataMap) {
     return LightDimmingFull(
-      brightness: dataMap[ApiFields.brightness] ?? 0.0,
-      minDimLevel: dataMap[ApiFields.minDimLevel] ?? 0.0,
+      brightness: ((dataMap[ApiFields.brightness] ?? 0.0) as num).toDouble(),
+      minDimLevel: ((dataMap[ApiFields.minDimLevel] ?? 0.0) as num).toDouble(),
     );
   }
 

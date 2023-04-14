@@ -61,7 +61,7 @@ class Scene extends Resource {
           Map<String, dynamic>.from(data[ApiFields.group] ?? {})),
       palette: ScenePalette.fromJson(
           Map<String, dynamic>.from(data[ApiFields.palette] ?? {})),
-      speed: data[ApiFields.speed] ?? 0,
+      speed: ((data[ApiFields.speed] ?? 0.0) as num).toDouble(),
       autoDynamic: data[ApiFields.autoDynamic] ?? false,
     );
   }
@@ -78,9 +78,9 @@ class Scene extends Resource {
         _originalActions = [],
         _originalRecall = SceneRecall.empty(),
         _originalMetadata = SceneMetadata.empty(),
-        _originalSpeed = 0,
+        _originalSpeed = 0.0,
         _originalPalette = ScenePalette.empty(),
-        _speed = 0,
+        _speed = 0.0,
         _originalAutoDynamic = false,
         super.empty();
 

@@ -27,7 +27,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 
 ```yaml
 dependencies:
- flutter_hue: ^0.1.1
+ flutter_hue: ^1.0.0
 ```
 
 Import it to each file you use it in:
@@ -91,7 +91,7 @@ myLight = myLight
 		),
 	);
 
-// Send the PUT request to change the color of the ligth.
+// Send the PUT request to change the color of the light.
 await bridge.put(myLight);
 ```
 
@@ -120,6 +120,14 @@ myGroupedLight.on.isOn = !myGroupedLight.on.isOn;
 // PUT the new state
 myBridge.put(myGroupedLight);
 ```
+
+### Establishing Remote Connection
+
+So far, the examples have only shown how to communicate with Philips Hue bridges that are on the same network as the user's device. This section will show you how to establish a remote connection with a bridge; that way, it can be controlled from anywhere in the world.
+
+Due to the length of these instructions, they have been placed in their own document, [here](https://github.com/babincc/flutter_workshop/blob/master/packages/flutter_hue/remote_connection_instructions.md).
+
+Once you have completed the steps in the above document, you will be able to communicate with a bridge remotely using the same steps as all of the other examples above.
 
 <hr>
 

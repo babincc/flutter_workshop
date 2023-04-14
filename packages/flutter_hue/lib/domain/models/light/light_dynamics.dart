@@ -30,7 +30,7 @@ class LightDynamics {
     return LightDynamics(
       status: dataMap[ApiFields.status] ?? "",
       statusValues: List<String>.from(dataMap[ApiFields.statusValues] ?? []),
-      speed: dataMap[ApiFields.speed] ?? 0.0,
+      speed: ((dataMap[ApiFields.speed] ?? 0.0) as num).toDouble(),
       speedValid: dataMap[ApiFields.speedValid] ?? false,
       durationMilliseconds: dataMap[ApiFields.duration],
     );

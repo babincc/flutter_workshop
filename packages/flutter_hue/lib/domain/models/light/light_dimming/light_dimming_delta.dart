@@ -22,7 +22,7 @@ class LightDimmingDelta {
     return LightDimmingDelta(
       action:
           LightDimmingDeltaAction.fromString(dataMap[ApiFields.action] ?? ""),
-      delta: dataMap[ApiFields.brightnessDelta],
+      delta: ((dataMap[ApiFields.brightnessDelta]) as num?)?.toDouble(),
     );
   }
 

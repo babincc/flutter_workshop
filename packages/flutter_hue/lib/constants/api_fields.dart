@@ -6,6 +6,8 @@
 /// parts of the code. This also allows for name changes on Philips Hue's side
 /// without having to change the name in several places in the code here.
 class ApiFields {
+  static const String accessToken = "access_token";
+
   static const String action = "action";
 
   static const String actions = "actions";
@@ -50,6 +52,14 @@ class ApiFields {
 
   static const String children = "children";
 
+  static const String clientId = "client_id";
+
+  static const String code = "code";
+
+  static const String codeChallenge = "code_challenge";
+
+  static const String codeChallengeMethod = "code_challenge_method";
+
   static const String color = "color";
 
   static const String colorTemperature = "color_temperature";
@@ -71,6 +81,10 @@ class ApiFields {
   static const String dependees = "dependees";
 
   static const String description = "description";
+
+  static const String deviceId = "deviceid";
+
+  static const String deviceName = "devicename";
 
   static const String deviceType = "devicetype";
 
@@ -97,6 +111,10 @@ class ApiFields {
   static const String errors = "errors";
 
   static const String estimatedEnd = "estimated_end";
+
+  static const String expiresIn = "expires_in";
+
+  static const String expirationDate = "expiration_date";
 
   static const String fabricData = "fabric_data";
 
@@ -230,6 +248,8 @@ class ApiFields {
 
   static const String pixelCount = "pixel_count";
 
+  static const String pkce = "pkce";
+
   static const String points = "points";
 
   static const String pointsCapable = "points_capable";
@@ -256,7 +276,13 @@ class ApiFields {
 
   static const String red = "red";
 
+  static const String redirectUri = "redirect_uri";
+
+  static const String refreshToken = "refresh_token";
+
   static const String relativeRotary = "relative_rotary";
+
+  static const String responseType = "response_type";
 
   static const String rid = "rid";
 
@@ -328,11 +354,15 @@ class ApiFields {
 
   static const String timeZone = "time_zone";
 
+  static const String tokenType = "token_type";
+
   static const String trigger = "trigger";
 
   static const String triggerSchema = "trigger_schema";
 
   static const String type = "type";
+
+  static const String username = "username";
 
   static const String vendorId = "vendor_id";
 
