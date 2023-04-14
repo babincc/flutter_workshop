@@ -6,7 +6,7 @@ An SDK designed for the Flutter framework that enables developers to easily inte
 
 Note: This SDK uses Philips Hue's new API v2.
 
-With Flutter Hue, developers can easily discover Hue bridges on the network, establish communication with them, and manipulate their connected devices. All of this is shown in the examples below. Also shown is how to chang the color of lights and turning them on and off.
+With Flutter Hue, developers can easily discover Hue bridges on the network, establish communication with them, and manipulate their connected devices. All of this is shown in the examples below. Also shown is how to change the color of lights and turning them on and off.
 
 ## Features
 
