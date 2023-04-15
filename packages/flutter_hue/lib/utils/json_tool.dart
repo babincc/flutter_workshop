@@ -6,6 +6,8 @@ class JsonTool {
   ///
   /// May throw a FormatException if the input string is not valid JSON.
   static Map<String, dynamic> readJson(String json) {
+    if (json.isEmpty) return {};
+
     dynamic jsonObj = jsonDecode(json);
 
     if (jsonObj is Map<String, dynamic>) {
@@ -28,6 +30,8 @@ class JsonTool {
   ///
   /// May throw a [FormatException] if the input string is not valid JSON.
   static List<Map<String, dynamic>>? readJsonOr(String json) {
+    if (json.isEmpty) return null;
+
     dynamic jsonObj = jsonDecode(json);
 
     if (jsonObj is Map<String, dynamic>) {
@@ -51,9 +55,18 @@ class JsonTool {
   ///
   /// May throw a FormatException if the input string is not valid JSON.
   static List<Map<String, dynamic>> readJsonList(String json) {
+    if (json.isEmpty) return [];
+
     dynamic jsonObj = jsonDecode(json);
 
     if (jsonObj is List<dynamic>) {
+      for (dynamic object in jsonObj) {
+        if (object is! Map<String, dynamic>) {
+          throw const FormatException(
+              "The JSON string is not a list of Map<String, dynamic>");
+        }
+      }
+
       return List<Map<String, dynamic>>.from(
         jsonObj.map(
           (result) => Map<String, dynamic>.from(result),

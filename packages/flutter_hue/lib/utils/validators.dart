@@ -94,9 +94,10 @@ class Validators {
   /// Returns `true` if the given `scriptVersion` conforms to the proper regex
   /// pattern.
   ///
-  /// Regex pattern `^[1-9]?[0-9]{0,2}([.][0-9]{1,3}){1,2}`
+  /// Regex pattern `^(?!^\.)[0-9]{0,3}([.][0-9]{1,3}){1,2}$`
   static bool isValidScriptVersion(String scriptVersion) =>
-      RegExp(r"^[1-9]?[0-9]{0,2}([.][0-9]{1,3}){1,2}").hasMatch(scriptVersion);
+      RegExp(r"^(?!^\.)[0-9]{0,3}([.][0-9]{1,3}){1,2}$")
+          .hasMatch(scriptVersion);
 
   /// Returns `true` if the given `softwareVersion` conforms to the proper regex
   /// pattern.
