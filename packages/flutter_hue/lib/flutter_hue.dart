@@ -123,6 +123,7 @@ export 'package:flutter_hue/exceptions/percentage_exception.dart';
 export 'package:flutter_hue/exceptions/reauth_required_exception.dart';
 export 'package:flutter_hue/exceptions/time_format_exception.dart';
 export 'package:flutter_hue/exceptions/unit_interval_exception.dart';
+export 'package:flutter_hue/utils/color_converter.dart';
 export 'package:flutter_hue/utils/date_time_tool.dart';
 export 'package:flutter_hue/utils/json_tool.dart';
 export 'package:flutter_hue/utils/misc_tools.dart';

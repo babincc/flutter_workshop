@@ -33,6 +33,6 @@ flutter:
     - family: HueIcon
       fonts:
       - asset: packages/flutter_hue/assets/fonts/HueIcon.ttf
-    - family: HueIconsV1
+    - family: HueIconV1
       fonts:
-      - asset: packages/flutter_hue/assets/fonts/HueIconsV1.ttf
+      - asset: packages/flutter_hue/assets/fonts/HueIconV1.ttf
