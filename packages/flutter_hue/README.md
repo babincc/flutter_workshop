@@ -55,8 +55,6 @@ FlutterHueMaintenanceRepo.maintain(
 	clientId: "[clientId]",
 	clientSecret: "[clientSecret]",
 	redirectUri: "flutterhue://auth",
-	deviceName: "TestDevice",
-	stateEncrypter: (plaintext) => "abcd${plaintext}1234",
 );
 ```
 
