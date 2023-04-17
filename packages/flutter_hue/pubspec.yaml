@@ -1,6 +1,6 @@
 name: flutter_hue
 description: An SDK designed for the Flutter framework that enables developers to easily integrate Philips Hue smart devices into their applications.
-version: 1.0.0
+version: 1.1.0
 repository: https://github.com/babincc/flutter_workshop/tree/master/packages/flutter_hue
 issue_tracker: https://github.com/babincc/flutter_workshop/labels/plugin%3A%20flutter_hue
 

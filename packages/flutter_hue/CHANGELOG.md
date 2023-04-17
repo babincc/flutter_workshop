@@ -1,3 +1,8 @@
+## 1.1.0 - April 17, 2023
+- Added maintenance repo to keep local storage up to date
+- Added color converters
+- Added Philips Hue icons
+
 ## 1.0.0 - April 14, 2023
 - Added the ability to make remote connection to the user's Philips Hue devices
 - Breaking change: Locally stored info is now encrypted
