@@ -34,6 +34,8 @@ export 'package:flutter_hue/domain/models/geofence_client/geofence_client.dart';
 export 'package:flutter_hue/domain/models/geolocation/geolocation.dart';
 export 'package:flutter_hue/domain/models/grouped_light/grouped_light.dart';
 export 'package:flutter_hue/domain/models/homekit/homekit.dart';
+export 'package:flutter_hue/domain/models/hue_icon/hue_icon.dart';
+export 'package:flutter_hue/domain/models/hue_icon/hue_icon_v1.dart';
 export 'package:flutter_hue/domain/models/hue_network.dart';
 export 'package:flutter_hue/domain/models/light/light.dart';
 export 'package:flutter_hue/domain/models/light/light_alert.dart';

@@ -29,3 +29,10 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  fonts:
+    - family: HueIcon
+      fonts:
+      - asset: packages/flutter_hue/assets/fonts/HueIcon.ttf
+    - family: HueIconsV1
+      fonts:
+      - asset: packages/flutter_hue/assets/fonts/HueIconsV1.ttf

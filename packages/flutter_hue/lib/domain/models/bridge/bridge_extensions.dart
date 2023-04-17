@@ -58,13 +58,18 @@ extension HttpRequests on Bridge {
 
   /// Fetch the given `resource` from this bridge.
   ///
+  /// If the POST request is successful, then the original values in `resource`
+  /// will be refreshed and set to their current values. To disable this
+  /// behavior, set `refreshOriginals` to `false`.
+  ///
   /// Will return `null` if:
   /// * The `resource` does not exist on this bridge
   /// * This bridge does not have an IP address
   /// * This bridge does not have an application key
   /// * The `resource` does not have any data to POST
   /// * Any other unforeseen error
-  Future<Map<String, dynamic>?> post(Resource resource) async {
+  Future<Map<String, dynamic>?> post(Resource resource,
+      [bool refreshOriginals = true]) async {
     if (ipAddress == null) return null;
     if (applicationKey == null) return null;
 
@@ -76,13 +81,22 @@ extension HttpRequests on Bridge {
     String body = JsonTool.writeJson(resourceJson);
 
     try {
-      return await HueHttpRepo.post(
+      Map<String, dynamic>? result = await HueHttpRepo.post(
         bridgeIpAddr: ipAddress!,
         pathToResource: resource.id,
         applicationKey: applicationKey!,
         resourceType: resource.type,
         body: body,
       );
+
+      if (result == null) return null;
+
+      if (result[ApiFields.errors] == null ||
+          (result[ApiFields.errors] as List<dynamic>).isEmpty) {
+        resource.refreshOriginals();
+      }
+
+      return result;
     } catch (_) {
       return null;
     }
