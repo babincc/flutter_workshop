@@ -2,6 +2,7 @@ import 'package:flutter_hue/constants/api_fields.dart';
 import 'package:flutter_hue/domain/models/behavior_instance/behavior_instance.dart';
 import 'package:flutter_hue/domain/models/behavior_script/behavior_script.dart';
 import 'package:flutter_hue/domain/models/bridge/bridge.dart';
+import 'package:flutter_hue/domain/models/bridge/bridge_extensions.dart';
 import 'package:flutter_hue/domain/models/bridge_home/bridge_home.dart';
 import 'package:flutter_hue/domain/models/button/button.dart';
 import 'package:flutter_hue/domain/models/device/device.dart';
@@ -67,7 +68,7 @@ class HueNetwork {
   ///
   /// If the `bridge` does not have an IP address, it will not be added to the
   /// list, and `false` will be returned.
-  bool addPoint(Bridge bridge) {
+  bool addBridge(Bridge bridge) {
     if (bridge.ipAddress == null || bridge.applicationKey == null) {
       return false;
     }
@@ -77,10 +78,25 @@ class HueNetwork {
     return true;
   }
 
+  /// Adds a `bridge` to the [bridges] list.
+  ///
+  /// Returns `true` if the `bridge` was added to the list.
+  ///
+  /// If the `bridge` does not have an IP address, it will not be added to the
+  /// list, and `false` will be returned.
+  @Deprecated("Use [addBridge] instead")
+  bool addPoint(Bridge bridge) => addBridge(bridge);
+
   /// Removes a `bridge` from the [bridges] list.
   ///
   /// Returns `true` if `bridge` was in the list, `false` otherwise.
-  bool removePoint(Bridge bridge) => _bridges.remove(bridge);
+  bool removeBridge(Bridge bridge) => _bridges.remove(bridge);
+
+  /// Removes a `bridge` from the [bridges] list.
+  ///
+  /// Returns `true` if `bridge` was in the list, `false` otherwise.
+  @Deprecated("Use [removeBridge] instead")
+  bool removePoint(Bridge bridge) => removeBridge(bridge);
 
   /// A single list that contains all of the resource lists.
   List<List<Resource>> get resources => [
@@ -271,83 +287,88 @@ class HueNetwork {
 
         switch (type) {
           case ResourceType.device:
-            devices.add(Device.fromJson(data));
+            devices.add(Device.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.bridgeHome:
-            bridgeHomes.add(BridgeHome.fromJson(data));
+            bridgeHomes.add(BridgeHome.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.room:
-            rooms.add(Room.fromJson(data));
+            rooms.add(Room.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.zone:
-            zones.add(Zone.fromJson(data));
+            zones.add(Zone.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.light:
-            lights.add(Light.fromJson(data));
+            lights.add(Light.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.button:
-            buttons.add(Button.fromJson(data));
+            buttons.add(Button.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.relativeRotary:
-            relativeRotaries.add(RelativeRotary.fromJson(data));
+            relativeRotaries
+                .add(RelativeRotary.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.temperature:
-            temperatures.add(Temperature.fromJson(data));
+            temperatures.add(Temperature.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.lightLevel:
-            lightLevels.add(LightLevel.fromJson(data));
+            lightLevels.add(LightLevel.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.motion:
-            motions.add(Motion.fromJson(data));
+            motions.add(Motion.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.entertainment:
-            entertainments.add(Entertainment.fromJson(data));
+            entertainments.add(Entertainment.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.groupedLight:
-            groupedLights.add(GroupedLight.fromJson(data));
+            groupedLights.add(GroupedLight.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.devicePower:
-            devicePowers.add(DevicePower.fromJson(data));
+            devicePowers.add(DevicePower.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.zigbeeConnectivity:
-            zigbeeConnectivities.add(ZigbeeConnectivity.fromJson(data));
+            zigbeeConnectivities
+                .add(ZigbeeConnectivity.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.zgpConnectivity:
-            zgpConnectivities.add(ZgpConnectivity.fromJson(data));
+            zgpConnectivities
+                .add(ZgpConnectivity.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.zigbeeDeviceDiscovery:
-            zigbeeDeviceDiscoveries.add(ZigbeeDeviceDiscovery.fromJson(data));
+            zigbeeDeviceDiscoveries
+                .add(ZigbeeDeviceDiscovery.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.homekit:
-            homekits.add(Homekit.fromJson(data));
+            homekits.add(Homekit.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.matter:
-            matters.add(Matter.fromJson(data));
+            matters.add(Matter.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.matterFabric:
-            matterFabrics.add(MatterFabric.fromJson(data));
+            matterFabrics.add(MatterFabric.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.scene:
-            scenes.add(Scene.fromJson(data));
+            scenes.add(Scene.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.entertainmentConfiguration:
-            entertainmentConfigurations
-                .add(EntertainmentConfiguration.fromJson(data));
+            entertainmentConfigurations.add(
+                EntertainmentConfiguration.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.behaviorScript:
-            behaviorScripts.add(BehaviorScript.fromJson(data));
+            behaviorScripts.add(BehaviorScript.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.behaviorInstance:
-            behaviorInstances.add(BehaviorInstance.fromJson(data));
+            behaviorInstances
+                .add(BehaviorInstance.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.geofenceClient:
-            geofenceClients.add(GeofenceClient.fromJson(data));
+            geofenceClients.add(GeofenceClient.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.geolocation:
-            geolocations.add(Geolocation.fromJson(data));
+            geolocations.add(Geolocation.fromJson(data)..bridge = bridge);
             break;
           case ResourceType.smartScene:
-            smartScenes.add(SmartScene.fromJson(data));
+            smartScenes.add(SmartScene.fromJson(data)..bridge = bridge);
             break;
           default:
           // Do nothing
@@ -413,6 +434,32 @@ class HueNetwork {
         return smartScenes;
       default:
         return null;
+    }
+  }
+
+  /// Sends a PUT request to the bridge for each resource in the list.
+  ///
+  /// NOTE: This method will not send a PUT request for a resource that has a
+  /// null `bridge` property.
+  Future<void> put() async {
+    List<List<Resource>> nonPuttableResources = [
+      bridgeHomes,
+      behaviorScripts,
+      matterFabrics,
+    ];
+
+    for (List<Resource> resourceList in resources) {
+      if (nonPuttableResources.contains(resourceList)) continue;
+
+      for (Resource resource in resourceList) {
+        Map<String, dynamic> data = resource.toJson();
+
+        if (data.isEmpty) continue;
+
+        if (resource.bridge != null) {
+          await resource.bridge!.put(resource);
+        }
+      }
     }
   }
 

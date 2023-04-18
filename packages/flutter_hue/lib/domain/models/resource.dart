@@ -1,3 +1,4 @@
+import 'package:flutter_hue/domain/models/bridge/bridge.dart';
 import 'package:flutter_hue/domain/models/resource_type.dart';
 import 'package:flutter_hue/utils/json_tool.dart';
 import 'package:flutter_hue/utils/validators.dart';
@@ -8,6 +9,7 @@ abstract class Resource {
   Resource({
     required this.type,
     required this.id,
+    this.bridge,
   })  : assert(id.isEmpty || Validators.isValidId(id),
             '"$id" is not a valid `id`'),
         _originalType = type;
@@ -16,7 +18,8 @@ abstract class Resource {
   Resource.empty()
       : type = ResourceType.fromString(""),
         _originalType = ResourceType.fromString(""),
-        id = "";
+        id = "",
+        bridge = Bridge.empty();
 
   /// Type of the supported resource.
   ResourceType type;
@@ -30,6 +33,9 @@ abstract class Resource {
   ///
   /// Regex pattern `^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$`
   final String id;
+
+  /// The bridge that this resource is associated with.
+  Bridge? bridge;
 
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
