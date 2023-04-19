@@ -27,7 +27,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 
 ```yaml
 dependencies:
-  flutter_hue: ^1.1.0
+  flutter_hue: ^1.2.0
 ```
 
 Import it to each file you use it in:
@@ -60,7 +60,7 @@ FlutterHueMaintenanceRepo.maintain(
 
 Note: If your app does not support remote connection, just use `FlutterHueMaintenanceRepo.maintainBridges` to maintain your local data.
 
-### Example 1
+### Example 1 - Get bridge IPs
 
 This example shows how to get a list of all of the IP addresses of the Philips Hue bridges on the network.
 
@@ -68,7 +68,7 @@ This example shows how to get a list of all of the IP addresses of the Philips H
 List<String> bridgeIps = await BridgeDiscoveryRepo.discoverBridges();
 ```
 
-### Example 2
+### Example 2 - First contact with bridge
 
 This example shows how to establish first contact with a bridge on a device. This is what causes the bridge to create an application key for the user's device. 
 
@@ -81,7 +81,7 @@ Bridge myBridge = await BridgeDiscoveryRepo.firstContact(
 );
 ```
 
-### Example 3
+### Example 3 - Find all devices on Hue Network
 
 This example shows how to find every Philips Hue device on the network. 
 
@@ -96,7 +96,7 @@ HueNetwork myHueNetwork = HueNetwork(bridges: [bridge1, bridge2]);
 await hueNetwork.fetchAll();
 ```
 
-### Example 4
+### Example 4 - Change light color
 
 This example shows how to change the color of a light.
 
@@ -117,30 +117,53 @@ myLight = myLight
 await bridge.put(myLight);
 ```
 
-### Example 5
+### Example 5 - Toggle light on/off
 
 This example shows how to turn multiple lights on and off.
 
 ``` dart
-// Figure out which group is the one you want
-// Get network from example 3
-Relative myRelative = myHueNetwork
-	.rooms
-	.first
-	.services
-	.firstWhere((service) => 
-		service.type == ResourceType.groupedLight);
-
-// Get the group who's ID was just found
-GroupedLight myGroupedLight = myHueNetwork.groupedLights.firstWhere(
-	(groupedLight) => groupedLight.id == myRelative.id,
-);
+// Get the grouped light from the room
+GroupedLight myGroupedLight = myHueNetwork.rooms.first.servicesAsResources
+        .firstWhere((resource) => resource is GroupedLight) as GroupedLight;
 
 // Toggle the on/off state
 myGroupedLight.on.isOn = !myGroupedLight.on.isOn;
 
 // PUT the new state
-myBridge.put(myGroupedLight);
+myHueNetwork.put();
+```
+
+### Example 6 - Color converters
+
+This example shows how to use the color converters.
+
+``` dart
+ColorConverter.xy2rgb(0.5, 0.5); // [255, 222, 0]
+ColorConverter.rgb2hsl(255, 0, 0); // [0.0, 1.0, 0.5]
+ColorConverter.hsv2hex(0, 1.0 , 1.0); // "ffff0000"
+ColorConverter.color2hsv(Color(0xffff0000)); // [0.0, 1.0, 1.0]
+ColorConverter.int2rgb(4286611584); // [128, 128, 128]
+
+// Also can be used as an extension of Flutter's `Color` object
+Color myColor = Color(0xff8a4888);
+
+myColor.toXy(); // [0.3209554122773742, 0.21993715851681886, 0.1181557673818057]
+myColor.toRgb(); // [138, 72, 136]
+myColor.toHex(); // "ff8a4888"
+myColor.toInt(); // 4287252616
+```
+
+### Example 7 - Hue icons
+
+This example shows how to use Philips Hue's icons.
+
+``` dart
+Icon(HueIcon.classicBulb);
+
+IconButton(
+     onPressed: () {},
+     icon: Icon(HueIcon.stringLight),
+);
 ```
 
 <hr>
