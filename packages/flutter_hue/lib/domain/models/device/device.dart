@@ -88,6 +88,13 @@ class Device extends Resource {
   /// grouped type Supported types: – grouped_light
   final List<Relative> services;
 
+  /// Returns a list of the [services] as [Resource] objects.
+  ///
+  /// Throws [MissingHueNetworkException] if the [hueNetwork] is null, if a
+  /// service can not be found on the [hueNetwork], or if the service's
+  /// [ResourceType] cannot be found on the [hueNetwork].
+  List<Resource> get servicesAsResources => getRelativesAsResources(services);
+
   /// identify: Triggers a visual identification sequence, current implemented
   /// as (which can change in the future):
   ///

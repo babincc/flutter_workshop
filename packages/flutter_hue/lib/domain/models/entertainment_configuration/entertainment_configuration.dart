@@ -143,15 +143,46 @@ class EntertainmentConfiguration extends Resource {
   /// application id, only available if status is active
   final Relative activeStreamer;
 
+  /// Returns a [Resource] object that represents the [activeStreamer] of this
+  /// [Resource].
+  ///
+  /// Throws [MissingHueNetworkException] if the [hueNetwork] is null, if the
+  /// [activeStreamer] cannot be found on the [hueNetwork], or if the
+  /// [activeStreamer]'s [ResourceType] cannot be found on the [hueNetwork].
+  Resource get activeStreamerAsResource =>
+      getRelativeAsResource(activeStreamer);
+
   /// The proxy for this entertainment configuration stream.
   EntertainmentConfigurationStreamProxy streamProxy;
 
   /// The value of [streamProxy] when this object was instantiated.
   EntertainmentConfigurationStreamProxy _originalStreamProxy;
 
+  /// Returns a proxy nodes as a [Resource] object.
+  ///
+  /// Throws [MissingHueNetworkException] if the [hueNetwork] is null, if the
+  /// node can not be found on the [hueNetwork], or if the node's [ResourceType]
+  /// cannot be found on the [hueNetwork].
+  Resource get proxyNodeAsResource => getRelativeAsResource(streamProxy.node);
+
   /// Holds the channels. Each channel groups segments of one or different
   /// light.
   final List<EntertainmentConfigurationChannel> channels;
+
+  /// Returns a list of the channel members as [Resource] objects.
+  ///
+  /// Throws [MissingHueNetworkException] if the [hueNetwork] is null, if a
+  /// member can not be found on the [hueNetwork], or if the member's
+  /// [ResourceType] cannot be found on the [hueNetwork].
+  List<Resource> get channelMemberServicesAsResources {
+    List<Relative> members = [];
+
+    for (EntertainmentConfigurationChannel channel in channels) {
+      members.addAll(channel.members.map((member) => member.service).toList());
+    }
+
+    return getRelativesAsResources(members);
+  }
 
   /// Entertainment services of the lights that are in the zone have locations.
   List<EntertainmentConfigurationLocation> locations;
@@ -159,9 +190,30 @@ class EntertainmentConfiguration extends Resource {
   /// The value of [locations] when this object was instantiated.
   List<EntertainmentConfigurationLocation> _originalLocations;
 
+  /// Returns a list of the location services as [Resource] objects.
+  ///
+  /// Throws [MissingHueNetworkException] if the [hueNetwork] is null, if a
+  /// service can not be found on the [hueNetwork], or if the service's
+  /// [ResourceType] cannot be found on the [hueNetwork].
+  List<Resource> get locationServicesAsResources {
+    List<Relative> services =
+        locations.map((location) => location.service).toList();
+
+    return getRelativesAsResources(services);
+  }
+
   /// List of light services that belong to this entertainment configuration.
   @Deprecated("resolve via entertainment services in locations object")
   final List<Relative> lightServices;
+
+  /// Returns a list of the [lightServices] as [Resource] objects.
+  ///
+  /// Throws [MissingHueNetworkException] if the [hueNetwork] is null, if a
+  /// service can not be found on the [hueNetwork], or if the service's
+  /// [ResourceType] cannot be found on the [hueNetwork].
+  @Deprecated("resolve via entertainment services in locations object")
+  List<Resource> get lightServicesAsResources =>
+      getRelativesAsResources(lightServices);
 
   /// If status is:
   ///

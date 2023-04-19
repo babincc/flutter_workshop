@@ -85,6 +85,14 @@ class SmartScene extends Resource {
   /// The value of [metadata] when this object was instantiated.
   SmartSceneMetadata _originalMetadata;
 
+  /// Returns a [Resource] object that represents the [metadata.image] of this
+  /// [Resource].
+  ///
+  /// Throws [MissingHueNetworkException] if the [hueNetwork] is null, if the
+  /// image cannot be found on the [hueNetwork], or if the image's
+  /// [ResourceType] cannot be found on the [hueNetwork].
+  Resource get imageAsResource => getRelativeAsResource(metadata.image);
+
   /// Group associated with this Scene.
   ///
   /// All services in the group are part of this scene. If the group is changed
@@ -96,6 +104,21 @@ class SmartScene extends Resource {
 
   /// The value of [weekTimeslots] when this object was instantiated.
   List<SmartSceneWeek> _originalWeekTimeslots;
+
+  /// Returns a list of the targets as [Resource] objects.
+  ///
+  /// Throws [MissingHueNetworkException] if the [hueNetwork] is null, if a
+  /// target can not be found on the [hueNetwork], or if the target's
+  /// [ResourceType] cannot be found on the [hueNetwork].
+  List<Resource> get targetsAsResources {
+    List<Relative> targets = [];
+
+    for (SmartSceneWeek weekTimeslot in weekTimeslots) {
+      targets.addAll(weekTimeslot.timeslots.map((timeslot) => timeslot.target));
+    }
+
+    return getRelativesAsResources(targets);
+  }
 
   /// The active time slot in execution.
   final SmartSceneActiveTimeslot activeTimeslot;

@@ -98,6 +98,17 @@ class Scene extends Resource {
   /// The value of [actions] when this object was instantiated.
   List<SceneAction> _originalActions;
 
+  /// Returns a list of the action targets as [Resource] objects.
+  ///
+  /// Throws [MissingHueNetworkException] if the [hueNetwork] is null, if a
+  /// target can not be found on the [hueNetwork], or if the target's
+  /// [ResourceType] cannot be found on the [hueNetwork].
+  List<Resource> get targetsAsResources {
+    List<Relative> targets = actions.map((action) => action.target).toList();
+
+    return getRelativesAsResources(targets);
+  }
+
   /// The recall settings for a scene.
   SceneRecall recall;
 
@@ -110,11 +121,27 @@ class Scene extends Resource {
   /// The value of [metadata] when this object was instantiated.
   SceneMetadata _originalMetadata;
 
+  /// Returns a [Resource] object that represents the [metadata.image] of this
+  /// [Resource].
+  ///
+  /// Throws [MissingHueNetworkException] if the [hueNetwork] is null, if the
+  /// image cannot be found on the [hueNetwork], or if the image's
+  /// [ResourceType] cannot be found on the [hueNetwork].
+  Resource get imageAsResource => getRelativeAsResource(metadata.image);
+
   /// Group associated with this Scene.
   ///
   /// All services in the group are part of this scene. If the group is changed
   /// the scene is updated (e.g. light added/removed).
   final Relative group;
+
+  /// Returns a [Resource] object that represents the [group] of this
+  /// [Resource].
+  ///
+  /// Throws [MissingHueNetworkException] if the [hueNetwork] is null, if the
+  /// [group] cannot be found on the [hueNetwork], or if the [group]'s
+  /// [ResourceType] cannot be found on the [hueNetwork].
+  Resource get groupAsResource => getRelativeAsResource(group);
 
   /// Group of colors that describe the palette of colors to be used when
   /// playing dynamics.

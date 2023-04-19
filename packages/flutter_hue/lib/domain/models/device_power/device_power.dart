@@ -55,6 +55,14 @@ class DevicePower extends Resource {
   /// also gets deleted
   final Relative owner;
 
+  /// Returns a [Resource] object that represents the [owner] of this
+  /// [Resource].
+  ///
+  /// Throws [MissingHueNetworkException] if the [hueNetwork] is null, if the
+  /// [owner] cannot be found on the [hueNetwork], or if the [owner]'s
+  /// [ResourceType] cannot be found on the [hueNetwork].
+  Resource get ownerAsResource => getRelativeAsResource(owner);
+
   /// The power state of this device.
   ///
   /// Only applies to battery powered devices.

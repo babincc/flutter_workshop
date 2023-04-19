@@ -58,6 +58,14 @@ class ZgpConnectivity extends Resource {
   /// also gets deleted
   final Relative owner;
 
+  /// Returns a [Resource] object that represents the [owner] of this
+  /// [Resource].
+  ///
+  /// Throws [MissingHueNetworkException] if the [hueNetwork] is null, if the
+  /// [owner] cannot be found on the [hueNetwork], or if the [owner]'s
+  /// [ResourceType] cannot be found on the [hueNetwork].
+  Resource get ownerAsResource => getRelativeAsResource(owner);
+
   /// Describes this device's connection status to the zigbee network.
   ///
   /// * connected - if device has been recently been available

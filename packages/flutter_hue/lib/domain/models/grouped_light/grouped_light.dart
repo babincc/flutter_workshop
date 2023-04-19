@@ -116,6 +116,14 @@ class GroupedLight extends Resource {
   /// Child devices/services to group by the derived group.
   final Relative owner;
 
+  /// Returns a [Resource] object that represents the [owner] of this
+  /// [Resource].
+  ///
+  /// Throws [MissingHueNetworkException] if the [hueNetwork] is null, if the
+  /// [owner] cannot be found on the [hueNetwork], or if the [owner]'s
+  /// [ResourceType] cannot be found on the [hueNetwork].
+  Resource get ownerAsResource => getRelativeAsResource(owner);
+
   /// Joined on control & aggregated on state.
   ///
   /// "on" is true if any light in the group is on.

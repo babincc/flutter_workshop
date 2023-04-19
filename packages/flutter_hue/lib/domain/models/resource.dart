@@ -1,5 +1,9 @@
+import 'package:collection/collection.dart';
 import 'package:flutter_hue/domain/models/bridge/bridge.dart';
+import 'package:flutter_hue/domain/models/hue_network.dart';
+import 'package:flutter_hue/domain/models/relative.dart';
 import 'package:flutter_hue/domain/models/resource_type.dart';
+import 'package:flutter_hue/exceptions/missing_hue_network_exception.dart';
 import 'package:flutter_hue/utils/json_tool.dart';
 import 'package:flutter_hue/utils/validators.dart';
 
@@ -36,6 +40,55 @@ abstract class Resource {
 
   /// The bridge that this resource is associated with.
   Bridge? bridge;
+
+  /// The [HueNetwork] that this resource is associated with.
+  HueNetwork? hueNetwork;
+
+  /// Returns a list of [Resource] objects that represent the `relatives` of
+  /// this [Resource].
+  ///
+  /// Throws [MissingHueNetworkException] if the [hueNetwork] is null, if a
+  /// [Relative] cannot be found on the [hueNetwork], or if the `relative`'s
+  /// [ResourceType] cannot be found on the [hueNetwork].
+  List<Resource> getRelativesAsResources(List<Relative> relatives) {
+    List<Resource> toReturn = [];
+
+    for (Relative relative in relatives) {
+      toReturn.add(getRelativeAsResource(relative));
+    }
+
+    return toReturn;
+  }
+
+  /// Returns a [Resource] object that represents the `relative` of this
+  /// [Resource].
+  ///
+  /// Throws [MissingHueNetworkException] if the [hueNetwork] is null, if the
+  /// `relative` cannot be found on the [hueNetwork], or if the `relative`'s
+  /// [ResourceType] cannot be found on the [hueNetwork].
+  Resource getRelativeAsResource(Relative relative) {
+    if (hueNetwork == null) {
+      throw const MissingHueNetworkException();
+    }
+
+    ResourceType type = relative.type;
+
+    List<Resource>? resources = hueNetwork!.getListType(type);
+
+    if (resources == null) {
+      throw const MissingHueNetworkException();
+    }
+
+    Resource? resource = resources.firstWhereOrNull(
+      (resource) => resource.id == relative.id,
+    );
+
+    if (resource == null) {
+      throw const MissingHueNetworkException();
+    }
+
+    return resource;
+  }
 
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.

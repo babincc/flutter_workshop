@@ -74,6 +74,13 @@ class Zone extends Resource {
   /// The value of [children] when this object was instantiated.
   List<Relative> _originalChildren;
 
+  /// Returns a list of the [children] as [Resource] objects.
+  ///
+  /// Throws [MissingHueNetworkException] if the [hueNetwork] is null, if a
+  /// child can not be found on the [hueNetwork], or if the child's
+  /// [ResourceType] cannot be found on the [hueNetwork].
+  List<Resource> get childrenAsResources => getRelativesAsResources(children);
+
   /// References all services aggregating control and state of children in the
   /// group.
   ///
@@ -83,6 +90,13 @@ class Zone extends Resource {
   /// every service type which can be grouped has a corresponding definition of
   /// grouped type Supported types: – grouped_light
   final List<Relative> services;
+
+  /// Returns a list of the [services] as [Resource] objects.
+  ///
+  /// Throws [MissingHueNetworkException] if the [hueNetwork] is null, if a
+  /// service can not be found on the [hueNetwork], or if the `relative`'s
+  /// [ResourceType] cannot be found on the [hueNetwork].
+  List<Resource> get servicesAsResources => getRelativesAsResources(services);
 
   /// Configuration object for this room.
   RoomMetadata metadata;

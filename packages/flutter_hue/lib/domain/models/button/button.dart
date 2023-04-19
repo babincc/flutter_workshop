@@ -63,6 +63,14 @@ class Button extends Resource {
   /// also gets deleted
   final Relative owner;
 
+  /// Returns a [Resource] object that represents the [owner] of this
+  /// [Resource].
+  ///
+  /// Throws [MissingHueNetworkException] if the [hueNetwork] is null, if the
+  /// [owner] cannot be found on the [hueNetwork], or if the [owner]'s
+  /// [ResourceType] cannot be found on the [hueNetwork].
+  Resource get ownerAsResource => getRelativeAsResource(owner);
+
   /// Control identifier of the switch which is unique per device.
   ///
   /// Meaning in combination with:

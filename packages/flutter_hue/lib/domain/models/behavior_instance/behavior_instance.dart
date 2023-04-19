@@ -3,6 +3,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_hue/constants/api_fields.dart';
 import 'package:flutter_hue/domain/models/behavior_instance/behavior_instance_dependee.dart';
+import 'package:flutter_hue/domain/models/relative.dart';
 import 'package:flutter_hue/domain/models/resource.dart';
 import 'package:flutter_hue/domain/models/resource_type.dart';
 import 'package:flutter_hue/exceptions/invalid_id_exception.dart';
@@ -152,6 +153,18 @@ class BehaviorInstance extends Resource {
 
   /// Represents all resources which this instance depends on.
   final List<BehaviorInstanceDependee> dependees;
+
+  /// Returns a list of the targets as [Resource] objects.
+  ///
+  /// Throws [MissingHueNetworkException] if the [hueNetwork] is null, if a
+  /// target can not be found on the [hueNetwork], or if the target's
+  /// [ResourceType] cannot be found on the [hueNetwork].
+  List<Resource> get targetsAsResources {
+    List<Relative> targets =
+        dependees.map((dependee) => dependee.target).toList();
+
+    return getRelativesAsResources(targets);
+  }
 
   /// Script status.
   ///

@@ -47,7 +47,7 @@ class HueNetwork {
   ///
   /// Throws [Exception] if any of the bridges do not have an IP address or an
   /// application key.
-  List<Bridge> get bridges => _bridges;
+  List<Bridge> get bridges => List<Bridge>.from(_bridges, growable: false);
   set bridges(List<Bridge> bridges) {
     for (Bridge bridge in bridges) {
       if (bridge.ipAddress == null) {
@@ -72,6 +72,8 @@ class HueNetwork {
     if (bridge.ipAddress == null || bridge.applicationKey == null) {
       return false;
     }
+
+    bridge.hueNetwork = this;
 
     _bridges.add(bridge);
 
@@ -128,109 +130,175 @@ class HueNetwork {
         zones,
       ];
 
+  final List<BehaviorInstance> _behaviorInstances = [];
+
   /// All of the [BehaviorInstance] objects on the network that the user's
   /// device has permission to access.
-  List<BehaviorInstance> behaviorInstances = [];
+  List<BehaviorInstance> get behaviorInstances =>
+      List.from(_behaviorInstances, growable: false);
+
+  final List<BehaviorScript> _behaviorScripts = [];
 
   /// All of the [BehaviorScript] objects on the network that the user's device
   /// has permission to access.
-  List<BehaviorScript> behaviorScripts = [];
+  List<BehaviorScript> get behaviorScripts =>
+      List.from(_behaviorScripts, growable: false);
+
+  final List<BridgeHome> _bridgeHomes = [];
 
   /// All of the [BridgeHome] objects on the network that the user's device has
   /// permission to access.
-  List<BridgeHome> bridgeHomes = [];
+  List<BridgeHome> get bridgeHomes => List.from(_bridgeHomes, growable: false);
+
+  final List<Button> _buttons = [];
 
   /// All of the [Button] objects on the network that the user's device has
   /// permission to access.
-  List<Button> buttons = [];
+  List<Button> get buttons => List.from(_buttons, growable: false);
+
+  final List<Device> _devices = [];
 
   /// All of the [Device] objects on the network that the user's device has
   /// permission to access.
-  List<Device> devices = [];
+  List<Device> get devices => List.from(_devices, growable: false);
+
+  final List<DevicePower> _devicePowers = [];
 
   /// All of the [DevicePower] objects on the network that the user's device has
   /// permission to access.
-  List<DevicePower> devicePowers = [];
+  List<DevicePower> get devicePowers =>
+      List.from(_devicePowers, growable: false);
+
+  final List<Entertainment> _entertainments = [];
 
   /// All of the [Entertainment] objects on the network that the user's device
   /// has permission to access.
-  List<Entertainment> entertainments = [];
+  List<Entertainment> get entertainments =>
+      List.from(_entertainments, growable: false);
+
+  final List<EntertainmentConfiguration> _entertainmentConfigurations = [];
 
   /// All of the [EntertainmentConfiguration] objects on the network that the
   /// user's device has permission to access.
-  List<EntertainmentConfiguration> entertainmentConfigurations = [];
+  List<EntertainmentConfiguration> get entertainmentConfigurations =>
+      List.from(_entertainmentConfigurations, growable: false);
+
+  final List<GeofenceClient> _geofenceClients = [];
 
   /// All of the [GeofenceClient] objects on the network that the user's device
   /// has permission to access.
-  List<GeofenceClient> geofenceClients = [];
+  List<GeofenceClient> get geofenceClients =>
+      List.from(_geofenceClients, growable: false);
+
+  final List<Geolocation> _geolocations = [];
 
   /// All of the [Geolocation] objects on the network that the user's device has
   /// permission to access.
-  List<Geolocation> geolocations = [];
+  List<Geolocation> get geolocations =>
+      List.from(_geolocations, growable: false);
+
+  final List<GroupedLight> _groupedLights = [];
 
   /// All of the [GroupedLight] objects on the network that the user's device
   /// has permission to access.
-  List<GroupedLight> groupedLights = [];
+  List<GroupedLight> get groupedLights =>
+      List.from(_groupedLights, growable: false);
+
+  final List<Homekit> _homekits = [];
 
   /// All of the [Homekit] objects on the network that the user's device has
   /// permission to access.
-  List<Homekit> homekits = [];
+  List<Homekit> get homekits => List.from(_homekits, growable: false);
+
+  final List<Light> _lights = [];
 
   /// All of the [Light] objects on the network that the user's device has
   /// permission to access.
-  List<Light> lights = [];
+  List<Light> get lights => List.from(_lights, growable: false);
+
+  final List<LightLevel> _lightLevels = [];
 
   /// All of the [LightLevel] objects on the network that the user's device has
   /// permission to access.
-  List<LightLevel> lightLevels = [];
+  List<LightLevel> get lightLevels => List.from(_lightLevels, growable: false);
+
+  final List<Matter> _matters = [];
 
   /// All of the [Matter] objects on the network that the user's device has
   /// permission to access.
-  List<Matter> matters = [];
+  List<Matter> get matters => List.from(_matters, growable: false);
+
+  final List<MatterFabric> _matterFabrics = [];
 
   /// All of the [MatterFabric] objects on the network that the user's device
   /// has permission to access.
-  List<MatterFabric> matterFabrics = [];
+  List<MatterFabric> get matterFabrics =>
+      List.from(_matterFabrics, growable: false);
+
+  final List<Motion> _motions = [];
 
   /// All of the [Motion] objects on the network that the user's device has
   /// permission to access.
-  List<Motion> motions = [];
+  List<Motion> get motions => List.from(_motions, growable: false);
+
+  final List<RelativeRotary> _relativeRotaries = [];
 
   /// All of the [RelativeRotary] objects on the network that the user's device
   /// has permission to access.
-  List<RelativeRotary> relativeRotaries = [];
+  List<RelativeRotary> get relativeRotaries =>
+      List.from(_relativeRotaries, growable: false);
+
+  final List<Room> _rooms = [];
 
   /// All of the [Room] objects on the network that the user's device has
   /// permission to access.
-  List<Room> rooms = [];
+  List<Room> get rooms => List.from(_rooms, growable: false);
+
+  final List<Scene> _scenes = [];
 
   /// All of the [Scene] objects on the network that the user's device has
   /// permission to access.
-  List<Scene> scenes = [];
+  List<Scene> get scenes => List.from(_scenes, growable: false);
+
+  final List<SmartScene> _smartScenes = [];
 
   /// All of the [SmartScene] objects on the network that the user's device has
   /// permission to access.
-  List<SmartScene> smartScenes = [];
+  List<SmartScene> get smartScenes => List.from(_smartScenes, growable: false);
+
+  final List<Temperature> _temperatures = [];
 
   /// All of the [Temperature] objects on the network that the user's device has
   /// permission to access.
-  List<Temperature> temperatures = [];
+  List<Temperature> get temperatures =>
+      List.from(_temperatures, growable: false);
+
+  final List<ZgpConnectivity> _zgpConnectivities = [];
 
   /// All of the [ZgpConnectivity] objects on the network that the user's device
   /// has permission to access.
-  List<ZgpConnectivity> zgpConnectivities = [];
+  List<ZgpConnectivity> get zgpConnectivities =>
+      List.from(_zgpConnectivities, growable: false);
+
+  final List<ZigbeeConnectivity> _zigbeeConnectivities = [];
 
   /// All of the [ZigbeeConnectivity] objects on the network that the user's
   /// device has permission to access.
-  List<ZigbeeConnectivity> zigbeeConnectivities = [];
+  List<ZigbeeConnectivity> get zigbeeConnectivities =>
+      List.from(_zigbeeConnectivities, growable: false);
+
+  final List<ZigbeeDeviceDiscovery> _zigbeeDeviceDiscoveries = [];
 
   /// All of the [ZigbeeDeviceDiscovery] objects on the network that the user's
   /// device has permission to access.
-  List<ZigbeeDeviceDiscovery> zigbeeDeviceDiscoveries = [];
+  List<ZigbeeDeviceDiscovery> get zigbeeDeviceDiscoveries =>
+      List.from(_zigbeeDeviceDiscoveries, growable: false);
+
+  final List<Zone> _zones = [];
 
   /// All of the [Zone] objects on the network that the user's device has
   /// permission to access.
-  List<Zone> zones = [];
+  List<Zone> get zones => List.from(_zones, growable: false);
 
   /// Fetch all of the Philip's Hue devices on the network that this device has
   /// permission to fetch.
@@ -287,88 +355,135 @@ class HueNetwork {
 
         switch (type) {
           case ResourceType.device:
-            devices.add(Device.fromJson(data)..bridge = bridge);
+            _devices.add(Device.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.bridgeHome:
-            bridgeHomes.add(BridgeHome.fromJson(data)..bridge = bridge);
+            _bridgeHomes.add(BridgeHome.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.room:
-            rooms.add(Room.fromJson(data)..bridge = bridge);
+            _rooms.add(Room.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.zone:
-            zones.add(Zone.fromJson(data)..bridge = bridge);
+            _zones.add(Zone.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.light:
-            lights.add(Light.fromJson(data)..bridge = bridge);
+            _lights.add(Light.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.button:
-            buttons.add(Button.fromJson(data)..bridge = bridge);
+            _buttons.add(Button.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.relativeRotary:
-            relativeRotaries
-                .add(RelativeRotary.fromJson(data)..bridge = bridge);
+            _relativeRotaries.add(RelativeRotary.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.temperature:
-            temperatures.add(Temperature.fromJson(data)..bridge = bridge);
+            _temperatures.add(Temperature.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.lightLevel:
-            lightLevels.add(LightLevel.fromJson(data)..bridge = bridge);
+            _lightLevels.add(LightLevel.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.motion:
-            motions.add(Motion.fromJson(data)..bridge = bridge);
+            _motions.add(Motion.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.entertainment:
-            entertainments.add(Entertainment.fromJson(data)..bridge = bridge);
+            _entertainments.add(Entertainment.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.groupedLight:
-            groupedLights.add(GroupedLight.fromJson(data)..bridge = bridge);
+            _groupedLights.add(GroupedLight.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.devicePower:
-            devicePowers.add(DevicePower.fromJson(data)..bridge = bridge);
+            _devicePowers.add(DevicePower.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.zigbeeConnectivity:
-            zigbeeConnectivities
-                .add(ZigbeeConnectivity.fromJson(data)..bridge = bridge);
+            _zigbeeConnectivities.add(ZigbeeConnectivity.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.zgpConnectivity:
-            zgpConnectivities
-                .add(ZgpConnectivity.fromJson(data)..bridge = bridge);
+            _zgpConnectivities.add(ZgpConnectivity.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.zigbeeDeviceDiscovery:
-            zigbeeDeviceDiscoveries
-                .add(ZigbeeDeviceDiscovery.fromJson(data)..bridge = bridge);
+            _zigbeeDeviceDiscoveries.add(ZigbeeDeviceDiscovery.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.homekit:
-            homekits.add(Homekit.fromJson(data)..bridge = bridge);
+            _homekits.add(Homekit.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.matter:
-            matters.add(Matter.fromJson(data)..bridge = bridge);
+            _matters.add(Matter.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.matterFabric:
-            matterFabrics.add(MatterFabric.fromJson(data)..bridge = bridge);
+            _matterFabrics.add(MatterFabric.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.scene:
-            scenes.add(Scene.fromJson(data)..bridge = bridge);
+            _scenes.add(Scene.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.entertainmentConfiguration:
-            entertainmentConfigurations.add(
-                EntertainmentConfiguration.fromJson(data)..bridge = bridge);
+            _entertainmentConfigurations
+                .add(EntertainmentConfiguration.fromJson(data)
+                  ..bridge = bridge
+                  ..hueNetwork = this);
             break;
           case ResourceType.behaviorScript:
-            behaviorScripts.add(BehaviorScript.fromJson(data)..bridge = bridge);
+            _behaviorScripts.add(BehaviorScript.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.behaviorInstance:
-            behaviorInstances
-                .add(BehaviorInstance.fromJson(data)..bridge = bridge);
+            _behaviorInstances.add(BehaviorInstance.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.geofenceClient:
-            geofenceClients.add(GeofenceClient.fromJson(data)..bridge = bridge);
+            _geofenceClients.add(GeofenceClient.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.geolocation:
-            geolocations.add(Geolocation.fromJson(data)..bridge = bridge);
+            _geolocations.add(Geolocation.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           case ResourceType.smartScene:
-            smartScenes.add(SmartScene.fromJson(data)..bridge = bridge);
+            _smartScenes.add(SmartScene.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
             break;
           default:
           // Do nothing
@@ -378,7 +493,7 @@ class HueNetwork {
   }
 
   /// Returns the resource list that goes with the given `type`.
-  List<Resource>? _getListType(ResourceType type) {
+  List<Resource>? getListType(ResourceType type) {
     switch (type) {
       case ResourceType.device:
         return devices;
@@ -432,6 +547,66 @@ class HueNetwork {
         return geolocations;
       case ResourceType.smartScene:
         return smartScenes;
+      default:
+        return null;
+    }
+  }
+
+  /// Returns the private resource list that goes with the given `type`.
+  List<Resource>? _getListType(ResourceType type) {
+    switch (type) {
+      case ResourceType.device:
+        return _devices;
+      case ResourceType.bridgeHome:
+        return _bridgeHomes;
+      case ResourceType.room:
+        return _rooms;
+      case ResourceType.zone:
+        return _zones;
+      case ResourceType.light:
+        return _lights;
+      case ResourceType.button:
+        return _buttons;
+      case ResourceType.relativeRotary:
+        return _relativeRotaries;
+      case ResourceType.temperature:
+        return _temperatures;
+      case ResourceType.lightLevel:
+        return _lightLevels;
+      case ResourceType.motion:
+        return _motions;
+      case ResourceType.entertainment:
+        return _entertainments;
+      case ResourceType.groupedLight:
+        return _groupedLights;
+      case ResourceType.devicePower:
+        return _devicePowers;
+      case ResourceType.zigbeeConnectivity:
+        return _zigbeeConnectivities;
+      case ResourceType.zgpConnectivity:
+        return _zgpConnectivities;
+      case ResourceType.zigbeeDeviceDiscovery:
+        return _zigbeeDeviceDiscoveries;
+      case ResourceType.homekit:
+        return _homekits;
+      case ResourceType.matter:
+        return _matters;
+      case ResourceType.matterFabric:
+        return _matterFabrics;
+      case ResourceType.scene:
+        return _scenes;
+      case ResourceType.entertainmentConfiguration:
+        return _entertainmentConfigurations;
+      case ResourceType.behaviorScript:
+        return _behaviorScripts;
+      case ResourceType.behaviorInstance:
+        return _behaviorInstances;
+      case ResourceType.geofenceClient:
+        return _geofenceClients;
+      case ResourceType.geolocation:
+        return _geolocations;
+      case ResourceType.smartScene:
+        return _smartScenes;
       default:
         return null;
     }

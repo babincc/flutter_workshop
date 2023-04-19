@@ -118,6 +118,7 @@ export 'package:flutter_hue/exceptions/invalid_id_exception.dart';
 export 'package:flutter_hue/exceptions/invalid_name_exception.dart';
 export 'package:flutter_hue/exceptions/invalid_value_exception.dart';
 export 'package:flutter_hue/exceptions/mirek_exception.dart';
+export 'package:flutter_hue/exceptions/missing_hue_network_exception.dart';
 export 'package:flutter_hue/exceptions/negative_value_exception.dart';
 export 'package:flutter_hue/exceptions/percentage_exception.dart';
 export 'package:flutter_hue/exceptions/reauth_required_exception.dart';
