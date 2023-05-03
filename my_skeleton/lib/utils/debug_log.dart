@@ -1,109 +1,191 @@
 // @author Christian Babin
-// @version 1.1.2
+// @version 2.0.0
 // https://github.com/babincc/flutter_workshop/blob/master/addons/debug_log.dart
 
-import 'dart:math';
+// ignore_for_file: avoid_print
+
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:my_skeleton/my_app.dart';
 
 /// This class is used to help with debugging.
 class DebugLog {
-  /// This method is used for making print statements that can be traced back to
-  /// a specific class.
+  const DebugLog._();
+
+  /// Prints a message to the console in testing, and sends it to Crashlytics
+  /// in production.
   ///
-  /// This makes it easier to find leftover print statements later when it is
-  /// time to remove them.
+  /// ```dart
+  /// DebugLog.out("Howdy"); // Howdy
+  /// DebugLog.out("Howdy", logType: LogType.error) // Howdy (in red)
+  /// ```
   ///
-  /// The `isImportant` boolean value will be `true` if you want to print a few
-  /// lines above and below the message to make it stand out in the console.
+  /// In the above examples, if the app is live, nothing happens. The example
+  /// below shows how to send to Crashlytics.
+  ///
+  /// ```dart
+  /// // If live, this will send "Howdy" to Crashlytics.
+  /// // If testing, this will print "Howdy" to the console.
+  /// DebugLog.out("Howdy", sendToCrashlytics: true)
+  /// ```
   static void out(
-    String className,
-    String methodName,
-    String? message, {
-    bool isImportant = false,
+    Object? message, {
+    LogType logType = LogType.debug,
+    bool sendToCrashlytics = false,
   }) {
-    assert(className.isNotEmpty, "WARNING: You must enter a class name!");
-    assert(methodName.isNotEmpty, "WARNING: You must enter a method name!");
-
-    // Pad the message if necessary.
-    if (isImportant) {
-      _printMessagePadding(
-        className,
-        methodName,
-        padding: 3,
-      );
+    String messageString;
+    if (message == null) {
+      messageString = "null";
+    } else if (message is String) {
+      messageString = message;
+    } else {
+      messageString = message.toString();
     }
 
-    // Print the message.
-    // ignore: avoid_print
-    print("$className/$methodName: $message");
+    /// The stack trace of the call to this debugger in a nicely formatted
+    /// object.
+    final _LoggerStackTrace stackTrace =
+        _LoggerStackTrace.from(StackTrace.current);
 
-    // Pad the message if necessary.
-    if (isImportant) {
-      _printMessagePadding(
-        className,
-        methodName,
-        padding: 3,
-        isPrePadding: false,
-      );
+    /// The runtime Type of the calling class.
+    final String callingClass = stackTrace.callerClassName;
+
+    /// The name of the calling method.
+    final String callingMethod = stackTrace.callerFunctionName;
+
+    final String callingFile = stackTrace.callerClassFileName;
+
+    /// The line number of the call to this debugger in the calling method.
+    final String callingLine = stackTrace.lineNumber.toString();
+
+    /// The full path to the calling method.
+    final String callPath =
+        "$callingClass.$callingMethod [$callingFile:$callingLine]: ";
+
+    /// The full message to be logged.
+    final String logMessage = "$callPath$messageString";
+
+    if (!MyApp.isLive) {
+      switch (logType) {
+        case LogType.warning:
+          print("\x1B[33m$logMessage\x1B[0m");
+          break;
+        case LogType.error:
+          print("\x1B[31m$logMessage\x1B[0m");
+          break;
+        case LogType.success:
+          print("\x1B[32m$logMessage\x1B[0m");
+          break;
+        case LogType.debug:
+          print("\x1B[34m$logMessage\x1B[0m");
+          break;
+      }
+
+      return;
+    }
+
+    if (sendToCrashlytics) {
+      // Send the message to Crashlytics.
+      _sendToCrashlytics(logMessage);
     }
   }
 
-  /// This method prints a statement that pads the debug message to make it
-  /// stand out in the console.
-  ///
-  /// The `padding` variable is the number of times the statement will print.
-  ///
-  /// The `isPrePadding` variable will be `true` if the padding is to be printed
-  /// before the error message; conversely, it will be `false` if it is to be
-  /// printed after the error message. This will make the "stair-step" pattern
-  /// in the console symmetrical.
-  static void _printMessagePadding(
-    String className,
-    String methodName, {
-    int padding = 1,
-    bool isPrePadding = true,
-  }) {
-    // `padding` must be >= 1.
-    padding = max(padding, 1);
+  /// Sends a `message` to Crashlytics.
+  static Future<void> _sendToCrashlytics(String message) async {
+    /// The Crashlytics instance.
+    final FirebaseCrashlytics crashlytics = FirebaseCrashlytics.instance;
 
-    /// The default number of exclamation marks.
-    const String baseExclamation = "!!!!!!";
+    /// Get the stack trace of the call to this debugger.
+    List<String> stackTraceList = StackTrace.current.toString().split("\n");
 
-    // Print the attention getter `padding` number of times.
-    for (int i = 0; i < padding; i++) {
-      // The base of the string tells where the print statement is coming from.
-      String toPrint = "$className/$methodName: ";
+    // Remove the first two lines of the stack trace, which are the call to
+    // this debugger.
+    stackTraceList = stackTraceList.getRange(2, stackTraceList.length).toList();
 
-      // Add the exclamation marks.
-      toPrint += baseExclamation;
+    /// The stack trace as a string.
+    final String stackTraceString = stackTraceList.join("\n");
 
-      // Add more exclamation marks based on what line is being printed.
-      if (isPrePadding) {
-        for (int j = 0; j < i; j++) {
-          toPrint += "!";
-        }
-      } else {
-        for (int j = padding - 1; j > i; j--) {
-          toPrint += "!";
-        }
-      }
+    /// The stack trace as a StackTrace object.
+    final StackTrace stackTrace = StackTrace.fromString(stackTraceString);
 
-      // Add the attention grabbing message and the base number of exclamation
-      // marks.
-      toPrint += " IMPORTANT $baseExclamation";
-
-      // Add more exclamation marks based on what line is being printed.
-      if (isPrePadding) {
-        for (int j = 0; j < i; j++) {
-          toPrint += "!";
-        }
-      } else {
-        for (int j = padding - 1; j > i; j--) {
-          toPrint += "!";
-        }
-      }
-
-      // ignore: avoid_print
-      print(toPrint);
-    }
+    /// The Crashlytics message.
+    await crashlytics.recordError(message, stackTrace, printDetails: false);
   }
+}
+
+/// Creates an object that allows the debugger to get information about the call
+/// to this debugger.
+class _LoggerStackTrace {
+  const _LoggerStackTrace._({
+    required this.callerFunctionName,
+    required this.callerClassName,
+    required this.callerClassFileName,
+    required this.lineNumber,
+  });
+
+  factory _LoggerStackTrace.from(StackTrace trace) {
+    final frames = trace.toString().split("\n");
+
+    const String className = "debug_log.dart";
+
+    final String frame = frames
+        .firstWhere((frame) => _getFileInfoFromFrame(frame)[0] != className);
+
+    final List<String> fileInfo = _getFileInfoFromFrame(frame);
+
+    final String callerFunctionName = _getFunctionNameFromFrame(frame);
+
+    return _LoggerStackTrace._(
+      callerFunctionName: callerFunctionName.split(".")[1],
+      callerClassName: callerFunctionName.split(".").first,
+      callerClassFileName: fileInfo[0],
+      lineNumber: int.parse(fileInfo[1]),
+    );
+  }
+
+  final String callerFunctionName;
+  final String callerClassName;
+  final String callerClassFileName;
+  final int lineNumber;
+
+  static List<String> _getFileInfoFromFrame(String trace) {
+    final indexOfFileName = trace.indexOf(RegExp(r"[A-Za-z_]+.dart"));
+    final fileInfo = trace.substring(indexOfFileName);
+
+    return fileInfo.split(":");
+  }
+
+  static String _getFunctionNameFromFrame(String trace) {
+    final indexOfWhiteSpace = trace.indexOf(" ");
+    final subStr = trace.substring(indexOfWhiteSpace);
+    final indexOfFunction = subStr.indexOf(RegExp(r"[A-Za-z0-9_]"));
+
+    return subStr
+        .substring(indexOfFunction)
+        .substring(0, subStr.substring(indexOfFunction).indexOf(" "));
+  }
+}
+
+/// The type of log to be printed.
+enum LogType {
+  /// Something important, but not necessarily app breaking.
+  ///
+  /// Will print in orange text if not in production, and the console supports
+  /// it.
+  warning,
+
+  /// Something important and app breaking.
+  ///
+  /// Will print in red text if not in production, and the console supports it.
+  error,
+
+  /// Something that is important to know was successful.
+  ///
+  /// Will print in green text if not in production, and the console supports
+  /// it.
+  success,
+
+  /// Something that is useful for debugging.
+  ///
+  /// Will print in blue text if not in production, and the console supports it.
+  debug,
 }

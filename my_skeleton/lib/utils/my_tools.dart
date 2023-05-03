@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 1.3.0
+// @version 1.4.0
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_tools.dart
 
 import 'dart:collection';
@@ -15,25 +15,6 @@ class MyTools {
   /// This method generates and returns a random integer from `min` to `max`
   /// (inclusive).
   static int randInt(int min, int max) {
-    // If `min` is greater than `max` let the developer know that their values
-    // will be swapped.
-    try {
-      assert(min <= max);
-    } on AssertionError catch (e) {
-      DebugLog.out(
-        "MyTools",
-        "randInt",
-        "WARNING: `min` must be less than or equal to `max`! To avoid "
-            "returning `null`, the values of `min` and `max` have been "
-            "swapped.",
-      );
-      DebugLog.out(
-        "MyTools",
-        "randInt",
-        e.toString(),
-      );
-    }
-
     // If `min` and `max` are the same number, just return that number.
     if (min == max) {
       return min;
@@ -50,46 +31,69 @@ class MyTools {
     return Random().nextInt((max + 1) - min) + min;
   }
 
+  /// This method generates and returns a random integer from `min` to `max`
+  /// (inclusive), excluding `exclude`.
+  ///
+  /// If `min`, `max`, and `exclude` are all the same number, an exception is
+  /// thrown.
+  static int randIntExcluding(int min, int max, int exclude) {
+    // If `min`, `max`, and `exclude` are all the same number, throw an
+    // exception.
+    if (min == max && max == exclude) {
+      throw Exception("min, max, and exclude cannot all be the same number.");
+    }
+
+    // If `min` and `max` are the same number, just return that number.
+    if (min == max) {
+      return min;
+    }
+
+    // If `min` is greater than `max`, swap their values.
+    if (min > max) {
+      int temp = min;
+      min = max;
+      max = temp;
+    }
+
+    // If `exclude` is less than `min` or greater than `max`, just return a
+    // random number in the range.
+    if (exclude < min || exclude > max) {
+      return randInt(min, max);
+    }
+
+    // If `exclude` is equal to `min` or `max`, return a random number in the
+    // range, excluding `exclude`.
+    if (exclude == min) {
+      return randInt(min + 1, max);
+    } else if (exclude == max) {
+      return randInt(min, max - 1);
+    }
+
+    // Random numbers on both sides of `exclude`.
+    List<int> randNums = [];
+
+    // Generate a random number in the range, excluding `exclude`.
+    randNums.add(randInt(min, exclude - 1));
+    randNums.add(randInt(exclude + 1, max));
+
+    return randNums[randInt(0, 1)];
+  }
+
   /// This method generates and returns a random double from `min` to `max`
   /// (inclusive).
   ///
   /// `roundTo` is the number of places the returned value should be rounded to.
   /// If it is `null`, no extra rounding will be done.
   static double randDouble(double min, double max, {int? roundTo}) {
-    // If `min` is greater than `max` let the developer know that their values
-    // will be swapped.
-    try {
-      assert(min <= max);
-    } on AssertionError catch (e) {
-      DebugLog.out(
-        "MyTools",
-        "randDouble",
-        "WARNING: `min` must be less than or equal to `max`! To avoid "
-            "returning `null`, the values of `min` and `max` have been "
-            "swapped.",
-      );
-      DebugLog.out(
-        "MyTools",
-        "randDouble",
-        e.toString(),
-      );
-    }
-
     // If `roundTo` is greater than 18, this method will break. Let the
     // developer know this, and set it to 18.
     try {
       assert(min <= max);
-    } on AssertionError catch (e) {
+    } on AssertionError catch (_) {
       DebugLog.out(
-        "MyTools",
-        "randDouble",
         "WARNING: `roundTo` must be less than or equal to 18! It has been "
-            "automatically switched to 18.",
-      );
-      DebugLog.out(
-        "MyTools",
-        "randDouble",
-        e.toString(),
+        "automatically switched to 18.",
+        logType: LogType.warning,
       );
     }
 
@@ -195,18 +199,12 @@ class MyTools {
     // instead.
     try {
       assert(maxPlaces >= 0);
-    } on AssertionError catch (e) {
+    } on AssertionError catch (_) {
       DebugLog.out(
-        "MyTools",
-        "roundDouble",
         "WARNING: `places` must be greater than or equal to 0! To avoid "
-            "returning `null`, 0 will be used instead of "
-            "\"${maxPlaces.toString()}\".",
-      );
-      DebugLog.out(
-        "MyTools",
-        "roundDouble",
-        e.toString(),
+        "returning `null`, 0 will be used instead of "
+        "\"${maxPlaces.toString()}\".",
+        logType: LogType.warning,
       );
     }
 

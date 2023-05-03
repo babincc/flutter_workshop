@@ -21,6 +21,10 @@ import 'package:provider/provider.dart';
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  /// TODO: Set this to true when you are ready to deploy to the app store.
+  /// This will enable Crashlytics and disable the debug printouts.
+  static const bool isLive = false;
+
   @override
   Widget build(BuildContext context) {
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
