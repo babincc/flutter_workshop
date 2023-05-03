@@ -1,10 +1,11 @@
 // @author Christian Babin
-// @version 2.0.0
+// @version 2.1.0
 // https://github.com/babincc/flutter_workshop/blob/master/addons/debug_log.dart
 
 // ignore_for_file: avoid_print
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:my_skeleton/my_app.dart';
 
 /// This class is used to help with debugging.
 class DebugLog {
@@ -12,19 +13,19 @@ class DebugLog {
 
   /// Prints a message to the console in testing, and sends it to Crashlytics
   /// in production.
-  /// 
+  ///
   /// ```dart
   /// DebugLog.out("Howdy"); // Howdy
-  /// DebugLog.out("Howdy", logType: LogType.error) // Howdy (in red)
+  /// DebugLog.out("Howdy", logType: LogType.error); // Howdy (in red)
   /// ```
-  /// 
+  ///
   /// In the above examples, if the app is live, nothing happens. The example
   /// below shows how to send to Crashlytics.
-  /// 
+  ///
   /// ```dart
-  /// // If live, this will send "Howdy" to Crashlytics. 
+  /// // If live, this will send "Howdy" to Crashlytics.
   /// // If testing, this will print "Howdy" to the console.
-  /// DebugLog.out("Howdy", sendToCrashlytics: true)
+  /// DebugLog.out("Howdy", sendToCrashlytics: true);
   /// ```
   static void out(
     Object? message, {
@@ -57,13 +58,19 @@ class DebugLog {
     final String callingLine = stackTrace.lineNumber.toString();
 
     /// The full path to the calling method.
-    final String callPath =
-        "$callingClass.$callingMethod [$callingFile:$callingLine]: ";
+    String callPath;
+
+    // Handle calls from a constructor.
+    if (callingClass == "new") {
+      callPath = "new $callingMethod [$callingFile:$callingLine]: ";
+    } else {
+      callPath = "$callingClass.$callingMethod [$callingFile:$callingLine]: ";
+    }
 
     /// The full message to be logged.
     final String logMessage = "$callPath$messageString";
 
-    if ([app is not live]) {
+    if (!MyApp.isLive) {
       switch (logType) {
         case LogType.warning:
           print("\x1B[33m$logMessage\x1B[0m");
@@ -122,7 +129,7 @@ class _LoggerStackTrace {
   });
 
   factory _LoggerStackTrace.from(StackTrace trace) {
-    final frames = trace.toString().split("\n");
+    final List<String> frames = trace.toString().split("\n");
 
     const String className = "debug_log.dart";
 
@@ -133,9 +140,20 @@ class _LoggerStackTrace {
 
     final String callerFunctionName = _getFunctionNameFromFrame(frame);
 
+    String callerClassName = callerFunctionName.split(".").first;
+
+    // Handle calls from a constructor.
+    String callerMethodName;
+    try {
+      callerMethodName = callerFunctionName.split(".")[1];
+    } catch (_) {
+      callerMethodName = callerFunctionName;
+      callerClassName = "new";
+    }
+
     return _LoggerStackTrace._(
-      callerFunctionName: callerFunctionName.split(".")[1],
-      callerClassName: callerFunctionName.split(".").first,
+      callerFunctionName: callerMethodName,
+      callerClassName: callerClassName,
       callerClassFileName: fileInfo[0],
       lineNumber: int.parse(fileInfo[1]),
     );
@@ -147,20 +165,34 @@ class _LoggerStackTrace {
   final int lineNumber;
 
   static List<String> _getFileInfoFromFrame(String trace) {
-    final indexOfFileName = trace.indexOf(RegExp(r"[A-Za-z_]+.dart"));
-    final fileInfo = trace.substring(indexOfFileName);
+    final int indexOfFileName = trace.indexOf(RegExp(r"[A-Za-z_]+.dart"));
+    final String fileInfo = trace.substring(indexOfFileName);
 
     return fileInfo.split(":");
   }
 
   static String _getFunctionNameFromFrame(String trace) {
-    final indexOfWhiteSpace = trace.indexOf(" ");
-    final subStr = trace.substring(indexOfWhiteSpace);
-    final indexOfFunction = subStr.indexOf(RegExp(r"[A-Za-z0-9_]"));
+    final int indexOfWhiteSpace = trace.indexOf(" ");
+    final String subStr = trace.substring(indexOfWhiteSpace);
+    final int indexOfFunction = subStr.indexOf(RegExp(r"[A-Za-z0-9_]"));
 
-    return subStr
-        .substring(indexOfFunction)
-        .substring(0, subStr.substring(indexOfFunction).indexOf(" "));
+    final String functionName = subStr.substring(indexOfFunction).substring(0,
+        subStr.substring(indexOfFunction).indexOf(RegExp(r"[^A-Za-z0-9_.]")));
+
+    if (functionName.contains(".")) {
+      return functionName;
+    }
+    if (!functionName.contains("new")) {
+      return functionName;
+    }
+
+    // Handle calls from a constructor.
+    final int indexOfNew = subStr.indexOf("new");
+    final String subStr2 = subStr.substring(indexOfNew + 3);
+    final int indexOfFunction2 = subStr2.indexOf(RegExp(r"[A-Za-z0-9_]"));
+
+    return subStr2.substring(indexOfFunction2).substring(0,
+        subStr2.substring(indexOfFunction2).indexOf(RegExp(r"[^A-Za-z0-9_.]")));
   }
 }
 
