@@ -8,6 +8,9 @@ Add-ons are basically plug-ins that aren't high enough quality to be on [pub.dev
 - [my_file_explorer_sdk](#my_file_explorer_sdk)
 - [my_image_cropper](#my_image_cropper)
 - [my_image_importer](#my_image_importer)
+- [my_scaffold](#my_scaffold)
+- [my_text](#my_text)
+- [my_text_field](#my_text_field)
 - [my_tools](#my_tools)
 
 <!---     TEMPLATE
@@ -32,8 +35,6 @@ Example explanation...
 ```dart
 code example...
 ```
-
-<br>
 
 Example explanation...
 
@@ -116,8 +117,6 @@ The example below shows the creation of an alert that is used as a warning. It c
  myAlert.show(context);
  ```
 
-<br>
-
 The example below shows the creation of an alert that is used as a way of giving the user information.
 
 ```dart
@@ -133,8 +132,6 @@ MyAlert myAlert = MyAlert(
 // Show [myAlert] to the user.
 myAlert.show(context);
 ```
-
-<br>
 
 The example below shows the creation of an alert that is used as a way of confirming something with the user.
 
@@ -236,8 +233,6 @@ This example shows how to get the image from the device's default gallery. This 
 File? myImage = await MyImageImporter.importFromGallery();
 ```
 
-<br>
-
 This is an example of the generic `import` method. This method is most useful when you don't know if the user will want an image from their gallery or from the camera.
 
 ```dart
@@ -253,6 +248,134 @@ ImageOrigin imageOrigin = isCamera ? ImageOrigin.camera : ImageOrigin.gallery;
 
 /// The imported image.
 File? myImage = await MyImageImporter.import(imageOrigin);
+```
+
+[back to top](#table-of-contents)
+
+## my_scaffold
+
+**[source code](my_scaffold.dart)**
+
+This scaffold is a group of foundational widgets, put together to eliminate boilerplate and make the code cleaner. Since almost every screen and page is built with these at their core, it has been placed in one convenient widget.
+
+`Scaffold` > `SafeArea` > `Padding`
+
+### Dependencies
+
+| Add-ons from this list | .yaml dependencies |
+| --- | --- |
+| *none* | *none* |
+
+### Usage
+
+Takes the place of Flutter's `Scaffold`.
+
+```dart
+@override
+Widget build(BuildContext context) {
+	return MyScaffold(
+		appBar: AppBar(title: const Text("Page Title")),
+		builder: (context) => MyPage(), // Your page code here
+	);
+}
+```
+
+[back to top](#table-of-contents)
+
+## my_text
+
+**[source code](my_text.dart)**
+
+Just like Flutter's `Text` widget. This just adds the abiltity to more easily and cleanly change the color and size of the text.
+
+### Dependencies
+
+| Add-ons from this list | .yaml dependencies |
+| --- | --- |
+| *none* | *none* |
+
+### Usage
+
+Example explanation...
+
+```dart
+MyText("Howdy"); // Howdy
+MyText("Howdy", color: Colors.red); // Howdy (in red)
+MyText("Howdy", myTextStyle: MyTextStyle.title); // Howdy (big)
+```
+
+[back to top](#table-of-contents)
+
+## my_text_field
+
+**[source code](my_text_field.dart)**
+
+A custom text field very similar to Flutter's `TextField`. The main difference is that this one has custom validators/input testers.
+
+### Dependencies
+
+| Add-ons from this list | .yaml dependencies |
+| --- | --- |
+| *none* | *none* |
+
+### Usage
+
+Set up your key and your controller.
+
+```dart
+final GlobalKey<MyTextFieldState> messageFieldKey = GlobalKey();
+final TextEditingController messageController = TextEditingController();
+```
+
+Create your tests. This example shows two tests. The first is a default test that makes sure the field is not left empty. The second is a custom test that makes sure the field does not have more than 250 characters.
+
+```dart
+List<MyTextFieldValidator> get messageValidators => [
+	const MyTextFieldValidator.testEmpty(testTrigger: TestTrigger.never),
+	MyTextFieldValidator(
+   		test: (value) => value.length <= 250,
+       expected: true,
+       errorText:
+       	"Too long - 250 characters max",
+       ),
+ 	];
+```
+
+Build the widget.
+
+```dart
+MyTextField(
+	key: messageFieldKey,
+	controller: messageController,
+	hint: "Message",
+	minLines: 5,
+	maxLines: 250,
+	validators: messageValidators,
+	isLastField: true,
+),
+```
+
+Check for errors before subitting form.
+
+```dart
+/// This method checks to see if there are any formatting errors in the user's
+/// input in the form.
+///
+/// If `displayErrorMsg` is true, then the error messages assigned to the
+/// text field controllers will be displayed to the user.
+///
+/// Returns `true` if there are any errors.
+Future<bool> hasInputError({bool displayErrorMsg = false}) async {
+	// Check the message.
+	bool messageHasError = false;
+	if (messageFieldKey.currentState != null) {
+		messageHasError = await messageFieldKey.currentState!.hasErrors(
+			displayErrorMsg: displayErrorMsg,
+		);
+	}
+	
+	return messageHasError;
+}
 ```
 
 [back to top](#table-of-contents)

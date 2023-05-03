@@ -188,4 +188,3 @@ enum LogType {
   /// Will print in blue text if not in production, and the console supports it.
   debug,
 }
-
