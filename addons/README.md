@@ -333,12 +333,12 @@ Create your tests. This example shows two tests. The first is a default test tha
 List<MyTextFieldValidator> get messageValidators => [
 	const MyTextFieldValidator.testEmpty(testTrigger: TestTrigger.never),
 	MyTextFieldValidator(
-   		test: (value) => value.length <= 250,
-       expected: true,
-       errorText:
-       	"Too long - 250 characters max",
-       ),
- 	];
+		test: (value) => value.length <= 250,
+		expected: true,
+		errorText:
+			"Too long - 250 characters max",
+		),
+	];
 ```
 
 Build the widget.
@@ -373,7 +373,7 @@ Future<bool> hasInputError({bool displayErrorMsg = false}) async {
 			displayErrorMsg: displayErrorMsg,
 		);
 	}
-	
+
 	return messageHasError;
 }
 ```
