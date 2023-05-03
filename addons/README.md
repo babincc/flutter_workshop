@@ -52,56 +52,31 @@ This add-on is a tool designed to assist in the debugging process. Rather than m
 
 Print statements can easily be forgotten and left in the code; later on, you'll see print statements coming out when running your program and not be able to find and remove them.
 
-`DebugLog` remedies this by getting you to format your print statements in such a way that they can easily be found later on. It also has a feature that makes the `DebugLog` statement more prominent in the console than a print statement (set `isImportant` to `true`).
+`DebugLog` remedies this formatting your print statements in such a way that they can easily be found later on. It also allows you to change the color of the output (if your console supports it), to make your messages more visible.
 
 Rather than just being a random print statement, `DebugLog` makes a print statement with searchable parts. It formats the statement like so:
 
-ClassName/methodName: Debugging message set by developer
-
--- or --
-
-ClassName/methodName: !!!!!! IMPORTANT !!!!!!<br>
-ClassName/methodName: !!!!!!! IMPORTANT !!!!!!!<br>
-ClassName/methodName: !!!!!!!! IMPORTANT !!!!!!!!<br>
-ClassName/methodName: Debugging message set by developer<br>
-ClassName/methodName: !!!!!!!! IMPORTANT !!!!!!!!<br>
-ClassName/methodName: !!!!!!! IMPORTANT !!!!!!!<br>
-ClassName/methodName: !!!!!! IMPORTANT !!!!!!
+`ClassName.methodName [file_name.dart:ln#]: Debugging message set by developer`
 
 ### Dependencies
 
 | Add-ons from this list | .yaml dependencies |
 | --- | --- |
-| *none* | *none* |
+| *none* | - firebase_crashlytics |
 
 ### Usage
 
-This example below shows the `DebugLog` being used make a print statement in a method run.
-
 ```dart
-void problemMethod(String passedInWord) {
-  // Do stuff
-
-  // Print the value of passedInWord to see if it is as expected.
-  DebugLog.out("ClassName", "problemMethod", "passedInWord = $passedInWord");
-
-  // Do more stuff
-}
+DebugLog.out("Howdy"); // Howdy
+DebugLog.out("Howdy", logType: LogType.error); // Howdy (in red)
 ```
 
-<br>
-
-This example below shows the `DebugLog` being used make a print statement in a method run. The difference between this and the last example; however, is that this one is using the feature that makes the print statement more prominent in the console.
+In the above examples, if the app is live, nothing happens. The example below shows how to send to Crashlytics.
 
 ```dart
-void problemMethod(String passedInWord) {
-  // Do stuff
-
-  // Print the value of passedInWord to see if it is as expected.
-  DebugLog.out("ClassName", "problemMethod", "passedInWord = $passedInWord", isImportant = true);
-
-  // Do more stuff
-}
+// If live, this will send "Howdy" to Crashlytics.
+// If testing, this will print "Howdy" to the console.
+DebugLog.out("Howdy", sendToCrashlytics: true);
 ```
 
 [back to top](#table-of-contents)
