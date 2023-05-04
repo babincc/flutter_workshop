@@ -1,8 +1,10 @@
 // @author Christian Babin
-// @version 3.0.0
+// @version 3.1.0
 // https://github.com/babincc/flutter_workshop/blob/master/addons/debug_log.dart
 
 // ignore_for_file: avoid_print
+
+import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -60,11 +62,11 @@ class DebugLog {
           "${frame.uri} ${frame.line ?? "??"}:${frame.column ?? "??"}\t${frame.member ?? "unknown_calling_method"}";
     }
 
-    if (!MyApp.isLive) {
+    if (!MyApp.isLive || !kReleaseMode) {
       // This print statement causes the console to create a hyperlink to the
       // file and line number of the call to this debugger. This can't be done
       // when color is applied.
-      if (!kIsWeb) {
+      if (!kIsWeb && !Platform.isIOS) {
         print(callPath);
       }
 
@@ -106,21 +108,45 @@ class DebugLog {
 
   /// Prints a message to the console in yellow text.
   static void _showWarning(String message) {
+    // iOS doesn't support colored text in the console.
+    if (!kIsWeb && Platform.isIOS) {
+      print(message);
+      return;
+    }
+
     print("\x1B[33m$message\x1B[0m");
   }
 
   /// Prints a message to the console in red text.
   static void _showError(String message) {
+    // iOS doesn't support colored text in the console.
+    if (!kIsWeb && Platform.isIOS) {
+      print(message);
+      return;
+    }
+
     print("\x1B[31m$message\x1B[0m");
   }
 
   /// Prints a message to the console in green text.
   static void _showSuccess(String message) {
+    // iOS doesn't support colored text in the console.
+    if (!kIsWeb && Platform.isIOS) {
+      print(message);
+      return;
+    }
+
     print("\x1B[32m$message\x1B[0m");
   }
 
   /// Prints a message to the console in blue text.
   static void _showDebug(String message) {
+    // iOS doesn't support colored text in the console.
+    if (!kIsWeb && Platform.isIOS) {
+      print(message);
+      return;
+    }
+
     print("\x1B[34m$message\x1B[0m");
   }
 
