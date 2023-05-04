@@ -63,7 +63,7 @@ Rather than just being a random print statement, `DebugLog` makes a print statem
 
 | Add-ons from this list | .yaml dependencies |
 | --- | --- |
-| *none* | - firebase_crashlytics |
+| *none* | - collection<br>- firebase_crashlytics<br>-stack_trace |
 
 ### Usage
 

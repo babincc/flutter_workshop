@@ -1,11 +1,14 @@
 // @author Christian Babin
-// @version 2.1.0
+// @version 3.0.0
 // https://github.com/babincc/flutter_workshop/blob/master/addons/debug_log.dart
 
 // ignore_for_file: avoid_print
 
+import 'package:collection/collection.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:my_skeleton/my_app.dart';
+import 'package:stack_trace/stack_trace.dart';
 
 /// This class is used to help with debugging.
 class DebugLog {
@@ -41,48 +44,54 @@ class DebugLog {
       messageString = message.toString();
     }
 
-    /// The stack trace of the call to this debugger in a nicely formatted
-    /// object.
-    final _LoggerStackTrace stackTrace =
-        _LoggerStackTrace.from(StackTrace.current);
+    final List<String> messageList = messageString.split("\n");
 
-    /// The runtime Type of the calling class.
-    final String callingClass = stackTrace.callerClassName;
+    final Trace trace = Trace.current();
 
-    /// The name of the calling method.
-    final String callingMethod = stackTrace.callerFunctionName;
+    final Frame? frame = trace.frames.firstWhereOrNull(
+        (frame) => !frame.uri.toString().contains("debug_log.dart"));
 
-    final String callingFile = stackTrace.callerClassFileName;
-
-    /// The line number of the call to this debugger in the calling method.
-    final String callingLine = stackTrace.lineNumber.toString();
-
-    /// The full path to the calling method.
     String callPath;
 
-    // Handle calls from a constructor.
-    if (callingClass == "new") {
-      callPath = "new $callingMethod [$callingFile:$callingLine]: ";
+    if (frame == null) {
+      callPath = "unknown_calling_class: ";
     } else {
-      callPath = "$callingClass.$callingMethod [$callingFile:$callingLine]: ";
+      callPath =
+          "${frame.uri} ${frame.line ?? "??"}:${frame.column ?? "??"}\t${frame.member ?? "unknown_calling_method"}";
     }
 
-    /// The full message to be logged.
-    final String logMessage = "$callPath$messageString";
-
     if (!MyApp.isLive) {
+      // This print statement causes the console to create a hyperlink to the
+      // file and line number of the call to this debugger. This can't be done
+      // when color is applied.
+      if (!kIsWeb) {
+        print(callPath);
+      }
+
       switch (logType) {
         case LogType.warning:
-          print("\x1B[33m$logMessage\x1B[0m");
+          _showWarning(callPath);
+          for (String line in messageList) {
+            _showWarning(line);
+          }
           break;
         case LogType.error:
-          print("\x1B[31m$logMessage\x1B[0m");
+          _showError(callPath);
+          for (String line in messageList) {
+            _showError(line);
+          }
           break;
         case LogType.success:
-          print("\x1B[32m$logMessage\x1B[0m");
+          _showSuccess(callPath);
+          for (String line in messageList) {
+            _showSuccess(line);
+          }
           break;
         case LogType.debug:
-          print("\x1B[34m$logMessage\x1B[0m");
+          _showDebug(callPath);
+          for (String line in messageList) {
+            _showDebug(line);
+          }
           break;
       }
 
@@ -91,8 +100,28 @@ class DebugLog {
 
     if (sendToCrashlytics) {
       // Send the message to Crashlytics.
-      _sendToCrashlytics(logMessage);
+      _sendToCrashlytics("$callPath: $messageString");
     }
+  }
+
+  /// Prints a message to the console in yellow text.
+  static void _showWarning(String message) {
+    print("\x1B[33m$message\x1B[0m");
+  }
+
+  /// Prints a message to the console in red text.
+  static void _showError(String message) {
+    print("\x1B[31m$message\x1B[0m");
+  }
+
+  /// Prints a message to the console in green text.
+  static void _showSuccess(String message) {
+    print("\x1B[32m$message\x1B[0m");
+  }
+
+  /// Prints a message to the console in blue text.
+  static void _showDebug(String message) {
+    print("\x1B[34m$message\x1B[0m");
   }
 
   /// Sends a `message` to Crashlytics.
@@ -115,84 +144,6 @@ class DebugLog {
 
     /// The Crashlytics message.
     await crashlytics.recordError(message, stackTrace, printDetails: false);
-  }
-}
-
-/// Creates an object that allows the debugger to get information about the call
-/// to this debugger.
-class _LoggerStackTrace {
-  const _LoggerStackTrace._({
-    required this.callerFunctionName,
-    required this.callerClassName,
-    required this.callerClassFileName,
-    required this.lineNumber,
-  });
-
-  factory _LoggerStackTrace.from(StackTrace trace) {
-    final List<String> frames = trace.toString().split("\n");
-
-    const String className = "debug_log.dart";
-
-    final String frame = frames
-        .firstWhere((frame) => _getFileInfoFromFrame(frame)[0] != className);
-
-    final List<String> fileInfo = _getFileInfoFromFrame(frame);
-
-    final String callerFunctionName = _getFunctionNameFromFrame(frame);
-
-    String callerClassName = callerFunctionName.split(".").first;
-
-    // Handle calls from a constructor.
-    String callerMethodName;
-    try {
-      callerMethodName = callerFunctionName.split(".")[1];
-    } catch (_) {
-      callerMethodName = callerFunctionName;
-      callerClassName = "new";
-    }
-
-    return _LoggerStackTrace._(
-      callerFunctionName: callerMethodName,
-      callerClassName: callerClassName,
-      callerClassFileName: fileInfo[0],
-      lineNumber: int.parse(fileInfo[1]),
-    );
-  }
-
-  final String callerFunctionName;
-  final String callerClassName;
-  final String callerClassFileName;
-  final int lineNumber;
-
-  static List<String> _getFileInfoFromFrame(String trace) {
-    final int indexOfFileName = trace.indexOf(RegExp(r"[A-Za-z_]+.dart"));
-    final String fileInfo = trace.substring(indexOfFileName);
-
-    return fileInfo.split(":");
-  }
-
-  static String _getFunctionNameFromFrame(String trace) {
-    final int indexOfWhiteSpace = trace.indexOf(" ");
-    final String subStr = trace.substring(indexOfWhiteSpace);
-    final int indexOfFunction = subStr.indexOf(RegExp(r"[A-Za-z0-9_]"));
-
-    final String functionName = subStr.substring(indexOfFunction).substring(0,
-        subStr.substring(indexOfFunction).indexOf(RegExp(r"[^A-Za-z0-9_.]")));
-
-    if (functionName.contains(".")) {
-      return functionName;
-    }
-    if (!functionName.contains("new")) {
-      return functionName;
-    }
-
-    // Handle calls from a constructor.
-    final int indexOfNew = subStr.indexOf("new");
-    final String subStr2 = subStr.substring(indexOfNew + 3);
-    final int indexOfFunction2 = subStr2.indexOf(RegExp(r"[A-Za-z0-9_]"));
-
-    return subStr2.substring(indexOfFunction2).substring(0,
-        subStr2.substring(indexOfFunction2).indexOf(RegExp(r"[^A-Za-z0-9_.]")));
   }
 }
 
