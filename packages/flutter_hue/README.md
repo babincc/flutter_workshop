@@ -27,14 +27,14 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 
 ```yaml
 dependencies:
-  flutter_hue: ^1.2.0
+  flutter_hue: ^1.2.1
 ```
 
 Import it to each file you use it in:
 
- ```dart
- import 'package:flutter_hue/flutter_hue.dart';
- ```
+```dart
+import 'package:flutter_hue/flutter_hue.dart';
+```
 
 ## Usage
 
@@ -64,17 +64,17 @@ Note: If your app does not support remote connection, just use `FlutterHueMainte
 
 This example shows how to get a list of all of the IP addresses of the Philips Hue bridges on the network.
 
-``` dart
+```dart
 List<String> bridgeIps = await BridgeDiscoveryRepo.discoverBridges();
 ```
 
 ### Example 2 - First contact with bridge
 
-This example shows how to establish first contact with a bridge on a device. This is what causes the bridge to create an application key for the user's device. 
+This example shows how to establish first contact with a bridge on a device. This is what causes the bridge to create an application key for the user's device.
 
 Warning: Any device with this key will have access to the bridge. It is meant to be kept secret.
 
-``` dart
+```dart
 Bridge myBridge = await BridgeDiscoveryRepo.firstContact(
 	bridgeIpAddr: 192.168.1.1, // Get IP in example 1
 	controller: timeoutController,
@@ -83,11 +83,11 @@ Bridge myBridge = await BridgeDiscoveryRepo.firstContact(
 
 ### Example 3 - Find all devices on Hue Network
 
-This example shows how to find every Philips Hue device on the network. 
+This example shows how to find every Philips Hue device on the network.
 
 Note: This is only for devices that are connected to a bridge that the user's device has access to (see example 2).
 
-``` dart
+```dart
 // Create the network object
 // Get the bridges in example 2
 HueNetwork myHueNetwork = HueNetwork(bridges: [bridge1, bridge2]);
@@ -100,7 +100,7 @@ await hueNetwork.fetchAll();
 
 This example shows how to change the color of a light.
 
-``` dart
+```dart
 // Get a light to change the color of.
 // Hue Network can be found in example 3
 Light myLight = myHueNetwork.lights.first;
@@ -121,7 +121,7 @@ await bridge.put(myLight);
 
 This example shows how to turn multiple lights on and off.
 
-``` dart
+```dart
 // Get the grouped light from the room
 GroupedLight myGroupedLight = myHueNetwork.rooms.first.servicesAsResources
         .firstWhere((resource) => resource is GroupedLight) as GroupedLight;
@@ -137,7 +137,7 @@ myHueNetwork.put();
 
 This example shows how to use the color converters.
 
-``` dart
+```dart
 ColorConverter.xy2rgb(0.5, 0.5); // [255, 222, 0]
 ColorConverter.rgb2hsl(255, 0, 0); // [0.0, 1.0, 0.5]
 ColorConverter.hsv2hex(0, 1.0 , 1.0); // "ffff0000"
@@ -157,7 +157,7 @@ myColor.toInt(); // 4287252616
 
 This example shows how to use Philips Hue's icons.
 
-``` dart
+```dart
 Icon(HueIcon.classicBulb);
 
 IconButton(

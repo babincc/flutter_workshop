@@ -122,10 +122,10 @@ class _HomePageState extends State<HomePage> {
         title: const Text("Flutter Hue"),
         actions: isLoading
             ? [
-                Padding(
-                  padding: const EdgeInsets.only(right: padding),
+                const Padding(
+                  padding: EdgeInsets.only(right: padding),
                   child: Row(
-                    children: const [
+                    children: [
                       Text("Loading... "),
                       Icon(Icons.query_builder),
                     ],

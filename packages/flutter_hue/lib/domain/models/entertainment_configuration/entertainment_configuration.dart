@@ -48,6 +48,12 @@ class EntertainmentConfiguration extends Resource {
     // Handle entire response given with no filter.
     Map<String, dynamic> data = MiscTools.extractData(dataMap);
 
+    final Map<String, dynamic> locations =
+        Map<String, dynamic>.from(data[ApiFields.locations] ?? {});
+
+    final List<dynamic>? serviceLocations =
+        locations[ApiFields.serviceLocations];
+
     return EntertainmentConfiguration(
       type: ResourceType.fromString(data[ApiFields.type] ?? ""),
       id: data[ApiFields.id] ?? "",
@@ -66,7 +72,7 @@ class EntertainmentConfiguration extends Resource {
                   Map<String, dynamic>.from(channelMap)))
               .toList() ??
           [],
-      locations: (data[ApiFields.locations] as List<dynamic>?)
+      locations: serviceLocations
               ?.map((locationMap) =>
                   EntertainmentConfigurationLocation.fromJson(
                       Map<String, dynamic>.from(locationMap)))
@@ -368,10 +374,12 @@ class EntertainmentConfiguration extends Resource {
 
       if (!const DeepCollectionEquality.unordered()
           .equals(locations, _originalLocations)) {
-        toReturn[ApiFields.locations] = locations
-            .map(
-                (location) => location.toJson(optimizeFor: OptimizeFor.putFull))
-            .toList();
+        toReturn[ApiFields.locations] = {
+          ApiFields.serviceLocations: locations
+              .map((location) =>
+                  location.toJson(optimizeFor: OptimizeFor.putFull))
+              .toList()
+        };
       }
 
       return toReturn;
@@ -385,10 +393,12 @@ class EntertainmentConfiguration extends Resource {
         ApiFields.configurationType: configurationType,
         ApiFields.action: action,
         ApiFields.streamProxy: streamProxy.toJson(optimizeFor: optimizeFor),
-        ApiFields.locations: locations
-            .map(
-                (location) => location.toJson(optimizeFor: OptimizeFor.putFull))
-            .toList(),
+        ApiFields.locations: {
+          ApiFields.serviceLocations: locations
+              .map((location) =>
+                  location.toJson(optimizeFor: OptimizeFor.putFull))
+              .toList(),
+        },
       };
     }
 
@@ -399,9 +409,11 @@ class EntertainmentConfiguration extends Resource {
         ApiFields.metadata: metadata.toJson(optimizeFor: optimizeFor),
         ApiFields.configurationType: configurationType,
         ApiFields.streamProxy: streamProxy.toJson(optimizeFor: optimizeFor),
-        ApiFields.locations: locations
-            .map((location) => location.toJson(optimizeFor: optimizeFor))
-            .toList(),
+        ApiFields.locations: {
+          ApiFields.serviceLocations: locations
+              .map((location) => location.toJson(optimizeFor: optimizeFor))
+              .toList(),
+        },
       };
     }
 
@@ -419,9 +431,11 @@ class EntertainmentConfiguration extends Resource {
       ApiFields.channels: channels
           .map((channel) => channel.toJson(optimizeFor: optimizeFor))
           .toList(),
-      ApiFields.locations: locations
-          .map((location) => location.toJson(optimizeFor: optimizeFor))
-          .toList(),
+      ApiFields.locations: {
+        ApiFields.serviceLocations: locations
+            .map((location) => location.toJson(optimizeFor: optimizeFor))
+            .toList(),
+      },
       ApiFields.lightServices: lightServices
           .map((lightService) => lightService.toJson(optimizeFor: optimizeFor))
           .toList(),
