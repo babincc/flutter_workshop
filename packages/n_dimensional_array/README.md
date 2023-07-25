@@ -1,39 +1,66 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# n-Dimensional Array
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+The n-Dimensional Array package is a powerful tool that empowers Flutter developers to create and work with multi-dimensional arrays. With this package, developers can easily define and manipulate n-dimensional arrays in their applications. This package offers a simple and intuitive interface to handle arrays of various dimensions efficiently.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
+## Installation
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+In the `pubspec.yaml` of your flutter project, add the following dependency:
 
-## Features
+```yaml
+dependencies:
+  n_dimensional_array: ^0.1.0
+```
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+Import it to each file you use it in:
 
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+```dart
+import 'package:n_dimensional_array/n_dimensional_array.dart';
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+### Example 1 - Create multi-dimensional array
+
+This example shows how to create a multi-dimensional array using two different methods.
+
+Note: Each method creates the same end product.
 
 ```dart
-const like = 'sample';
+List myList = [[[1, 2], [3, 4]], [[5, 6], [7, 8]], [[9, 10], [11, 12]]];
+
+// Method 1
+NdArray ndArray1 = NdArray.fromList(myList);
+
+// Method 2
+NdArray ndArray2 = NdArray(3);
+ndArray2[0][0][0] = 1;
+ndArray2[0][0][1] = 2;
+ndArray2[0][1][0] = 3;
+ndArray2[0][1][1] = 4;
+ndArray2[1][0][0] = 5;
+ndArray2[1][0][1] = 6;
+ndArray2[1][1][0] = 7;
+ndArray2[1][1][1] = 8;
+ndArray2[2][0][0] = 9;
+ndArray2[2][0][1] = 10;
+ndArray2[2][1][0] = 11;
+ndArray2[2][1][1] = 12;
 ```
 
-## Additional information
+<hr>
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+<h3 align="center">If you found this helpful, please consider donating. Thanks!</h3>
+<p align="center">
+  <a href="https://www.buymeacoffee.com/babincc" target="_blank">
+    <img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/donate_icons/buy_me_a_coffee_logo.png" alt="buy me a coffee" height="45">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://paypal.me/cssbabin" target="_blank">
+    <img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/donate_icons/pay_pal_logo.png" alt="paypal" height="45">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://venmo.com/u/babincc" target="_blank">
+    <img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/donate_icons/venmo_logo.png" alt="venmo" height="45">
+  </a>
+</p>
+<br><br>
