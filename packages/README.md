@@ -4,6 +4,7 @@ Here are all the packages I have made. There will be a link on each one to tell 
 
 ### Table of Contents
 - [Flutter Hue](#flutter_hue)
+- [n-Dimensional Array](#n_dimensional_array)
 - [Radio Group](#radio_group_v2)
 
 <!---     TEMPLATE
