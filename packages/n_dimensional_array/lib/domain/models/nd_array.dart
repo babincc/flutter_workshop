@@ -1,7 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:n_dimensional_array/utils/list_tools.dart';
 
+/// A multi-dimensional array.
 class NdArray extends Iterable {
+  /// Creates an array with `numDimensions` dimensions.
   NdArray(this.numDimensions) {
     if (numDimensions < 1) {
       throw ArgumentError('numDimensions must be greater than 0\n'
@@ -15,6 +17,7 @@ class NdArray extends Iterable {
     }
   }
 
+  /// Creates an array from `list`.
   factory NdArray.fromList(List list) {
     int numDimensions = ListTools.countDimensions(list);
 
@@ -39,7 +42,7 @@ class NdArray extends Iterable {
   /// The data in the array.
   ///
   /// When setting to a new value, it will throw an [ArgumentError] if the
-  /// number of dimensions in [data] does not match the number of dimensions in
+  /// number of dimensions in `data` does not match the number of dimensions in
   /// the array it is replacing.
   List get data => _data;
   set data(List data) {
@@ -55,26 +58,11 @@ class NdArray extends Iterable {
     _data = data;
   }
 
-  /// Returns the value at [index].
+  /// Returns the value at `index`.
   ///
-  /// Throws a [RangeError] if [index] is out of bounds.
+  /// Throws a [RangeError] if `index` is out of bounds.
   dynamic operator [](int index) {
-    try {
-      _checkRange(index);
-    } on RangeError {
-      try {
-        _checkRange(index - 1);
-      } catch (e) {
-        throw RangeError(
-            'index $index out of bounds for range 0..${_data.length}');
-      }
-
-      _data.add(List<dynamic>.filled(1, null, growable: true));
-
-      for (int i = 1; i < numDimensions; i++) {
-        _data.last = [_data.last];
-      }
-    }
+    _checkRange(index);
 
     if (numDimensions == 1) {
       return _data[index];
@@ -82,32 +70,143 @@ class NdArray extends Iterable {
 
     NdArray ndArray = NdArray(numDimensions - 1);
 
-    ndArray._data = _data[index];
+    if (_data[index] is List) {
+      ndArray._data = _data[index];
+    } else {
+      ndArray._data = [_data[index]];
+    }
 
     return ndArray;
   }
 
-  /// Sets the value at [index] to [value].
+  /// Sets the value at `index` to `value`.
   ///
-  /// Throws a [RangeError] if [index] is out of bounds.
+  /// Throws a [RangeError] if `index` is out of bounds.
   void operator []=(int index, dynamic value) {
-    try {
-      _checkRange(index);
-    } on RangeError {
-      _data.add(value);
-      return;
-    }
+    _checkRange(index);
 
     _data[index] = value;
   }
 
-  /// Throws a [RangeError] if [index] is out of bounds.
+  /// Throws a [RangeError] if `index` is out of bounds.
   void _checkRange(int index) {
     if (index < 0 || index >= _data.length) {
       throw RangeError(
           'index $index out of bounds for range 0..${_data.length}');
     }
   }
+
+  /// Reshapes the array to `shape`.
+  ///
+  /// Note: If you want the number of elements in the new shape to be the same
+  /// as the number of elements in the original array, then you can use `-1` as
+  /// a placeholder for the number of elements in the new shape.
+  ///
+  /// For example, if you have a 2x2 array, then you can reshape it to a 2x3
+  /// array by doing:
+  ///
+  /// ```dart
+  /// reshape([-1, 3]);
+  /// ```
+  ///
+  /// Warning: If the number of elements in the new shape is less than the
+  /// number of elements in the original array, then the extra elements will be
+  /// lost.
+  ///
+  /// If the number of elements in the new shape is greater than the number of
+  /// elements in the original array, then the extra elements will be filled
+  /// with `null`.
+  ///
+  /// Throws an [ArgumentError] if the length of `shape` does not match the
+  /// number of dimensions in the array.
+  ///
+  /// Throws an [ArgumentError] if `shape` contains any negative integers other
+  /// than `-1` or if it contains 0.
+  void reshape(List<int> shape) {
+    // Check that shape has the same number of dimensions as the array.
+    if (shape.length != numDimensions) {
+      throw ArgumentError('shape must have the same number of dimensions as '
+          'the original array\n'
+          'Expected: $numDimensions\n'
+          'Actual: ${shape.length}');
+    }
+
+    // Check that shape only contains positive integers.
+    for (int element in shape) {
+      if (element < 1 && element != -1) {
+        throw ArgumentError('shape must only contain positive integers\n'
+            'Actual: $shape');
+      }
+    }
+
+    /// The shape of the array before reshaping.
+    List<int> currentShape = ListTools.getShape(_data);
+
+    // Replace -1 with the correct value.
+    for (int i = 0; i < shape.length; i++) {
+      if (shape[i] == -1) {
+        shape[i] = currentShape[i];
+      }
+    }
+
+    // If the shape is the same, then do nothing.
+    if (const DeepCollectionEquality().equals(currentShape, shape)) return;
+
+    // Go through each dimension and add or remove elements as needed.
+    for (int i = 0; i < shape.length; i++) {
+      // If the shape is the same, then do nothing.
+      if (shape[i] == currentShape[i]) continue;
+
+      /// The chunks of the array at the current dimension.
+      late List<NdArray> chunks;
+      try {
+        chunks = extractDimension(i);
+      } catch (e) {
+        chunks = [this];
+      }
+
+      /// The desired length of the current chunks.
+      int desiredLength = shape[i];
+
+      for (NdArray chunk in chunks) {
+        // The actual length of the current chunk.
+        int actualLength = chunk.shape.first;
+
+        if (actualLength < desiredLength) {
+          // Grow the chunk.
+          while (actualLength < desiredLength) {
+            // Build the injection.
+            List injection = List<dynamic>.filled(1, null, growable: true);
+            for (int k = 0; k < numDimensions - (i + 1); k++) {
+              injection = [injection];
+            }
+
+            chunk._data.add(injection);
+            actualLength++;
+          }
+        } else {
+          // Shrink the chunk.
+          chunk._data.length = desiredLength;
+        }
+      }
+    }
+  }
+
+  /// Returns a list of each chunk at the given `dimension`.
+  ///
+  /// The array `[[[1, 2], [3, 4]], [[5, 6], [7, 8]]]` creates a 2x2 cube.
+  ///
+  /// ```dart
+  /// extractDimension(dimension: 1);
+  /// ```
+  ///
+  /// The above example returns two 2x2 planes:
+  /// * `[[1, 2], [3, 4]]`
+  /// * `[[5, 6], [7, 8]]`
+  ///
+  /// Note: The returned list is a list of [NdArray]s.
+  List<NdArray> extractDimension(int dimension) =>
+      ListTools.extractDimension(dimension: dimension, list: _data);
 
   /// Returns a copy of this array.
   ///
@@ -118,7 +217,7 @@ class NdArray extends Iterable {
     return NdArray(numDimensions).._data = copy;
   }
 
-  /// Returns a copy of [iterable].
+  /// Returns a copy of `iterable`.
   List _copy(List iterable) {
     List copy = [];
 
@@ -143,7 +242,8 @@ class NdArray extends Iterable {
 
     if (numDimensions != other.numDimensions) return false;
 
-    return const DeepCollectionEquality().equals(other._data, _data);
+    return const DeepCollectionEquality().equals(other.shape, shape) &&
+        const DeepCollectionEquality().equals(other._data, _data);
   }
 
   @override
@@ -156,6 +256,8 @@ class NdArray extends Iterable {
 
   @override
   String toString() {
-    return _data.toString();
+    return "Num Dimensions: $numDimensions\n"
+        "Shape: $shape\n"
+        "Data: ${_data.toString()}";
   }
 }

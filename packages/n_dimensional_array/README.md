@@ -26,13 +26,16 @@ This example shows how to create a multi-dimensional array using two different m
 Note: Each method creates the same end product.
 
 ```dart
+// Method 1
 List myList = [[[1, 2], [3, 4]], [[5, 6], [7, 8]], [[9, 10], [11, 12]]];
 
-// Method 1
 NdArray ndArray1 = NdArray.fromList(myList);
 
 // Method 2
 NdArray ndArray2 = NdArray(3);
+
+ndArray2.reshape([3, 2, 2]);
+
 ndArray2[0][0][0] = 1;
 ndArray2[0][0][1] = 2;
 ndArray2[0][1][0] = 3;

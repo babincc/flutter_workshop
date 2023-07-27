@@ -168,6 +168,8 @@ void main() {
           NdArray ndArray1 = NdArray.fromList(testList);
           NdArray ndArray2 = NdArray(4);
 
+          ndArray2.reshape([4, 2, 2, 2]);
+
           ndArray2[0][0][0][0] = 1;
           ndArray2[0][0][0][1] = 2;
           ndArray2[0][0][1][0] = 3;
@@ -210,6 +212,8 @@ void main() {
         () {
           NdArray ndArray1 = NdArray.fromList(testList);
           NdArray ndArray2 = NdArray(4);
+
+          ndArray2.reshape([4, 2, 2, 2]);
 
           ndArray2[0][0][0][0] = 1;
           ndArray2[0][0][0][1] = 2;
@@ -254,6 +258,8 @@ void main() {
         () {
           NdArray ndArray1 = NdArray.fromList(testList);
           NdArray ndArray2 = NdArray(4);
+
+          ndArray2.reshape([4, 2, 2, 2]);
 
           ndArray2[0][0][0][0] = 2;
           ndArray2[0][0][0][1] = 1;
@@ -303,6 +309,8 @@ void main() {
           NdArray ndArray1 = NdArray.fromList(testList);
           NdArray ndArray2 = NdArray(4);
 
+          ndArray2.reshape([4, 2, 2, 2]);
+
           ndArray2[0][0][0][0] = 1;
           ndArray2[0][0][0][1] = 2;
           ndArray2[0][0][1][0] = 3;
@@ -345,6 +353,8 @@ void main() {
         () {
           NdArray ndArray1 = NdArray.fromList(testList);
           NdArray ndArray2 = NdArray(4);
+
+          ndArray2.reshape([4, 2, 2, 2]);
 
           ndArray2[0][0][0][0] = 1;
           ndArray2[0][0][0][1] = 2;
@@ -389,6 +399,8 @@ void main() {
         () {
           NdArray ndArray1 = NdArray.fromList(testList);
           NdArray ndArray2 = NdArray(4);
+
+          ndArray2.reshape([4, 2, 2, 2]);
 
           ndArray2[0][0][0][0] = 2;
           ndArray2[0][0][0][1] = 1;
