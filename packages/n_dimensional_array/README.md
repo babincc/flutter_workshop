@@ -21,33 +21,38 @@ import 'package:n_dimensional_array/n_dimensional_array.dart';
 
 ### Example 1 - Create multi-dimensional array
 
-This example shows how to create a multi-dimensional array using two different methods.
+This example shows how to create a multi-dimensional array using three different methods.
 
 Note: Each method creates the same end product.
 
 ```dart
-// Method 1
 List myList = [[[1, 2], [3, 4]], [[5, 6], [7, 8]], [[9, 10], [11, 12]]];
 
+// Method 1
 NdArray ndArray1 = NdArray.fromList(myList);
 
 // Method 2
 NdArray ndArray2 = NdArray(3);
 
-ndArray2.reshape([3, 2, 2]);
+ndArray2.data = myList;
 
-ndArray2[0][0][0] = 1;
-ndArray2[0][0][1] = 2;
-ndArray2[0][1][0] = 3;
-ndArray2[0][1][1] = 4;
-ndArray2[1][0][0] = 5;
-ndArray2[1][0][1] = 6;
-ndArray2[1][1][0] = 7;
-ndArray2[1][1][1] = 8;
-ndArray2[2][0][0] = 9;
-ndArray2[2][0][1] = 10;
-ndArray2[2][1][0] = 11;
-ndArray2[2][1][1] = 12;
+// Method 3
+NdArray ndArray3 = NdArray(3);
+
+ndArray3.reshape([3, 2, 2]);
+
+ndArray3[0][0][0] = 1;
+ndArray3[0][0][1] = 2;
+ndArray3[0][1][0] = 3;
+ndArray3[0][1][1] = 4;
+ndArray3[1][0][0] = 5;
+ndArray3[1][0][1] = 6;
+ndArray3[1][1][0] = 7;
+ndArray3[1][1][1] = 8;
+ndArray3[2][0][0] = 9;
+ndArray3[2][0][1] = 10;
+ndArray3[2][1][0] = 11;
+ndArray3[2][1][1] = 12;
 ```
 
 <hr>
