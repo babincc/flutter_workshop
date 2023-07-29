@@ -1,6 +1,6 @@
 name: n_dimensional_array
-description: Allows for the creation of n-dimensional arrays in Dart.
-version: 0.1.0
+description: Allows for the creation and easy manipulation of n-dimensional arrays in Flutter.
+version: 0.1.1
 repository: https://github.com/babincc/flutter_workshop/tree/master/packages/n_dimensional_array
 issue_tracker: https://github.com/babincc/flutter_workshop/labels/plugin%3A%20n_dimensional_array
 
