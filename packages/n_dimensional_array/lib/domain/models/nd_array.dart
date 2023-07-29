@@ -88,8 +88,22 @@ class NdArray extends Iterable {
   void operator []=(int index, dynamic value) {
     _checkRange(index);
 
-    // TODO Don't lose nesting structure
-    //  example don't allow the second dimension of a 5d array to NOT be a list
+    if (numDimensions != 1) {
+      int? valueNumDimensions;
+
+      if (value is NdArray) {
+        valueNumDimensions = value.numDimensions;
+      } else if (value is List) {
+        valueNumDimensions = ListTools.countDimensions(value);
+      }
+
+      if (valueNumDimensions == null || valueNumDimensions != numDimensions) {
+        throw ArgumentError('value must have the same number of dimensions as '
+            'the original array\n'
+            'Expected: ${numDimensions - 1}\n'
+            'Actual: $valueNumDimensions');
+      }
+    }
 
     _data[index] = value;
   }

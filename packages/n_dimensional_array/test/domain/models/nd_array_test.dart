@@ -4608,6 +4608,16 @@ void main() {
     },
   );
 
+  test(
+    "[]= shape exploit",
+    () {
+      final NdArray ndArray = NdArray.fromList(testList4d);
+
+      expect(() => ndArray[0][0][0][0] = 9999, returnsNormally);
+      expect(() => ndArray[0][0][0] = 9999, throwsArgumentError);
+    },
+  );
+
   group(
     "copy",
     () {
@@ -5092,7 +5102,7 @@ NdArray build2dArray([int version = 1]) {
   ndArray[1][1] = 4;
 
   if (version == 2) {
-    ndArray[0] = 4;
+    ndArray[0][0] = 4;
   } else if (version == 3) {
     ndArray[0][1] = 3;
     ndArray[1][0] = 2;
