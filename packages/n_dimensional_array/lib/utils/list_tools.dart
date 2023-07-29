@@ -58,9 +58,16 @@ class ListTools {
     for (var element in list) {
       if (dimension == currentDimension) {
         if (element is List) {
-          extractedDimension.add(NdArray.fromList(element));
+          int elementDimensions = countDimensions(element);
+          NdArray ndArray = NdArray(elementDimensions);
+          ndArray.data = element;
+
+          extractedDimension.add(ndArray);
         } else {
-          extractedDimension.add(NdArray.fromList([element]));
+          NdArray ndArray = NdArray(1);
+          ndArray.data = [element];
+
+          extractedDimension.add(ndArray);
         }
       } else {
         if (element is List) {

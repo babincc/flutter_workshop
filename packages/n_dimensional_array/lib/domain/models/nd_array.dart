@@ -25,6 +25,9 @@ class NdArray extends Iterable {
 
     ndArray._data = list;
 
+    // Makes the lists growable.
+    ndArray = ndArray.copy();
+
     return ndArray;
   }
 
@@ -85,6 +88,9 @@ class NdArray extends Iterable {
   void operator []=(int index, dynamic value) {
     _checkRange(index);
 
+    // TODO Don't lose nesting structure
+    //  example don't allow the second dimension of a 5d array to NOT be a list
+
     _data[index] = value;
   }
 
@@ -92,7 +98,7 @@ class NdArray extends Iterable {
   void _checkRange(int index) {
     if (index < 0 || index >= _data.length) {
       throw RangeError(
-          'index $index out of bounds for range 0..${_data.length}');
+          'index $index out of bounds for range 0..${_data.length - 1}');
     }
   }
 
@@ -176,12 +182,17 @@ class NdArray extends Iterable {
           // Grow the chunk.
           while (actualLength < desiredLength) {
             // Build the injection.
-            List injection = List<dynamic>.filled(1, null, growable: true);
+            dynamic injection;
             for (int k = 0; k < numDimensions - (i + 1); k++) {
               injection = [injection];
             }
 
-            chunk._data.add(injection);
+            if (injection == null) {
+              chunk._data.add(null);
+            } else {
+              chunk._data.add(List<dynamic>.from(injection, growable: true));
+            }
+
             actualLength++;
           }
         } else {
@@ -193,6 +204,8 @@ class NdArray extends Iterable {
   }
 
   /// Returns a list of each chunk at the given `dimension`.
+  ///
+  /// This **does not** affect the original array.
   ///
   /// The array `[[[1, 2], [3, 4]], [[5, 6], [7, 8]]]` creates a 2x2 cube.
   ///
@@ -212,18 +225,18 @@ class NdArray extends Iterable {
   ///
   /// The copy is a deep copy.
   NdArray copy() {
-    List copy = _copy(_data);
+    List<dynamic> copy = _copy(_data);
 
     return NdArray(numDimensions).._data = copy;
   }
 
   /// Returns a copy of `iterable`.
-  List _copy(List iterable) {
-    List copy = [];
+  List<dynamic> _copy(List iterable) {
+    List<dynamic> copy = List<dynamic>.filled(0, null, growable: true);
 
     for (var element in iterable) {
       if (element is Iterable) {
-        copy.add(_copy(element as List));
+        copy.add(_copy(element as List<dynamic>));
       } else {
         copy.add(element);
       }
