@@ -59,7 +59,7 @@ ndArray3[2][1][1] = 12;
 
 ### Example 2 - Reshape
 
-Just like with a normal list in Dart, you cannot add elements beyond the length of the list. For a list, you would you the `add()` method. Expanding a multi-demensional list is a bit more complicated; so, the `reshape` method was created.
+Just like with a normal list in Dart, you cannot add elements beyond the length of the list. For a list, you would you the `add()` method. Expanding a multi-dimensional list is a bit more complicated; so, the `reshape` method was created.
 
 ```dart
 // The list from Example 1
@@ -73,10 +73,10 @@ List<int> shape = ndArray.shape;
 // Add one more element to the 3rd dimension
 ndArray.reshape([3, 2, 3]);
 
-// Note: Since we are only changing the third 
+// Note: Since we are only changing the third
 // dimension, we could alternatively call:
 // ndArray.reshape([-1, -1, 3]);
-// The `-1` counts as a placeholder, and the 
+// The `-1` counts as a placeholder, and the
 // original shape value is used.
 
 // The list now looks like:
@@ -119,7 +119,7 @@ value1 = ndArray[0][1]; // 8
 
 When you use the `copy()` method, you create a new `NdArray` that is identical to the original. Any modifications to one does not affect the other.
 
-Note: A non-primative data types that use referances (like custom objects) might not create new versions of themselves when copied. If this is the case, changes to one of those objects will appear in both `NdArray`s.
+Note: A non-primitive data types that use references (like custom objects) might not create new versions of themselves when copied. If this is the case, changes to one of those objects will appear in both `NdArray`s.
 
 ```dart
 // 2D list is easier to follow

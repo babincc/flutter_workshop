@@ -237,7 +237,13 @@ class NdArray extends Iterable {
 
   /// Returns a copy of this array.
   ///
-  /// The copy is a deep copy.
+  /// The copy is a deep copy. This means you are creating a new [NdArray] that is
+  /// identical to `this` one. Any modifications to one does not affect the
+  /// other.
+  ///
+  /// Note: A non-primitive data types that use references (like custom objects)
+  /// might not create new versions of themselves when copied. If this is the
+  /// case, changes to one of those objects will appear in both [NdArray]s.
   NdArray copy() {
     final List<dynamic> copy = _copy(_data);
 
@@ -254,6 +260,7 @@ class NdArray extends Iterable {
       } else {
         dynamic elementCopy;
 
+        // Try to copy deepest elements so they are not references.
         try {
           elementCopy = element.deepCopy();
         } catch (e) {
