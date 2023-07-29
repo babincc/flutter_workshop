@@ -19,7 +19,7 @@ class NdArray extends Iterable {
 
   /// Creates an array from `list`.
   factory NdArray.fromList(List list) {
-    int numDimensions = ListTools.countDimensions(list);
+    final int numDimensions = ListTools.countDimensions(list);
 
     NdArray ndArray = NdArray(numDimensions);
 
@@ -37,19 +37,19 @@ class NdArray extends Iterable {
   /// The shape of the array.
   ///
   /// The shape is a list of the number of elements in each dimension.
-  List get shape => ListTools.getShape(_data);
+  List<int> get shape => ListTools.getShape(_data);
 
   /// The data in the array.
-  late List _data;
+  late List<dynamic> _data;
 
   /// The data in the array.
   ///
   /// When setting to a new value, it will throw an [ArgumentError] if the
   /// number of dimensions in `data` does not match the number of dimensions in
   /// the array it is replacing.
-  List get data => _data;
-  set data(List data) {
-    int numDimensions = ListTools.countDimensions(data);
+  List<dynamic> get data => _data;
+  set data(List<dynamic> data) {
+    final int numDimensions = ListTools.countDimensions(data);
 
     if (numDimensions != this.numDimensions) {
       throw ArgumentError('new data must have the same number of dimensions '
@@ -71,7 +71,7 @@ class NdArray extends Iterable {
       return _data[index];
     }
 
-    NdArray ndArray = NdArray(numDimensions - 1);
+    final NdArray ndArray = NdArray(numDimensions - 1);
 
     if (_data[index] is List) {
       ndArray._data = _data[index];
@@ -160,7 +160,7 @@ class NdArray extends Iterable {
     }
 
     /// The shape of the array before reshaping.
-    List<int> currentShape = ListTools.getShape(_data);
+    final List<int> currentShape = ListTools.getShape(_data);
 
     // Replace -1 with the correct value.
     for (int i = 0; i < shape.length; i++) {
@@ -186,7 +186,7 @@ class NdArray extends Iterable {
       }
 
       /// The desired length of the current chunks.
-      int desiredLength = shape[i];
+      final int desiredLength = shape[i];
 
       for (NdArray chunk in chunks) {
         // The actual length of the current chunk.
@@ -239,20 +239,52 @@ class NdArray extends Iterable {
   ///
   /// The copy is a deep copy.
   NdArray copy() {
-    List<dynamic> copy = _copy(_data);
+    final List<dynamic> copy = _copy(_data);
 
     return NdArray(numDimensions).._data = copy;
   }
 
   /// Returns a copy of `iterable`.
   List<dynamic> _copy(List iterable) {
-    List<dynamic> copy = List<dynamic>.filled(0, null, growable: true);
+    final List<dynamic> copy = List<dynamic>.filled(0, null, growable: true);
 
     for (var element in iterable) {
       if (element is Iterable) {
         copy.add(_copy(element as List<dynamic>));
       } else {
-        copy.add(element);
+        dynamic elementCopy;
+
+        try {
+          elementCopy = element.deepCopy();
+        } catch (e) {
+          try {
+            elementCopy = element.deepcopy();
+          } catch (e) {
+            try {
+              elementCopy = element.copy();
+            } catch (e) {
+              try {
+                elementCopy = element.copyWith();
+              } catch (e) {
+                try {
+                  elementCopy = element.clone();
+                } catch (e) {
+                  try {
+                    elementCopy = element.cloneWith();
+                  } catch (e) {
+                    try {
+                      elementCopy = element.duplicate();
+                    } catch (e) {
+                      elementCopy = element;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        copy.add(elementCopy);
       }
     }
 
