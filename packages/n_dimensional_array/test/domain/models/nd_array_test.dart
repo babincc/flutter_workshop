@@ -5052,6 +5052,1699 @@ void main() {
       );
     },
   );
+
+  group(
+    "first",
+    () {
+      test(
+        "1D",
+        () {
+          NdArray ndArray = NdArray.fromList(testList1d);
+
+          expect(ndArray.first, 1);
+        },
+      );
+
+      test(
+        "2D",
+        () {
+          NdArray ndArray = NdArray.fromList(testList2d);
+
+          expect(ndArray.first, 1);
+        },
+      );
+
+      test(
+        "3D",
+        () {
+          NdArray ndArray = NdArray.fromList(testList3d);
+
+          expect(ndArray.first, 1);
+        },
+      );
+
+      test(
+        "4D",
+        () {
+          NdArray ndArray = NdArray.fromList(testList4d);
+
+          expect(ndArray.first, 1);
+        },
+      );
+
+      test(
+        "12D",
+        () {
+          NdArray ndArray = NdArray.fromList(testList12d);
+
+          expect(ndArray.first, 1);
+        },
+      );
+    },
+  );
+
+  group(
+    "last",
+    () {
+      test(
+        "1D",
+        () {
+          NdArray ndArray = NdArray.fromList(testList1d);
+
+          expect(ndArray.last, 4);
+        },
+      );
+
+      test(
+        "2D",
+        () {
+          NdArray ndArray = NdArray.fromList(testList2d);
+
+          expect(ndArray.last, 4);
+        },
+      );
+
+      test(
+        "3D",
+        () {
+          NdArray ndArray = NdArray.fromList(testList3d);
+
+          expect(ndArray.last, 8);
+        },
+      );
+
+      test(
+        "4D",
+        () {
+          NdArray ndArray = NdArray.fromList(testList4d);
+
+          expect(ndArray.last, 13);
+        },
+      );
+
+      test(
+        "12D",
+        () {
+          NdArray ndArray = NdArray.fromList(testList12d);
+
+          expect(ndArray.last, "fgj56");
+        },
+      );
+    },
+  );
+
+  group(
+    "isEmpty",
+    () {
+      test(
+        "1D",
+        () {
+          NdArray ndArray1 = NdArray(1);
+          NdArray ndArray2 = NdArray.fromList(testList1d);
+
+          expect(ndArray1.isEmpty, true);
+          expect(ndArray2.isEmpty, false);
+        },
+      );
+
+      test(
+        "2D",
+        () {
+          NdArray ndArray1 = NdArray(2);
+          NdArray ndArray2 = NdArray.fromList(testList2d);
+
+          expect(ndArray1.isEmpty, true);
+          expect(ndArray2.isEmpty, false);
+        },
+      );
+
+      test(
+        "3D",
+        () {
+          NdArray ndArray1 = NdArray(3);
+          NdArray ndArray2 = NdArray.fromList(testList3d);
+
+          expect(ndArray1.isEmpty, true);
+          expect(ndArray2.isEmpty, false);
+        },
+      );
+
+      test(
+        "4D",
+        () {
+          NdArray ndArray1 = NdArray(4);
+          NdArray ndArray2 = NdArray.fromList(testList4d);
+
+          expect(ndArray1.isEmpty, true);
+          expect(ndArray2.isEmpty, false);
+        },
+      );
+
+      test(
+        "12D",
+        () {
+          NdArray ndArray1 = NdArray(12);
+          NdArray ndArray2 = NdArray.fromList(testList12d);
+
+          expect(ndArray1.isEmpty, true);
+          expect(ndArray2.isEmpty, false);
+        },
+      );
+    },
+  );
+
+  group(
+    "isNotEmpty",
+    () {
+      test(
+        "1D",
+        () {
+          NdArray ndArray1 = NdArray(1);
+          NdArray ndArray2 = NdArray.fromList(testList1d);
+
+          expect(ndArray1.isNotEmpty, false);
+          expect(ndArray2.isNotEmpty, true);
+        },
+      );
+
+      test(
+        "2D",
+        () {
+          NdArray ndArray1 = NdArray(2);
+          NdArray ndArray2 = NdArray.fromList(testList2d);
+
+          expect(ndArray1.isNotEmpty, false);
+          expect(ndArray2.isNotEmpty, true);
+        },
+      );
+
+      test(
+        "3D",
+        () {
+          NdArray ndArray1 = NdArray(3);
+          NdArray ndArray2 = NdArray.fromList(testList3d);
+
+          expect(ndArray1.isNotEmpty, false);
+          expect(ndArray2.isNotEmpty, true);
+        },
+      );
+
+      test(
+        "4D",
+        () {
+          NdArray ndArray1 = NdArray(4);
+          NdArray ndArray2 = NdArray.fromList(testList4d);
+
+          expect(ndArray1.isNotEmpty, false);
+          expect(ndArray2.isNotEmpty, true);
+        },
+      );
+
+      test(
+        "12D",
+        () {
+          NdArray ndArray1 = NdArray(12);
+          NdArray ndArray2 = NdArray.fromList(testList12d);
+
+          expect(ndArray1.isNotEmpty, false);
+          expect(ndArray2.isNotEmpty, true);
+        },
+      );
+    },
+  );
+
+  group(
+    "length",
+    () {
+      test(
+        "1D",
+        () {
+          NdArray ndArray1 = NdArray(1);
+          NdArray ndArray2 = NdArray.fromList(testList1d);
+
+          expect(ndArray1.length, 1);
+          expect(ndArray2.length, 4);
+        },
+      );
+
+      test(
+        "2D",
+        () {
+          NdArray ndArray1 = NdArray(2);
+          NdArray ndArray2 = NdArray.fromList(testList2d);
+
+          expect(ndArray1.length, 1);
+          expect(ndArray2.length, 4);
+        },
+      );
+
+      test(
+        "3D",
+        () {
+          NdArray ndArray1 = NdArray(3);
+          NdArray ndArray2 = NdArray.fromList(testList3d);
+
+          expect(ndArray1.length, 1);
+          expect(ndArray2.length, 8);
+        },
+      );
+
+      test(
+        "4D",
+        () {
+          NdArray ndArray1 = NdArray(4);
+          NdArray ndArray2 = NdArray.fromList(testList4d);
+
+          expect(ndArray1.length, 1);
+          expect(ndArray2.length, 32);
+        },
+      );
+
+      test(
+        "12D",
+        () {
+          NdArray ndArray1 = NdArray(12);
+          NdArray ndArray2 = NdArray.fromList(testList12d);
+
+          expect(ndArray1.length, 1);
+          expect(ndArray2.length, 576);
+        },
+      );
+    },
+  );
+
+  group(
+    "single",
+    () {
+      test(
+        "1D",
+        () {
+          NdArray ndArray1 = NdArray(1);
+          NdArray ndArray2 = NdArray.fromList(testList1d);
+
+          expect(ndArray1.single, null);
+          expect(() {
+            ndArray2.single;
+          }, throwsStateError);
+        },
+      );
+
+      test(
+        "2D",
+        () {
+          NdArray ndArray1 = NdArray(2);
+          NdArray ndArray2 = NdArray.fromList(testList2d);
+
+          expect(ndArray1.single, null);
+          expect(() {
+            ndArray2.single;
+          }, throwsStateError);
+        },
+      );
+
+      test(
+        "3D",
+        () {
+          NdArray ndArray1 = NdArray(3);
+          NdArray ndArray2 = NdArray.fromList(testList3d);
+
+          expect(ndArray1.single, null);
+          expect(() {
+            ndArray2.single;
+          }, throwsStateError);
+        },
+      );
+
+      test(
+        "4D",
+        () {
+          NdArray ndArray1 = NdArray(4);
+          NdArray ndArray2 = NdArray.fromList(testList4d);
+
+          expect(ndArray1.single, null);
+          expect(() {
+            ndArray2.single;
+          }, throwsStateError);
+        },
+      );
+
+      test(
+        "12D",
+        () {
+          NdArray ndArray1 = NdArray(12);
+          NdArray ndArray2 = NdArray.fromList(testList12d);
+
+          expect(ndArray1.single, null);
+          expect(() {
+            ndArray2.single;
+          }, throwsStateError);
+        },
+      );
+    },
+  );
+
+  group(
+    "iterator",
+    () {
+      test(
+        "empty",
+        () {
+          NdArray ndArray = NdArray(1);
+          Iterator iterator = ndArray.iterator;
+
+          iterator.moveNext();
+          expect(iterator.current, null);
+          expect(iterator.moveNext(), false);
+
+          ndArray = NdArray(2);
+          iterator = ndArray.iterator;
+
+          iterator.moveNext();
+          expect(iterator.current, null);
+          expect(iterator.moveNext(), false);
+
+          ndArray = NdArray(3);
+          iterator = ndArray.iterator;
+
+          iterator.moveNext();
+          expect(iterator.current, null);
+          expect(iterator.moveNext(), false);
+
+          ndArray = NdArray(4);
+          iterator = ndArray.iterator;
+
+          iterator.moveNext();
+          expect(iterator.current, null);
+          expect(iterator.moveNext(), false);
+
+          ndArray = NdArray(12);
+          iterator = ndArray.iterator;
+
+          iterator.moveNext();
+          expect(iterator.current, null);
+          expect(iterator.moveNext(), false);
+        },
+      );
+
+      test(
+        "1D",
+        () {
+          NdArray ndArray = NdArray.fromList(testList1d);
+          Iterator iterator = ndArray.iterator;
+
+          iterator.moveNext();
+          expect(iterator.current, 1);
+          iterator.moveNext();
+          expect(iterator.current, 2);
+          iterator.moveNext();
+          expect(iterator.current, 3);
+          iterator.moveNext();
+          expect(iterator.current, 4);
+          expect(iterator.moveNext(), false);
+        },
+      );
+
+      test(
+        "2D",
+        () {
+          NdArray ndArray = NdArray.fromList(testList2d);
+          Iterator iterator = ndArray.iterator;
+
+          iterator.moveNext();
+          expect(iterator.current, 1);
+          iterator.moveNext();
+          expect(iterator.current, 2);
+          iterator.moveNext();
+          expect(iterator.current, 3);
+          iterator.moveNext();
+          expect(iterator.current, 4);
+          expect(iterator.moveNext(), false);
+        },
+      );
+
+      test(
+        "3D",
+        () {
+          NdArray ndArray = NdArray.fromList(testList3d);
+          Iterator iterator = ndArray.iterator;
+
+          iterator.moveNext();
+          expect(iterator.current, 1);
+          iterator.moveNext();
+          expect(iterator.current, 2);
+          iterator.moveNext();
+          expect(iterator.current, 3);
+          iterator.moveNext();
+          expect(iterator.current, 4);
+          iterator.moveNext();
+          expect(iterator.current, 5);
+          iterator.moveNext();
+          expect(iterator.current, 6);
+          iterator.moveNext();
+          expect(iterator.current, 7);
+          iterator.moveNext();
+          expect(iterator.current, 8);
+          expect(iterator.moveNext(), false);
+        },
+      );
+
+      test(
+        "4D",
+        () {
+          NdArray ndArray = NdArray.fromList(testList4d);
+          Iterator iterator = ndArray.iterator;
+
+          iterator.moveNext();
+          expect(iterator.current, 1);
+          iterator.moveNext();
+          expect(iterator.current, 2);
+          iterator.moveNext();
+          expect(iterator.current, 3);
+          iterator.moveNext();
+          expect(iterator.current, 4);
+          iterator.moveNext();
+          expect(iterator.current, 4);
+          iterator.moveNext();
+          expect(iterator.current, 3);
+          iterator.moveNext();
+          expect(iterator.current, 2);
+          iterator.moveNext();
+          expect(iterator.current, 1);
+          iterator.moveNext();
+          expect(iterator.current, 5);
+          iterator.moveNext();
+          expect(iterator.current, 6);
+          iterator.moveNext();
+          expect(iterator.current, 7);
+          iterator.moveNext();
+          expect(iterator.current, 8);
+          iterator.moveNext();
+          expect(iterator.current, 8);
+          iterator.moveNext();
+          expect(iterator.current, 7);
+          iterator.moveNext();
+          expect(iterator.current, 6);
+          iterator.moveNext();
+          expect(iterator.current, 5);
+          iterator.moveNext();
+          expect(iterator.current, 9);
+          iterator.moveNext();
+          expect(iterator.current, 10);
+          iterator.moveNext();
+          expect(iterator.current, 11);
+          iterator.moveNext();
+          expect(iterator.current, 12);
+          iterator.moveNext();
+          expect(iterator.current, 12);
+          iterator.moveNext();
+          expect(iterator.current, 11);
+          iterator.moveNext();
+          expect(iterator.current, 10);
+          iterator.moveNext();
+          expect(iterator.current, 9);
+          iterator.moveNext();
+          expect(iterator.current, 13);
+          iterator.moveNext();
+          expect(iterator.current, 14);
+          iterator.moveNext();
+          expect(iterator.current, 15);
+          iterator.moveNext();
+          expect(iterator.current, 16);
+          iterator.moveNext();
+          expect(iterator.current, 16);
+          iterator.moveNext();
+          expect(iterator.current, 15);
+          iterator.moveNext();
+          expect(iterator.current, 14);
+          iterator.moveNext();
+          expect(iterator.current, 13);
+          expect(iterator.moveNext(), false);
+        },
+      );
+
+      test(
+        "12D",
+        () {
+          NdArray ndArray = NdArray.fromList(testList12d);
+          Iterator iterator = ndArray.iterator;
+
+          iterator.moveNext();
+          expect(iterator.current, 1);
+          iterator.moveNext();
+          expect(iterator.current, 2);
+          iterator.moveNext();
+          expect(iterator.current, 3);
+          iterator.moveNext();
+          expect(iterator.current, "a");
+          iterator.moveNext();
+          expect(iterator.current, "b");
+          iterator.moveNext();
+          expect(iterator.current, "c");
+          iterator.moveNext();
+          expect(iterator.current, 4);
+          iterator.moveNext();
+          expect(iterator.current, 5);
+          iterator.moveNext();
+          expect(iterator.current, 6);
+          iterator.moveNext();
+          expect(iterator.current, "d");
+          iterator.moveNext();
+          expect(iterator.current, "e");
+          iterator.moveNext();
+          expect(iterator.current, "f");
+          iterator.moveNext();
+          expect(iterator.current, 7);
+          iterator.moveNext();
+          expect(iterator.current, 8);
+          iterator.moveNext();
+          expect(iterator.current, 9);
+          iterator.moveNext();
+          expect(iterator.current, "g");
+          iterator.moveNext();
+          expect(iterator.current, "h");
+          iterator.moveNext();
+          expect(iterator.current, "i");
+          iterator.moveNext();
+          expect(iterator.current, 10);
+          iterator.moveNext();
+          expect(iterator.current, 11);
+          iterator.moveNext();
+          expect(iterator.current, 12);
+          iterator.moveNext();
+          expect(iterator.current, "j");
+          iterator.moveNext();
+          expect(iterator.current, "k");
+          iterator.moveNext();
+          expect(iterator.current, "l");
+          iterator.moveNext();
+          expect(iterator.current, 13);
+          iterator.moveNext();
+          expect(iterator.current, 14);
+          iterator.moveNext();
+          expect(iterator.current, 15);
+          iterator.moveNext();
+          expect(iterator.current, "m");
+          iterator.moveNext();
+          expect(iterator.current, "n");
+          iterator.moveNext();
+          expect(iterator.current, "o");
+          iterator.moveNext();
+          expect(iterator.current, 16);
+          iterator.moveNext();
+          expect(iterator.current, 17);
+          iterator.moveNext();
+          expect(iterator.current, 18);
+          iterator.moveNext();
+          expect(iterator.current, "p");
+          iterator.moveNext();
+          expect(iterator.current, "q");
+          iterator.moveNext();
+          expect(iterator.current, "r");
+          iterator.moveNext();
+          expect(iterator.current, 19);
+          iterator.moveNext();
+          expect(iterator.current, 20);
+          iterator.moveNext();
+          expect(iterator.current, 21);
+          iterator.moveNext();
+          expect(iterator.current, "s");
+          iterator.moveNext();
+          expect(iterator.current, "t");
+          iterator.moveNext();
+          expect(iterator.current, "u");
+          iterator.moveNext();
+          expect(iterator.current, 22);
+          iterator.moveNext();
+          expect(iterator.current, 23);
+          iterator.moveNext();
+          expect(iterator.current, 24);
+          iterator.moveNext();
+          expect(iterator.current, "v");
+          iterator.moveNext();
+          expect(iterator.current, "w");
+          iterator.moveNext();
+          expect(iterator.current, "x");
+          iterator.moveNext();
+          expect(iterator.current, 25);
+          iterator.moveNext();
+          expect(iterator.current, 26);
+          iterator.moveNext();
+          expect(iterator.current, 27);
+          iterator.moveNext();
+          expect(iterator.current, "y");
+          iterator.moveNext();
+          expect(iterator.current, "z");
+          iterator.moveNext();
+          expect(iterator.current, "aa");
+          iterator.moveNext();
+          expect(iterator.current, 28);
+          iterator.moveNext();
+          expect(iterator.current, 29);
+          iterator.moveNext();
+          expect(iterator.current, 30);
+          iterator.moveNext();
+          expect(iterator.current, "ab");
+          iterator.moveNext();
+          expect(iterator.current, "ac");
+          iterator.moveNext();
+          expect(iterator.current, "ad");
+          iterator.moveNext();
+          expect(iterator.current, 31);
+          iterator.moveNext();
+          expect(iterator.current, 32);
+          iterator.moveNext();
+          expect(iterator.current, 33);
+          iterator.moveNext();
+          expect(iterator.current, "ae");
+          iterator.moveNext();
+          expect(iterator.current, "af");
+          iterator.moveNext();
+          expect(iterator.current, "ag");
+          iterator.moveNext();
+          expect(iterator.current, 34);
+          iterator.moveNext();
+          expect(iterator.current, 35);
+          iterator.moveNext();
+          expect(iterator.current, 36);
+          iterator.moveNext();
+          expect(iterator.current, "ah");
+          iterator.moveNext();
+          expect(iterator.current, "ai");
+          iterator.moveNext();
+          expect(iterator.current, "aj");
+          iterator.moveNext();
+          expect(iterator.current, 37);
+          iterator.moveNext();
+          expect(iterator.current, 38);
+          iterator.moveNext();
+          expect(iterator.current, 39);
+          iterator.moveNext();
+          expect(iterator.current, "ak");
+          iterator.moveNext();
+          expect(iterator.current, "al");
+          iterator.moveNext();
+          expect(iterator.current, "am");
+          iterator.moveNext();
+          expect(iterator.current, 40);
+          iterator.moveNext();
+          expect(iterator.current, 41);
+          iterator.moveNext();
+          expect(iterator.current, 42);
+          iterator.moveNext();
+          expect(iterator.current, "an");
+          iterator.moveNext();
+          expect(iterator.current, "ao");
+          iterator.moveNext();
+          expect(iterator.current, "ap");
+          iterator.moveNext();
+          expect(iterator.current, 43);
+          iterator.moveNext();
+          expect(iterator.current, 44);
+          iterator.moveNext();
+          expect(iterator.current, 45);
+          iterator.moveNext();
+          expect(iterator.current, "aq");
+          iterator.moveNext();
+          expect(iterator.current, "ar");
+          iterator.moveNext();
+          expect(iterator.current, "as");
+          iterator.moveNext();
+          expect(iterator.current, 46);
+          iterator.moveNext();
+          expect(iterator.current, 47);
+          iterator.moveNext();
+          expect(iterator.current, 48);
+          iterator.moveNext();
+          expect(iterator.current, "at");
+          iterator.moveNext();
+          expect(iterator.current, "au");
+          iterator.moveNext();
+          expect(iterator.current, "av");
+          iterator.moveNext();
+          expect(iterator.current, 49);
+          iterator.moveNext();
+          expect(iterator.current, 50);
+          iterator.moveNext();
+          expect(iterator.current, 51);
+          iterator.moveNext();
+          expect(iterator.current, "aw");
+          iterator.moveNext();
+          expect(iterator.current, "ax");
+          iterator.moveNext();
+          expect(iterator.current, "ay");
+          iterator.moveNext();
+          expect(iterator.current, 52);
+          iterator.moveNext();
+          expect(iterator.current, 53);
+          iterator.moveNext();
+          expect(iterator.current, 54);
+          iterator.moveNext();
+          expect(iterator.current, "az");
+          iterator.moveNext();
+          expect(iterator.current, "ba");
+          iterator.moveNext();
+          expect(iterator.current, "bb");
+          iterator.moveNext();
+          expect(iterator.current, 55);
+          iterator.moveNext();
+          expect(iterator.current, 56);
+          iterator.moveNext();
+          expect(iterator.current, 57);
+          iterator.moveNext();
+          expect(iterator.current, "bc");
+          iterator.moveNext();
+          expect(iterator.current, "bd");
+          iterator.moveNext();
+          expect(iterator.current, "be");
+          iterator.moveNext();
+          expect(iterator.current, 58);
+          iterator.moveNext();
+          expect(iterator.current, 59);
+          iterator.moveNext();
+          expect(iterator.current, 60);
+          iterator.moveNext();
+          expect(iterator.current, "bf");
+          iterator.moveNext();
+          expect(iterator.current, "bg");
+          iterator.moveNext();
+          expect(iterator.current, "bh");
+          iterator.moveNext();
+          expect(iterator.current, 61);
+          iterator.moveNext();
+          expect(iterator.current, 62);
+          iterator.moveNext();
+          expect(iterator.current, 63);
+          iterator.moveNext();
+          expect(iterator.current, "bi");
+          iterator.moveNext();
+          expect(iterator.current, "bj");
+          iterator.moveNext();
+          expect(iterator.current, "bk");
+          iterator.moveNext();
+          expect(iterator.current, 64);
+          iterator.moveNext();
+          expect(iterator.current, 65);
+          iterator.moveNext();
+          expect(iterator.current, 66);
+          iterator.moveNext();
+          expect(iterator.current, "bl");
+          iterator.moveNext();
+          expect(iterator.current, "bm");
+          iterator.moveNext();
+          expect(iterator.current, "bn");
+          iterator.moveNext();
+          expect(iterator.current, 67);
+          iterator.moveNext();
+          expect(iterator.current, 68);
+          iterator.moveNext();
+          expect(iterator.current, 69);
+          iterator.moveNext();
+          expect(iterator.current, "bo");
+          iterator.moveNext();
+          expect(iterator.current, "bp");
+          iterator.moveNext();
+          expect(iterator.current, "bq");
+          iterator.moveNext();
+          expect(iterator.current, 70);
+          iterator.moveNext();
+          expect(iterator.current, 71);
+          iterator.moveNext();
+          expect(iterator.current, 72);
+          iterator.moveNext();
+          expect(iterator.current, "br");
+          iterator.moveNext();
+          expect(iterator.current, "bs");
+          iterator.moveNext();
+          expect(iterator.current, "bt");
+          iterator.moveNext();
+          expect(iterator.current, 73);
+          iterator.moveNext();
+          expect(iterator.current, 74);
+          iterator.moveNext();
+          expect(iterator.current, 75);
+          iterator.moveNext();
+          expect(iterator.current, "bu");
+          iterator.moveNext();
+          expect(iterator.current, "bv");
+          iterator.moveNext();
+          expect(iterator.current, "bw");
+          iterator.moveNext();
+          expect(iterator.current, 76);
+          iterator.moveNext();
+          expect(iterator.current, 77);
+          iterator.moveNext();
+          expect(iterator.current, 78);
+          iterator.moveNext();
+          expect(iterator.current, "bx");
+          iterator.moveNext();
+          expect(iterator.current, "by");
+          iterator.moveNext();
+          expect(iterator.current, "bz");
+          iterator.moveNext();
+          expect(iterator.current, 79);
+          iterator.moveNext();
+          expect(iterator.current, 80);
+          iterator.moveNext();
+          expect(iterator.current, 81);
+          iterator.moveNext();
+          expect(iterator.current, "ca");
+          iterator.moveNext();
+          expect(iterator.current, "cb");
+          iterator.moveNext();
+          expect(iterator.current, "cc");
+          iterator.moveNext();
+          expect(iterator.current, 82);
+          iterator.moveNext();
+          expect(iterator.current, 83);
+          iterator.moveNext();
+          expect(iterator.current, 84);
+          iterator.moveNext();
+          expect(iterator.current, "cd");
+          iterator.moveNext();
+          expect(iterator.current, "ce");
+          iterator.moveNext();
+          expect(iterator.current, "cf");
+          iterator.moveNext();
+          expect(iterator.current, 85);
+          iterator.moveNext();
+          expect(iterator.current, 86);
+          iterator.moveNext();
+          expect(iterator.current, 87);
+          iterator.moveNext();
+          expect(iterator.current, "cg");
+          iterator.moveNext();
+          expect(iterator.current, "ch");
+          iterator.moveNext();
+          expect(iterator.current, "ci");
+          iterator.moveNext();
+          expect(iterator.current, 88);
+          iterator.moveNext();
+          expect(iterator.current, 89);
+          iterator.moveNext();
+          expect(iterator.current, 90);
+          iterator.moveNext();
+          expect(iterator.current, "cj");
+          iterator.moveNext();
+          expect(iterator.current, "ck");
+          iterator.moveNext();
+          expect(iterator.current, "cl");
+          iterator.moveNext();
+          expect(iterator.current, 91);
+          iterator.moveNext();
+          expect(iterator.current, 92);
+          iterator.moveNext();
+          expect(iterator.current, 93);
+          iterator.moveNext();
+          expect(iterator.current, "cm");
+          iterator.moveNext();
+          expect(iterator.current, "cn");
+          iterator.moveNext();
+          expect(iterator.current, "co");
+          iterator.moveNext();
+          expect(iterator.current, 95);
+          iterator.moveNext();
+          expect(iterator.current, 95);
+          iterator.moveNext();
+          expect(iterator.current, 96);
+          iterator.moveNext();
+          expect(iterator.current, "cp");
+          iterator.moveNext();
+          expect(iterator.current, "cq");
+          iterator.moveNext();
+          expect(iterator.current, "cr");
+          iterator.moveNext();
+          expect(iterator.current, 97);
+          iterator.moveNext();
+          expect(iterator.current, 98);
+          iterator.moveNext();
+          expect(iterator.current, 99);
+          iterator.moveNext();
+          expect(iterator.current, "cs");
+          iterator.moveNext();
+          expect(iterator.current, "ct");
+          iterator.moveNext();
+          expect(iterator.current, "cu");
+          iterator.moveNext();
+          expect(iterator.current, 100);
+          iterator.moveNext();
+          expect(iterator.current, 101);
+          iterator.moveNext();
+          expect(iterator.current, 102);
+          iterator.moveNext();
+          expect(iterator.current, "cv");
+          iterator.moveNext();
+          expect(iterator.current, "cw");
+          iterator.moveNext();
+          expect(iterator.current, "cx");
+          iterator.moveNext();
+          expect(iterator.current, 103);
+          iterator.moveNext();
+          expect(iterator.current, 104);
+          iterator.moveNext();
+          expect(iterator.current, 105);
+          iterator.moveNext();
+          expect(iterator.current, "cy");
+          iterator.moveNext();
+          expect(iterator.current, "cz");
+          iterator.moveNext();
+          expect(iterator.current, "da");
+          iterator.moveNext();
+          expect(iterator.current, 106);
+          iterator.moveNext();
+          expect(iterator.current, 107);
+          iterator.moveNext();
+          expect(iterator.current, 108);
+          iterator.moveNext();
+          expect(iterator.current, "db");
+          iterator.moveNext();
+          expect(iterator.current, "dc");
+          iterator.moveNext();
+          expect(iterator.current, "dd");
+          iterator.moveNext();
+          expect(iterator.current, 109);
+          iterator.moveNext();
+          expect(iterator.current, 110);
+          iterator.moveNext();
+          expect(iterator.current, 111);
+          iterator.moveNext();
+          expect(iterator.current, "de");
+          iterator.moveNext();
+          expect(iterator.current, "df");
+          iterator.moveNext();
+          expect(iterator.current, "dg");
+          iterator.moveNext();
+          expect(iterator.current, 112);
+          iterator.moveNext();
+          expect(iterator.current, 113);
+          iterator.moveNext();
+          expect(iterator.current, 114);
+          iterator.moveNext();
+          expect(iterator.current, "dh");
+          iterator.moveNext();
+          expect(iterator.current, "di");
+          iterator.moveNext();
+          expect(iterator.current, "dj");
+          iterator.moveNext();
+          expect(iterator.current, 115);
+          iterator.moveNext();
+          expect(iterator.current, 116);
+          iterator.moveNext();
+          expect(iterator.current, 117);
+          iterator.moveNext();
+          expect(iterator.current, "dk");
+          iterator.moveNext();
+          expect(iterator.current, "dl");
+          iterator.moveNext();
+          expect(iterator.current, "dm");
+          iterator.moveNext();
+          expect(iterator.current, 118);
+          iterator.moveNext();
+          expect(iterator.current, 119);
+          iterator.moveNext();
+          expect(iterator.current, 120);
+          iterator.moveNext();
+          expect(iterator.current, "dn");
+          iterator.moveNext();
+          expect(iterator.current, "do");
+          iterator.moveNext();
+          expect(iterator.current, "dp");
+          iterator.moveNext();
+          expect(iterator.current, 121);
+          iterator.moveNext();
+          expect(iterator.current, 122);
+          iterator.moveNext();
+          expect(iterator.current, 123);
+          iterator.moveNext();
+          expect(iterator.current, "dq");
+          iterator.moveNext();
+          expect(iterator.current, "dr");
+          iterator.moveNext();
+          expect(iterator.current, "ds");
+          iterator.moveNext();
+          expect(iterator.current, 124);
+          iterator.moveNext();
+          expect(iterator.current, 125);
+          iterator.moveNext();
+          expect(iterator.current, 126);
+          iterator.moveNext();
+          expect(iterator.current, "dt");
+          iterator.moveNext();
+          expect(iterator.current, "du");
+          iterator.moveNext();
+          expect(iterator.current, "dv");
+          iterator.moveNext();
+          expect(iterator.current, 127);
+          iterator.moveNext();
+          expect(iterator.current, 128);
+          iterator.moveNext();
+          expect(iterator.current, 129);
+          iterator.moveNext();
+          expect(iterator.current, "dw");
+          iterator.moveNext();
+          expect(iterator.current, "dx");
+          iterator.moveNext();
+          expect(iterator.current, "dy");
+          iterator.moveNext();
+          expect(iterator.current, 130);
+          iterator.moveNext();
+          expect(iterator.current, 131);
+          iterator.moveNext();
+          expect(iterator.current, 132);
+          iterator.moveNext();
+          expect(iterator.current, "dz");
+          iterator.moveNext();
+          expect(iterator.current, "ea");
+          iterator.moveNext();
+          expect(iterator.current, "eb");
+          iterator.moveNext();
+          expect(iterator.current, 133);
+          iterator.moveNext();
+          expect(iterator.current, 134);
+          iterator.moveNext();
+          expect(iterator.current, 135);
+          iterator.moveNext();
+          expect(iterator.current, "ec");
+          iterator.moveNext();
+          expect(iterator.current, "ed");
+          iterator.moveNext();
+          expect(iterator.current, "ee");
+          iterator.moveNext();
+          expect(iterator.current, 136);
+          iterator.moveNext();
+          expect(iterator.current, 137);
+          iterator.moveNext();
+          expect(iterator.current, 138);
+          iterator.moveNext();
+          expect(iterator.current, "ef");
+          iterator.moveNext();
+          expect(iterator.current, "eg");
+          iterator.moveNext();
+          expect(iterator.current, "eh");
+          iterator.moveNext();
+          expect(iterator.current, 139);
+          iterator.moveNext();
+          expect(iterator.current, 140);
+          iterator.moveNext();
+          expect(iterator.current, 141);
+          iterator.moveNext();
+          expect(iterator.current, "ei");
+          iterator.moveNext();
+          expect(iterator.current, "ej");
+          iterator.moveNext();
+          expect(iterator.current, "ek");
+          iterator.moveNext();
+          expect(iterator.current, 142);
+          iterator.moveNext();
+          expect(iterator.current, 143);
+          iterator.moveNext();
+          expect(iterator.current, 144);
+          iterator.moveNext();
+          expect(iterator.current, "el");
+          iterator.moveNext();
+          expect(iterator.current, "em");
+          iterator.moveNext();
+          expect(iterator.current, "en");
+          iterator.moveNext();
+          expect(iterator.current, 6523);
+          iterator.moveNext();
+          expect(iterator.current, 65);
+          iterator.moveNext();
+          expect(iterator.current, 143);
+          iterator.moveNext();
+          expect(iterator.current, "hjkDhg");
+          iterator.moveNext();
+          expect(iterator.current, "ghg4hb");
+          iterator.moveNext();
+          expect(iterator.current, "gui6r7");
+          iterator.moveNext();
+          expect(iterator.current, 563);
+          iterator.moveNext();
+          expect(iterator.current, 73);
+          iterator.moveNext();
+          expect(iterator.current, 537);
+          iterator.moveNext();
+          expect(iterator.current, "bsd6f546");
+          iterator.moveNext();
+          expect(iterator.current, "DF^YH");
+          iterator.moveNext();
+          expect(iterator.current, "fddDfa");
+          iterator.moveNext();
+          expect(iterator.current, 735);
+          iterator.moveNext();
+          expect(iterator.current, 573);
+          iterator.moveNext();
+          expect(iterator.current, 753);
+          iterator.moveNext();
+          expect(iterator.current, "g");
+          iterator.moveNext();
+          expect(iterator.current, "h");
+          iterator.moveNext();
+          expect(iterator.current, "i");
+          iterator.moveNext();
+          expect(iterator.current, 45677);
+          iterator.moveNext();
+          expect(iterator.current, 98);
+          iterator.moveNext();
+          expect(iterator.current, 16572);
+          iterator.moveNext();
+          expect(iterator.current, "j");
+          iterator.moveNext();
+          expect(iterator.current, "k");
+          iterator.moveNext();
+          expect(iterator.current, "l");
+          iterator.moveNext();
+          expect(iterator.current, 1356);
+          iterator.moveNext();
+          expect(iterator.current, 24);
+          iterator.moveNext();
+          expect(iterator.current, 5715);
+          iterator.moveNext();
+          expect(iterator.current, "asDdDdGfm");
+          iterator.moveNext();
+          expect(iterator.current, "ndfSdf");
+          iterator.moveNext();
+          expect(iterator.current, "oDFD");
+          iterator.moveNext();
+          expect(iterator.current, 54673);
+          iterator.moveNext();
+          expect(iterator.current, 3456);
+          iterator.moveNext();
+          expect(iterator.current, 55);
+          iterator.moveNext();
+          expect(iterator.current, "kDk fRjd");
+          iterator.moveNext();
+          expect(iterator.current, "q d");
+          iterator.moveNext();
+          expect(iterator.current, "rdgGfdDad");
+          iterator.moveNext();
+          expect(iterator.current, 56356);
+          iterator.moveNext();
+          expect(iterator.current, 55);
+          iterator.moveNext();
+          expect(iterator.current, 457);
+          iterator.moveNext();
+          expect(iterator.current, "sd");
+          iterator.moveNext();
+          expect(iterator.current, "te");
+          iterator.moveNext();
+          expect(iterator.current, "ude");
+          iterator.moveNext();
+          expect(iterator.current, 22);
+          iterator.moveNext();
+          expect(iterator.current, 23);
+          iterator.moveNext();
+          expect(iterator.current, 24);
+          iterator.moveNext();
+          expect(iterator.current, "vDdfFg");
+          iterator.moveNext();
+          expect(iterator.current, "wsd");
+          iterator.moveNext();
+          expect(iterator.current, "xfe");
+          iterator.moveNext();
+          expect(iterator.current, 1234);
+          iterator.moveNext();
+          expect(iterator.current, 52);
+          iterator.moveNext();
+          expect(iterator.current, 99705);
+          iterator.moveNext();
+          expect(iterator.current, "yDFfGfZds");
+          iterator.moveNext();
+          expect(iterator.current, "zDFe");
+          iterator.moveNext();
+          expect(iterator.current, "aa");
+          iterator.moveNext();
+          expect(iterator.current, 462);
+          iterator.moveNext();
+          expect(iterator.current, 727);
+          iterator.moveNext();
+          expect(iterator.current, 8382);
+          iterator.moveNext();
+          expect(iterator.current, "ab");
+          iterator.moveNext();
+          expect(iterator.current, "H");
+          iterator.moveNext();
+          expect(iterator.current, "ht");
+          iterator.moveNext();
+          expect(iterator.current, 563457);
+          iterator.moveNext();
+          expect(iterator.current, 24);
+          iterator.moveNext();
+          expect(iterator.current, 757247);
+          iterator.moveNext();
+          expect(iterator.current, "M");
+          iterator.moveNext();
+          expect(iterator.current, "M");
+          iterator.moveNext();
+          expect(iterator.current, "M");
+          iterator.moveNext();
+          expect(iterator.current, 6727);
+          iterator.moveNext();
+          expect(iterator.current, 3411);
+          iterator.moveNext();
+          expect(iterator.current, 3478900);
+          iterator.moveNext();
+          expect(iterator.current, "a5asd5ty");
+          iterator.moveNext();
+          expect(iterator.current, "ert7usj5");
+          iterator.moveNext();
+          expect(iterator.current, "dfrDn56");
+          iterator.moveNext();
+          expect(iterator.current, 5892);
+          iterator.moveNext();
+          expect(iterator.current, 2002);
+          iterator.moveNext();
+          expect(iterator.current, 1003367);
+          iterator.moveNext();
+          expect(iterator.current, "aBka0y4");
+          iterator.moveNext();
+          expect(iterator.current, "a5l");
+          iterator.moveNext();
+          expect(iterator.current, "am");
+          iterator.moveNext();
+          expect(iterator.current, 452728);
+          iterator.moveNext();
+          expect(iterator.current, 66);
+          iterator.moveNext();
+          expect(iterator.current, 84838);
+          iterator.moveNext();
+          expect(iterator.current, "df  an");
+          iterator.moveNext();
+          expect(iterator.current, "HR r g v d");
+          iterator.moveNext();
+          expect(iterator.current, "adfFDp");
+          iterator.moveNext();
+          expect(iterator.current, 58383);
+          iterator.moveNext();
+          expect(iterator.current, 2244);
+          iterator.moveNext();
+          expect(iterator.current, 55);
+          iterator.moveNext();
+          expect(iterator.current, "asq");
+          iterator.moveNext();
+          expect(iterator.current, "a4r");
+          iterator.moveNext();
+          expect(iterator.current, "ah5s");
+          iterator.moveNext();
+          expect(iterator.current, 1);
+          iterator.moveNext();
+          expect(iterator.current, 922458);
+          iterator.moveNext();
+          expect(iterator.current, 65004);
+          iterator.moveNext();
+          expect(iterator.current, "a4z6t");
+          iterator.moveNext();
+          expect(iterator.current, "a4nau");
+          iterator.moveNext();
+          expect(iterator.current, "n4at");
+          iterator.moveNext();
+          expect(iterator.current, 30038);
+          iterator.moveNext();
+          expect(iterator.current, 151);
+          iterator.moveNext();
+          expect(iterator.current, -9);
+          iterator.moveNext();
+          expect(iterator.current, "zn46564n4");
+          iterator.moveNext();
+          expect(iterator.current, "asd5a5");
+          iterator.moveNext();
+          expect(iterator.current, " ver  w ");
+          iterator.moveNext();
+          expect(iterator.current, 2345267);
+          iterator.moveNext();
+          expect(iterator.current, 44);
+          iterator.moveNext();
+          expect(iterator.current, 11677);
+          iterator.moveNext();
+          expect(iterator.current, "aDE%^z");
+          iterator.moveNext();
+          expect(iterator.current, "D%N");
+          iterator.moveNext();
+          expect(iterator.current, "[0][0][1][0][0][1][0][2][1][0][1][2]");
+          iterator.moveNext();
+          expect(iterator.current, 4771);
+          iterator.moveNext();
+          expect(iterator.current, 557);
+          iterator.moveNext();
+          expect(iterator.current, 15 - 7);
+          iterator.moveNext();
+          expect(iterator.current, "s4");
+          iterator.moveNext();
+          expect(iterator.current, "a");
+          iterator.moveNext();
+          expect(iterator.current, "b");
+          iterator.moveNext();
+          expect(iterator.current, 179356);
+          iterator.moveNext();
+          expect(iterator.current, 4476);
+          iterator.moveNext();
+          expect(iterator.current, 0);
+          iterator.moveNext();
+          expect(iterator.current, "c");
+          iterator.moveNext();
+          expect(iterator.current, "d");
+          iterator.moveNext();
+          expect(iterator.current, "e");
+          iterator.moveNext();
+          expect(iterator.current, 477);
+          iterator.moveNext();
+          expect(iterator.current, 6627);
+          iterator.moveNext();
+          expect(iterator.current, 44);
+          iterator.moveNext();
+          expect(iterator.current, "f");
+          iterator.moveNext();
+          expect(iterator.current, "g");
+          iterator.moveNext();
+          expect(iterator.current, "z");
+          iterator.moveNext();
+          expect(iterator.current, 45267);
+          iterator.moveNext();
+          expect(iterator.current, 756);
+          iterator.moveNext();
+          expect(iterator.current, 4472714);
+          iterator.moveNext();
+          expect(iterator.current, "y");
+          iterator.moveNext();
+          expect(iterator.current, "x");
+          iterator.moveNext();
+          expect(iterator.current, "w");
+          iterator.moveNext();
+          expect(iterator.current, 46727);
+          iterator.moveNext();
+          expect(iterator.current, 68);
+          iterator.moveNext();
+          expect(iterator.current, 457);
+          iterator.moveNext();
+          expect(iterator.current, "boo");
+          iterator.moveNext();
+          expect(iterator.current, "ae43");
+          iterator.moveNext();
+          expect(iterator.current, "asd fa sd4");
+          iterator.moveNext();
+          expect(iterator.current, 3);
+          iterator.moveNext();
+          expect(iterator.current, 6727);
+          iterator.moveNext();
+          expect(iterator.current, 5672);
+          iterator.moveNext();
+          expect(iterator.current, "bra sd");
+          iterator.moveNext();
+          expect(iterator.current, "k4789d3 klGud 83 s");
+          iterator.moveNext();
+          expect(iterator.current, "bt");
+          iterator.moveNext();
+          expect(iterator.current, 745);
+          iterator.moveNext();
+          expect(iterator.current, 5);
+          iterator.moveNext();
+          expect(iterator.current, 5);
+          iterator.moveNext();
+          expect(iterator.current, "df4h5 f");
+          iterator.moveNext();
+          expect(iterator.current, "d r443 s");
+          iterator.moveNext();
+          expect(iterator.current, "bw");
+          iterator.moveNext();
+          expect(iterator.current, 74);
+          iterator.moveNext();
+          expect(iterator.current, 74);
+          iterator.moveNext();
+          expect(iterator.current, 74);
+          iterator.moveNext();
+          expect(iterator.current, "bx");
+          iterator.moveNext();
+          expect(iterator.current, "sd 4 46");
+          iterator.moveNext();
+          expect(iterator.current, "bz");
+          iterator.moveNext();
+          expect(iterator.current, 74);
+          iterator.moveNext();
+          expect(iterator.current, 74);
+          iterator.moveNext();
+          expect(iterator.current, 74);
+          iterator.moveNext();
+          expect(iterator.current, "ca");
+          iterator.moveNext();
+          expect(iterator.current, "cb");
+          iterator.moveNext();
+          expect(iterator.current, "7hw46 ga def");
+          iterator.moveNext();
+          expect(iterator.current, 9823);
+          iterator.moveNext();
+          expect(iterator.current, 823822);
+          iterator.moveNext();
+          expect(iterator.current, 828);
+          iterator.moveNext();
+          expect(iterator.current, "cd");
+          iterator.moveNext();
+          expect(iterator.current, "a  t3 ds");
+          iterator.moveNext();
+          expect(iterator.current, "cf");
+          iterator.moveNext();
+          expect(iterator.current, 7345);
+          iterator.moveNext();
+          expect(iterator.current, 1345);
+          iterator.moveNext();
+          expect(iterator.current, 4145);
+          iterator.moveNext();
+          expect(iterator.current, "a45r sd");
+          iterator.moveNext();
+          expect(iterator.current, "d4frh");
+          iterator.moveNext();
+          expect(iterator.current, "asdf a4sdf 4asd6f d");
+          iterator.moveNext();
+          expect(iterator.current, 5789);
+          iterator.moveNext();
+          expect(iterator.current, 775);
+          iterator.moveNext();
+          expect(iterator.current, 789);
+          iterator.moveNext();
+          expect(iterator.current, "g>hkr    .r 35  4 5ht,,r.brt d");
+          iterator.moveNext();
+          expect(iterator.current, "f");
+          iterator.moveNext();
+          expect(iterator.current, "gs45");
+          iterator.moveNext();
+          expect(iterator.current, 7823);
+          iterator.moveNext();
+          expect(iterator.current, 92);
+          iterator.moveNext();
+          expect(iterator.current, 45672);
+          iterator.moveNext();
+          expect(iterator.current, "cm");
+          iterator.moveNext();
+          expect(iterator.current, "cn");
+          iterator.moveNext();
+          expect(iterator.current, "co");
+          iterator.moveNext();
+          expect(iterator.current, 95);
+          iterator.moveNext();
+          expect(iterator.current, 95);
+          iterator.moveNext();
+          expect(iterator.current, 96);
+          iterator.moveNext();
+          expect(iterator.current, "cp");
+          iterator.moveNext();
+          expect(iterator.current, "cq");
+          iterator.moveNext();
+          expect(iterator.current, "cr");
+          iterator.moveNext();
+          expect(iterator.current, 461);
+          iterator.moveNext();
+          expect(iterator.current, 98);
+          iterator.moveNext();
+          expect(iterator.current, 44);
+          iterator.moveNext();
+          expect(iterator.current, "cs");
+          iterator.moveNext();
+          expect(iterator.current, "ct");
+          iterator.moveNext();
+          expect(iterator.current, "cu");
+          iterator.moveNext();
+          expect(iterator.current, 111);
+          iterator.moveNext();
+          expect(iterator.current, 4564);
+          iterator.moveNext();
+          expect(iterator.current, 789);
+          iterator.moveNext();
+          expect(iterator.current, "cv");
+          iterator.moveNext();
+          expect(iterator.current, "cw");
+          iterator.moveNext();
+          expect(iterator.current, "cx");
+          iterator.moveNext();
+          expect(iterator.current, 88);
+          iterator.moveNext();
+          expect(iterator.current, 4564);
+          iterator.moveNext();
+          expect(iterator.current, 87789);
+          iterator.moveNext();
+          expect(iterator.current, "cy");
+          iterator.moveNext();
+          expect(iterator.current, "cz");
+          iterator.moveNext();
+          expect(iterator.current, "da");
+          iterator.moveNext();
+          expect(iterator.current, 17096);
+          iterator.moveNext();
+          expect(iterator.current, 107787);
+          iterator.moveNext();
+          expect(iterator.current, 1058);
+          iterator.moveNext();
+          expect(iterator.current, "db");
+          iterator.moveNext();
+          expect(iterator.current, "dc");
+          iterator.moveNext();
+          expect(iterator.current, "dd");
+          iterator.moveNext();
+          expect(iterator.current, 4527);
+          iterator.moveNext();
+          expect(iterator.current, 44);
+          iterator.moveNext();
+          expect(iterator.current, 775);
+          iterator.moveNext();
+          expect(iterator.current, "de");
+          iterator.moveNext();
+          expect(iterator.current, "df");
+          iterator.moveNext();
+          expect(iterator.current, "dg");
+          iterator.moveNext();
+          expect(iterator.current, 5821);
+          iterator.moveNext();
+          expect(iterator.current, 457);
+          iterator.moveNext();
+          expect(iterator.current, 42);
+          iterator.moveNext();
+          expect(iterator.current, "dh");
+          iterator.moveNext();
+          expect(iterator.current, "di");
+          iterator.moveNext();
+          expect(iterator.current, "dj");
+          iterator.moveNext();
+          expect(iterator.current, 79034);
+          iterator.moveNext();
+          expect(iterator.current, 2457098);
+          iterator.moveNext();
+          expect(iterator.current, 1000001);
+          iterator.moveNext();
+          expect(iterator.current, "dk");
+          iterator.moveNext();
+          expect(iterator.current, "dl");
+          iterator.moveNext();
+          expect(iterator.current, "dm");
+          iterator.moveNext();
+          expect(iterator.current, 468345);
+          iterator.moveNext();
+          expect(iterator.current, 23462);
+          iterator.moveNext();
+          expect(iterator.current, 678);
+          iterator.moveNext();
+          expect(iterator.current, "dn");
+          iterator.moveNext();
+          expect(iterator.current, "do");
+          iterator.moveNext();
+          expect(iterator.current, "dp");
+          iterator.moveNext();
+          expect(iterator.current, 12);
+          iterator.moveNext();
+          expect(iterator.current, 457);
+          iterator.moveNext();
+          expect(iterator.current, 12);
+          iterator.moveNext();
+          expect(iterator.current, "dq");
+          iterator.moveNext();
+          expect(iterator.current, "dr");
+          iterator.moveNext();
+          expect(iterator.current, "ds");
+          iterator.moveNext();
+          expect(iterator.current, 15);
+          iterator.moveNext();
+          expect(iterator.current, 150);
+          iterator.moveNext();
+          expect(iterator.current, 1500);
+          iterator.moveNext();
+          expect(iterator.current, "dt");
+          iterator.moveNext();
+          expect(iterator.current, "du");
+          iterator.moveNext();
+          expect(iterator.current, "dv");
+          iterator.moveNext();
+          expect(iterator.current, 457);
+          iterator.moveNext();
+          expect(iterator.current, 7372);
+          iterator.moveNext();
+          expect(iterator.current, 7459724);
+          iterator.moveNext();
+          expect(iterator.current, "dw");
+          iterator.moveNext();
+          expect(iterator.current, "dx");
+          iterator.moveNext();
+          expect(iterator.current, "dy");
+          iterator.moveNext();
+          expect(iterator.current, 345245);
+          iterator.moveNext();
+          expect(iterator.current, 45267);
+          iterator.moveNext();
+          expect(iterator.current, 7721);
+          iterator.moveNext();
+          expect(iterator.current, "dz");
+          iterator.moveNext();
+          expect(iterator.current, "ea");
+          iterator.moveNext();
+          expect(iterator.current, "eb");
+          iterator.moveNext();
+          expect(iterator.current, 4566879);
+          iterator.moveNext();
+          expect(iterator.current, 766);
+          iterator.moveNext();
+          expect(iterator.current, 4326727);
+          iterator.moveNext();
+          expect(iterator.current, "\n");
+          iterator.moveNext();
+          expect(iterator.current, " ");
+          iterator.moveNext();
+          expect(iterator.current, "dfa45 a d");
+          iterator.moveNext();
+          expect(iterator.current, 23465);
+          iterator.moveNext();
+          expect(iterator.current, 24578);
+          iterator.moveNext();
+          expect(iterator.current, 245782);
+          iterator.moveNext();
+          expect(iterator.current, "4367 ");
+          iterator.moveNext();
+          expect(iterator.current, "saDtj45");
+          iterator.moveNext();
+          expect(iterator.current, " ");
+          iterator.moveNext();
+          expect(iterator.current, 239);
+          iterator.moveNext();
+          expect(iterator.current, 23);
+          iterator.moveNext();
+          expect(iterator.current, 3);
+          iterator.moveNext();
+          expect(iterator.current, "asd 5 Rgv3d5sx");
+          iterator.moveNext();
+          expect(iterator.current, "");
+          iterator.moveNext();
+          expect(iterator.current, "654w345 fd");
+          iterator.moveNext();
+          expect(iterator.current, 57838);
+          iterator.moveNext();
+          expect(iterator.current, 6);
+          iterator.moveNext();
+          expect(iterator.current, 145684);
+          iterator.moveNext();
+          expect(iterator.current, "rgsDFerg r sdf sd r45 3w s");
+          iterator.moveNext();
+          expect(iterator.current, "dfg tyj");
+          iterator.moveNext();
+          expect(iterator.current, "fgj56");
+          expect(iterator.moveNext(), false);
+        },
+      );
+    },
+  );
 }
 
 /// Builds a 1d array.

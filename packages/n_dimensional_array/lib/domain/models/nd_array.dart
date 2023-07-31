@@ -61,6 +61,74 @@ class NdArray extends Iterable {
     _data = data;
   }
 
+  /// Returns the first element in the last dimension.
+  @override
+  dynamic get first {
+    List<NdArray> lastDimension = extractDimension(numDimensions);
+
+    return lastDimension.first.data.first;
+  }
+
+  /// Returns the last element in the last dimension.
+  @override
+  dynamic get last {
+    List<NdArray> lastDimension = extractDimension(numDimensions);
+
+    return lastDimension.last.data.last;
+  }
+
+  /// Returns `true` if the last dimension is empty or if it only contains
+  /// `null`s.
+  @override
+  bool get isEmpty {
+    List<NdArray> lastDimension = extractDimension(numDimensions);
+
+    for (NdArray ndArray in lastDimension) {
+      if (ndArray.data.isNotEmpty) {
+        for (dynamic element in ndArray.data) {
+          if (element != null) return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  /// Returns `true` if the last dimension contains at least one non-`null`
+  /// element.
+  @override
+  bool get isNotEmpty => !isEmpty;
+
+  /// Returns the number of elements in the last dimension.
+  @override
+  int get length {
+    int length = 0;
+
+    List<NdArray> lastDimension = extractDimension(numDimensions);
+
+    for (NdArray ndArray in lastDimension) {
+      length += ndArray.data.length;
+    }
+
+    return length;
+  }
+
+  /// Returns the only element in the last dimension.
+  ///
+  /// Throws a [StateError] if this is empty or has more than one element.
+  @override
+  dynamic get single {
+    List<NdArray> lastDimension = extractDimension(numDimensions);
+
+    if (lastDimension.length > 1) {
+      throw StateError('Too many elements');
+    } else if (lastDimension.isEmpty) {
+      throw StateError('Too few elements');
+    }
+
+    return lastDimension.single.data.single;
+  }
+
   /// Returns the value at `index`.
   ///
   /// Throws a [RangeError] if `index` is out of bounds.
@@ -317,13 +385,78 @@ class NdArray extends Iterable {
     return const DeepCollectionEquality().hash(_data);
   }
 
+  /// Returns an iterator that iterates through the last dimension.
   @override
-  Iterator get iterator => _data.iterator;
+  Iterator get iterator => _NdArrayIterator(this);
 
   @override
   String toString() {
     return "Num Dimensions: $numDimensions\n"
         "Shape: $shape\n"
         "Data: ${_data.toString()}";
+  }
+}
+
+/// An iterator that iterates through the last dimension of an [NdArray].
+class _NdArrayIterator implements Iterator {
+  _NdArrayIterator(this._ndArray)
+      : _index = List.filled(_ndArray.shape.length, -1);
+
+  final NdArray _ndArray;
+
+  final List<int> _index;
+
+  @override
+  dynamic get current {
+    if (_index.isEmpty) {
+      return null;
+    } else {
+      NdArray ndArray = _ndArray;
+
+      for (int element in _index) {
+        if (element == -1) {
+          return null;
+        }
+      }
+
+      for (int i = 0; i < _index.length - 1; i++) {
+        final List currentDimension = ndArray.extractDimension(1);
+
+        ndArray = currentDimension[_index[i]];
+      }
+
+      return ndArray.data[_index.last];
+    }
+  }
+
+  @override
+  bool moveNext() {
+    final List shape = _ndArray.shape;
+
+    bool isDone = true;
+
+    for (int i = 0; i < _index.length; i++) {
+      if (_index[i] != shape[i] - 1) {
+        isDone = false;
+      }
+    }
+
+    if (isDone) return false;
+
+    for (int i = _index.length - 1; i >= 0; i--) {
+      if (_index[i] == -1) {
+        _index[i] = 0;
+        continue;
+      }
+
+      if (_index[i] < shape[i] - 1) {
+        _index[i]++;
+        break;
+      } else {
+        _index[i] = 0;
+      }
+    }
+
+    return _index[0] < _ndArray.shape[0];
   }
 }
