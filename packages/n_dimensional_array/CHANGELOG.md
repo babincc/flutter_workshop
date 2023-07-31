@@ -1,3 +1,7 @@
+## 1.0.1 - July 31, 2023
+
+- Reconfigured to support the use of this package in pure Dart projects
+
 ## 1.0.0 - July 31, 2023
 
 - Overrode more [Iterable] methods to achieve desired behavior

@@ -1,5 +1,5 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:n_dimensional_array/n_dimensional_array.dart';
+import 'package:test/test.dart';
 
 void main() {
   group(

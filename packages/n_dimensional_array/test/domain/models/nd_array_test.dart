@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:n_dimensional_array/domain/models/nd_array.dart';
+import 'package:test/test.dart';
 
 void main() {
   const List testList1d = [
