@@ -1,0 +1,24 @@
+name: dart_connect_metro
+description: A new Flutter package project.
+version: 0.1.0
+repository: https://github.com/babincc/flutter_workshop/tree/master/packages/dart_connect_metro
+issue_tracker: https://github.com/babincc/flutter_workshop/labels/plugin%3A%20dart_connect_metro
+
+topics:
+  - dc-metro
+  - dc-transit
+
+funding:
+  - https://www.buymeacoffee.com/babincc
+  - https://paypal.me/cssbabin
+  - https://venmo.com/u/babincc
+
+environment:
+  sdk: ">=3.0.1 <4.0.0"
+
+dependencies:
+  http: ^1.1.0
+
+dev_dependencies:
+  test: ^1.24.4
+  flutter_lints: ^2.0.0
