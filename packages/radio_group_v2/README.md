@@ -8,13 +8,14 @@ A widget that groups radio buttons so they can work together to give the user a 
 
 In the `pubspec.yaml` of your flutter project, add the following dependency:
 
-```yaml 
+```yaml
 dependencies:
- radio_group_v2: ^2.1.2
+  radio_group_v2: ^2.1.3
 ```
+
 Import it to each file you use it in:
 
-``` dart
+```dart
 import 'package:radio_group_v2/radio_group_v2.dart';
 ```
 
@@ -24,7 +25,7 @@ import 'package:radio_group_v2/radio_group_v2.dart';
 
 This example is a very basic, vertical radio group.
 
-``` dart
+```dart
 RadioGroupController myController = RadioGroupController();
 
 RadioGroup(
@@ -37,7 +38,7 @@ RadioGroup(
 
 This example is a horizontal radio group with some decoration, and it starts with the first button selected.
 
-``` dart
+```dart
 RadioGroupController myController = RadioGroupController();
 
 RadioGroup(
@@ -59,7 +60,7 @@ RadioGroup(
 
 This example shows how to programmatically select an item using two different methods.
 
-``` dart
+```dart
 RadioGroupController myController = RadioGroupController();
 
 List<String> items = ["Choice1", "Choice2", "Choice3"];
@@ -81,7 +82,7 @@ myController.selectAt(2);
 
 This example shows how to retrieve the selected value.
 
-``` dart
+```dart
 RadioGroupController myController = RadioGroupController();
 
 RadioGroup(

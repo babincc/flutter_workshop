@@ -10,7 +10,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 
 ```yaml
 dependencies:
-  n_dimensional_array: ^1.0.1
+  n_dimensional_array: ^1.0.2
 ```
 
 Import it to each file you use it in:
@@ -59,7 +59,7 @@ ndArray3[2][1][1] = 12;
 
 ### Example 2 - Reshape
 
-Just like with a normal list in Dart, you cannot add elements beyond the length of the list. For a list, you would you the `add()` method. Expanding a multi-dimensional list is a bit more complicated; so, the `reshape` method was created.
+Just like with a normal list in Dart, you cannot add elements beyond the length of the list. For a list, you would use the `add()` method. Expanding a multi-dimensional list is a bit more complicated; so, the `reshape` method was created.
 
 ```dart
 // The list from Example 1
@@ -119,7 +119,7 @@ value1 = ndArray[0][1]; // 8
 
 When you use the `copy()` method, you create a new `NdArray` that is identical to the original. Any modifications to one does not affect the other.
 
-Note: A non-primitive data types that use references (like custom objects) might not create new versions of themselves when copied. If this is the case, changes to one of those objects will appear in both `NdArray`s.
+Note: Any non-primitive data types that use references (like custom objects) might not create new versions of themselves when copied. If this is the case, changes to one of those objects will appear in both `NdArray`s.
 
 ```dart
 // 2D list is easier to follow

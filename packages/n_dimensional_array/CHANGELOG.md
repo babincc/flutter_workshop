@@ -1,3 +1,7 @@
+## 1.0.2 - September 27, 2023
+
+- Documentation updates
+
 ## 1.0.1 - July 31, 2023
 
 - Reconfigured to support the use of this package in pure Dart projects

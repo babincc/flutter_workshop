@@ -1,10 +1,10 @@
 // This is a generated file; do not edit or check into version control.
 FLUTTER_ROOT=/Library/flutter
-FLUTTER_APPLICATION_PATH=/Users/christianbabin/Desktop/radio_group_v2
+FLUTTER_APPLICATION_PATH=/Users/christianbabin/Documents/Work/Portfolio/flutter_workshop/packages/radio_group_v2
 COCOAPODS_PARALLEL_CODE_SIGN=true
 FLUTTER_BUILD_DIR=build
-FLUTTER_BUILD_NAME=0.0.1
-FLUTTER_BUILD_NUMBER=0.0.1
+FLUTTER_BUILD_NAME=2.1.2
+FLUTTER_BUILD_NUMBER=2.1.2
 DART_OBFUSCATION=false
 TRACK_WIDGET_CREATION=true
 TREE_SHAKE_ICONS=false

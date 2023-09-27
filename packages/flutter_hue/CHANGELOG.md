@@ -1,3 +1,7 @@
+## 1.2.2 - September 27, 2023
+
+- Documentation updates
+
 ## 1.2.1 - June 12, 2023
 
 - Fixed type cast bug [issue #9](https://github.com/babincc/flutter_workshop/issues/9)
