@@ -30,7 +30,7 @@ class BusPositionService {
     if (responseArr[ApiFields.busPositions] == null) return [];
 
     if (responseArr[ApiFields.busPositions] is List) {
-      return (responseArr[ApiFields.busPositions] as List)
+      return ((responseArr[ApiFields.busPositions] as List?) ?? [])
           .map((busPosition) => BusPosition.fromJson(busPosition))
           .toList();
     }

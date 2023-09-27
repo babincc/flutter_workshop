@@ -5,7 +5,7 @@ import 'package:dart_connect_metro/features/bus_routes/domain/services/bus_posit
 ///
 /// `apiKey` is your API key for the WMATA API.
 Future<List<BusPosition>> fetchAllBusPositions(String apiKey) async =>
-    BusPositionService.fetchBusPositions(apiKey);
+    await BusPositionService.fetchBusPositions(apiKey);
 
 /// Fetches bus positions for a specific route.
 ///
@@ -18,7 +18,7 @@ Future<List<BusPosition>> fetchBusPositionsForRoute(
   String apiKey, {
   required String routeId,
 }) async =>
-    BusPositionService.fetchBusPositions(apiKey, routeId: routeId);
+    await BusPositionService.fetchBusPositions(apiKey, routeId: routeId);
 
 /// Fetches bus positions for a specific location.
 ///
@@ -35,7 +35,7 @@ Future<List<BusPosition>> fetchBusPositionsForLocation(
   required double longitude,
   required double radiusMeters,
 }) async =>
-    BusPositionService.fetchBusPositions(
+    await BusPositionService.fetchBusPositions(
       apiKey,
       lat: latitude,
       lon: longitude,
@@ -62,7 +62,7 @@ Future<List<BusPosition>> fetchBusPositionsForRouteAndLocation(
   required double longitude,
   required double radiusMeters,
 }) async =>
-    BusPositionService.fetchBusPositions(
+    await BusPositionService.fetchBusPositions(
       apiKey,
       routeId: routeId,
       lat: latitude,

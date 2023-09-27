@@ -22,7 +22,7 @@ class BusPosition {
   factory BusPosition.fromJson(Map<String, dynamic> json) {
     return BusPosition(
       dateTime:
-          DateTime.tryParse(json[ApiFields.dateTime] ?? '') ?? DateTime.now(),
+          DateTime.tryParse(json[ApiFields.dateTime] ?? '') ?? emptyDateTime,
       deviationMinutes:
           ((json[ApiFields.deviationMinutes] ?? -9999) as num).toInt(),
       direction: json[ApiFields.direction] ?? '',
@@ -30,9 +30,9 @@ class BusPosition {
       longitude: ((json[ApiFields.longitude] ?? 0.0) as num).toDouble(),
       routeId: json[ApiFields.routeId] ?? '',
       tripStartTime: DateTime.tryParse(json[ApiFields.tripStartTime] ?? '') ??
-          DateTime.now(),
-      tripEndTime: DateTime.tryParse(json[ApiFields.tripEndTime] ?? '') ??
-          DateTime.now(),
+          emptyDateTime,
+      tripEndTime:
+          DateTime.tryParse(json[ApiFields.tripEndTime] ?? '') ?? emptyDateTime,
       tripHeadsign: json[ApiFields.tripHeadsign] ?? '',
       tripId: json[ApiFields.tripId] ?? '',
       vehicleId: json[ApiFields.vehicleId] ?? '',
@@ -41,17 +41,34 @@ class BusPosition {
 
   /// Creates an empty [BusPosition] object.
   BusPosition.empty()
-      : dateTime = DateTime.now(),
+      : dateTime = emptyDateTime,
         deviationMinutes = -9999,
         direction = '',
         latitude = 0.0,
         longitude = 0.0,
         routeId = '',
-        tripStartTime = DateTime.now(),
-        tripEndTime = DateTime.now(),
+        tripStartTime = emptyDateTime,
+        tripEndTime = emptyDateTime,
         tripHeadsign = '',
         tripId = '',
         vehicleId = '';
+
+  /// Whether or not this object is empty.
+  bool get isEmpty =>
+      dateTime == emptyDateTime &&
+      deviationMinutes == -9999 &&
+      direction.isEmpty &&
+      latitude == 0.0 &&
+      longitude == 0.0 &&
+      routeId.isEmpty &&
+      tripStartTime == emptyDateTime &&
+      tripEndTime == emptyDateTime &&
+      tripHeadsign.isEmpty &&
+      tripId.isEmpty &&
+      vehicleId.isEmpty;
+
+  /// Whether or not this object is not empty.
+  bool get isNotEmpty => !isEmpty;
 
   /// Date and time (Eastern Standard Time) of last position update.
   final DateTime dateTime;
@@ -95,7 +112,7 @@ class BusPosition {
   /// Unique identifier for the bus. This is usually visible on the bus itself.
   final String vehicleId;
 
-  /// Converts this object to a JSON object.
+  /// Returns a JSON object which represents this object.
   Map<String, dynamic> toJson() {
     return {
       ApiFields.dateTime: dateTime.toWmataString(),

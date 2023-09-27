@@ -14,11 +14,39 @@ class ApiFields {
 
   static const String direction = "DirectionText";
 
+  static const String direction0 = "Direction0";
+
+  static const String direction1 = "Direction1";
+
+  static const String endTime = "EndTime";
+
   static const String latitude = "Lat";
+
+  static const String lineDescription = "LineDescription";
 
   static const String longitude = "Lon";
 
+  static const String name = "Name";
+
   static const String routeId = "RouteID";
+
+  static const String routes = "Routes";
+
+  static const String seqNum = "SeqNum";
+
+  static const String shape = "Shape";
+
+  static const String startTime = "StartTime";
+
+  static const String stopId = "StopID";
+
+  static const String stops = "Stops";
+
+  static const String stopTimes = "StopTimes";
+
+  static const String time = "Time";
+
+  static const String tripDirection = "TripDirectionText";
 
   static const String tripEndTime = "TripEndTime";
 
