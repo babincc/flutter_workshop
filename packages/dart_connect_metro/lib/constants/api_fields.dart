@@ -14,6 +14,8 @@ class ApiFields {
 
   static const String direction = "DirectionText";
 
+  static const String directionNum = "DirectionNum";
+
   static const String direction0 = "Direction0";
 
   static const String direction1 = "Direction1";
@@ -32,11 +34,17 @@ class ApiFields {
 
   static const String routes = "Routes";
 
+  static const String scheduleArrivals = "ScheduleArrivals";
+
+  static const String scheduleTime = "ScheduleTime";
+
   static const String seqNum = "SeqNum";
 
   static const String shape = "Shape";
 
   static const String startTime = "StartTime";
+
+  static const String stop = "Stop";
 
   static const String stopId = "StopID";
 

@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:dart_connect_metro/constants/api_fields.dart';
 import 'package:dart_connect_metro/features/bus_routes/domain/models/path_details/shape_point.dart';
-import 'package:dart_connect_metro/features/bus_routes/domain/models/path_details/path_details_stop.dart';
+import 'package:dart_connect_metro/features/bus_routes/domain/models/stop.dart';
 
 /// Represents a direction of a bus route.
 class PathDetailsDirection {
@@ -21,7 +21,7 @@ class PathDetailsDirection {
           .map((shapePoint) => ShapePoint.fromJson(shapePoint))
           .toList(),
       stops: ((json[ApiFields.stops] as List?) ?? [])
-          .map((stop) => PathDetailsStop.fromJson(stop))
+          .map((stop) => Stop.fromJson(stop))
           .toList(),
       tripHeadsign: json[ApiFields.tripHeadsign] ?? '',
     );
@@ -52,7 +52,7 @@ class PathDetailsDirection {
   final List<ShapePoint> shape;
 
   /// List of stops for the route variant.
-  final List<PathDetailsStop> stops;
+  final List<Stop> stops;
 
   /// Descriptive text of where the bus is headed.
   ///

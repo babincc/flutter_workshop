@@ -1,9 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:dart_connect_metro/constants/api_fields.dart';
 
-class PathDetailsStop {
-  /// Creates a [PathDetailsStop] object.
-  PathDetailsStop({
+/// Represents a bus stop.
+class Stop {
+  /// Creates a [Stop] object.
+  const Stop({
     required this.latitude,
     required this.longitude,
     required this.name,
@@ -11,9 +12,9 @@ class PathDetailsStop {
     required this.stopId,
   });
 
-  /// Creates a [PathDetailsStop] object from a JSON object.
-  factory PathDetailsStop.fromJson(Map<String, dynamic> json) {
-    return PathDetailsStop(
+  /// Creates a [Stop] object from a JSON object.
+  factory Stop.fromJson(Map<String, dynamic> json) {
+    return Stop(
       latitude: ((json[ApiFields.latitude] ?? 0.0) as num).toDouble(),
       longitude: ((json[ApiFields.longitude] ?? 0.0) as num).toDouble(),
       name: json[ApiFields.name] ?? '',
@@ -24,12 +25,12 @@ class PathDetailsStop {
     );
   }
 
-  /// Creates an empty [PathDetailsStop] object.
-  PathDetailsStop.empty()
+  /// Creates an empty [Stop] object.
+  const Stop.empty()
       : latitude = 0.0,
         longitude = 0.0,
         name = '',
-        routes = [],
+        routes = const [],
         stopId = 0;
 
   /// Whether or not this object is empty.
@@ -80,7 +81,7 @@ class PathDetailsStop {
 
     if (other.runtimeType != runtimeType) return false;
 
-    return other is PathDetailsStop &&
+    return other is Stop &&
         other.latitude == latitude &&
         other.longitude == longitude &&
         other.name == name &&
@@ -98,5 +99,5 @@ class PathDetailsStop {
       );
 
   @override
-  String toString() => "Instance of 'PathDetailsStop' ${toJson.toString()}";
+  String toString() => "Instance of 'Stop' ${toJson.toString()}";
 }
