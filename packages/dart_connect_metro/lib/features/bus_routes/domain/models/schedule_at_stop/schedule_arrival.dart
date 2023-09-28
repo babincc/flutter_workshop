@@ -47,12 +47,12 @@ class ScheduleArrival {
   bool get isEmpty =>
       directionNum == -1 &&
       endTime == emptyDateTime &&
-      routeId == '' &&
+      routeId.isEmpty &&
       scheduleTime == emptyDateTime &&
       startTime == emptyDateTime &&
-      direction == '' &&
-      tripHeadsign == '' &&
-      tripId == '';
+      direction.isEmpty &&
+      tripHeadsign.isEmpty &&
+      tripId.isEmpty;
 
   /// Whether or not this [ScheduleArrival] is not empty.
   bool get isNotEmpty => !isEmpty;

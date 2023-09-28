@@ -21,5 +21,7 @@ export 'package:dart_connect_metro/features/bus_routes/domain/repos/routes_repo.
 export 'package:dart_connect_metro/features/bus_routes/domain/repos/schedule_at_stop_repo.dart';
 export 'package:dart_connect_metro/features/bus_routes/domain/repos/schedule_repo.dart';
 export 'package:dart_connect_metro/features/bus_routes/domain/repos/stop_search_repo.dart';
+export 'package:dart_connect_metro/features/incidents/domain/models/bus_incident.dart';
+export 'package:dart_connect_metro/features/incidents/domain/repos/bus_incident_repo.dart';
 export 'package:dart_connect_metro/utils/coordinate_calculator.dart';
 export 'package:dart_connect_metro/utils/date_time_formatter.dart';

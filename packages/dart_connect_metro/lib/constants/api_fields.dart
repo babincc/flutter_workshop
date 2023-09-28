@@ -6,9 +6,15 @@
 /// parts of the code. This also allows for name changes on WMATA's side without
 /// having to change the name in several places in the code here.
 class ApiFields {
+  static const String busIncidents = "BusIncidents";
+
   static const String busPositions = "BusPositions";
 
   static const String dateTime = "DateTime";
+
+  static const String description = "Description";
+
+  static const String dateUpdated = "DateUpdated";
 
   static const String deviationMinutes = "Deviation";
 
@@ -22,6 +28,10 @@ class ApiFields {
 
   static const String endTime = "EndTime";
 
+  static const String incidentId = "IncidentID";
+
+  static const String incidentType = "IncidentType";
+
   static const String latitude = "Lat";
 
   static const String lineDescription = "LineDescription";
@@ -33,6 +43,8 @@ class ApiFields {
   static const String routeId = "RouteID";
 
   static const String routes = "Routes";
+
+  static const String routesAffected = "RoutesAffected";
 
   static const String scheduleArrivals = "ScheduleArrivals";
 
