@@ -39,8 +39,8 @@ void main() {
       }
 
       expect(
-        result.length == count,
-        true,
+        result.length,
+        count,
       );
     },
   );
@@ -77,8 +77,8 @@ void main() {
       }
 
       expect(
-        result.length == count,
-        true,
+        result.length,
+        count,
       );
     },
   );
@@ -118,8 +118,8 @@ void main() {
       }
 
       expect(
-        result.length == count,
-        true,
+        result.length,
+        count,
       );
     },
   );

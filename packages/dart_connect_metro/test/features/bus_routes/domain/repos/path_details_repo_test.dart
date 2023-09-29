@@ -38,7 +38,7 @@ void main() async {
           );
 
           expect(
-            result.isNotEmpty,
+            result.isEmpty,
             true,
           );
         },

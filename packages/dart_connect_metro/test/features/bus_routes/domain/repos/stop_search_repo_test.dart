@@ -50,8 +50,8 @@ void main() async {
       }
 
       expect(
-        result.length == count,
-        true,
+        result.length,
+        count,
       );
     },
   );

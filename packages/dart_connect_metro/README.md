@@ -1,4 +1,4 @@
-# dart_connect_metro
+# Dart Connect Metro
 
 <img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/logos/dart_connect_metro_logo.png" alt="Dart Connect Metro Logo" height="250">
 

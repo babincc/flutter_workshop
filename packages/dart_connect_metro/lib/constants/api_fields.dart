@@ -10,6 +10,8 @@ class ApiFields {
 
   static const String busPositions = "BusPositions";
 
+  static const String dateOutOfService = "DateOutOfServ";
+
   static const String dateTime = "DateTime";
 
   static const String description = "Description";
@@ -26,15 +28,37 @@ class ApiFields {
 
   static const String direction1 = "Direction1";
 
+  static const String displayName = "DisplayName";
+
+  static const String elevatorIncidents = "ElevatorIncidents";
+
+  static const String endStationCode = "EndStationCode";
+
   static const String endTime = "EndTime";
+
+  static const String estimatedTimeOfFix = "EstimatedReturnToService";
 
   static const String incidentId = "IncidentID";
 
+  static const String incidents = "Incidents";
+
   static const String incidentType = "IncidentType";
+
+  static const String internalDestination1 = "InternalDestination1";
+
+  static const String internalDestination2 = "InternalDestination2";
 
   static const String latitude = "Lat";
 
+  static const String lineCode = "LineCode";
+
   static const String lineDescription = "LineDescription";
+
+  static const String lines = "Lines";
+
+  static const String linesAffected = "LinesAffected";
+
+  static const String locationDescription = "LocationDescription";
 
   static const String longitude = "Lon";
 
@@ -54,7 +78,15 @@ class ApiFields {
 
   static const String shape = "Shape";
 
+  static const String startStationCode = "StartStationCode";
+
   static const String startTime = "StartTime";
+
+  static const String stationCode = "StationCode";
+
+  static const String stationName = "StationName";
+
+  static const String statusCode = "statusCode";
 
   static const String stop = "Stop";
 
@@ -63,6 +95,8 @@ class ApiFields {
   static const String stops = "Stops";
 
   static const String stopTimes = "StopTimes";
+
+  static const String symptomDescription = "SymptomDescription";
 
   static const String time = "Time";
 
@@ -75,6 +109,10 @@ class ApiFields {
   static const String tripId = "TripID";
 
   static const String tripStartTime = "TripStartTime";
+
+  static const String unitName = "UnitName";
+
+  static const String unitType = "UnitType";
 
   static const String vehicleId = "VehicleID";
 }

@@ -7,13 +7,13 @@ void main() {
   final String apiKey = ApiRepo.getApiKey();
 
   group(
-    'fetchBusIncidents',
+    'fetchAdaIncidents',
     () {
       test(
-        'without routeId',
+        'without stationCode',
         () async {
           // ignore: unused_local_variable
-          final List<BusIncident> result = await fetchBusIncidents(apiKey);
+          final List<AdaIncident> result = await fetchAdaIncidents(apiKey);
 
           // print(result);
 
@@ -22,24 +22,24 @@ void main() {
       );
 
       test(
-        'with routeId',
+        'with stationCode',
         () async {
-          final List<BusIncident> allBusIncidents =
-              await fetchBusIncidents(apiKey);
+          final List<AdaIncident> allAdaIncidents =
+              await fetchAdaIncidents(apiKey);
 
-          if (allBusIncidents.isEmpty) return;
+          if (allAdaIncidents.isEmpty) return;
 
-          final String routeId = allBusIncidents.first.affectedRoutes.first;
+          final String stationCode = allAdaIncidents.first.stationCode;
 
-          final List<BusIncident> result = await fetchBusIncidents(
+          final List<AdaIncident> result = await fetchAdaIncidents(
             apiKey,
-            routeId: routeId,
+            stationCode: stationCode,
           );
 
           int count = 0;
 
-          for (BusIncident busIncident in allBusIncidents) {
-            if (busIncident.affectedRoutes.contains(routeId)) {
+          for (AdaIncident incident in allAdaIncidents) {
+            if (incident.stationCode == stationCode) {
               count++;
             }
           }
