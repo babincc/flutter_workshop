@@ -6,9 +6,17 @@
 /// parts of the code. This also allows for name changes on WMATA's side without
 /// having to change the name in several places in the code here.
 class ApiFields {
+  static const String address = "Address";
+
+  static const String allDayParking = "AllDayParking";
+
   static const String busIncidents = "BusIncidents";
 
   static const String busPositions = "BusPositions";
+
+  static const String city = "City";
+
+  static const String code = "Code";
 
   static const String dateOutOfService = "DateOutOfServ";
 
@@ -30,11 +38,15 @@ class ApiFields {
 
   static const String displayName = "DisplayName";
 
+  static const String distanceToPrev = "DistanceToPrev";
+
   static const String elevatorIncidents = "ElevatorIncidents";
 
   static const String endStationCode = "EndStationCode";
 
   static const String endTime = "EndTime";
+
+  static const String entrances = "Entrances";
 
   static const String estimatedTimeOfFix = "EstimatedReturnToService";
 
@@ -52,6 +64,14 @@ class ApiFields {
 
   static const String lineCode = "LineCode";
 
+  static const String lineCode1 = "LineCode1";
+
+  static const String lineCode2 = "LineCode2";
+
+  static const String lineCode3 = "LineCode3";
+
+  static const String lineCode4 = "LineCode4";
+
   static const String lineDescription = "LineDescription";
 
   static const String lines = "Lines";
@@ -64,11 +84,23 @@ class ApiFields {
 
   static const String name = "Name";
 
+  static const String nonRiderCost = "NonRiderCost";
+
+  static const String notes = "Notes";
+
+  static const String path = "Path";
+
+  static const String riderCost = "RiderCost";
+
   static const String routeId = "RouteID";
 
   static const String routes = "Routes";
 
   static const String routesAffected = "RoutesAffected";
+
+  static const String saturdayNonRiderCost = "SaturdayNonRiderCost";
+
+  static const String saturdayRiderCost = "SaturdayRiderCost";
 
   static const String scheduleArrivals = "ScheduleArrivals";
 
@@ -78,13 +110,29 @@ class ApiFields {
 
   static const String shape = "Shape";
 
+  static const String shortTermParking = "ShortTermParking";
+
   static const String startStationCode = "StartStationCode";
 
   static const String startTime = "StartTime";
 
+  static const String state = "State";
+
   static const String stationCode = "StationCode";
 
+  static const String stationCode1 = "StationCode1";
+
+  static const String stationCode2 = "StationCode2";
+
   static const String stationName = "StationName";
+
+  static const String stations = "Stations";
+
+  static const String stationsParking = "StationsParking";
+
+  static const String stationTogether1 = "StationTogether1";
+
+  static const String stationTogether2 = "StationTogether2";
 
   static const String statusCode = "statusCode";
 
@@ -96,9 +144,13 @@ class ApiFields {
 
   static const String stopTimes = "StopTimes";
 
+  static const String street = "Street";
+
   static const String symptomDescription = "SymptomDescription";
 
   static const String time = "Time";
+
+  static const String totalCount = "TotalCount";
 
   static const String tripDirection = "TripDirectionText";
 
@@ -115,4 +167,6 @@ class ApiFields {
   static const String unitType = "UnitType";
 
   static const String vehicleId = "VehicleID";
+
+  static const String zip = "Zip";
 }

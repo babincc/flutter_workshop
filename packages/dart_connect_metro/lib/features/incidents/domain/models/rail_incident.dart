@@ -5,7 +5,7 @@ import 'package:dart_connect_metro/utils/date_time_formatter.dart';
 /// Represents a rail incident.
 class RailIncident {
   /// Creates a [RailIncident] object.
-  const RailIncident({
+  RailIncident({
     required this.timeOfLastUpdate,
     required this.description,
     required this.incidentId,
@@ -15,12 +15,30 @@ class RailIncident {
 
   /// Creates a [RailIncident] object from a JSON object.
   factory RailIncident.fromJson(Map<String, dynamic> json) {
-    final String affectedLinesString = json[ApiFields.linesAffected] ?? '';
+    late final List<String> affectedLines;
 
-    final List<String> affectedLines = affectedLinesString
-        .split(RegExp(r';[\s]?'))
-        .where((line) => line.isNotEmpty)
-        .toList();
+    late final bool affectedLinesWasString;
+
+    if (json[ApiFields.linesAffected] == null) {
+      affectedLines = const [];
+      affectedLinesWasString = false;
+    } else if (json[ApiFields.linesAffected] is String) {
+      final String affectedLinesString = json[ApiFields.linesAffected] ?? '';
+
+      affectedLines = affectedLinesString
+          .split(RegExp(r';[\s]?'))
+          .where((line) => line.isNotEmpty)
+          .toList();
+
+      affectedLinesWasString = true;
+    } else if (json[ApiFields.linesAffected] is List) {
+      affectedLines = List<String>.from(json[ApiFields.linesAffected] ?? []);
+
+      affectedLinesWasString = false;
+    } else {
+      affectedLines = const [];
+      affectedLinesWasString = false;
+    }
 
     return RailIncident(
       timeOfLastUpdate:
@@ -29,7 +47,7 @@ class RailIncident {
       incidentId: json[ApiFields.incidentId] ?? '',
       incidentType: json[ApiFields.incidentType] ?? '',
       affectedLines: affectedLines,
-    );
+    ).._affectedLinesWasString = affectedLinesWasString;
   }
 
   /// Creates an empty [RailIncident] object.
@@ -46,7 +64,8 @@ class RailIncident {
       description.isEmpty &&
       incidentId.isEmpty &&
       incidentType.isEmpty &&
-      affectedLines.isEmpty;
+      affectedLines.isEmpty &&
+      !_affectedLinesWasString;
 
   /// Whether or not this [RailIncident] object is not empty.
   bool get isNotEmpty => !isEmpty;
@@ -68,14 +87,26 @@ class RailIncident {
   /// Array containing lines affected.
   final List<String> affectedLines;
 
+  /// Whether or not the [affectedLines] field was a string.
+  bool _affectedLinesWasString = false;
+
   /// Returns a JSON representation of this object.
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        ApiFields.dateUpdated: timeOfLastUpdate.toIso8601String(),
-        ApiFields.description: description,
-        ApiFields.incidentId: incidentId,
-        ApiFields.incidentType: incidentType,
-        ApiFields.linesAffected: "${affectedLines.join('; ')};",
-      };
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> json = {
+      ApiFields.dateUpdated: timeOfLastUpdate.toIso8601String(),
+      ApiFields.description: description,
+      ApiFields.incidentId: incidentId,
+      ApiFields.incidentType: incidentType,
+    };
+
+    if (_affectedLinesWasString) {
+      json[ApiFields.linesAffected] = "${affectedLines.join('; ')};";
+    } else {
+      json[ApiFields.linesAffected] = affectedLines;
+    }
+
+    return json;
+  }
 
   @override
   bool operator ==(Object other) {

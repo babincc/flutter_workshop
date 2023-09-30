@@ -19,7 +19,8 @@ class PathDetailsDirection {
       direction: json[ApiFields.direction] ?? '',
       shape: ((json[ApiFields.shape] as List?) ?? [])
           .map((shapePoint) => ShapePoint.fromJson(shapePoint))
-          .toList(),
+          .toList()
+        ..sort(),
       stops: ((json[ApiFields.stops] as List?) ?? [])
           .map((stop) => Stop.fromJson(stop))
           .toList(),
