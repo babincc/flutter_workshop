@@ -6,4 +6,4 @@ import 'package:dart_connect_metro/features/misc/domain/services/validate_api_ke
 ///
 /// `apiKey` is your API key for the WMATA API.
 Future<bool> fetchApiKeyValidation(String apiKey) async =>
-    ValidateApiKeyService.fetchApiKeyValidation(apiKey);
+    await ValidateApiKeyService.fetchApiKeyValidation(apiKey);

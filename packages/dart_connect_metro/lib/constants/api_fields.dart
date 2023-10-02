@@ -18,23 +18,29 @@ class ApiFields {
 
   static const String code = "Code";
 
+  static const String compositeMiles = "CompositeMiles";
+
   static const String dateOutOfService = "DateOutOfServ";
 
   static const String dateTime = "DateTime";
 
+  static const String dateUpdated = "DateUpdated";
+
   static const String description = "Description";
 
-  static const String dateUpdated = "DateUpdated";
+  static const String destination = "DestinationStation";
+
+  static const String destinationStation = "DestinationStation";
 
   static const String deviationMinutes = "Deviation";
 
   static const String direction = "DirectionText";
 
-  static const String directionNum = "DirectionNum";
-
   static const String direction0 = "Direction0";
 
   static const String direction1 = "Direction1";
+
+  static const String directionNum = "DirectionNum";
 
   static const String displayName = "DisplayName";
 
@@ -50,6 +56,10 @@ class ApiFields {
 
   static const String estimatedTimeOfFix = "EstimatedReturnToService";
 
+  static const String firstTrains = "FirstTrains";
+
+  static const String friday = "Friday";
+
   static const String incidentId = "IncidentID";
 
   static const String incidents = "Incidents";
@@ -59,6 +69,8 @@ class ApiFields {
   static const String internalDestination1 = "InternalDestination1";
 
   static const String internalDestination2 = "InternalDestination2";
+
+  static const String lastTrains = "LastTrains";
 
   static const String latitude = "Lat";
 
@@ -82,13 +94,25 @@ class ApiFields {
 
   static const String longitude = "Lon";
 
+  static const String monday = "Monday";
+
   static const String name = "Name";
 
   static const String nonRiderCost = "NonRiderCost";
 
   static const String notes = "Notes";
 
+  static const String offPeakTime = "OffPeakTime";
+
+  static const String openingTime = "OpeningTime";
+
   static const String path = "Path";
+
+  static const String peakTime = "PeakTime";
+
+  static const String railFare = "RailFare";
+
+  static const String railTime = "RailTime";
 
   static const String riderCost = "RiderCost";
 
@@ -98,6 +122,8 @@ class ApiFields {
 
   static const String routesAffected = "RoutesAffected";
 
+  static const String saturday = "Saturday";
+
   static const String saturdayNonRiderCost = "SaturdayNonRiderCost";
 
   static const String saturdayRiderCost = "SaturdayRiderCost";
@@ -106,11 +132,15 @@ class ApiFields {
 
   static const String scheduleTime = "ScheduleTime";
 
+  static const String seniorDisabled = "SeniorDisabled";
+
   static const String seqNum = "SeqNum";
 
   static const String shape = "Shape";
 
   static const String shortTermParking = "ShortTermParking";
+
+  static const String sourceStation = "SourceStation";
 
   static const String startStationCode = "StartStationCode";
 
@@ -130,9 +160,13 @@ class ApiFields {
 
   static const String stationsParking = "StationsParking";
 
+  static const String stationTimes = "StationTimes";
+
   static const String stationTogether1 = "StationTogether1";
 
   static const String stationTogether2 = "StationTogether2";
+
+  static const String stationToStationInfos = "StationToStationInfos";
 
   static const String statusCode = "statusCode";
 
@@ -146,7 +180,11 @@ class ApiFields {
 
   static const String street = "Street";
 
+  static const String sunday = "Sunday";
+
   static const String symptomDescription = "SymptomDescription";
+
+  static const String thursday = "Thursday";
 
   static const String time = "Time";
 
@@ -162,11 +200,15 @@ class ApiFields {
 
   static const String tripStartTime = "TripStartTime";
 
+  static const String tuesday = "Tuesday";
+
   static const String unitName = "UnitName";
 
   static const String unitType = "UnitType";
 
   static const String vehicleId = "VehicleID";
+
+  static const String wednesday = "Wednesday";
 
   static const String zip = "Zip";
 }

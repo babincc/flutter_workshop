@@ -1,5 +1,10 @@
+import 'package:dart_connect_metro/utils/time.dart';
+
 /// Returns an empty [DateTime].
 DateTime get emptyDateTime => DateTime.fromMillisecondsSinceEpoch(0);
+
+/// Returns an empty [Time].
+Time get emptyTime => Time(0, 0);
 
 /// Extension on [DateTime] to format it to WMATA API format.
 extension DateTimeFormatter on DateTime {

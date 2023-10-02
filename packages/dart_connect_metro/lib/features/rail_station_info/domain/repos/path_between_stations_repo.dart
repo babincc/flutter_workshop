@@ -14,7 +14,7 @@ Future<Path> fetchPath(
   required String startStationCode,
   required String destinationStationCode,
 }) async =>
-    PathBetweenStationsService.fetchPath(
+    await PathBetweenStationsService.fetchPath(
       apiKey,
       startStationCode: startStationCode,
       destinationStationCode: destinationStationCode,

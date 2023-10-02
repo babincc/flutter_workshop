@@ -5,7 +5,7 @@ import 'package:dart_connect_metro/features/rail_station_info/domain/services/st
 ///
 /// `apiKey` is your API key for the WMATA API.
 Future<List<StationEntrance>> fetchAllStationEntrances(String apiKey) async =>
-    StationEntrancesService.fetchStationEntrances(apiKey);
+    await StationEntrancesService.fetchStationEntrances(apiKey);
 
 /// Fetches all station entrances.
 ///
@@ -22,7 +22,7 @@ Future<List<StationEntrance>> fetchStationEntrancesForLocation(
   required double longitude,
   required double radiusMeters,
 }) async =>
-    StationEntrancesService.fetchStationEntrances(
+    await StationEntrancesService.fetchStationEntrances(
       apiKey,
       lat: latitude,
       lon: longitude,

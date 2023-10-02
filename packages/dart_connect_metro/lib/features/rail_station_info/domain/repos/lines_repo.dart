@@ -5,4 +5,4 @@ import 'package:dart_connect_metro/features/rail_station_info/domain/services/li
 ///
 /// `apiKey` is your API key for the WMATA API.
 Future<List<Line>> fetchLines(String apiKey) async =>
-    LinesService.fetchLines(apiKey);
+    await LinesService.fetchLines(apiKey);

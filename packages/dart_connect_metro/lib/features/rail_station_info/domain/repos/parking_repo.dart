@@ -11,7 +11,7 @@ Future<List<Parking>> fetchParking(
   String apiKey, {
   String? stationCode,
 }) async =>
-    ParkingService.fetchParking(
+    await ParkingService.fetchParking(
       apiKey,
       stationCode: stationCode,
     );
