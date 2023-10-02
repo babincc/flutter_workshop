@@ -14,6 +14,8 @@ class ApiFields {
 
   static const String busPositions = "BusPositions";
 
+  static const String car = "Car";
+
   static const String city = "City";
 
   static const String code = "Code";
@@ -28,7 +30,11 @@ class ApiFields {
 
   static const String description = "Description";
 
-  static const String destination = "DestinationStation";
+  static const String destination = "Destination";
+
+  static const String destinationCode = "DestinationCode";
+
+  static const String destinationName = "DestinationName";
 
   static const String destinationStation = "DestinationStation";
 
@@ -60,6 +66,8 @@ class ApiFields {
 
   static const String friday = "Friday";
 
+  static const String group = "Group";
+
   static const String incidentId = "IncidentID";
 
   static const String incidents = "Incidents";
@@ -73,6 +81,8 @@ class ApiFields {
   static const String lastTrains = "LastTrains";
 
   static const String latitude = "Lat";
+
+  static const String line = "Line";
 
   static const String lineCode = "LineCode";
 
@@ -90,9 +100,17 @@ class ApiFields {
 
   static const String linesAffected = "LinesAffected";
 
+  static const String locationCode = "LocationCode";
+
   static const String locationDescription = "LocationDescription";
 
+  static const String locationName = "LocationName";
+
   static const String longitude = "Lon";
+
+  static const String min = "Min";
+
+  static const String minutes = "Minutes";
 
   static const String monday = "Monday";
 
@@ -109,6 +127,8 @@ class ApiFields {
   static const String path = "Path";
 
   static const String peakTime = "PeakTime";
+
+  static const String predictions = "Predictions";
 
   static const String railFare = "RailFare";
 
@@ -174,6 +194,8 @@ class ApiFields {
 
   static const String stopId = "StopID";
 
+  static const String stopName = "StopName";
+
   static const String stops = "Stops";
 
   static const String stopTimes = "StopTimes";
@@ -189,6 +211,8 @@ class ApiFields {
   static const String time = "Time";
 
   static const String totalCount = "TotalCount";
+
+  static const String trains = "Trains";
 
   static const String tripDirection = "TripDirectionText";
 

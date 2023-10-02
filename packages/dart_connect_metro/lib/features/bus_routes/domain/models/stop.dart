@@ -99,5 +99,5 @@ class Stop {
       );
 
   @override
-  String toString() => "Instance of 'Stop' ${toJson.toString()}";
+  String toString() => "Instance of 'Stop' ${toJson().toString()}";
 }

@@ -68,5 +68,5 @@ class ShapePoint implements Comparable<ShapePoint> {
       );
 
   @override
-  String toString() => "Instance of 'ShapePoint' ${toJson.toString()}";
+  String toString() => "Instance of 'ShapePoint' ${toJson().toString()}";
 }

@@ -35,7 +35,7 @@ class TerminusTrain {
 
     return TerminusTrain(
       time: time,
-      destination: json[ApiFields.destination],
+      destination: json[ApiFields.destinationStation],
     );
   }
 
@@ -60,7 +60,7 @@ class TerminusTrain {
   Map<String, dynamic> toJson() {
     return {
       ApiFields.time: time.toString(),
-      ApiFields.destination: destination,
+      ApiFields.destinationStation: destination,
     };
   }
 

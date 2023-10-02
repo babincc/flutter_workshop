@@ -94,5 +94,5 @@ class PathDetailsDirection {
 
   @override
   String toString() =>
-      "Instance of 'PathDetailsDirection' ${toJson.toString()}";
+      "Instance of 'PathDetailsDirection' ${toJson().toString()}";
 }

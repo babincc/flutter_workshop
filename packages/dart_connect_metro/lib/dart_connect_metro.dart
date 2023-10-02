@@ -4,6 +4,9 @@
 
 library dart_connect_metro;
 
+export 'package:dart_connect_metro/features/bus_predictions/domain/models/next_buses/next_buses.dart';
+export 'package:dart_connect_metro/features/bus_predictions/domain/models/next_buses/prediction.dart';
+export 'package:dart_connect_metro/features/bus_predictions/domain/repos/next_buses_repo.dart';
 export 'package:dart_connect_metro/features/bus_routes/domain/models/bus_position.dart';
 export 'package:dart_connect_metro/features/bus_routes/domain/models/path_details/path_details.dart';
 export 'package:dart_connect_metro/features/bus_routes/domain/models/path_details/path_details_direction.dart';
@@ -28,6 +31,8 @@ export 'package:dart_connect_metro/features/incidents/domain/repos/ada_outages_r
 export 'package:dart_connect_metro/features/incidents/domain/repos/bus_incident_repo.dart';
 export 'package:dart_connect_metro/features/incidents/domain/repos/rail_incident_repo.dart';
 export 'package:dart_connect_metro/features/misc/domain/repos/validate_api_key_repo.dart';
+export 'package:dart_connect_metro/features/rail_predictions/domain/models/next_train.dart';
+export 'package:dart_connect_metro/features/rail_predictions/domain/repos/next_trains_repo.dart';
 export 'package:dart_connect_metro/features/rail_station_info/domain/models/line.dart';
 export 'package:dart_connect_metro/features/rail_station_info/domain/models/parking/all_day_parking.dart';
 export 'package:dart_connect_metro/features/rail_station_info/domain/models/parking/parking.dart';

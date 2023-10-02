@@ -66,5 +66,5 @@ class ScheduleAtStop {
       );
 
   @override
-  String toString() => "Instance of 'ScheduleAtStop' ${toJson.toString()}";
+  String toString() => "Instance of 'ScheduleAtStop' ${toJson().toString()}";
 }
