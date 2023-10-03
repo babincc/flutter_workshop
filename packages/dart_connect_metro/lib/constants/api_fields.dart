@@ -16,6 +16,12 @@ class ApiFields {
 
   static const String car = "Car";
 
+  static const String carCount = "CarCount";
+
+  static const String circuitId = "CircuitId";
+
+  static const String circuitIds = "CircuitIds";
+
   static const String city = "City";
 
   static const String code = "Code";
@@ -37,6 +43,8 @@ class ApiFields {
   static const String destinationName = "DestinationName";
 
   static const String destinationStation = "DestinationStation";
+
+  static const String destinationStationCode = "DestinationStationCode";
 
   static const String deviationMinutes = "Deviation";
 
@@ -116,7 +124,15 @@ class ApiFields {
 
   static const String name = "Name";
 
+  static const String neighbors = "Neighbors";
+
+  static const String neighborType = "NeighborType";
+
   static const String nonRiderCost = "NonRiderCost";
+
+  static const String noPassengers = "NoPassengers";
+
+  static const String normal = "Normal";
 
   static const String notes = "Notes";
 
@@ -152,15 +168,23 @@ class ApiFields {
 
   static const String scheduleTime = "ScheduleTime";
 
+  static const String secondsAtLocation = "SecondsAtLocation";
+
   static const String seniorDisabled = "SeniorDisabled";
 
   static const String seqNum = "SeqNum";
+
+  static const String serviceType = "ServiceType";
 
   static const String shape = "Shape";
 
   static const String shortTermParking = "ShortTermParking";
 
   static const String sourceStation = "SourceStation";
+
+  static const String special = "Special";
+
+  static const String standardRoutes = "StandardRoutes";
 
   static const String startStationCode = "StartStationCode";
 
@@ -212,6 +236,18 @@ class ApiFields {
 
   static const String totalCount = "TotalCount";
 
+  static const String track = "Track";
+
+  static const String trackCircuits = "TrackCircuits";
+
+  static const String trackNum = "TrackNum";
+
+  static const String trainId = "TrainId";
+
+  static const String trainNumber = "TrainNumber";
+
+  static const String trainPositions = "TrainPositions";
+
   static const String trains = "Trains";
 
   static const String tripDirection = "TripDirectionText";
@@ -229,6 +265,8 @@ class ApiFields {
   static const String unitName = "UnitName";
 
   static const String unitType = "UnitType";
+
+  static const String unknown = "Unknown";
 
   static const String vehicleId = "VehicleID";
 

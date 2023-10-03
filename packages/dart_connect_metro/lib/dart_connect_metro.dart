@@ -54,6 +54,15 @@ export 'package:dart_connect_metro/features/rail_station_info/domain/repos/stati
 export 'package:dart_connect_metro/features/rail_station_info/domain/repos/station_repo.dart';
 export 'package:dart_connect_metro/features/rail_station_info/domain/repos/station_timings_repo.dart';
 export 'package:dart_connect_metro/features/rail_station_info/domain/repos/station_to_station_repo.dart';
+export 'package:dart_connect_metro/features/train_positions/domain/models/service_type.dart';
+export 'package:dart_connect_metro/features/train_positions/domain/models/standard_routes/route_track_circuit.dart';
+export 'package:dart_connect_metro/features/train_positions/domain/models/standard_routes/standard_route.dart';
+export 'package:dart_connect_metro/features/train_positions/domain/models/track_circuits/track_circuit.dart';
+export 'package:dart_connect_metro/features/train_positions/domain/models/track_circuits/track_circuit_neighbor.dart';
+export 'package:dart_connect_metro/features/train_positions/domain/models/train_position.dart';
+export 'package:dart_connect_metro/features/train_positions/domain/repos/standard_route_repo.dart';
+export 'package:dart_connect_metro/features/train_positions/domain/repos/track_circuits_repo.dart';
+export 'package:dart_connect_metro/features/train_positions/domain/repos/train_position_repo.dart';
 export 'package:dart_connect_metro/utils/coordinate_calculator.dart';
 export 'package:dart_connect_metro/utils/date_time_formatter.dart';
 export 'package:dart_connect_metro/utils/time.dart';
