@@ -19,6 +19,16 @@ Brief summary on the package...
 [back to top](#table-of-contents)
 --->
 
+## dart_connect_metro
+
+**[view on pub.dev](https://pub.dev/packages/dart_connect_metro)** (external link)
+
+**[source code](dart_connect_metro#readme)**
+
+A Dart SDK that gives developers easy access to DC Metro data in real time.
+
+[back to top](#table-of-contents)
+
 ## flutter_hue
 
 **[view on pub.dev](https://pub.dev/packages/flutter_hue)** (external link)

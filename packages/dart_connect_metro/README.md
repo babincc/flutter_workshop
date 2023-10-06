@@ -2,7 +2,9 @@
 
 <img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/logos/dart_connect_metro_logo.png" alt="Dart Connect Metro Logo" height="250">
 
-PLACEHOLDER
+**D**art **C**onnect Metro is a valuable resource for developers looking to integrate data from the Washington DC Metro system into their applications. This SDK provides convenient access to essential information, including real-time updates and schedules, allowing developers to enhance the functionality and user experience of their DC Metro-related apps.
+
+<img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/demos/dart_connect_metro_image.png" alt="Two screenshots from the demo showing what data from the SDK could look like" height="450">
 
 ## Installation
 
@@ -34,27 +36,107 @@ and subscribe (the default tier is free).
 Finally, go to your <a href="https://developer.wmata.com/developer">profile</a>
 page to see your API keys.
 
-### Add Your API Keys To This SDK
-
-PLACEHOLDER
-
 ## Usage
 
-### Example 1 - PLACEHOLDER
+### Example 1 - Trip Cost
 
-This example shows PLACEHOLDER
-
-```dart
-PLACEHOLDER
-```
-
-### Example 2 - PLACEHOLDER
-
-This example shows PLACEHOLDER
+This example shows how to get the cost of a trip. There is some nuance to be aware of; there is a normal fare and a senior/disabled citizen fare. The normal fare is further broken down into peak/non-peak hours.
 
 ```dart
-PLACEHOLDER
+// The station codes for the example route. Normally, you would get these
+// programmatically.
+static const String federalTriangleCode = 'D01';
+static const String rosslynCode = 'C05';
+
+/// Fetch the station to station information.
+List<StationToStation> stationToStation =
+	await fetchStationToStation(
+		apiKey,
+		startStationCode: federalTriangleCode,
+		destinationStationCode: rosslynCode,
+	);
+
+/// Get the cost of the trip.
+final double cost = stationToStation.first.railFare.currentFare;
+
+/// Get the cost of the trip for a senior citizen.
+final double seniorCost = stationToStation.first.railFare.seniorCitizen;
 ```
+
+### Example 2 - Stations on Path
+
+This example shows how to get the names of all the stations on a route.
+
+```dart
+/// Fetch the path information.
+Path path = await fetchPath(
+	apiKey,
+	startStationCode: federalTriangleCode,
+	destinationStationCode: rosslynCode,
+);
+
+List<String> stationNames = [];
+
+for(Path pathItem in path.items) {
+	stationNames.add(pathItem.stationName);
+}
+```
+
+### Example 3 - Departure and Arrival Times
+
+This example shows how to find the next departure and arrival times for a route going from one station to another.
+
+```dart
+/// Fetch the station to station information.
+List<StationToStation> stationToStation =
+	await fetchStationToStation(
+		apiKey,
+		startStationCode: federalTriangleCode,
+		destinationStationCode: rosslynCode,
+	);
+
+/// Fetch the path information.
+Path path = await fetchPath(
+	apiKey,
+	startStationCode: federalTriangleCode,
+	destinationStationCode: rosslynCode,
+);
+
+/// Fetch the next train information.
+List<NextTrain> nextTrain = await fetchNextTrains(
+	apiKey,
+	stationCodes: [federalTriangleCode],
+);
+
+// Get line code to match with next train.
+final String lineCode = path.items.first.lineCode;
+
+// Get the next train for the line.
+late final NextTrain nextTrain;
+for (NextTrain train in nextTrains) {
+	if (train.line == lineCode) {
+		nextTrain = train;
+		break;
+	}
+}
+
+// Get the time of the next train.
+final DateTime nextTrainTime =
+DateTime.now().add(Duration(minutes: nextTrain.minutesAway ?? 0));
+
+/// The time when the train will arrive to pick you up to start your trip.
+final Time departureTime = Time.fromDateTime(nextTrainTime);
+
+/// The time when you will arrive at your destination station.
+final Time arrivalTime = Time.fromDateTime(nextTrainTime);
+
+// Add the minutes of the journey to get arrival time.
+for (StationToStation station in stationToStation) {
+	arrivalTime.add(Duration(minutes: station.travelTimeMinutes));
+}
+```
+
+For more examples, view the example project that comes in this package.
 
 <hr>
 
