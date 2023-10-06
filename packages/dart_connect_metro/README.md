@@ -12,7 +12,7 @@ In the `pubspec.yaml` of your project, add the following dependency:
 
 ```yaml
 dependencies:
-  dart_connect_metro: ^0.1.0
+  dart_connect_metro: ^0.1.1
 ```
 
 Import it to each file you use it in:

@@ -2,7 +2,7 @@ name: dart_connect_metro
 description: This SDK provides convenient access to information, including
   real-time updates and schedules, allowing developers to enhance the
   functionality of their DC Metro-related apps.
-version: 0.1.0
+version: 0.1.1
 repository: https://github.com/babincc/flutter_workshop/tree/master/packages/dart_connect_metro
 issue_tracker: https://github.com/babincc/flutter_workshop/labels/package%3A%20dart_connect_metro
 
