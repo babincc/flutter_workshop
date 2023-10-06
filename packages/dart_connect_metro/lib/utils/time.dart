@@ -98,6 +98,15 @@ class Time {
   /// Returns [hourStr_12h] and [minuteStr] separated by a colon.
   String get timeStr_12h => '$hourStr_12h:$minuteStr';
 
+  /// Returns a [DateTime] object which represents this [Time] object.
+  ///
+  /// The date is set to the current date.
+  DateTime toDateTime() {
+    final DateTime now = DateTime.now();
+
+    return DateTime(now.year, now.month, now.day, hour, minute);
+  }
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;

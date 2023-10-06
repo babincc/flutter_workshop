@@ -46,15 +46,37 @@ class RailFare {
 
   /// Reduced fare for senior citizens.
   ///
+  /// This is also the fare for disabled riders.
+  ///
   /// https://www.wmata.com/fares/reduced.cfm
   final double seniorCitizen;
 
-  /// Reduced fare for disabled citizens.
+  /// Whether or not the given [time] is considered peak time.
   ///
-  /// Same as [seniorCitizen].
-  ///
-  /// https://www.wmata.com/fares/reduced.cfm
-  double get disabledCitizen => seniorCitizen;
+  /// That is:
+  /// - weekdays from opening to 9:30 AM as well as 3-7 PM
+  /// - weekends from midnight to closing
+  bool isPeakTime(DateTime time) {
+    final bool isWeekend =
+        time.day == DateTime.saturday || time.day == DateTime.sunday;
+
+    if (isWeekend) {
+      return true;
+    }
+
+    final bool isPeakMorning =
+        time.hour < 9 || (time.hour == 9 && time.minute < 30);
+    final bool isPeakEvening = time.hour >= 15 && time.hour < 19;
+
+    return isPeakMorning || isPeakEvening;
+  }
+
+  /// Returns the fare for a journey at the given [time].
+  double fareAtTime(DateTime time) =>
+      isPeakTime(time) ? duringPeakTime : offPeakTime;
+
+  /// Returns the current fare for a journey.
+  double get currentFare => fareAtTime(DateTime.now());
 
   /// Returns a JSON representation of this object.
   Map<String, dynamic> toJson() {
