@@ -3,6 +3,7 @@
 Here are all the packages I have made. There will be a link on each one to tell you how to download each one for your project, as well as how to use each one, and other useful information.
 
 ### Table of Contents
+- [Dart Connect Metro](#dart_connect_metro)
 - [Flutter Hue](#flutter_hue)
 - [n-Dimensional Array](#n_dimensional_array)
 - [Radio Group](#radio_group_v2)
