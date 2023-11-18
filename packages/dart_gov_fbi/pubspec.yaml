@@ -1,0 +1,30 @@
+name: dart_gov_fbi
+description: This SDK provides easy access to the FBI's public APIs. This allows
+  you to easily access the FBI's data on wanted criminals, missing persons, and
+  more, with Dart.
+version: 0.1.0
+repository: https://github.com/babincc/flutter_workshop/tree/master/packages/dart_gov_fbi
+issue_tracker: https://github.com/babincc/flutter_workshop/labels/package%3A%20dart_gov_fbi
+
+topics:
+  - fbi
+  - crime
+
+funding:
+  - https://www.buymeacoffee.com/babincc
+  - https://paypal.me/cssbabin
+  - https://venmo.com/u/babincc
+
+environment:
+  sdk: ">=3.0.1 <4.0.0"
+
+dependencies:
+  collection: ^1.17.0
+  http: ^1.1.0
+
+dev_dependencies:
+  test: ^1.24.4
+  flutter_lints: ^3.0.1
+  auto_exporter: ^1.5.0 # dart run build_runner build
+  build_runner: ^2.4.6
+  build_test: ^2.2.0
