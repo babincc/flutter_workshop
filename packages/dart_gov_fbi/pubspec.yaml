@@ -25,6 +25,3 @@ dependencies:
 dev_dependencies:
   test: ^1.24.4
   flutter_lints: ^3.0.1
-  auto_exporter: ^1.5.0 # dart run build_runner build
-  build_runner: ^2.4.6
-  build_test: ^2.2.0

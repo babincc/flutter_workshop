@@ -42,7 +42,7 @@ class ArtCrimeResultSet {
 
   /// The current page of art crimes from the FBI's database.
   ///
-  /// This is a chunk of 50 art crimes.
+  /// This is a chunk of art crimes from 1 to 50 in length.
   final int? page;
 
   /// The list of art crimes.
