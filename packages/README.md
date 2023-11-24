@@ -4,6 +4,7 @@ Here are all the packages I have made. There will be a link on each one to tell 
 
 ### Table of Contents
 - [Dart Connect Metro](#dart_connect_metro)
+- [DartGov FBI](#dart_gov_fbi)
 - [Flutter Hue](#flutter_hue)
 - [n-Dimensional Array](#n_dimensional_array)
 - [Radio Group](#radio_group_v2)
@@ -27,6 +28,16 @@ Brief summary on the package...
 **[source code](dart_connect_metro#readme)**
 
 A Dart SDK that gives developers easy access to DC Metro data in real time.
+
+[back to top](#table-of-contents)
+
+## dart_gov_fbi
+
+**[view on pub.dev](https://pub.dev/packages/dart_gov_fbi)** (external link)
+
+**[source code](dart_gov_fbi#readme)**
+
+A dart SDK that allows developers to communicate with the FBI's public APIs.
 
 [back to top](#table-of-contents)
 
