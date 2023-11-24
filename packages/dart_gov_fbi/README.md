@@ -1,10 +1,8 @@
 # Dart Connect Metro
 
-<img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/logos/PLACEHOLDER.png" alt="PLACEHOLDER" height="250">
+<img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/demos/dart_gov_fbi_demo.png" alt="Three screenshots from the example program." height="450">
 
 PLACEHOLDER
-
-<img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/demos/PLACEHOLDER.png" alt="PLACEHOLDER" height="450">
 
 ## Installation
 
@@ -20,21 +18,6 @@ Import it to each file you use it in:
 ```dart
 import 'package:dart_gov_fbi/dart_gov_fbi.dart';
 ```
-
-## Getting Started
-
-### Generate Your API Keys
-
-You will need to generate custom API keys for your program on the Washington
-Metropolitan Area Transit Authority (WMATA) website.
-
-First, create an account <a href="https://developer.wmata.com/signup">here</a>.
-
-Next, go to the <a href="https://developer.wmata.com/Products">products</a> page
-and subscribe (the default tier is free).
-
-Finally, go to your <a href="https://developer.wmata.com/developer">profile</a>
-page to see your API keys.
 
 ## Usage
 
