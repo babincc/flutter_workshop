@@ -28,7 +28,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   /// The future that fetches the wanted persons.
-  final Future wantedPersonsFuture = fetchWantedPersons();
+  final Future wantedPersonsFuture = fetchWantedPersons(
+    page: Random().nextInt(10) + 1,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -57,9 +59,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
               if (results.wantedPersons != null &&
                   results.wantedPersons!.isNotEmpty) {
-                const int min = 0;
                 final int max = results.wantedPersons!.length - 1;
-                final int index = Random().nextInt((max + 1) - min) + min;
+                final int index = Random().nextInt(max + 1);
 
                 // Get a random wanted person.
                 final WantedPerson person = results.wantedPersons![index];
@@ -92,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // NAME
           Text(
             person.title ?? '',
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: Colors.red,
                 ),
             textAlign: TextAlign.center,
@@ -103,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // DESCRIPTION
           Text(
             person.description ?? '',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: Colors.red,
                 ),
             textAlign: TextAlign.center,
@@ -114,15 +115,20 @@ class _MyHomePageState extends State<MyHomePage> {
           // IMAGE
           _image(context, person.images),
 
-          const Text(
-            'DESCRIPTION',
-            style: TextStyle(
-              color: Colors.red,
-            ),
-          ),
-
           // TABLE
-          // TODO
+          _infoBlock('DESCRIPTION', _table(context, person)),
+
+          // REWARD
+          _infoBlock('REWARD', person.rewardText),
+
+          // REMARKS
+          _infoBlock('REMARKS', person.remarks),
+
+          // CAUTION
+          _infoBlock('CAUTION', person.caution),
+
+          // DETAILS
+          _infoBlock('DETAILS', person.details),
         ],
       ),
     );
@@ -189,6 +195,166 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: imageWidgets,
+      ),
+    );
+  }
+
+  /// Each information block with a title and information.
+  Widget _infoBlock(String title, dynamic value) {
+    Widget valueWidget;
+
+    if (value is Widget) {
+      valueWidget = value;
+    } else if (value is String) {
+      valueWidget = _infoBlockText(value);
+    } else if (value is List<String>) {
+      valueWidget = _infoBlockText(value.join(', '));
+    } else {
+      return const SizedBox();
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Column(
+        children: [
+          const SizedBox(height: 5),
+          Text(
+            title,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: Colors.red,
+                ),
+          ),
+          const SizedBox(height: 5),
+          valueWidget,
+        ],
+      ),
+    );
+  }
+
+  /// A helper method for [_infoBlock] to create a text widget.
+  Widget _infoBlockText(String text) {
+    return Text(
+      text,
+      style: Theme.of(context).textTheme.bodySmall,
+    );
+  }
+
+  /// The table that contains information about the wanted person.
+  Widget _table(BuildContext context, WantedPerson person) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // ALIASES
+        _tableCell(
+          context,
+          'Aliases',
+          person.aliases?.join(', ') ?? '',
+        ),
+
+        // BIRTH DATE
+        _tableCell(
+          context,
+          'Date(s) of Birth Used',
+          person.datesOfBirthUsed?.join(', ') ?? '',
+          false,
+        ),
+
+        // BIRTH PLACE
+        _tableCell(
+          context,
+          'Place of Birth',
+          person.placeOfBirth ?? '',
+        ),
+
+        // HAIR
+        _tableCell(
+          context,
+          'Hair',
+          person.hairColor ?? '',
+          false,
+        ),
+
+        // EYES
+        _tableCell(
+          context,
+          'Eyes',
+          person.eyeColor ?? '',
+        ),
+
+        // HEIGHT
+        _tableCell(
+          context,
+          'Height',
+          person.heightFeetText ?? '',
+          false,
+        ),
+
+        // WEIGHT
+        _tableCell(
+          context,
+          'Weight',
+          person.weightLbsText ?? '',
+        ),
+
+        // SEX
+        _tableCell(
+          context,
+          'Sex',
+          person.sex ?? '',
+          false,
+        ),
+
+        // RACE
+        _tableCell(
+          context,
+          'Race',
+          person.race ?? '',
+        ),
+
+        // NATIONALITY
+        _tableCell(
+          context,
+          'Nationality',
+          person.nationality ?? '',
+          false,
+        ),
+
+        // SCARS AND MARKS
+        _tableCell(
+          context,
+          'Scars and Marks',
+          person.scarsAndMarks ?? '',
+        ),
+      ],
+    );
+  }
+
+  /// A helper method for [_table] to create a table cell.
+  Widget _tableCell(BuildContext context, String title, String value,
+      [bool isGrey = true]) {
+    return Container(
+      color: isGrey ? Colors.grey[300] : null,
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // TITLE
+          Text(
+            '$title: ',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+
+          // VALUE
+          Flexible(
+            child: Text(
+              value,
+              softWrap: true,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ),
+        ],
       ),
     );
   }

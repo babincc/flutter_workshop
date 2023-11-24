@@ -411,6 +411,54 @@ class WantedPerson {
   /// The maximum estimated height (in inches) of the wanted person.
   final int? heightInchesMax;
 
+  /// A written out explanation of the height range (in inches) of the wanted
+  /// person.
+  String? get heightInchesText {
+    if (heightInchesMin == null && heightInchesMax == null) {
+      return null;
+    }
+
+    StringBuffer heightBuffer = StringBuffer();
+
+    if (heightInchesMin != null) {
+      heightBuffer.write('$heightInchesMin"');
+    }
+
+    if (heightInchesMax != null && heightInchesMin != heightInchesMax) {
+      if (heightBuffer.isNotEmpty) {
+        heightBuffer.write(' to ');
+      }
+      heightBuffer.write('$heightInchesMax"');
+    }
+
+    return heightBuffer.toString();
+  }
+
+  /// A written out explanation of the height range (in feet and inches) of the
+  /// wanted person.
+  String? get heightFeetText {
+    if (heightInchesMin == null && heightInchesMax == null) {
+      return null;
+    }
+
+    StringBuffer heightBuffer = StringBuffer();
+
+    if (heightInchesMin != null) {
+      heightBuffer.write('${heightInchesMin! ~/ 12}\'');
+      heightBuffer.write('${heightInchesMin! % 12}"');
+    }
+
+    if (heightInchesMax != null && heightInchesMin != heightInchesMax) {
+      if (heightBuffer.isNotEmpty) {
+        heightBuffer.write(' to ');
+      }
+      heightBuffer.write('${heightInchesMax! ~/ 12}\'');
+      heightBuffer.write('${heightInchesMax! % 12}"');
+    }
+
+    return heightBuffer.toString();
+  }
+
   /// The color of the wanted person's eyes.
   ///
   /// Usually the same as [eyesRaw].
