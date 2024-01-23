@@ -1,3 +1,9 @@
+## 3.0.0 - January 23, 2024
+
+- Reorganized file structure
+- Added `labelBuilder`
+- Breaking change: Added generic typing. This will break radio groups that have multiple data types in one value list.
+
 ## 2.1.3 - September 27, 2023
 
 - Documentation updates

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../radio_group_v2.dart';
+import 'package:radio_group_v2/widgets/view_models/radio_group_controller.dart';
+import 'package:radio_group_v2/widgets/views/radio_group.dart';
 
 /// The exception that is thrown when a [RadioGroupController] is applied to
 /// multiple [RadioGroup]s.

@@ -10,7 +10,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 
 ```yaml
 dependencies:
-  radio_group_v2: ^2.1.3
+  radio_group_v2: ^3.0.0
 ```
 
 Import it to each file you use it in:

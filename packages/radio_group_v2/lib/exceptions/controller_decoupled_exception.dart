@@ -1,4 +1,4 @@
-import '../radio_group_v2.dart';
+import 'package:radio_group_v2/widgets/view_models/radio_group_controller.dart';
 
 /// The exception that is thrown when the [RadioGroupController] can no longer
 /// see its [RadioGroup].

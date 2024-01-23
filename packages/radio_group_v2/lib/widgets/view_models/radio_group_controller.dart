@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-
-import 'exceptions/controller_decoupled_exception.dart';
-import 'exceptions/illegal_value_exception.dart';
-import 'exceptions/index_out_of_bounds_exception.dart';
-import 'exceptions/multiple_radio_group_exception.dart';
-import 'radio_group_v2.dart';
+import 'package:radio_group_v2/exceptions/controller_decoupled_exception.dart';
+import 'package:radio_group_v2/exceptions/illegal_value_exception.dart';
+import 'package:radio_group_v2/exceptions/index_out_of_bounds_exception.dart';
+import 'package:radio_group_v2/exceptions/multiple_radio_group_exception.dart';
+import 'package:radio_group_v2/widgets/views/radio_group.dart';
 
 /// Holds the value of the selected button so parent widgets can know what
 /// is selected and also allows parent widgets to set a new selected value.
-///
-/// {@tool snippet}
 ///
 /// This sample shows how to retrieve the value of the selected button.
 ///
@@ -32,15 +29,14 @@ import 'radio_group_v2.dart';
 /// // This code retrieves the value of the selected button.
 /// String selectedValue = myController.value as String;
 /// ```
-/// {@end-tool}
-class RadioGroupController {
+class RadioGroupController<T> {
   /// This is the state of the radio group that this controller is in charge of.
-  GlobalKey<RadioGroupState>? _myRadioGroupKey;
+  GlobalKey<RadioGroupState<T>>? _myRadioGroupKey;
 
-  RadioGroupState? _myRadioGroup;
+  RadioGroupState<T>? _myRadioGroup;
 
-  GlobalKey<RadioGroupState>? get myRadioGroupKey => _myRadioGroupKey;
-  set myRadioGroupKey(GlobalKey<RadioGroupState>? key) {
+  GlobalKey<RadioGroupState<T>>? get myRadioGroupKey => _myRadioGroupKey;
+  set myRadioGroupKey(GlobalKey<RadioGroupState<T>>? key) {
     if (key == null) return;
 
     if (key == _myRadioGroupKey) {
@@ -68,7 +64,7 @@ class RadioGroupController {
   ///
   /// @throws [ControllerDecoupledException] If the controller cannot access the
   /// value of its radio group.
-  set value(Object? value) {
+  set value(T? value) {
     if (_myRadioGroup != null) {
       if (value != null && !_myRadioGroup!.widget.values.contains(value)) {
         throw IllegalValueException(value: value);
@@ -86,7 +82,7 @@ class RadioGroupController {
   ///
   /// @throws [ControllerDecoupledException] If the controller cannot access the
   /// value of its radio group.
-  Object? get value {
+  T? get value {
     if (_myRadioGroup != null) {
       return _myRadioGroup!.value;
     }

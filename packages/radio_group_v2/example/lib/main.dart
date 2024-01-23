@@ -9,8 +9,7 @@ class App extends StatefulWidget {
   const App({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _AppState createState() => _AppState();
+  State<App> createState() => _AppState();
 }
 
 class _AppState extends State<App> {
