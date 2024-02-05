@@ -1,0 +1,32 @@
+name: dynamic_background
+description: Elevate your Flutter app's visual appeal with Dynamic Background –
+  the ultimate animated background package. Effortlessly customize sleek
+  stripes, gradients, or playful shapes for a dynamic UI that captivates users
+  instantly.
+version: 0.1.0
+repository: https://github.com/babincc/flutter_workshop/tree/master/packages/dynamic_background
+issue_tracker: https://github.com/babincc/flutter_workshop/labels/package%3A%20dynamic_background
+
+topics:
+  - animated-background
+  - live-background
+
+funding:
+  - https://www.buymeacoffee.com/babincc
+  - https://paypal.me/cssbabin
+  - https://venmo.com/u/babincc
+
+environment:
+  sdk: ">=3.2.3 <4.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
