@@ -30,12 +30,15 @@ class _MyHomePageState extends State<MyHomePage> {
       body: DynamicBg(
           painterData: ScrollerPainterData(
             // direction: ScrollDirection.top2Bottom,
+            // direction: ScrollDirection.bottom2Top,
             // direction: ScrollDirection.left2Right,
             backgroundColor: Colors.greenAccent.shade200,
             color: Colors.red,
-            shape: ScrollerShape.stripes,
+            shape: ScrollerShape.circles,
             shapeWidth: 55.0,
+            spaceBetweenShapes: 0.0,
             // fadeEdges: false,
+            shapeOffset: ScrollerShapeOffset.shiftAndMesh,
           ),
           child: const Center(
             child: Text(

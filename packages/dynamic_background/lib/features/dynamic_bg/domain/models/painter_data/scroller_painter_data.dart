@@ -18,6 +18,7 @@ class ScrollerPainterData extends PainterData {
     this.shapeWidth = 24.0,
     this.spaceBetweenShapes = 24.0,
     this.fadeEdges = true,
+    this.shapeOffset = ScrollerShapeOffset.none,
   }) : super(type: PainterType.scroller);
 
   /// The direction the scroller should move in.
@@ -33,12 +34,22 @@ class ScrollerPainterData extends PainterData {
   final Color color;
 
   /// The width of the shapes that will be scrolling.
+  ///
+  /// This will be rounded to make the shapes fit to the screen size.
   final double shapeWidth;
 
+  /// The width of the space between the shapes that will be scrolling.
+  ///
+  /// This will be rounded to make the shapes fit to the screen size.
   final double spaceBetweenShapes;
 
   /// Whether or not to fade the shapes that are entering or exiting the screen.
   final bool fadeEdges;
+
+  /// How to align the shapes that will be scrolling.
+  ///
+  /// Note: This is ignored when [shape] is [ScrollerShape.stripes].
+  final ScrollerShapeOffset shapeOffset;
 }
 
 /// The direction the scroller should move in.
@@ -66,4 +77,19 @@ enum ScrollerShape {
 
   /// The shapes will be diamonds.
   diamonds,
+}
+
+/// How to align the shapes that will be scrolling.
+enum ScrollerShapeOffset {
+  /// No offset.
+  ///
+  /// The shapes will form a perfect grid.
+  none,
+
+  /// The shapes will be offset, and form a diagonal grid.
+  shift,
+
+  /// Similar to [shift]; however, the shapes will also be moved closer,
+  /// together along the plane perpendicular to the direction of movement.
+  shiftAndMesh,
 }
