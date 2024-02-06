@@ -1,7 +1,5 @@
 import 'package:dynamic_background/features/dynamic_bg/domain/models/painter/painter.dart';
-import 'package:dynamic_background/features/dynamic_bg/domain/models/painter/scroller_painter.dart';
 import 'package:dynamic_background/features/dynamic_bg/domain/models/painter_data/painter_data.dart';
-import 'package:dynamic_background/features/dynamic_bg/domain/models/painter_data/scroller_painter_data.dart';
 import 'package:flutter/material.dart';
 
 class DynamicBg extends StatefulWidget {
@@ -34,28 +32,10 @@ class _DynamicBgState extends State<DynamicBg>
 
     animationController = AnimationController(
       vsync: this,
-      duration: widget.duration, // Adjust the duration as needed
+      duration: widget.duration,
     )..repeat(reverse: false);
 
-    try {
-      switch (widget.painterData.type) {
-        case PainterType.scroller:
-          painter = ScrollerPainter(
-            animation: animationController,
-            data: widget.painterData as ScrollerPainterData,
-          );
-          break;
-        case PainterType.dropper:
-          // TODO
-          break;
-        case PainterType.fader:
-          // TODO
-          break;
-      }
-    } catch (e) {
-      // TODO maybe custom exception
-      throw Exception('Invalid painter data');
-    }
+    painter = widget.painterData.getPainter(animationController);
   }
 
   @override

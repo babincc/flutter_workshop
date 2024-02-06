@@ -1,11 +1,9 @@
+import 'package:dynamic_background/features/dynamic_bg/domain/models/painter/painter.dart';
+import 'package:flutter/material.dart';
+
 abstract class PainterData {
-  const PainterData({required this.type});
+  PainterData();
 
-  final PainterType type;
-}
-
-enum PainterType {
-  scroller,
-  dropper,
-  fader,
+  /// Returns a [Painter] object that will paint the background.
+  Painter getPainter(Animation<double> animation);
 }

@@ -1,3 +1,7 @@
+import 'package:dynamic_background/features/dynamic_bg/domain/models/painter/painter.dart';
+import 'package:dynamic_background/features/dynamic_bg/domain/models/painter/scroller_painter/scroller_painter_circles.dart';
+import 'package:dynamic_background/features/dynamic_bg/domain/models/painter/scroller_painter/scroller_painter_diamonds.dart';
+import 'package:dynamic_background/features/dynamic_bg/domain/models/painter/scroller_painter/scroller_painter_stripes.dart';
 import 'package:dynamic_background/features/dynamic_bg/domain/models/painter_data/painter_data.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +14,7 @@ class ScrollerPainterData extends PainterData {
   ///
   /// A scroller background is a background that has shapes that move across the
   /// screen in a certain direction.
-  const ScrollerPainterData({
+  ScrollerPainterData({
     this.direction = ScrollDirection.right2Left,
     this.shape = ScrollerShape.stripes,
     required this.backgroundColor,
@@ -19,7 +23,7 @@ class ScrollerPainterData extends PainterData {
     this.spaceBetweenShapes = 24.0,
     this.fadeEdges = true,
     this.shapeOffset = ScrollerShapeOffset.none,
-  }) : super(type: PainterType.scroller);
+  });
 
   /// The direction the scroller should move in.
   final ScrollDirection direction;
@@ -50,6 +54,27 @@ class ScrollerPainterData extends PainterData {
   ///
   /// Note: This is ignored when [shape] is [ScrollerShape.stripes].
   final ScrollerShapeOffset shapeOffset;
+
+  @override
+  Painter getPainter(Animation<double> animation) {
+    switch (shape) {
+      case ScrollerShape.stripes:
+        return ScrollerPainterStripes(
+          animation: animation,
+          data: this,
+        );
+      case ScrollerShape.circles:
+        return ScrollerPainterCircles(
+          animation: animation,
+          data: this,
+        );
+      case ScrollerShape.diamonds:
+        return ScrollerPainterDiamonds(
+          animation: animation,
+          data: this,
+        );
+    }
+  }
 }
 
 /// The direction the scroller should move in.

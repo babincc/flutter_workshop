@@ -31,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
           painterData: ScrollerPainterData(
             // direction: ScrollDirection.top2Bottom,
             // direction: ScrollDirection.bottom2Top,
-            // direction: ScrollDirection.left2Right,
+            direction: ScrollDirection.left2Right,
             backgroundColor: Colors.greenAccent.shade200,
             color: Colors.red,
             shape: ScrollerShape.circles,
