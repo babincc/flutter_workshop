@@ -1,6 +1,7 @@
 import 'package:dynamic_background/features/dynamic_bg/domain/models/painter/painter.dart';
 import 'package:dynamic_background/features/dynamic_bg/domain/models/painter/scroller_painter/scroller_painter_circles.dart';
 import 'package:dynamic_background/features/dynamic_bg/domain/models/painter/scroller_painter/scroller_painter_diamonds.dart';
+import 'package:dynamic_background/features/dynamic_bg/domain/models/painter/scroller_painter/scroller_painter_squares.dart';
 import 'package:dynamic_background/features/dynamic_bg/domain/models/painter/scroller_painter/scroller_painter_stripes.dart';
 import 'package:dynamic_background/features/dynamic_bg/domain/models/painter_data/painter_data.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class ScrollerPainterData extends PainterData {
   /// screen in a certain direction.
   ScrollerPainterData({
     this.direction = ScrollDirection.right2Left,
-    this.shape = ScrollerShape.stripes,
+    this.shape = ScrollerShape.circles,
     required this.backgroundColor,
     required this.color,
     this.shapeWidth = 24.0,
@@ -39,12 +40,29 @@ class ScrollerPainterData extends PainterData {
 
   /// The width of the shapes that will be scrolling.
   ///
-  /// This will be rounded to make the shapes fit to the screen size.
+  /// This will be recalculated to make the shapes fit to the screen size. It
+  /// will remain very close to this value though.
   final double shapeWidth;
+
+  /// The height of the shapes that will be scrolling.
+  ///
+  /// This will be recalculated to make the shapes fit to the screen size. It
+  /// will remain very close to this value though.
+  double get shapeHeight {
+    switch (shape) {
+      case ScrollerShape.stripes:
+      case ScrollerShape.circles:
+      case ScrollerShape.squares:
+        return shapeWidth;
+      case ScrollerShape.diamonds:
+        return ScrollerPainterDiamonds.calcRhombusHeight(shapeWidth);
+    }
+  }
 
   /// The width of the space between the shapes that will be scrolling.
   ///
-  /// This will be rounded to make the shapes fit to the screen size.
+  /// This will be recalculated to make the shapes fit to the screen size. It
+  /// will remain very close to this value though.
   final double spaceBetweenShapes;
 
   /// Whether or not to fade the shapes that are entering or exiting the screen.
@@ -65,6 +83,11 @@ class ScrollerPainterData extends PainterData {
         );
       case ScrollerShape.circles:
         return ScrollerPainterCircles(
+          animation: animation,
+          data: this,
+        );
+      case ScrollerShape.squares:
+        return ScrollerPainterSquares(
           animation: animation,
           data: this,
         );
@@ -100,6 +123,9 @@ enum ScrollerShape {
   /// The shapes will be circles.
   circles,
 
+  /// The shapes will be squares.
+  squares,
+
   /// The shapes will be diamonds.
   diamonds,
 }
@@ -114,7 +140,7 @@ enum ScrollerShapeOffset {
   /// The shapes will be offset, and form a diagonal grid.
   shift,
 
-  /// Similar to [shift]; however, the shapes will also be moved closer,
+  /// Similar to [shift]; however, the shapes will also be moved closer
   /// together along the plane perpendicular to the direction of movement.
   shiftAndMesh,
 }

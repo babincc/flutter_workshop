@@ -6,7 +6,7 @@ class DynamicBg extends StatefulWidget {
   const DynamicBg({
     super.key,
     required this.painterData,
-    this.duration = const Duration(seconds: 25),
+    this.duration = const Duration(seconds: 30),
     this.child,
   });
 

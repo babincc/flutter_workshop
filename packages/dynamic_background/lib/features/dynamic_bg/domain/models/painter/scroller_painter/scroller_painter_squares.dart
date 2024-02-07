@@ -2,9 +2,9 @@ import 'package:dynamic_background/features/dynamic_bg/domain/models/painter/scr
 import 'package:dynamic_background/features/dynamic_bg/domain/models/painter_data/scroller_painter_data.dart';
 import 'package:flutter/material.dart';
 
-class ScrollerPainterCircles extends ScrollerPainter {
-  ScrollerPainterCircles({required super.animation, required super.data}) {
-    if (!identical(data.shape, ScrollerShape.circles)) {
+class ScrollerPainterSquares extends ScrollerPainter {
+  ScrollerPainterSquares({required super.animation, required super.data}) {
+    if (!identical(data.shape, ScrollerShape.squares)) {
       // TODO throw custom exception
     }
   }
@@ -18,11 +18,11 @@ class ScrollerPainterCircles extends ScrollerPainter {
       case ScrollDirection.right2Left:
         switch (data.shapeOffset) {
           case ScrollerShapeOffset.none:
-            _paintHorizontalCircles(canvas, size);
+            _paintHorizontalSquares(canvas, size);
             break;
           case ScrollerShapeOffset.shift:
           case ScrollerShapeOffset.shiftAndMesh:
-            _paintHorizontalCirclesShifted(canvas, size);
+            _paintHorizontalSquaresShifted(canvas, size);
             break;
         }
         break;
@@ -30,18 +30,18 @@ class ScrollerPainterCircles extends ScrollerPainter {
       case ScrollDirection.bottom2Top:
         switch (data.shapeOffset) {
           case ScrollerShapeOffset.none:
-            _paintVerticalCircles(canvas, size);
+            _paintVerticalSquares(canvas, size);
             break;
           case ScrollerShapeOffset.shift:
           case ScrollerShapeOffset.shiftAndMesh:
-            _paintVerticalCirclesShifted(canvas, size);
+            _paintVerticalSquaresShifted(canvas, size);
             break;
         }
         break;
     }
   }
 
-  void _paintHorizontalCircles(Canvas canvas, Size size) {
+  void _paintHorizontalSquares(Canvas canvas, Size size) {
     final Map<MeasurementName, double> newMeasurements = resizeShapesAlongWidth(
       Size(data.shapeWidth, data.shapeHeight),
       data.spaceBetweenShapes,
@@ -78,7 +78,7 @@ class ScrollerPainterCircles extends ScrollerPainter {
           xOffset = (ii - animation.value * size.width) % size.width;
         }
 
-        __paintHorizontalCircles(
+        __paintHorizontalSquares(
           canvas,
           size,
           shapeHeight,
@@ -91,7 +91,7 @@ class ScrollerPainterCircles extends ScrollerPainter {
     }
   }
 
-  void _paintHorizontalCirclesShifted(Canvas canvas, Size size) {
+  void _paintHorizontalSquaresShifted(Canvas canvas, Size size) {
     final Map<MeasurementName, double> newMeasurements = resizeShapesAlongWidth(
       Size(data.shapeWidth, data.shapeHeight),
       data.spaceBetweenShapes,
@@ -146,7 +146,7 @@ class ScrollerPainterCircles extends ScrollerPainter {
           }
         }
 
-        __paintHorizontalCircles(
+        __paintHorizontalSquares(
           canvas,
           size,
           shapeHeight,
@@ -161,7 +161,8 @@ class ScrollerPainterCircles extends ScrollerPainter {
     }
   }
 
-  void __paintHorizontalCircles(
+  /// xOffset and yOffset are the center of the diamond.
+  void __paintHorizontalSquares(
     Canvas canvas,
     Size size,
     double shapeHeight,
@@ -170,7 +171,28 @@ class ScrollerPainterCircles extends ScrollerPainter {
     double xOffset,
     double yOffset,
   ) {
-    final Paint paint = Paint()..color = data.color;
+    final Paint paint = Paint()
+      ..color = data.color
+      ..style = PaintingStyle.fill;
+
+    final Offset left = Offset(xOffset - (shapeWidth / 2.0), yOffset);
+    final Offset top = Offset(xOffset, yOffset - (shapeHeight / 2.0));
+    final Offset right = Offset(xOffset + (shapeWidth / 2.0), yOffset);
+    final Offset bottom = Offset(xOffset, yOffset + (shapeHeight / 2.0));
+
+    final Path path1 = Path()
+      ..moveTo(left.dx, left.dy)
+      ..lineTo(top.dx, top.dy)
+      ..lineTo(right.dx, right.dy)
+      ..lineTo(bottom.dx, bottom.dy)
+      ..close();
+
+    final Path path2 = Path()
+      ..moveTo(left.dx, size.height - left.dy)
+      ..lineTo(top.dx, size.height - top.dy)
+      ..lineTo(right.dx, size.height - right.dy)
+      ..lineTo(bottom.dx, size.height - bottom.dy)
+      ..close();
 
     if (isOffScreen(xOffset - (shapeWidth / 2.0), shapeWidth, size.width)) {
       Paint? antiPaint;
@@ -184,45 +206,49 @@ class ScrollerPainterCircles extends ScrollerPainter {
         antiPaint = Paint()..color = data.color.withOpacity(alpha);
       }
 
-      canvas.drawCircle(
-        Offset(xOffset - size.width, yOffset),
-        shapeWidth / 2,
-        antiPaint ?? paint,
-      );
-      canvas.drawCircle(
-        Offset(xOffset + size.width, yOffset),
-        shapeWidth / 2,
-        antiPaint ?? paint,
-      );
+      final Path path3 = Path()
+        ..moveTo(left.dx - size.width, size.height - left.dy)
+        ..lineTo(top.dx - size.width, size.height - top.dy)
+        ..lineTo(right.dx - size.width, size.height - right.dy)
+        ..lineTo(bottom.dx - size.width, size.height - bottom.dy)
+        ..close();
+
+      final Path path4 = Path()
+        ..moveTo(left.dx + size.width, size.height - left.dy)
+        ..lineTo(top.dx + size.width, size.height - top.dy)
+        ..lineTo(right.dx + size.width, size.height - right.dy)
+        ..lineTo(bottom.dx + size.width, size.height - bottom.dy)
+        ..close();
+
+      final Path path5 = Path()
+        ..moveTo(left.dx - size.width, left.dy)
+        ..lineTo(top.dx - size.width, top.dy)
+        ..lineTo(right.dx - size.width, right.dy)
+        ..lineTo(bottom.dx - size.width, bottom.dy)
+        ..close();
+
+      final Path path6 = Path()
+        ..moveTo(left.dx + size.width, left.dy)
+        ..lineTo(top.dx + size.width, top.dy)
+        ..lineTo(right.dx + size.width, right.dy)
+        ..lineTo(bottom.dx + size.width, bottom.dy)
+        ..close();
+
+      canvas.drawPath(path3, antiPaint ?? paint);
+      canvas.drawPath(path4, antiPaint ?? paint);
       if (yOffset != size.height / 2.0) {
-        canvas.drawCircle(
-          Offset(xOffset - size.width, size.height - yOffset),
-          shapeWidth / 2,
-          antiPaint ?? paint,
-        );
-        canvas.drawCircle(
-          Offset(xOffset + size.width, size.height - yOffset),
-          shapeWidth / 2,
-          antiPaint ?? paint,
-        );
+        canvas.drawPath(path5, antiPaint ?? paint);
+        canvas.drawPath(path6, antiPaint ?? paint);
       }
     }
 
-    canvas.drawCircle(
-      Offset(xOffset, yOffset),
-      shapeWidth / 2,
-      paint,
-    );
+    canvas.drawPath(path1, paint);
     if (yOffset != size.height / 2.0) {
-      canvas.drawCircle(
-        Offset(xOffset, size.height - yOffset),
-        shapeWidth / 2,
-        paint,
-      );
+      canvas.drawPath(path2, paint);
     }
   }
 
-  void _paintVerticalCircles(Canvas canvas, Size size) {
+  void _paintVerticalSquares(Canvas canvas, Size size) {
     final Map<MeasurementName, double> newMeasurements =
         resizeShapesAlongHeight(
       Size(data.shapeWidth, data.shapeHeight),
@@ -260,7 +286,7 @@ class ScrollerPainterCircles extends ScrollerPainter {
           yOffset = (ii - animation.value * size.height) % size.height;
         }
 
-        __paintVerticalCircles(
+        __paintVerticalSquares(
           canvas,
           size,
           shapeHeight,
@@ -273,7 +299,7 @@ class ScrollerPainterCircles extends ScrollerPainter {
     }
   }
 
-  void _paintVerticalCirclesShifted(Canvas canvas, Size size) {
+  void _paintVerticalSquaresShifted(Canvas canvas, Size size) {
     final Map<MeasurementName, double> newMeasurements =
         resizeShapesAlongHeight(
       Size(data.shapeWidth, data.shapeHeight),
@@ -329,7 +355,7 @@ class ScrollerPainterCircles extends ScrollerPainter {
           }
         }
 
-        __paintVerticalCircles(
+        __paintVerticalSquares(
           canvas,
           size,
           shapeHeight,
@@ -344,7 +370,7 @@ class ScrollerPainterCircles extends ScrollerPainter {
     }
   }
 
-  void __paintVerticalCircles(
+  void __paintVerticalSquares(
     Canvas canvas,
     Size size,
     double shapeHeight,
@@ -353,7 +379,28 @@ class ScrollerPainterCircles extends ScrollerPainter {
     double xOffset,
     double yOffset,
   ) {
-    final Paint paint = Paint()..color = data.color;
+    final Paint paint = Paint()
+      ..color = data.color
+      ..style = PaintingStyle.fill;
+
+    final Offset left = Offset(xOffset - (shapeWidth / 2.0), yOffset);
+    final Offset top = Offset(xOffset, yOffset - (shapeHeight / 2.0));
+    final Offset right = Offset(xOffset + (shapeWidth / 2.0), yOffset);
+    final Offset bottom = Offset(xOffset, yOffset + (shapeHeight / 2.0));
+
+    final Path path1 = Path()
+      ..moveTo(left.dx, left.dy)
+      ..lineTo(top.dx, top.dy)
+      ..lineTo(right.dx, right.dy)
+      ..lineTo(bottom.dx, bottom.dy)
+      ..close();
+
+    final Path path2 = Path()
+      ..moveTo(size.width - left.dx, left.dy)
+      ..lineTo(size.width - top.dx, top.dy)
+      ..lineTo(size.width - right.dx, right.dy)
+      ..lineTo(size.width - bottom.dx, bottom.dy)
+      ..close();
 
     if (isOffScreen(yOffset - (shapeHeight / 2.0), shapeHeight, size.height)) {
       Paint? antiPaint;
@@ -367,41 +414,45 @@ class ScrollerPainterCircles extends ScrollerPainter {
         antiPaint = Paint()..color = data.color.withOpacity(alpha);
       }
 
-      canvas.drawCircle(
-        Offset(xOffset, yOffset - size.height),
-        shapeHeight / 2,
-        antiPaint ?? paint,
-      );
-      canvas.drawCircle(
-        Offset(xOffset, yOffset + size.height),
-        shapeHeight / 2,
-        antiPaint ?? paint,
-      );
+      final Path path3 = Path()
+        ..moveTo(left.dx, left.dy - size.height)
+        ..lineTo(top.dx, top.dy - size.height)
+        ..lineTo(right.dx, right.dy - size.height)
+        ..lineTo(bottom.dx, bottom.dy - size.height)
+        ..close();
+
+      final Path path4 = Path()
+        ..moveTo(left.dx, left.dy + size.height)
+        ..lineTo(top.dx, top.dy + size.height)
+        ..lineTo(right.dx, right.dy + size.height)
+        ..lineTo(bottom.dx, bottom.dy + size.height)
+        ..close();
+
+      final Path path5 = Path()
+        ..moveTo(size.width - left.dx, left.dy - size.height)
+        ..lineTo(size.width - top.dx, top.dy - size.height)
+        ..lineTo(size.width - right.dx, right.dy - size.height)
+        ..lineTo(size.width - bottom.dx, bottom.dy - size.height)
+        ..close();
+
+      final Path path6 = Path()
+        ..moveTo(size.width - left.dx, left.dy + size.height)
+        ..lineTo(size.width - top.dx, top.dy + size.height)
+        ..lineTo(size.width - right.dx, right.dy + size.height)
+        ..lineTo(size.width - bottom.dx, bottom.dy + size.height)
+        ..close();
+
+      canvas.drawPath(path3, antiPaint ?? paint);
+      canvas.drawPath(path4, antiPaint ?? paint);
       if (xOffset != size.width / 2.0) {
-        canvas.drawCircle(
-          Offset(size.width - xOffset, yOffset - size.height),
-          shapeHeight / 2,
-          antiPaint ?? paint,
-        );
-        canvas.drawCircle(
-          Offset(size.width - xOffset, yOffset + size.height),
-          shapeHeight / 2,
-          antiPaint ?? paint,
-        );
+        canvas.drawPath(path5, antiPaint ?? paint);
+        canvas.drawPath(path6, antiPaint ?? paint);
       }
     }
 
-    canvas.drawCircle(
-      Offset(xOffset, yOffset),
-      shapeHeight / 2,
-      paint,
-    );
+    canvas.drawPath(path1, paint);
     if (xOffset != size.width / 2.0) {
-      canvas.drawCircle(
-        Offset(size.width - xOffset, yOffset),
-        shapeHeight / 2,
-        paint,
-      );
+      canvas.drawPath(path2, paint);
     }
   }
 }

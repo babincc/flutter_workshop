@@ -26,10 +26,10 @@ class ScrollerPainterStripes extends ScrollerPainter {
   }
 
   void _paintVerticalStripes(Canvas canvas, Size size) {
-    final Map<MeasurementName, double> newMeasurements = resizeShapes(
-      data.shapeWidth,
+    final Map<MeasurementName, double> newMeasurements = resizeShapesAlongWidth(
+      Size(data.shapeWidth, data.shapeHeight),
       data.spaceBetweenShapes,
-      size.width,
+      size,
     );
 
     final double shapeWidth =
@@ -62,10 +62,6 @@ class ScrollerPainterStripes extends ScrollerPainter {
         }
 
         canvas.drawRect(
-          Rect.fromLTWH(xOffset, 0.0, shapeWidth, size.height),
-          paint,
-        );
-        canvas.drawRect(
           Rect.fromLTWH(
             xOffset - size.width,
             0.0,
@@ -74,31 +70,32 @@ class ScrollerPainterStripes extends ScrollerPainter {
           ),
           antiPaint ?? paint,
         );
-      } else {
-        canvas.drawRect(
-          Rect.fromLTWH(xOffset, 0.0, shapeWidth, size.height),
-          paint,
-        );
       }
+
+      canvas.drawRect(
+        Rect.fromLTWH(xOffset, 0.0, shapeWidth, size.height),
+        paint,
+      );
     }
   }
 
   void _paintHorizontalStripes(Canvas canvas, Size size) {
-    final Map<MeasurementName, double> newMeasurements = resizeShapes(
-      data.shapeWidth,
+    final Map<MeasurementName, double> newMeasurements =
+        resizeShapesAlongHeight(
+      Size(data.shapeWidth, data.shapeHeight),
       data.spaceBetweenShapes,
-      size.height,
+      size,
     );
 
-    final double shapeWidth =
-        newMeasurements[MeasurementName.shapeWidth] ?? data.shapeWidth;
+    final double shapeHeight =
+        newMeasurements[MeasurementName.shapeHeight] ?? data.shapeHeight;
     final double spaceBetweenShapes =
         newMeasurements[MeasurementName.spaceBetweenShapes] ??
             data.spaceBetweenShapes;
 
     for (double i = 0.0;
         i < size.height;
-        i += shapeWidth + spaceBetweenShapes) {
+        i += shapeHeight + spaceBetweenShapes) {
       late final double yOffset;
 
       if (identical(data.direction, ScrollDirection.top2Bottom)) {
@@ -109,12 +106,12 @@ class ScrollerPainterStripes extends ScrollerPainter {
 
       final Paint paint = Paint()..color = data.color;
 
-      if (isOffScreen(yOffset, shapeWidth, size.height)) {
+      if (isOffScreen(yOffset, shapeHeight, size.height)) {
         Paint? antiPaint;
 
         if (data.fadeEdges) {
           final double alpha =
-              percentOffScreen(yOffset, shapeWidth, size.height);
+              percentOffScreen(yOffset, shapeHeight, size.height);
 
           paint.color = data.color.withOpacity(1.0 - alpha);
 
@@ -122,24 +119,20 @@ class ScrollerPainterStripes extends ScrollerPainter {
         }
 
         canvas.drawRect(
-          Rect.fromLTWH(0.0, yOffset, size.width, shapeWidth),
-          paint,
-        );
-        canvas.drawRect(
           Rect.fromLTWH(
             0.0,
             yOffset - size.height,
             size.width,
-            shapeWidth,
+            shapeHeight,
           ),
           antiPaint ?? paint,
         );
-      } else {
-        canvas.drawRect(
-          Rect.fromLTWH(0.0, yOffset, size.width, shapeWidth),
-          paint,
-        );
       }
+
+      canvas.drawRect(
+        Rect.fromLTWH(0.0, yOffset, size.width, shapeHeight),
+        paint,
+      );
     }
   }
 }
