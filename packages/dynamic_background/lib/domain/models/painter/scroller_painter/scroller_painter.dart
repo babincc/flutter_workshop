@@ -1,16 +1,26 @@
 import 'dart:math';
 
-import 'package:dynamic_background/features/dynamic_bg/domain/models/painter/painter.dart';
-import 'package:dynamic_background/features/dynamic_bg/domain/models/painter_data/scroller_painter_data.dart';
+import 'package:dynamic_background/domain/models/painter/painter.dart';
+import 'package:dynamic_background/domain/models/painter_data/scroller_painter_data.dart';
 import 'package:flutter/material.dart';
 
+/// This is the painter for animating shapes moving around the screen.
 abstract class ScrollerPainter extends Painter {
+  /// Creates a [ScrollerPainter] object.
+  ///
+  /// This is the painter for animating shapes moving around the screen.
   ScrollerPainter({
-    required this.animation,
+    required super.animation,
     required this.data,
-  }) : super(repaint: animation);
+  }) : super(repaint: animation) {
+    if (data.shapeWidth < 0.0) {
+      // TODO Throw custom error
+    }
 
-  final Animation<double> animation;
+    if (data.spaceBetweenShapes < 0.0) {
+      // TODO Throw custom error
+    }
+  }
 
   /// The data needed to paint a scroller background.
   final ScrollerPainterData data;

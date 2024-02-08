@@ -1,16 +1,24 @@
-import 'package:dynamic_background/features/dynamic_bg/domain/models/painter/scroller_painter/scroller_painter.dart';
-import 'package:dynamic_background/features/dynamic_bg/domain/models/painter_data/scroller_painter_data.dart';
+import 'dart:math';
+
+import 'package:dynamic_background/domain/models/painter/scroller_painter/scroller_painter.dart';
+import 'package:dynamic_background/domain/models/painter_data/scroller_painter_data.dart';
+import 'package:dynamic_background/utils/math_tools.dart';
 import 'package:flutter/material.dart';
 
-class ScrollerPainterSquares extends ScrollerPainter {
-  ScrollerPainterSquares({required super.animation, required super.data}) {
-    if (!identical(data.shape, ScrollerShape.squares)) {
+/// This is the painter for animating diamonds moving around the screen.
+class ScrollerPainterDiamonds extends ScrollerPainter {
+  /// Creates a [ScrollerPainterDiamonds] object.
+  ///
+  /// This is the painter for animating diamonds moving around the screen.
+  ScrollerPainterDiamonds({required super.animation, required super.data}) {
+    if (!identical(data.shape, ScrollerShape.diamonds)) {
       // TODO throw custom exception
     }
   }
 
   @override
   void paint(Canvas canvas, Size size) {
+    // Draw the background color.
     canvas.drawPaint(Paint()..color = data.backgroundColor);
 
     switch (data.direction) {
@@ -18,11 +26,11 @@ class ScrollerPainterSquares extends ScrollerPainter {
       case ScrollDirection.right2Left:
         switch (data.shapeOffset) {
           case ScrollerShapeOffset.none:
-            _paintHorizontalSquares(canvas, size);
+            _paintHorizontalDiamonds(canvas, size);
             break;
           case ScrollerShapeOffset.shift:
           case ScrollerShapeOffset.shiftAndMesh:
-            _paintHorizontalSquaresShifted(canvas, size);
+            _paintHorizontalDiamondsShifted(canvas, size);
             break;
         }
         break;
@@ -30,18 +38,20 @@ class ScrollerPainterSquares extends ScrollerPainter {
       case ScrollDirection.bottom2Top:
         switch (data.shapeOffset) {
           case ScrollerShapeOffset.none:
-            _paintVerticalSquares(canvas, size);
+            _paintVerticalDiamonds(canvas, size);
             break;
           case ScrollerShapeOffset.shift:
           case ScrollerShapeOffset.shiftAndMesh:
-            _paintVerticalSquaresShifted(canvas, size);
+            _paintVerticalDiamondsShifted(canvas, size);
             break;
         }
         break;
     }
   }
 
-  void _paintHorizontalSquares(Canvas canvas, Size size) {
+  /// Paints the diamonds which move horizontally.
+  void _paintHorizontalDiamonds(Canvas canvas, Size size) {
+    /// The new measurements for the shapes.
     final Map<MeasurementName, double> newMeasurements = resizeShapesAlongWidth(
       Size(data.shapeWidth, data.shapeHeight),
       data.spaceBetweenShapes,
@@ -56,10 +66,13 @@ class ScrollerPainterSquares extends ScrollerPainter {
         newMeasurements[MeasurementName.spaceBetweenShapes] ??
             data.spaceBetweenShapes;
 
+    /// When to stop the loop, since all shapes should be drawn.
     final double endLoop =
         (size.height / 2.0) + ((shapeHeight + spaceBetweenShapes) / 2.0);
 
+    // Loop through half the height of the screen and draw the shapes.
     for (double i = 0.0; i < endLoop; i += shapeHeight + spaceBetweenShapes) {
+      // Loop through the width of the screen and draw the shapes.
       for (double ii = 0.0;
           ii < size.width;
           ii += shapeWidth + spaceBetweenShapes) {
@@ -78,7 +91,7 @@ class ScrollerPainterSquares extends ScrollerPainter {
           xOffset = (ii - animation.value * size.width) % size.width;
         }
 
-        __paintHorizontalSquares(
+        __paintHorizontalDiamonds(
           canvas,
           size,
           shapeHeight,
@@ -91,7 +104,10 @@ class ScrollerPainterSquares extends ScrollerPainter {
     }
   }
 
-  void _paintHorizontalSquaresShifted(Canvas canvas, Size size) {
+  /// Paints the diamonds which move horizontally and are offset from each
+  /// other.
+  void _paintHorizontalDiamondsShifted(Canvas canvas, Size size) {
+    /// The new measurements for the shapes.
     final Map<MeasurementName, double> newMeasurements = resizeShapesAlongWidth(
       Size(data.shapeWidth, data.shapeHeight),
       data.spaceBetweenShapes,
@@ -106,16 +122,22 @@ class ScrollerPainterSquares extends ScrollerPainter {
         newMeasurements[MeasurementName.spaceBetweenShapes] ??
             data.spaceBetweenShapes;
 
+    /// When to stop the loop, since all shapes should be drawn.
     final double endLoop =
         (size.height / 2.0) + ((shapeHeight + spaceBetweenShapes) / 2.0);
 
+    /// How much the outer loop should increment.
     final double progressor = getShiftedOuterLoopProgressor(
       shapeHeight,
       spaceBetweenShapes,
     );
 
+    /// How many rows have been drawn.
     int rowCounter = 0;
+
+    // Loop through half the height of the screen and draw the shapes.
     for (double i = 0.0; i < endLoop; i += progressor) {
+      // Loop through the width of the screen and draw the shapes.
       for (double ii = 0.0;
           ii < size.width;
           ii += shapeWidth + spaceBetweenShapes) {
@@ -146,7 +168,7 @@ class ScrollerPainterSquares extends ScrollerPainter {
           }
         }
 
-        __paintHorizontalSquares(
+        __paintHorizontalDiamonds(
           canvas,
           size,
           shapeHeight,
@@ -161,8 +183,10 @@ class ScrollerPainterSquares extends ScrollerPainter {
     }
   }
 
+  /// Paints the diamonds which move horizontally.
+  ///
   /// xOffset and yOffset are the center of the diamond.
-  void __paintHorizontalSquares(
+  void __paintHorizontalDiamonds(
     Canvas canvas,
     Size size,
     double shapeHeight,
@@ -194,6 +218,7 @@ class ScrollerPainterSquares extends ScrollerPainter {
       ..lineTo(bottom.dx, size.height - bottom.dy)
       ..close();
 
+    // If the shape is partially or completely off screen, do this.
     if (isOffScreen(xOffset - (shapeWidth / 2.0), shapeWidth, size.width)) {
       Paint? antiPaint;
 
@@ -234,21 +259,27 @@ class ScrollerPainterSquares extends ScrollerPainter {
         ..lineTo(bottom.dx + size.width, bottom.dy)
         ..close();
 
+      // Above the halfway point of the screen.
       canvas.drawPath(path3, antiPaint ?? paint);
       canvas.drawPath(path4, antiPaint ?? paint);
       if (yOffset != size.height / 2.0) {
+        // Below the halfway point of the screen.
         canvas.drawPath(path5, antiPaint ?? paint);
         canvas.drawPath(path6, antiPaint ?? paint);
       }
     }
 
+    // Above the halfway point of the screen.
     canvas.drawPath(path1, paint);
     if (yOffset != size.height / 2.0) {
+      // Below the halfway point of the screen.
       canvas.drawPath(path2, paint);
     }
   }
 
-  void _paintVerticalSquares(Canvas canvas, Size size) {
+  /// Paints the diamonds which move vertically.
+  void _paintVerticalDiamonds(Canvas canvas, Size size) {
+    /// The new measurements for the shapes.
     final Map<MeasurementName, double> newMeasurements =
         resizeShapesAlongHeight(
       Size(data.shapeWidth, data.shapeHeight),
@@ -264,10 +295,13 @@ class ScrollerPainterSquares extends ScrollerPainter {
         newMeasurements[MeasurementName.spaceBetweenShapes] ??
             data.spaceBetweenShapes;
 
+    /// When to stop the loop, since all shapes should be drawn.
     final double endLoop =
         (size.width / 2.0) + ((shapeWidth + spaceBetweenShapes) / 2.0);
 
+    // Loop through half the width of the screen and draw the shapes.
     for (double i = 0.0; i < endLoop; i += shapeWidth + spaceBetweenShapes) {
+      // Loop through the height of the screen and draw the shapes.
       for (double ii = 0.0;
           ii < size.height;
           ii += shapeHeight + spaceBetweenShapes) {
@@ -286,7 +320,7 @@ class ScrollerPainterSquares extends ScrollerPainter {
           yOffset = (ii - animation.value * size.height) % size.height;
         }
 
-        __paintVerticalSquares(
+        __paintVerticalDiamonds(
           canvas,
           size,
           shapeHeight,
@@ -299,7 +333,9 @@ class ScrollerPainterSquares extends ScrollerPainter {
     }
   }
 
-  void _paintVerticalSquaresShifted(Canvas canvas, Size size) {
+  /// Paints the diamonds which move vertically and are offset from each other.
+  void _paintVerticalDiamondsShifted(Canvas canvas, Size size) {
+    /// The new measurements for the shapes.
     final Map<MeasurementName, double> newMeasurements =
         resizeShapesAlongHeight(
       Size(data.shapeWidth, data.shapeHeight),
@@ -315,16 +351,22 @@ class ScrollerPainterSquares extends ScrollerPainter {
         newMeasurements[MeasurementName.spaceBetweenShapes] ??
             data.spaceBetweenShapes;
 
+    /// When to stop the loop, since all shapes should be drawn.
     final double endLoop =
         (size.width / 2.0) + ((shapeWidth + spaceBetweenShapes) / 2.0);
 
+    /// How much the outer loop should increment.
     final double progressor = getShiftedOuterLoopProgressor(
       shapeWidth,
       spaceBetweenShapes,
     );
 
+    /// How many rows have been drawn.
     int rowCounter = 0;
+
+    // Loop through half the width of the screen and draw the shapes.
     for (double i = 0.0; i < endLoop; i += progressor) {
+      // Loop through the height of the screen and draw the shapes.
       for (double ii = 0.0;
           ii < size.height;
           ii += shapeHeight + spaceBetweenShapes) {
@@ -355,7 +397,7 @@ class ScrollerPainterSquares extends ScrollerPainter {
           }
         }
 
-        __paintVerticalSquares(
+        __paintVerticalDiamonds(
           canvas,
           size,
           shapeHeight,
@@ -370,7 +412,10 @@ class ScrollerPainterSquares extends ScrollerPainter {
     }
   }
 
-  void __paintVerticalSquares(
+  /// Paints the diamonds which move vertically.
+  ///
+  /// xOffset and yOffset are the center of the diamond.
+  void __paintVerticalDiamonds(
     Canvas canvas,
     Size size,
     double shapeHeight,
@@ -402,6 +447,7 @@ class ScrollerPainterSquares extends ScrollerPainter {
       ..lineTo(size.width - bottom.dx, bottom.dy)
       ..close();
 
+    // If the shape is partially or completely off screen, do this.
     if (isOffScreen(yOffset - (shapeHeight / 2.0), shapeHeight, size.height)) {
       Paint? antiPaint;
 
@@ -442,17 +488,55 @@ class ScrollerPainterSquares extends ScrollerPainter {
         ..lineTo(size.width - bottom.dx, bottom.dy + size.height)
         ..close();
 
+      // Above the halfway point of the screen.
       canvas.drawPath(path3, antiPaint ?? paint);
       canvas.drawPath(path4, antiPaint ?? paint);
       if (xOffset != size.width / 2.0) {
+        // Below the halfway point of the screen.
         canvas.drawPath(path5, antiPaint ?? paint);
         canvas.drawPath(path6, antiPaint ?? paint);
       }
     }
 
+    // Above the halfway point of the screen.
     canvas.drawPath(path1, paint);
     if (xOffset != size.width / 2.0) {
+      // Below the halfway point of the screen.
       canvas.drawPath(path2, paint);
     }
+  }
+
+  /// The height of the diamond is calculated and returned.
+  static double calcRhombusHeight(double shapeWidth) {
+    double angleTheta = _getAngleTheta();
+
+    // Return the height of the diamond.
+    return 2.0 * ((shapeWidth / 2.0) / tan(angleTheta));
+  }
+
+  /// The width of the diamond is calculated and returned.
+  static double calcRhombusWidth(double shapeHeight) {
+    double angleTheta = _getAngleTheta();
+
+    // Return the width of the diamond.
+    return 2.0 * ((shapeHeight / 2.0) * tan(angleTheta));
+  }
+
+  /// A helper method for [calcRhombusHeight] and [calcRhombusWidth].
+  ///
+  /// In the future, [angleA] can be changed to make differently proportioned
+  /// diamonds.
+  static double _getAngleTheta() {
+    /// The left and right angles of the rhombus, in degrees.
+    const double angleA = 120.0;
+
+    /// The top and bottom angles of the rhombus, in degrees.
+    const double angleB = 180.0 - angleA;
+
+    /// Half the top and bottom angles of the rhombus, in radians.
+    ///
+    /// This is used to calculate the height of the diamond using right triangle
+    /// trigonometry.
+    return deg2Rad(angleB / 2.0);
   }
 }

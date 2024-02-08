@@ -1,9 +1,9 @@
-import 'package:dynamic_background/features/dynamic_bg/domain/models/painter/painter.dart';
-import 'package:dynamic_background/features/dynamic_bg/domain/models/painter/scroller_painter/scroller_painter_circles.dart';
-import 'package:dynamic_background/features/dynamic_bg/domain/models/painter/scroller_painter/scroller_painter_diamonds.dart';
-import 'package:dynamic_background/features/dynamic_bg/domain/models/painter/scroller_painter/scroller_painter_squares.dart';
-import 'package:dynamic_background/features/dynamic_bg/domain/models/painter/scroller_painter/scroller_painter_stripes.dart';
-import 'package:dynamic_background/features/dynamic_bg/domain/models/painter_data/painter_data.dart';
+import 'package:dynamic_background/domain/models/painter/painter.dart';
+import 'package:dynamic_background/domain/models/painter/scroller_painter/scroller_painter_circles.dart';
+import 'package:dynamic_background/domain/models/painter/scroller_painter/scroller_painter_diamonds.dart';
+import 'package:dynamic_background/domain/models/painter/scroller_painter/scroller_painter_squares.dart';
+import 'package:dynamic_background/domain/models/painter/scroller_painter/scroller_painter_stripes.dart';
+import 'package:dynamic_background/domain/models/painter_data/painter_data.dart';
 import 'package:flutter/material.dart';
 
 /// The data needed to paint a scroller background.
@@ -15,7 +15,7 @@ class ScrollerPainterData extends PainterData {
   ///
   /// A scroller background is a background that has shapes that move across the
   /// screen in a certain direction.
-  ScrollerPainterData({
+  const ScrollerPainterData({
     this.direction = ScrollDirection.right2Left,
     this.shape = ScrollerShape.circles,
     required this.backgroundColor,
@@ -24,7 +24,8 @@ class ScrollerPainterData extends PainterData {
     this.spaceBetweenShapes = 24.0,
     this.fadeEdges = true,
     this.shapeOffset = ScrollerShapeOffset.none,
-  });
+  })  : assert(shapeWidth > 0.0),
+        assert(spaceBetweenShapes >= 0.0);
 
   /// The direction the scroller should move in.
   final ScrollDirection direction;
@@ -97,6 +98,29 @@ class ScrollerPainterData extends PainterData {
           data: this,
         );
     }
+  }
+
+  @override
+  ScrollerPainterData copyWith({
+    ScrollDirection? direction,
+    ScrollerShape? shape,
+    Color? backgroundColor,
+    Color? color,
+    double? shapeWidth,
+    double? spaceBetweenShapes,
+    bool? fadeEdges,
+    ScrollerShapeOffset? shapeOffset,
+  }) {
+    return ScrollerPainterData(
+      direction: direction ?? this.direction,
+      shape: shape ?? this.shape,
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+      color: color ?? this.color,
+      shapeWidth: shapeWidth ?? this.shapeWidth,
+      spaceBetweenShapes: spaceBetweenShapes ?? this.spaceBetweenShapes,
+      fadeEdges: fadeEdges ?? this.fadeEdges,
+      shapeOffset: shapeOffset ?? this.shapeOffset,
+    );
   }
 }
 

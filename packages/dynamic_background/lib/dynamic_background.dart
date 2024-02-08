@@ -4,9 +4,12 @@
 
 library dynamic_background;
 
-export 'package:dynamic_background/features/dynamic_bg/domain/models/painter_data/fader_painter_data.dart';
-export 'package:dynamic_background/features/dynamic_bg/domain/models/painter_data/painter_data.dart';
-export 'package:dynamic_background/features/dynamic_bg/domain/models/painter_data/scroller_painter_data.dart';
-export 'package:dynamic_background/features/dynamic_bg/widgets/views/dynamic_bg.dart';
+export 'package:dynamic_background/domain/models/color_schemes.dart';
+export 'package:dynamic_background/domain/models/painter_data/fader_painter_data.dart';
+export 'package:dynamic_background/domain/models/painter_data/painter_data.dart';
+export 'package:dynamic_background/domain/models/painter_data/prebuilt_painters.dart';
+export 'package:dynamic_background/domain/models/painter_data/scroller_painter_data.dart';
 export 'package:dynamic_background/utils/color_tools.dart';
 export 'package:dynamic_background/utils/math_tools.dart';
+export 'package:dynamic_background/utils/platform_tools.dart';
+export 'package:dynamic_background/widgets/views/dynamic_bg.dart';

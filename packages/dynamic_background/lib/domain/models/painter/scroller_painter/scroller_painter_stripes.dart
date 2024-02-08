@@ -1,8 +1,12 @@
-import 'package:dynamic_background/features/dynamic_bg/domain/models/painter/scroller_painter/scroller_painter.dart';
-import 'package:dynamic_background/features/dynamic_bg/domain/models/painter_data/scroller_painter_data.dart';
+import 'package:dynamic_background/domain/models/painter/scroller_painter/scroller_painter.dart';
+import 'package:dynamic_background/domain/models/painter_data/scroller_painter_data.dart';
 import 'package:flutter/material.dart';
 
+/// This is the painter for animating stripes moving around the screen.
 class ScrollerPainterStripes extends ScrollerPainter {
+  /// Creates a [ScrollerPainterStripes] object.
+  ///
+  /// This is the painter for animating stripes moving around the screen.
   ScrollerPainterStripes({required super.animation, required super.data}) {
     if (!identical(data.shape, ScrollerShape.stripes)) {
       // TODO throw custom exception
@@ -11,6 +15,7 @@ class ScrollerPainterStripes extends ScrollerPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    // Paint the background color.
     canvas.drawPaint(Paint()..color = data.backgroundColor);
 
     switch (data.direction) {
@@ -25,7 +30,9 @@ class ScrollerPainterStripes extends ScrollerPainter {
     }
   }
 
+  /// Paints the vertical stripes which move horizontally.
   void _paintVerticalStripes(Canvas canvas, Size size) {
+    /// The new measurements for the shapes.
     final Map<MeasurementName, double> newMeasurements = resizeShapesAlongWidth(
       Size(data.shapeWidth, data.shapeHeight),
       data.spaceBetweenShapes,
@@ -38,6 +45,7 @@ class ScrollerPainterStripes extends ScrollerPainter {
         newMeasurements[MeasurementName.spaceBetweenShapes] ??
             data.spaceBetweenShapes;
 
+    // Loop through the width of the screen and draw the shapes.
     for (double i = 0.0; i < size.width; i += shapeWidth + spaceBetweenShapes) {
       late final double xOffset;
 
@@ -49,6 +57,7 @@ class ScrollerPainterStripes extends ScrollerPainter {
 
       final Paint paint = Paint()..color = data.color;
 
+      // If the shape is partially or completely off screen, do this.
       if (isOffScreen(xOffset, shapeWidth, size.width)) {
         Paint? antiPaint;
 
@@ -79,7 +88,9 @@ class ScrollerPainterStripes extends ScrollerPainter {
     }
   }
 
+  /// Paints the horizontal stripes which move vertically.
   void _paintHorizontalStripes(Canvas canvas, Size size) {
+    /// The new measurements for the shapes.
     final Map<MeasurementName, double> newMeasurements =
         resizeShapesAlongHeight(
       Size(data.shapeWidth, data.shapeHeight),
@@ -93,6 +104,7 @@ class ScrollerPainterStripes extends ScrollerPainter {
         newMeasurements[MeasurementName.spaceBetweenShapes] ??
             data.spaceBetweenShapes;
 
+    // Loop through the height of the screen and draw the shapes.
     for (double i = 0.0;
         i < size.height;
         i += shapeHeight + spaceBetweenShapes) {
@@ -106,6 +118,7 @@ class ScrollerPainterStripes extends ScrollerPainter {
 
       final Paint paint = Paint()..color = data.color;
 
+      // If the shape is partially or completely off screen, do this.
       if (isOffScreen(yOffset, shapeHeight, size.height)) {
         Paint? antiPaint;
 
