@@ -8,96 +8,98 @@ class StringsEN implements Strings {
   const StringsEN();
 
   @override
+  String get back => 'back';
+
+  @override
+  String get cancel => 'cancel';
+
+  @override
+  String get confirmPassword => 'confirm password';
+
+  @override
+  String get createAccount => 'create account';
+
+  @override
+  String get email => 'email';
+
+  @override
+  String get emailAlreadyExists => 'email already exists';
+
+  @override
+  String get emailDoesNotExist => 'email does not exist';
+
+  @override
+  String get error => 'error';
+
+  @override
+  String get existingAccount => 'already have an account';
+
+  @override
+  String get failedAccountCreation => 'failed to create account';
+
+  @override
+  String get failedPasswordReset => 'failed to send password reset link';
+
+  @override
+  String get forgotPassword => 'forgot password';
+
+  @override
+  String get help => 'help';
+
+  @override
+  String get invalidEmail => 'invalid email';
+
+  @override
+  String get invalidPassword => 'invalid password';
+
+  @override
   LangCode get langCode => LangCode.en;
 
   @override
-  String get confirmPassword => "confirm password";
+  String get logIn => 'log in';
 
   @override
-  String get back => "back";
+  String get logOut => 'log out';
 
   @override
-  String get cancel => "cancel";
+  String get ok => 'ok';
 
   @override
-  String get createAccount => "create account";
+  String get password => 'password';
 
   @override
-  String get email => "email";
+  String get passwordResetLinkSent =>
+      'if this email exists in our database, a password reset link has been '
+      'sent';
 
   @override
-  String get emailAlreadyExists => "email already exists";
+  String get passwordsDontMatch => 'passwords do not match';
 
   @override
-  String get emailDoesNotExist => "email does not exist";
+  String get passwordTooWeak => 'password too weak';
 
   @override
-  String get error => "error";
+  String get profile => 'profile';
 
   @override
-  String get existingAccount => "already have an account";
+  String get required => 'required';
 
   @override
-  String get failedAccountCreation => "failed to create account";
-
-  @override
-  String get failedPasswordReset => "failed to send password reset link";
-
-  @override
-  String get forgotPassword => "forgot password";
-
-  @override
-  String get help => "help";
-
-  @override
-  String get invalidEmail => "invalid email";
-
-  @override
-  String get invalidPassword => "invalid password";
-
-  @override
-  String get logIn => "log in";
-
-  @override
-  String get logOut => "log out";
-
-  @override
-  String get ok => "ok";
-
-  @override
-  String get password => "password";
-
-  @override
-  String get passwordResetLinkSent => "password reset link sent";
-
-  @override
-  String get passwordsDontMatch => "passwords do not match";
-
-  @override
-  String get passwordTooWeak => "password too weak";
-
-  @override
-  String get profile => "profile";
-
-  @override
-  String get required => "required";
-
-  @override
-  String get reset => "reset";
+  String get reset => 'reset';
 
   @override
   String get resetPasswordInstructions =>
-      "enter your email and a password reset link will be sent to you";
+      'enter your email and a password reset link will be sent to you';
 
   @override
-  String get search => "search";
+  String get search => 'search';
 
   @override
-  String get settings => "settings";
+  String get settings => 'settings';
 
   @override
-  String get somethingWentWrong => "something went wrong";
+  String get somethingWentWrong => 'something went wrong';
 
   @override
-  String get tryAgainLater => "please try again later";
+  String get tryAgainLater => 'please try again later';
 }

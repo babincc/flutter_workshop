@@ -18,4 +18,4 @@ Future<String> get tempPath async => (await tempDir).path;
 
 /// The path to the avatar images.
 Future<String> get avatarsPath async =>
-    "${await appSupportPath}${Platform.pathSeparator}avatars";
+    '${await appSupportPath}${Platform.pathSeparator}avatars';

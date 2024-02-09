@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_skeleton/constants/strings/strings.dart';
@@ -49,13 +48,6 @@ class CreateAccountScreenViewModel extends ChangeNotifier {
           expected: true,
           errorText: strings.invalidEmail,
         ),
-        MyTextFieldValidator(
-          test: (value) async =>
-              (await FirebaseAuth.instance.fetchSignInMethodsForEmail(value))
-                  .isEmpty,
-          expected: true,
-          errorText: strings.emailAlreadyExists,
-        ),
       ];
 
   /// The tests that are run to see if the user's password input is valid.
@@ -100,20 +92,32 @@ class CreateAccountScreenViewModel extends ChangeNotifier {
     // Only continue if the user's input is formatted correctly.
     if (await hasInputError(displayErrorMsg: true)) return null;
 
-    await myAuthProvider
-        .signUp(email: email, password: password)
-        .then((value) => router.goNamed(MyRoutes.dashboardScreen))
-        .onError(
-      (error, stackTrace) {
-        toReturn = MyAlert(
-          title: MyTools.capitalizeFirstLetter(strings.error),
-          content:
-              "${MyTools.capitalizeFirstLetter(strings.failedAccountCreation)}! "
-              "${MyTools.capitalizeFirstLetter(strings.tryAgainLater)}.",
-          buttons: {strings.ok: () {}},
-        );
-      },
-    );
+    await myAuthProvider.signUp(email: email, password: password).then((value) {
+      if (value == null) {
+        router.goNamed(MyRoutes.dashboardScreen);
+        return;
+      }
+
+      if (value.contains('email') &&
+          value.contains('in') &&
+          value.contains('use')) {
+        if (emailFieldKey.currentState != null) {
+          MyTextFieldState.setErrorText(
+            key: emailFieldKey,
+            errorText: strings.emailAlreadyExists,
+          );
+          return;
+        }
+      }
+
+      toReturn = MyAlert(
+        title: MyTools.capitalizeFirstLetter(strings.error),
+        content:
+            "${MyTools.capitalizeFirstLetter(strings.failedAccountCreation)}! "
+            "${MyTools.capitalizeFirstLetter(strings.tryAgainLater)}.",
+        buttons: {strings.ok: () {}},
+      );
+    });
 
     return toReturn;
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:my_skeleton/constants/theme/my_colors.dart';
 import 'package:my_skeleton/constants/theme/my_measurements.dart';
@@ -86,7 +85,8 @@ class MyThemeProvider extends ChangeNotifier {
     }
 
     // If there is no saved preference, try to match the phone's theme.
-    var brightness = SchedulerBinding.instance.window.platformBrightness;
+    var brightness =
+        WidgetsBinding.instance.platformDispatcher.platformBrightness;
     bool isDarkMode = brightness == Brightness.dark;
     if (isDarkMode) {
       themeType = ThemeType.dark;

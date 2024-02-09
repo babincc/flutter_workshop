@@ -108,7 +108,7 @@ class _LoginForgotPasswordPopupState extends State<LoginForgotPasswordPopup> {
 
   Widget _buildSuccess(
       BuildContext context, LoginForgotPasswordPopupViewModel viewModel) {
-    return Expanded(
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -131,6 +131,7 @@ class _LoginForgotPasswordPopupState extends State<LoginForgotPasswordPopup> {
             child: Text(
               "${MyTools.capitalizeFirstLetter(viewModel.strings.passwordResetLinkSent)}!",
               style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              textAlign: TextAlign.center,
             ),
           ),
         ],

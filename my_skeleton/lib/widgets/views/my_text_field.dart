@@ -14,7 +14,7 @@ import 'package:my_skeleton/constants/theme/my_measurements.dart';
 class MyTextField extends StatefulWidget {
   /// Creates a custom text field.
   const MyTextField({
-    Key? key,
+    super.key,
     this.controller,
     this.decoration,
     this.isPassword = false,
@@ -32,7 +32,7 @@ class MyTextField extends StatefulWidget {
     this.onChanged,
     this.onEditingComplete,
     required this.isLastField,
-  }) : super(key: key);
+  });
 
   final TextEditingController? controller;
 

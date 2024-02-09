@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_skeleton/constants/strings/strings.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
@@ -53,15 +52,27 @@ class LoginForgotPasswordPopupViewModel {
     // Only continue if the user's input is formatted correctly.
     if (await hasInputError(displayErrorMsg: true)) return 0;
 
-    await myAuthProvider.forgotPassword(email).then(
+    final int toReturn = await myAuthProvider.forgotPassword(email).then(
       (value) {
-        if (value != null) {
-          return -1;
+        if (value == null) {
+          return 1;
         }
+
+        if (value.contains('not') && value.contains('found')) {
+          if (emailFieldKey.currentState != null) {
+            MyTextFieldState.setErrorText(
+              key: emailFieldKey,
+              errorText: strings.emailAlreadyExists,
+            );
+            return 0;
+          }
+        }
+
+        return -1;
       },
     );
 
-    return 1;
+    return toReturn;
   }
 
   /// This method checks to see if there are any formatting errors in the user's
@@ -81,20 +92,6 @@ class LoginForgotPasswordPopupViewModel {
       );
     }
 
-    // If it is a validly formatted email, see if it exists in Firebase.
-    if (!emailHasError &&
-        (await FirebaseAuth.instance
-                .fetchSignInMethodsForEmail(emailController.text.trim()))
-            .isEmpty) {
-      if (displayErrorMsg) {
-        MyTextFieldState.setErrorText(
-          key: emailFieldKey,
-          errorText: strings.emailDoesNotExist,
-        );
-      }
-    }
-
     return emailHasError;
   }
 }
-

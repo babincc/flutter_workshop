@@ -17,7 +17,7 @@ class MyText extends StatelessWidget {
     this.locale,
     this.softWrap = true,
     this.overflow,
-    this.textScaleFactor,
+    this.textScaler,
     this.maxLines,
     this.semanticsLabel,
     this.textWidthBasis,
@@ -56,8 +56,8 @@ class MyText extends StatelessWidget {
   /// [Text.overflow]
   final TextOverflow? overflow;
 
-  /// [Text.textScaleFactor]
-  final double? textScaleFactor;
+  /// [Text.textScaler]
+  final TextScaler? textScaler;
 
   /// [Text.maxLines]
   final int? maxLines;
@@ -85,7 +85,7 @@ class MyText extends StatelessWidget {
       locale: locale,
       softWrap: softWrap,
       overflow: overflow,
-      textScaleFactor: textScaleFactor,
+      textScaler: textScaler,
       maxLines: maxLines,
       semanticsLabel: semanticsLabel,
       textWidthBasis: textWidthBasis,

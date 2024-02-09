@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 class LoginScreen extends StatelessWidget {
   /// Creates a screen that gives the user different choices to get connected to
   /// Firebase.
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

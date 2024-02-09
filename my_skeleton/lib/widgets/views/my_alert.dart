@@ -99,15 +99,14 @@ class MyAlert extends StatelessWidget {
   /// **Note:** Any `content` that is not a widget will be displayed as a string
   /// within a [Text] widget.
   MyAlert({
-    Key? key,
+    super.key,
     this.title,
     dynamic content,
     this.buttons,
     this.barrierDismissible = true,
-  })  : body = (content is Widget)
+  }) : body = (content is Widget)
             ? content
-            : (content == null ? null : Text(content.toString())),
-        super(key: key);
+            : (content == null ? null : Text(content.toString()));
 
   /// The title at the top of the alert dialog box.
   final String? title;

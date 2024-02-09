@@ -6,12 +6,6 @@
 /// parts of the code. This also allows for name changes in Firebase without
 /// having to change the name in several places in the code.
 class DBCollections {
-  /// "col1"
-  static const String col1 = "col1";
-
-  /// "col2"
-  static const String col2 = "col2";
-
-  /// "col3"
-  static const String col3 = "col3";
+  /// "users"
+  static const String users = 'users';
 }

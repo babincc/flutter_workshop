@@ -40,7 +40,7 @@ class MyTools {
     // If `min`, `max`, and `exclude` are all the same number, throw an
     // exception.
     if (min == max && max == exclude) {
-      throw Exception("min, max, and exclude cannot all be the same number.");
+      throw Exception('min, max, and exclude cannot all be the same number.');
     }
 
     // If `min` and `max` are the same number, just return that number.
@@ -91,8 +91,8 @@ class MyTools {
       assert(min <= max);
     } on AssertionError catch (_) {
       DebugLog.out(
-        "WARNING: `roundTo` must be less than or equal to 18! It has been "
-        "automatically switched to 18.",
+        'WARNING: `roundTo` must be less than or equal to 18! It has been '
+        'automatically switched to 18.',
         logType: LogType.warning,
       );
     }
@@ -201,9 +201,9 @@ class MyTools {
       assert(maxPlaces >= 0);
     } on AssertionError catch (_) {
       DebugLog.out(
-        "WARNING: `places` must be greater than or equal to 0! To avoid "
-        "returning `null`, 0 will be used instead of "
-        "\"${maxPlaces.toString()}\".",
+        'WARNING: `places` must be greater than or equal to 0! To avoid '
+        'returning `null`, 0 will be used instead of '
+        '"${maxPlaces.toString()}".',
         logType: LogType.warning,
       );
     }
@@ -272,8 +272,8 @@ class MyTools {
   /// Capitalizes the first letter of each word in the given `text`.
   ///
   /// ```dart
-  /// capitalizeEachWord("howdy") == "Howdy"
-  /// capitalizeEachWord("hello world") == "Hello World"
+  /// capitalizeEachWord('howdy') == "Howdy"
+  /// capitalizeEachWord('hello world') == "Hello World"
   /// ```
   static String capitalizeEachWord(String text) {
     final words = text.split(" ");
@@ -282,7 +282,7 @@ class MyTools {
       words[i] = capitalizeFirstLetter(words[i]);
     }
 
-    return words.join(" ");
+    return words.join(' ');
   }
 
   /// Returns `true` if the given lists contain all the same values.

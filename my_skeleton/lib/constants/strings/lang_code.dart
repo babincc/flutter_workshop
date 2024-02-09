@@ -4,7 +4,7 @@ import 'package:my_skeleton/constants/strings/strings_en.dart';
 /// The language codes for each of the string packs.
 enum LangCode {
   /// English
-  en("en", StringsEN());
+  en('en', StringsEN());
 
   const LangCode(this.value, this.strings);
 

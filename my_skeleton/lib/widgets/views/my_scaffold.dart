@@ -11,13 +11,13 @@ class MyScaffold extends StatelessWidget {
   ///
   /// [Scaffold] > [SafeArea] > [Padding]
   const MyScaffold({
-    Key? key,
+    super.key,
     required this.builder,
     this.appBar,
     this.drawer,
     this.isCentered = true,
     this.padEdges = true,
-  }) : super(key: key);
+  });
 
   /// The app bar of this scaffold.
   final PreferredSizeWidget? appBar;

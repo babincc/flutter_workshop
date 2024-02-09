@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 /// Where the user goes to create a new account for this app.
 class CreateAccountScreen extends StatelessWidget {
   /// Creates a screen that lets a user sign up for an account.
-  const CreateAccountScreen({Key? key}) : super(key: key);
+  const CreateAccountScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

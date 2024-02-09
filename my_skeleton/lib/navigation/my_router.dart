@@ -30,14 +30,15 @@ class MyRouter {
         ];
 
         /// This will be `true` if the user is attempting to log in.
-        bool isLoggingIn = (state.location.startsWith(MyRoutes.loginScreen));
+        bool isLoggingIn =
+            state.fullPath?.startsWith(MyRoutes.loginScreen) ?? false;
 
         /// This will be `true` if the user is logged in.
         bool isLoggedIn = myAuthProvider.isLoggedIn;
 
         /// This will be `true` if the user is attempting to access a page from
         /// [publicPages].
-        bool isGoingToPublicPage = (publicPages.contains(state.location));
+        bool isGoingToPublicPage = publicPages.contains(state.fullPath);
 
         // If the user is trying to log in and they are not logged in already,
         // let them proceed.

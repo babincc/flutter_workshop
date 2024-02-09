@@ -8,7 +8,7 @@ import 'package:my_skeleton/providers/my_string_provider.dart';
 import 'package:my_skeleton/utils/my_tools.dart';
 
 class MyDrawerMenu extends StatelessWidget {
-  const MyDrawerMenu({Key? key}) : super(key: key);
+  const MyDrawerMenu({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +22,10 @@ class MyDrawerMenu extends StatelessWidget {
       child: Column(
         children: [
           // HEADER
-          DrawerHeader(
-            decoration: const BoxDecoration(),
+          const DrawerHeader(
+            decoration: BoxDecoration(),
             child: Row(
-              children: const [],
+              children: [],
             ),
           ),
 

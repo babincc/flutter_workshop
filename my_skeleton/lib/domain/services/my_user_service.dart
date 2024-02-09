@@ -5,7 +5,7 @@ import 'package:my_skeleton/domain/models/my_user.dart';
 class MyUserService {
   /// The "users" collection in Firebase.
   static final CollectionReference usersCol =
-      FirebaseFirestore.instance.collection(DBCollections.col1);
+      FirebaseFirestore.instance.collection(DBCollections.users);
 
   /// Creates a new user, and adds them to Firebase.
   static Future<MyUser> createUserDoc(MyUser myUser) async {
