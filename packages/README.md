@@ -41,6 +41,16 @@ A dart SDK that allows developers to communicate with the FBI's public APIs.
 
 [back to top](#table-of-contents)
 
+## dynamic_background
+
+**[view on pub.dev](https://pub.dev/packages/dynamic_background)** (external link)
+
+**[source code](dynamic_background#readme)**
+
+Effortlessly customize sleek stripes, gradients, or playful shapes for dynamic UI backgrounds that captivate users instantly.
+
+[back to top](#table-of-contents)
+
 ## flutter_hue
 
 **[view on pub.dev](https://pub.dev/packages/flutter_hue)** (external link)

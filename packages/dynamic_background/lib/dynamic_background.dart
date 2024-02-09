@@ -1,6 +1,6 @@
 // @author Christian Babin
 // @version 0.1.0
-// https://github.com/babincc/flutter_workshop/blob/master/packages/dart_connect_metro/lib/dynamic_background.dart
+// https://github.com/babincc/flutter_workshop/blob/master/packages/dynamic_background/lib/dynamic_background.dart
 
 library dynamic_background;
 
