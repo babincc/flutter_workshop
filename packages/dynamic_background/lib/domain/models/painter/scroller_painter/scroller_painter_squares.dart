@@ -1,5 +1,6 @@
 import 'package:dynamic_background/domain/models/painter/scroller_painter/scroller_painter.dart';
 import 'package:dynamic_background/domain/models/painter_data/scroller_painter_data.dart';
+import 'package:dynamic_background/exceptions/mismatched_painter_and_data_exception.dart';
 import 'package:flutter/material.dart';
 
 /// This is the painter for animating squares moving around the screen.
@@ -9,7 +10,11 @@ class ScrollerPainterSquares extends ScrollerPainter {
   /// This is the painter for animating squares moving around the screen.
   ScrollerPainterSquares({required super.animation, required super.data}) {
     if (!identical(data.shape, ScrollerShape.squares)) {
-      // TODO throw custom exception
+      throw MismatchedPainterAndDataException(
+        'The provided data is not compatible with this painter. Invalid shape.',
+        this,
+        data,
+      );
     }
   }
 

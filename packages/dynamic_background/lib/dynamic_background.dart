@@ -9,6 +9,9 @@ export 'package:dynamic_background/domain/models/painter_data/fader_painter_data
 export 'package:dynamic_background/domain/models/painter_data/painter_data.dart';
 export 'package:dynamic_background/domain/models/painter_data/prebuilt_painters.dart';
 export 'package:dynamic_background/domain/models/painter_data/scroller_painter_data.dart';
+export 'package:dynamic_background/exceptions/empty_color_list_exception.dart';
+export 'package:dynamic_background/exceptions/illegal_shape_size_exception.dart';
+export 'package:dynamic_background/exceptions/mismatched_painter_and_data_exception.dart';
 export 'package:dynamic_background/utils/color_tools.dart';
 export 'package:dynamic_background/utils/math_tools.dart';
 export 'package:dynamic_background/utils/platform_tools.dart';

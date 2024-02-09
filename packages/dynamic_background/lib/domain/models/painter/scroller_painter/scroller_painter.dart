@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:dynamic_background/domain/models/painter/painter.dart';
 import 'package:dynamic_background/domain/models/painter_data/scroller_painter_data.dart';
+import 'package:dynamic_background/exceptions/illegal_shape_size_exception.dart';
 import 'package:flutter/material.dart';
 
 /// This is the painter for animating shapes moving around the screen.
@@ -13,12 +14,17 @@ abstract class ScrollerPainter extends Painter {
     required super.animation,
     required this.data,
   }) : super(repaint: animation) {
-    if (data.shapeWidth < 0.0) {
-      // TODO Throw custom error
+    if (data.shapeWidth <= 0.0) {
+      throw IllegalShapeSizeException(
+        '`shapeWidth` must be greater than 0\nActual value: ${data.shapeWidth}',
+      );
     }
 
     if (data.spaceBetweenShapes < 0.0) {
-      // TODO Throw custom error
+      throw IllegalShapeSizeException(
+        '`spaceBetweenShapes` cannot be negative.\nActual value: '
+        '${data.spaceBetweenShapes}',
+      );
     }
   }
 

@@ -1,5 +1,6 @@
 import 'package:dynamic_background/domain/models/painter/painter.dart';
 import 'package:dynamic_background/domain/models/painter_data/fader_painter_data.dart';
+import 'package:dynamic_background/exceptions/empty_color_list_exception.dart';
 import 'package:dynamic_background/utils/color_tools.dart';
 import 'package:dynamic_background/utils/math_tools.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class FaderPainter extends Painter {
     required this.data,
   }) : super(repaint: animation) {
     if (data.colors.isEmpty) {
-      // TODO throw custom execption
+      throw const EmptyColorListException('`colors` cannot be empty.');
     }
 
     // Set the colors based on the behavior.
