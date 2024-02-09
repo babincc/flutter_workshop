@@ -14,7 +14,7 @@ In the `pubspec.yaml` of your project, add the following dependency:
 
 ```yaml
 dependencies:
-  dynamic_background: ^0.1.1
+  dynamic_background: ^0.1.2
 ```
 
 Import it to each file you use it in:

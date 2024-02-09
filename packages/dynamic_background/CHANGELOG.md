@@ -1,3 +1,7 @@
+## 0.1.2 - February 9, 2024
+
+- Fixed issue tracker link
+
 ## 0.1.1 - February 9, 2024
 
 - Documentation fix
