@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 0.1.0
+// @version 0.1.1
 // https://github.com/babincc/flutter_workshop/blob/master/packages/dynamic_background/lib/dynamic_background.dart
 
 library dynamic_background;
