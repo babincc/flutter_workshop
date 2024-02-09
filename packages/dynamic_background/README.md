@@ -14,7 +14,7 @@ In the `pubspec.yaml` of your project, add the following dependency:
 
 ```yaml
 dependencies:
-  dynamic_background: ^0.1.2
+  dynamic_background: ^0.1.3
 ```
 
 Import it to each file you use it in:
@@ -86,6 +86,32 @@ DynamicBg(
     backgroundColor: ColorSchemes.gentleYellowBg,
   ),
   child: yourPageHere(),
+),
+```
+
+### Example 5 - Stack backgrounds
+
+This example shows how to stack backgrounds for interesting new effects.
+
+```dart
+DynamicBg(
+  painterData: ScrollerPainterData(
+    direction: ScrollDirection.left2Right,
+    backgroundColor: ColorSchemes.gentleWhiteBg,
+    color: ColorSchemes.gentleBlackFg,
+    shapeOffset: ScrollerShapeOffset.shiftAndMesh,
+  ),
+  child: DynamicBg(
+    duration: const Duration(seconds: 45),
+    painterData: ScrollerPainterData(
+      backgroundColor: Colors.transparent,
+      color: ColorSchemes.vibrantBlackFg,
+      shapeWidth: 28.0,
+      spaceBetweenShapes: 55.0,
+      shapeOffset: ScrollerShapeOffset.shiftAndMesh,
+    ),
+    child: yourPageHere(),
+  ),
 ),
 ```
 
