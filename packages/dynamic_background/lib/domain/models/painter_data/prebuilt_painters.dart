@@ -15,8 +15,8 @@ class PrebuiltPainters {
   static ScrollerPainterData get argyle30s => ScrollerPainterData(
         direction: ScrollDirection.left2Right,
         shape: ScrollerShape.squares,
-        backgroundColor: gentleBrownBg,
-        color: gentleBrownFg,
+        backgroundColor: ColorSchemes.gentleBrownBg,
+        color: ColorSchemes.gentleBrownFg,
         shapeWidth: 55.0,
         spaceBetweenShapes: 0.0,
         fadeEdges: true,
@@ -31,8 +31,8 @@ class PrebuiltPainters {
   static ScrollerPainterData get chocolate => ScrollerPainterData(
         direction: ScrollDirection.left2Right,
         shape: ScrollerShape.squares,
-        backgroundColor: vibrantBrownBg,
-        color: vibrantBrownFg,
+        backgroundColor: ColorSchemes.vibrantBrownBg,
+        color: ColorSchemes.vibrantBrownFg,
         shapeWidth: 50.0,
         spaceBetweenShapes: 25.0,
         fadeEdges: true,
@@ -48,8 +48,8 @@ class PrebuiltPainters {
   static ScrollerPainterData get diamondRain => ScrollerPainterData(
         direction: ScrollDirection.top2Bottom,
         shape: ScrollerShape.diamonds,
-        backgroundColor: icyBlueBg,
-        color: icyBlueFg,
+        backgroundColor: ColorSchemes.icyBlueBg,
+        color: ColorSchemes.icyBlueFg,
         shapeWidth: 24.0,
         spaceBetweenShapes: 24.0,
         fadeEdges: true,
@@ -65,8 +65,8 @@ class PrebuiltPainters {
   static ScrollerPainterData get jello => ScrollerPainterData(
         direction: ScrollDirection.bottom2Top,
         shape: ScrollerShape.circles,
-        backgroundColor: vibrantGreenBg,
-        color: vibrantGreenFg,
+        backgroundColor: ColorSchemes.vibrantGreenBg,
+        color: ColorSchemes.vibrantGreenFg,
         shapeWidth: 25.0,
         spaceBetweenShapes: 50.0,
         fadeEdges: true,
@@ -82,8 +82,8 @@ class PrebuiltPainters {
   static ScrollerPainterData get lemonSunshine => ScrollerPainterData(
         direction: ScrollDirection.left2Right,
         shape: ScrollerShape.circles,
-        backgroundColor: gentleYellowBg,
-        color: gentleYellowFg,
+        backgroundColor: ColorSchemes.gentleYellowBg,
+        color: ColorSchemes.gentleYellowFg,
         shapeWidth: 24.0,
         spaceBetweenShapes: 24.0,
         fadeEdges: true,
@@ -116,8 +116,8 @@ class PrebuiltPainters {
   static ScrollerPainterData get sprite => ScrollerPainterData(
         direction: ScrollDirection.bottom2Top,
         shape: ScrollerShape.circles,
-        backgroundColor: gentleWhiteBg,
-        color: gentleWhiteFg,
+        backgroundColor: ColorSchemes.gentleWhiteBg,
+        color: ColorSchemes.gentleWhiteFg,
         shapeWidth: 25.0,
         spaceBetweenShapes: 50.0,
         fadeEdges: true,
@@ -133,8 +133,8 @@ class PrebuiltPainters {
   static ScrollerPainterData get strawberrySlide => ScrollerPainterData(
         direction: ScrollDirection.left2Right,
         shape: ScrollerShape.circles,
-        backgroundColor: gentleRedBg,
-        color: gentleRedFg,
+        backgroundColor: ColorSchemes.gentleRedBg,
+        color: ColorSchemes.gentleRedFg,
         shapeWidth: 24.0,
         spaceBetweenShapes: 24.0,
         fadeEdges: true,
@@ -150,15 +150,15 @@ class PrebuiltPainters {
   static ScrollerPainterData get sunflower => ScrollerPainterData(
         direction: ScrollDirection.left2Right,
         shape: ScrollerShape.circles,
-        backgroundColor: gentleYellowBg,
-        color: gentleBrownFg,
+        backgroundColor: ColorSchemes.gentleYellowBg,
+        color: ColorSchemes.gentleBrownFg,
         shapeWidth: 25.0,
         spaceBetweenShapes: 50.0,
         fadeEdges: true,
         shapeOffset: ScrollerShapeOffset.shift,
       );
 
-  /// A gentle sunrise with yellow circles rising from the bottom of the screen on
+  /// A ColorSchemes.gentle sunrise with yellow circles rising from the bottom of the screen on
   /// a yellow-orange background.
   ///
   /// Recommended delay: 90 seconds
@@ -167,15 +167,15 @@ class PrebuiltPainters {
   static ScrollerPainterData get sunRise => ScrollerPainterData(
         direction: ScrollDirection.bottom2Top,
         shape: ScrollerShape.circles,
-        backgroundColor: vibrantYellowBg,
-        color: vibrantYellowFg,
+        backgroundColor: ColorSchemes.vibrantYellowBg,
+        color: ColorSchemes.vibrantYellowFg,
         shapeWidth: screenSize.width,
         spaceBetweenShapes: 0.0,
         fadeEdges: true,
         shapeOffset: ScrollerShapeOffset.none,
       );
 
-  /// A gentle sunset with orange circles sinking from the top of the screen on a
+  /// A ColorSchemes.gentle sunset with orange circles sinking from the top of the screen on a
   /// yellow-orange background.
   ///
   /// Recommended delay: 90 seconds
@@ -184,15 +184,15 @@ class PrebuiltPainters {
   static ScrollerPainterData get sunSet => ScrollerPainterData(
         direction: ScrollDirection.top2Bottom,
         shape: ScrollerShape.circles,
-        backgroundColor: vibrantYellowBg,
-        color: vibrantOrangeFg,
+        backgroundColor: ColorSchemes.vibrantYellowBg,
+        color: ColorSchemes.vibrantOrangeFg,
         shapeWidth: screenSize.width,
         spaceBetweenShapes: 0.0,
         fadeEdges: true,
         shapeOffset: ScrollerShapeOffset.none,
       );
 
-  /// A gentle fade of blue colors, giving the impression of a cold winter wind
+  /// A ColorSchemes.gentle fade of blue colors, giving the impression of a cold winter wind
   /// blowing through the screen.
   ///
   /// Recommended delay: 15 seconds
@@ -200,7 +200,7 @@ class PrebuiltPainters {
   /// Recommended for light mode.
   static FaderPainterData get winterWind => FaderPainterData(
         behavior: FaderBehavior.breathe,
-        colors: gentleBlue,
+        colors: ColorSchemes.gentleBlue,
       );
 
   /// Dark colors subtly fading in and out.
@@ -210,7 +210,7 @@ class PrebuiltPainters {
   /// Recommended for dark mode.
   static FaderPainterData get dynamicDark => FaderPainterData(
         behavior: FaderBehavior.random,
-        colors: vibrantBlack,
+        colors: ColorSchemes.vibrantBlack,
       );
 
   /// Light colors subtly fading in and out.
@@ -220,6 +220,6 @@ class PrebuiltPainters {
   /// Recommended for light mode.
   static FaderPainterData get dynamicLight => FaderPainterData(
         behavior: FaderBehavior.random,
-        colors: gentleWhite,
+        colors: ColorSchemes.gentleWhite,
       );
 }

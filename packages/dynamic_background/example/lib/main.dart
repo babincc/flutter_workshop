@@ -29,12 +29,12 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: DynamicBg(
         duration: const Duration(seconds: 45),
-        // painterData: PrebuiltPainters.chocolate,    // Try a prebuilt painter
+        // painterData: PrebuiltPainters.chocolate, // Try a prebuilt painter
         painterData: ScrollerPainterData(
           direction: ScrollDirection.left2Right,
           shape: ScrollerShape.circles,
-          backgroundColor: gentlePurpleBg,
-          color: gentlePurpleFg,
+          backgroundColor: ColorSchemes.gentlePurpleBg,
+          color: ColorSchemes.gentlePurpleFg,
           shapeWidth: 24.0,
           spaceBetweenShapes: 24.0,
           fadeEdges: true,
