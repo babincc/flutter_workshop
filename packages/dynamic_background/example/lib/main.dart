@@ -26,225 +26,27 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    final gBlack = gentleBlack..sortColors();
-    final gWhite = gentleWhite..sortColors();
-    final gBrown = gentleBrown..sortColors();
-    final gRed = gentleRed..sortColors();
-    final gOrange = gentleOrange..sortColors();
-    final gYellow = gentleYellow..sortColors();
-    final gGreen = gentleGreen..sortColors();
-    final gBlue = gentleBlue..sortColors();
-    final gPurple = gentlePurple..sortColors();
-
-    final vBlack = vibrantBlack..sortColors();
-    final vWhite = vibrantWhite..sortColors();
-    final vBrown = vibrantBrown..sortColors();
-    final vRed = vibrantRed..sortColors();
-    final vOrange = vibrantOrange..sortColors();
-    final vYellow = vibrantYellow..sortColors();
-    final vGreen = vibrantGreen..sortColors();
-    final vBlue = vibrantBlue..sortColors();
-    final vPurple = vibrantPurple..sortColors();
-
     return Scaffold(
       body: DynamicBg(
         duration: const Duration(seconds: 45),
-        painterData: PrebuiltPainters.argyle80s,
+        // painterData: PrebuiltPainters.chocolate,    // Try a prebuilt painter
+        painterData: ScrollerPainterData(
+          direction: ScrollDirection.left2Right,
+          shape: ScrollerShape.circles,
+          backgroundColor: gentlePurpleBg,
+          color: gentlePurpleFg,
+          shapeWidth: 24.0,
+          spaceBetweenShapes: 24.0,
+          fadeEdges: true,
+          shapeOffset: ScrollerShapeOffset.shiftAndMesh,
+        ),
         child: Center(
-          child: Column(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: gBlack
-                        .map((e) => Container(
-                              width: 30,
-                              height: 30,
-                              color: e,
-                            ))
-                        .toList(),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: gWhite
-                        .map((e) => Container(
-                              width: 30,
-                              height: 30,
-                              color: e,
-                            ))
-                        .toList(),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: gBrown
-                        .map((e) => Container(
-                              width: 30,
-                              height: 30,
-                              color: e,
-                            ))
-                        .toList(),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: gRed
-                        .map((e) => Container(
-                              width: 30,
-                              height: 30,
-                              color: e,
-                            ))
-                        .toList(),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: gOrange
-                        .map((e) => Container(
-                              width: 30,
-                              height: 30,
-                              color: e,
-                            ))
-                        .toList(),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: gYellow
-                        .map((e) => Container(
-                              width: 30,
-                              height: 30,
-                              color: e,
-                            ))
-                        .toList(),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: gGreen
-                        .map((e) => Container(
-                              width: 30,
-                              height: 30,
-                              color: e,
-                            ))
-                        .toList(),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: gBlue
-                        .map((e) => Container(
-                              width: 30,
-                              height: 30,
-                              color: e,
-                            ))
-                        .toList(),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: gPurple
-                        .map((e) => Container(
-                              width: 30,
-                              height: 30,
-                              color: e,
-                            ))
-                        .toList(),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 25),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: vBlack
-                        .map((e) => Container(
-                              width: 30,
-                              height: 30,
-                              color: e,
-                            ))
-                        .toList(),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: vWhite
-                        .map((e) => Container(
-                              width: 30,
-                              height: 30,
-                              color: e,
-                            ))
-                        .toList(),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: vBrown
-                        .map((e) => Container(
-                              width: 30,
-                              height: 30,
-                              color: e,
-                            ))
-                        .toList(),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: vRed
-                        .map((e) => Container(
-                              width: 30,
-                              height: 30,
-                              color: e,
-                            ))
-                        .toList(),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: vOrange
-                        .map((e) => Container(
-                              width: 30,
-                              height: 30,
-                              color: e,
-                            ))
-                        .toList(),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: vYellow
-                        .map((e) => Container(
-                              width: 30,
-                              height: 30,
-                              color: e,
-                            ))
-                        .toList(),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: vGreen
-                        .map((e) => Container(
-                              width: 30,
-                              height: 30,
-                              color: e,
-                            ))
-                        .toList(),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: vBlue
-                        .map((e) => Container(
-                              width: 30,
-                              height: 30,
-                              color: e,
-                            ))
-                        .toList(),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: vPurple
-                        .map((e) => Container(
-                              width: 30,
-                              height: 30,
-                              color: e,
-                            ))
-                        .toList(),
-                  ),
-                ],
-              ),
+              const SizedBox(width: 25),
+              Expanded(child: Image.asset('assets/images/logo.png')),
+              const SizedBox(width: 25),
             ],
           ),
         ),

@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 
 /// Prebuilt painters for use with the [DynamicBg] widget.
 class PrebuiltPainters {
-  /// Pale brown argyle pattern scrolling from left to right, giving '80s vibes.
+  /// Pale brown argyle pattern scrolling from left to right, giving '30s vibes.
   ///
   /// Recommended delay: 45 seconds
   ///
   /// Recommended for light mode.
-  static ScrollerPainterData get argyle80s => ScrollerPainterData(
+  static ScrollerPainterData get argyle30s => ScrollerPainterData(
         direction: ScrollDirection.left2Right,
         shape: ScrollerShape.squares,
         backgroundColor: gentleBrownBg,

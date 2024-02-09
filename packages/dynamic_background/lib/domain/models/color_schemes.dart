@@ -3,138 +3,138 @@ import 'package:flutter/material.dart';
 // --------------------------------- BLACK ---------------------------------- //
 
 List<Color> get gentleBlack => [
-      Colors.grey.shade600,
-      Colors.grey.shade700,
-      Colors.grey.shade800,
+      gentleBlackBg,
+      gentleBlackFg,
+      const Color.fromRGBO(82, 82, 82, 1),
     ];
-Color get gentleBlackBg => Colors.grey.shade600;
-Color get gentleBlackFg => Colors.grey.shade700;
+Color get gentleBlackBg => const Color.fromRGBO(117, 117, 117, 1);
+Color get gentleBlackFg => const Color.fromRGBO(100, 100, 100, 1);
 
 List<Color> get vibrantBlack => [
-      Colors.grey.shade700,
-      Colors.grey.shade800,
-      Colors.grey.shade900,
+      const Color.fromRGBO(43, 42, 42, 1.0),
+      vibrantBlackFg,
+      vibrantBlackBg,
     ];
-Color get vibrantBlackBg => Colors.grey.shade900;
-Color get vibrantBlackFg => Colors.grey.shade800;
+Color get vibrantBlackBg => const Color.fromRGBO(34, 33, 33, 1.0);
+Color get vibrantBlackFg => const Color.fromRGBO(39, 35, 35, 1.0);
 
 // --------------------------------- WHITE ---------------------------------- //
 
 List<Color> get gentleWhite => [
-      Colors.grey.shade100,
-      Colors.grey.shade200,
-      Colors.grey.shade300,
+      gentleWhiteBg,
+      gentleWhiteFg,
+      const Color.fromRGBO(225, 225, 225, 1.0),
     ];
-Color get gentleWhiteBg => Colors.grey.shade100;
-Color get gentleWhiteFg => Colors.grey.shade200;
+Color get gentleWhiteBg => const Color.fromRGBO(245, 245, 245, 1.0);
+Color get gentleWhiteFg => const Color.fromRGBO(235, 235, 235, 1.0);
 
 List<Color> get vibrantWhite => [
-      Colors.grey.shade200,
-      Colors.grey.shade300,
-      Colors.grey.shade400,
+      const Color.fromRGBO(234, 234, 234, 1.0),
+      vibrantWhiteFg,
+      vibrantWhiteBg,
     ];
-Color get vibrantWhiteBg => Colors.grey.shade400;
-Color get vibrantWhiteFg => Colors.grey.shade300;
+Color get vibrantWhiteBg => const Color.fromRGBO(217, 217, 217, 1.0);
+Color get vibrantWhiteFg => const Color.fromRGBO(224, 224, 224, 1.0);
 
 // --------------------------------- BROWN ---------------------------------- //
 
 List<Color> get gentleBrown => [
-      Colors.brown.shade200,
-      Colors.brown.shade300,
-      Colors.brown.shade400,
+      gentleBrownBg,
+      gentleBrownFg,
+      const Color.fromRGBO(151, 120, 109, 1),
     ];
-Color get gentleBrownBg => Colors.brown.shade200;
-Color get gentleBrownFg => Colors.brown.shade300;
+Color get gentleBrownBg => const Color.fromRGBO(188, 170, 164, 1);
+Color get gentleBrownFg => const Color.fromRGBO(161, 136, 127, 1);
 
 List<Color> get vibrantBrown => [
-      Colors.brown.shade700,
-      Colors.brown.shade800,
-      Colors.brown.shade900,
+      const Color.fromRGBO(93, 64, 55, 1),
+      vibrantBrownFg,
+      vibrantBrownBg,
     ];
-Color get vibrantBrownBg => Colors.brown.shade900;
-Color get vibrantBrownFg => Colors.brown.shade800;
+Color get vibrantBrownBg => const Color.fromRGBO(62, 39, 35, 1);
+Color get vibrantBrownFg => const Color.fromRGBO(78, 52, 46, 1);
 
 // ---------------------------------- RED ----------------------------------- //
 
 List<Color> get gentleRed => [
-      Colors.red.shade200,
-      Colors.red.shade300,
-      Colors.red.shade400,
+      gentleRedBg,
+      gentleRedFg,
+      const Color.fromRGBO(229, 98, 95, 1),
     ];
-Color get gentleRedBg => Colors.red.shade200;
-Color get gentleRedFg => Colors.red.shade300;
+Color get gentleRedBg => const Color.fromRGBO(239, 154, 154, 1);
+Color get gentleRedFg => const Color.fromRGBO(229, 115, 115, 1);
 
 List<Color> get vibrantRed => [
-      Colors.red.shade700,
-      Colors.red.shade800,
-      Colors.red.shade900,
+      const Color.fromRGBO(211, 47, 47, 1),
+      vibrantRedFg,
+      vibrantRedBg,
     ];
-Color get vibrantRedBg => Colors.red.shade900;
-Color get vibrantRedFg => Colors.red.shade800;
+Color get vibrantRedBg => const Color.fromRGBO(183, 28, 28, 1);
+Color get vibrantRedFg => const Color.fromRGBO(198, 40, 40, 1);
 
 // --------------------------------- ORANGE --------------------------------- //
 
 List<Color> get gentleOrange => [
-      Colors.orange.shade200,
-      Colors.orange.shade300,
-      Colors.orange.shade400,
+      gentleOrangeBg,
+      gentleOrangeFg,
+      const Color.fromRGBO(255, 180, 52, 1),
     ];
-Color get gentleOrangeBg => Colors.orange.shade200;
-Color get gentleOrangeFg => Colors.orange.shade300;
+Color get gentleOrangeBg => const Color.fromRGBO(255, 204, 128, 1);
+Color get gentleOrangeFg => const Color.fromRGBO(255, 190, 85, 1);
 
 List<Color> get vibrantOrange => [
-      Colors.orange.shade700,
-      Colors.orange.shade800,
-      Colors.orange.shade900,
+      const Color.fromRGBO(245, 124, 0, 1),
+      vibrantOrangeFg,
+      vibrantOrangeBg,
     ];
-Color get vibrantOrangeBg => Colors.orange.shade900;
-Color get vibrantOrangeFg => Colors.orange.shade800;
+Color get vibrantOrangeBg => const Color.fromRGBO(220, 95, 0, 1);
+Color get vibrantOrangeFg => const Color.fromRGBO(239, 108, 0, 1);
 
 // --------------------------------- YELLOW --------------------------------- //
 
 List<Color> get gentleYellow => [
-      Colors.yellow.shade200,
-      Colors.yellow.shade300,
-      Colors.yellow.shade400,
+      gentleYellowBg,
+      gentleYellowFg,
+      const Color.fromRGBO(255, 238, 94, 1),
     ];
-Color get gentleYellowBg => Colors.yellow.shade200;
-Color get gentleYellowFg => Colors.yellow.shade300;
+Color get gentleYellowBg => const Color.fromRGBO(255, 245, 157, 1);
+Color get gentleYellowFg => const Color.fromRGBO(255, 241, 118, 1);
 
 List<Color> get vibrantYellow => [
-      Colors.yellow.shade700,
-      Colors.yellow.shade800,
-      Colors.yellow.shade900,
+      const Color.fromRGBO(245, 238, 100, 1),
+      vibrantYellowFg,
+      vibrantYellowBg,
     ];
-Color get vibrantYellowBg => Colors.yellow.shade900;
-Color get vibrantYellowFg => Colors.yellow.shade800;
+Color get vibrantYellowBg => const Color.fromRGBO(255, 198, 27, 1);
+Color get vibrantYellowFg => const Color.fromRGBO(250, 220, 76, 1);
 
 // --------------------------------- GREEN ---------------------------------- //
 
 List<Color> get gentleGreen => [
-      Colors.green.shade200,
-      Colors.green.shade300,
-      Colors.green.shade400,
+      gentleGreenBg,
+      gentleGreenFg,
+      const Color.fromRGBO(115, 192, 119, 1),
     ];
-Color get gentleGreenBg => Colors.green.shade200;
-Color get gentleGreenFg => Colors.green.shade300;
+Color get gentleGreenBg => const Color.fromRGBO(165, 214, 167, 1);
+Color get gentleGreenFg => const Color.fromRGBO(129, 199, 132, 1);
 
 List<Color> get vibrantGreen => [
-      Colors.green.shade700,
-      Colors.green.shade800,
-      Colors.green.shade900,
+      const Color.fromRGBO(56, 142, 60, 1),
+      vibrantGreenFg,
+      vibrantGreenBg,
     ];
-Color get vibrantGreenBg => Colors.green.shade900;
-Color get vibrantGreenFg => Colors.green.shade800;
+Color get vibrantGreenBg => const Color.fromRGBO(36, 115, 40, 1);
+Color get vibrantGreenFg => const Color.fromRGBO(46, 125, 50, 1);
 
 // ---------------------------------- BLUE ---------------------------------- //
 
 List<Color> get gentleBlue => [
-      Colors.blue.shade200,
-      Colors.blue.shade300,
-      Colors.blue.shade400,
+      gentleBlueBg,
+      gentleBlueFg,
+      const Color.fromRGBO(70, 171, 245, 1),
     ];
-Color get gentleBlueBg => Colors.blue.shade200;
-Color get gentleBlueFg => Colors.blue.shade300;
+Color get gentleBlueBg => const Color.fromRGBO(144, 202, 249, 1);
+Color get gentleBlueFg => const Color.fromRGBO(100, 181, 246, 1);
 
 List<Color> get icyBlue => [
       icyBlueBg,
@@ -145,27 +145,27 @@ Color get icyBlueBg => const Color.fromRGBO(227, 253, 255, 1.0);
 Color get icyBlueFg => const Color.fromRGBO(209, 247, 255, 1.0);
 
 List<Color> get vibrantBlue => [
-      Colors.blue.shade700,
-      Colors.blue.shade800,
-      Colors.blue.shade900,
+      const Color.fromRGBO(25, 118, 208, 1),
+      vibrantBlueFg,
+      vibrantBlueBg,
     ];
-Color get vibrantBlueBg => Colors.blue.shade900;
-Color get vibrantBlueFg => Colors.blue.shade800;
+Color get vibrantBlueBg => const Color.fromRGBO(13, 71, 165, 1);
+Color get vibrantBlueFg => const Color.fromRGBO(21, 101, 192, 1);
 
 // --------------------------------- PURPLE --------------------------------- //
 
 List<Color> get gentlePurple => [
-      Colors.purple.shade200,
-      Colors.purple.shade300,
-      Colors.purple.shade400,
+      gentlePurpleBg,
+      gentlePurpleFg,
+      const Color.fromRGBO(155, 98, 190, 1),
     ];
-Color get gentlePurpleBg => Colors.purple.shade200;
-Color get gentlePurpleFg => Colors.purple.shade300;
+Color get gentlePurpleBg => const Color.fromRGBO(190, 147, 216, 1);
+Color get gentlePurpleFg => const Color.fromRGBO(170, 124, 200, 1);
 
 List<Color> get vibrantPurple => [
-      Colors.purple.shade700,
-      Colors.purple.shade800,
-      Colors.purple.shade900,
+      const Color.fromRGBO(123, 31, 162, 1),
+      vibrantPurpleFg,
+      vibrantPurpleBg,
     ];
-Color get vibrantPurpleBg => Colors.purple.shade900;
-Color get vibrantPurpleFg => Colors.purple.shade800;
+Color get vibrantPurpleBg => const Color.fromRGBO(89, 25, 143, 1);
+Color get vibrantPurpleFg => const Color.fromRGBO(106, 27, 154, 1);
