@@ -10,7 +10,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 
 ```yaml
 dependencies:
-  n_dimensional_array: ^1.0.2
+  n_dimensional_array: ^1.0.3
 ```
 
 Import it to each file you use it in:

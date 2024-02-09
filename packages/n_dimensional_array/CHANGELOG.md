@@ -1,3 +1,7 @@
+## 1.0.3 - February 9, 2024
+
+- Fixed issue tracker link
+
 ## 1.0.2 - September 27, 2023
 
 - Documentation updates

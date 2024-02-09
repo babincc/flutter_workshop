@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 1.2.2
+// @version 1.2.3
 // https://github.com/babincc/flutter_workshop/blob/master/packages/flutter_hue/lib/flutter_hue.dart
 
 library flutter_hue;

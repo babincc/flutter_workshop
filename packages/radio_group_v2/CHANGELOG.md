@@ -1,3 +1,7 @@
+## 3.0.1 - February 9, 2024
+
+- Fixed issue tracker link
+
 ## 3.0.0 - January 23, 2024
 
 - Reorganized file structure

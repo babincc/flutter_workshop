@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 1.0.2
+// @version 1.0.3
 // https://github.com/babincc/flutter_workshop/blob/master/packages/n_dimensional_array/lib/n_dimensional_array.dart
 
 library n_dimensional_array;
