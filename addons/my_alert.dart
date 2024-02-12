@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 2.1.0
+// @version 2.1.1
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_alert.dart
 
 import 'dart:io' show Platform;
@@ -17,7 +17,6 @@ import 'package:flutter/material.dart';
 ///
 /// ## Examples
 ///
-/// {@tool snippet}
 ///
 /// ### Warning Dialog Example
 ///
@@ -28,20 +27,17 @@ import 'package:flutter/material.dart';
 /// ```dart
 /// /// The alert dialog that will be shown to the user.
 /// MyAlert myAlert = MyAlert(
-///   title: "Action Blocked!",
-///   content: "Your attempt to do this action has been blocked because this "
-///       "action can not be completed at this time. Thank you!",
+///   title: 'Action Blocked!',
+///   content: 'Your attempt to do this action has been blocked because this '
+///       'action can not be completed at this time. Thank you!',
 ///   buttons: {
-///     "ok": () {},
+///     'ok': () {},
 ///   },
 /// );
 ///
 /// // Show [myAlert] to the user.
 /// myAlert.show(context);
 /// ```
-/// {@end-tool}
-///
-/// {@tool snippet}
 ///
 /// ### Information Dialog Example
 ///
@@ -51,19 +47,16 @@ import 'package:flutter/material.dart';
 /// ```dart
 /// /// The alert dialog that will be shown to the user.
 /// MyAlert myAlert = MyAlert(
-///   title: "Did you know?",
-///   content: Text("Flutter was initially released in May of 2017?"),
+///   title: 'Did you know?',
+///   content: Text('Flutter was initially released in May of 2017?'),
 ///   buttons: {
-///     "Now I Know": () {},
+///     'Now I Know': () {},
 ///   },
 /// );
 ///
 /// // Show [myAlert] to the user.
 /// myAlert.show(context);
 /// ```
-/// {@end-tool}
-///
-/// {@tool snippet}
 ///
 /// ### Confirmation Dialog Example
 ///
@@ -73,19 +66,18 @@ import 'package:flutter/material.dart';
 /// ```dart
 /// /// The alert dialog that will be shown to the user.
 /// MyAlert myAlert = MyAlert(
-///   title: "Are you sure?",
-///   content: "Are you sure you want to leave this page? Any unsaved data "
-///       "will be lost.",
+///   title: 'Are you sure?',
+///   content: 'Are you sure you want to leave this page? Any unsaved data '
+///       'will be lost.',
 ///   buttons: {
-///     "leave": () => leavePageAnyway(),
-///     "cancel": () => null,
+///     'leave': () => leavePageAnyway(),
+///     'cancel': () => null,
 ///   },
 /// );
 ///
 /// // Show [myAlert] to the user.
 /// myAlert.show(context);
 /// ```
-/// {@end-tool}
 class MyAlert extends StatelessWidget {
   /// Creates a pop-up that covers a lot of the screen with an opaque message
   /// box and fills the rest of the screen with a translucent overlay to disable
@@ -99,15 +91,14 @@ class MyAlert extends StatelessWidget {
   /// **Note:** Any `content` that is not a widget will be displayed as a string
   /// within a [Text] widget.
   MyAlert({
-    Key? key,
+    super.key,
     this.title,
     dynamic content,
     this.buttons,
     this.barrierDismissible = true,
-  })  : body = (content is Widget)
+  }) : body = (content is Widget)
             ? content
-            : (content == null ? null : Text(content.toString())),
-        super(key: key);
+            : (content == null ? null : Text(content.toString()));
 
   /// The title at the top of the alert dialog box.
   final String? title;
