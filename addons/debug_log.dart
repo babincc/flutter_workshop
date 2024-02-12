@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 3.1.0
+// @version 3.1.1
 // https://github.com/babincc/flutter_workshop/blob/master/addons/debug_log.dart
 
 // ignore_for_file: avoid_print
@@ -20,8 +20,8 @@ class DebugLog {
   /// in production.
   ///
   /// ```dart
-  /// DebugLog.out("Howdy"); // Howdy
-  /// DebugLog.out("Howdy", logType: LogType.error); // Howdy (in red)
+  /// DebugLog.out('Howdy'); // "Howdy"
+  /// DebugLog.out('Howdy', logType: LogType.error); // "Howdy" (in red)
   /// ```
   ///
   /// In the above examples, if the app is live, nothing happens. The example
@@ -30,7 +30,7 @@ class DebugLog {
   /// ```dart
   /// // If live, this will send "Howdy" to Crashlytics.
   /// // If testing, this will print "Howdy" to the console.
-  /// DebugLog.out("Howdy", sendToCrashlytics: true);
+  /// DebugLog.out('Howdy', sendToCrashlytics: true);
   /// ```
   static void out(
     Object? message, {
@@ -39,27 +39,27 @@ class DebugLog {
   }) {
     String messageString;
     if (message == null) {
-      messageString = "null";
+      messageString = 'null';
     } else if (message is String) {
       messageString = message;
     } else {
       messageString = message.toString();
     }
 
-    final List<String> messageList = messageString.split("\n");
+    final List<String> messageList = messageString.split('\n');
 
     final Trace trace = Trace.current();
 
     final Frame? frame = trace.frames.firstWhereOrNull(
-        (frame) => !frame.uri.toString().contains("debug_log.dart"));
+        (frame) => !frame.uri.toString().contains('debug_log.dart'));
 
     String callPath;
 
     if (frame == null) {
-      callPath = "unknown_calling_class: ";
+      callPath = 'unknown_calling_class: ';
     } else {
-      callPath =
-          "${frame.uri} ${frame.line ?? "??"}:${frame.column ?? "??"}\t${frame.member ?? "unknown_calling_method"}";
+      callPath = '${frame.uri} ${frame.line ?? '??'}:${frame.column ?? '??'}\t'
+          '${frame.member ?? 'unknown_calling_method'}';
     }
 
     if (!MyApp.isLive || !kReleaseMode) {
@@ -70,6 +70,7 @@ class DebugLog {
         print(callPath);
       }
 
+      // Apply color to the message based on the log type, and print it.
       switch (logType) {
         case LogType.warning:
           _showWarning(callPath);
@@ -102,7 +103,7 @@ class DebugLog {
 
     if (sendToCrashlytics) {
       // Send the message to Crashlytics.
-      _sendToCrashlytics("$callPath: $messageString");
+      _sendToCrashlytics('$callPath: $messageString');
     }
   }
 
@@ -114,7 +115,7 @@ class DebugLog {
       return;
     }
 
-    print("\x1B[33m$message\x1B[0m");
+    print('\x1B[33m$message\x1B[0m');
   }
 
   /// Prints a message to the console in red text.
@@ -125,7 +126,7 @@ class DebugLog {
       return;
     }
 
-    print("\x1B[31m$message\x1B[0m");
+    print('\x1B[31m$message\x1B[0m');
   }
 
   /// Prints a message to the console in green text.
@@ -136,7 +137,7 @@ class DebugLog {
       return;
     }
 
-    print("\x1B[32m$message\x1B[0m");
+    print('\x1B[32m$message\x1B[0m');
   }
 
   /// Prints a message to the console in blue text.
@@ -147,7 +148,7 @@ class DebugLog {
       return;
     }
 
-    print("\x1B[34m$message\x1B[0m");
+    print('\x1B[34m$message\x1B[0m');
   }
 
   /// Sends a `message` to Crashlytics.
@@ -156,14 +157,14 @@ class DebugLog {
     final FirebaseCrashlytics crashlytics = FirebaseCrashlytics.instance;
 
     /// Get the stack trace of the call to this debugger.
-    List<String> stackTraceList = StackTrace.current.toString().split("\n");
+    List<String> stackTraceList = StackTrace.current.toString().split('\n');
 
     // Remove the first two lines of the stack trace, which are the call to
     // this debugger.
     stackTraceList = stackTraceList.getRange(2, stackTraceList.length).toList();
 
     /// The stack trace as a string.
-    final String stackTraceString = stackTraceList.join("\n");
+    final String stackTraceString = stackTraceList.join('\n');
 
     /// The stack trace as a StackTrace object.
     final StackTrace stackTrace = StackTrace.fromString(stackTraceString);
