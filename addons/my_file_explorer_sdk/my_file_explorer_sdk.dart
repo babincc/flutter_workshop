@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 1.0.2
+// @version 1.0.3
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_file_explorer_sdk.dart
 
 // ignore_for_file: always_use_package_imports
@@ -41,7 +41,7 @@ class MyFileExplorerSDK {
     if (File(filePath).existsSync()) {
       return File(filePath);
     } else {
-      throw const FileSystemException("File does not exist!");
+      throw const FileSystemException('File does not exist!');
     }
   }
 
@@ -60,23 +60,23 @@ class MyFileExplorerSDK {
   /// Throws [FormatException] if `fileName` does not end with a file extension.
   ///
   /// ```dart
-  /// fileExt("my_image.jpg") == ".jpg"
-  /// fileExt("/path/to/my_image.png") == ".png"
-  /// fileExt("my_doc.info.pdf") == ".pdf"
-  /// fileExt("my_undefined") => throws FormatException
-  /// fileExt("my_unfinished.") => throws FormatException
+  /// fileExt('my_image.jpg') == ".jpg"
+  /// fileExt('/path/to/my_image.png') == ".png"
+  /// fileExt('my_doc.info.pdf') == ".pdf"
+  /// fileExt('my_undefined') => throws FormatException
+  /// fileExt('my_unfinished.') => throws FormatException
   /// ```
   static String parseFileExt(String fileName) {
     try {
-      String fileExt = fileName.substring(fileName.lastIndexOf("."));
+      String fileExt = fileName.substring(fileName.lastIndexOf('.'));
 
       if (_isValidFileExt(fileExt)) {
         return fileExt;
       } else {
-        throw FormatException("$fileExt is not a valid file extension.");
+        throw FormatException('$fileExt is not a valid file extension.');
       }
     } on RangeError {
-      throw const FormatException("File names must contain a \".\" character.");
+      throw const FormatException('File names must contain a "." character.');
     }
   }
 
@@ -97,14 +97,14 @@ class MyFileExplorerSDK {
   /// of this method is to make sure it is formatted in the proper way.
   ///
   /// ```dart
-  /// _isValidFileExt(".png") == true
-  /// _isValidFileExt(".jpg") == true
-  /// _isValidFileExt(".jpEgg") == true
-  /// _isValidFileExt(".c") == true
-  /// _isValidFileExt("gif") == false
-  /// _isValidFileExt(".") == false
-  /// _isValidFileExt(".jpeg.jpg") == false
-  /// _isValidFileExt("") == false
+  /// _isValidFileExt('.png') == true
+  /// _isValidFileExt('.jpg') == true
+  /// _isValidFileExt('.jpEgg') == true
+  /// _isValidFileExt('.c') == true
+  /// _isValidFileExt('gif') == false
+  /// _isValidFileExt('.') == false
+  /// _isValidFileExt('.jpeg.jpg') == false
+  /// _isValidFileExt('') == false
   /// ```
   static bool _isValidFileExt(String fileExt) {
     // Check for empty string.
@@ -113,17 +113,17 @@ class MyFileExplorerSDK {
     }
 
     // Make sure it has a dot.
-    if (!fileExt.contains(".")) {
+    if (!fileExt.contains('.')) {
       return false;
     }
 
     // Check for more than one dot.
-    if (fileExt.indexOf(".") != fileExt.lastIndexOf(".")) {
+    if (fileExt.indexOf('.') != fileExt.lastIndexOf('.')) {
       return false;
     }
 
     // Make sure the dot is the first character.
-    if (fileExt.indexOf(".") != 0) {
+    if (fileExt.indexOf('.') != 0) {
       return false;
     }
 
@@ -134,7 +134,7 @@ class MyFileExplorerSDK {
 
     // Check to make sure there are just letters or numbers in the file
     // extension.
-    if (!RegExp(r"^\.([a-z]|[A-Z]|[0-9])+$").hasMatch(fileExt)) {
+    if (!RegExp(r'^\.([a-z]|[A-Z]|[0-9])+$').hasMatch(fileExt)) {
       return false;
     }
 
@@ -144,11 +144,11 @@ class MyFileExplorerSDK {
   /// Whether the giving `fileName` is valid.
   ///
   /// ```dart
-  /// isValidFileName("my_image.jpg") == true
-  /// isValidFileName("info.pdf") == true
-  /// isValidFileName("my_file") == false
-  /// isValidFileName("/path/to/my_image.jpg") == false
-  /// isValidFileName(".jpg") == false
+  /// isValidFileName('my_image.jpg') == true
+  /// isValidFileName('info.pdf') == true
+  /// isValidFileName('my_file') == false
+  /// isValidFileName('/path/to/my_image.jpg') == false
+  /// isValidFileName('.jpg') == false
   /// ```
   static bool isValidFileName(String fileName) {
     // Check for empty string.
@@ -182,7 +182,7 @@ class MyFileExplorerSDK {
   /// ```dart
   /// createPath(
   ///   localDir: LocalDir.tempDir,
-  ///   subPath: "/images",
+  ///   subPath: '/images',
   /// ) == "/path/to/tmp/images"
   /// ```
   ///
@@ -190,25 +190,25 @@ class MyFileExplorerSDK {
   /// some invalid paths:
   ///
   /// ```dart
-  /// subPath: "@image" => throws FormatException
-  /// subPath: "../image" => throws FormatException
-  /// subPath: "~" => throws FormatException
-  /// subPath: "" => throws FormatException
+  /// subPath: '@image' => throws FormatException
+  /// subPath: '../image' => throws FormatException
+  /// subPath: '~' => throws FormatException
+  /// subPath: '' => throws FormatException
   /// ```
   static Future<String> createPath({
     required LocalDir localDir,
     required String subPath,
   }) async {
     final String localDirPath =
-        "${await fetchPath(localDir)}${Platform.pathSeparator}";
+        '${await fetchPath(localDir)}${Platform.pathSeparator}';
     final String subPathSterile = sterilizePath(subPath);
 
     // Check for valid sub-path.
     if (subPathSterile.isEmpty) {
-      throw FormatException("$subPath is not a valid sub-path!");
+      throw FormatException('$subPath is not a valid sub-path!');
     }
 
-    return "$localDirPath$subPathSterile";
+    return '$localDirPath$subPathSterile';
   }
 
   /// Allows for the easy creation of a path string containing a file at the
@@ -217,8 +217,8 @@ class MyFileExplorerSDK {
   /// ```dart
   /// createPathToFile(
   ///   localDir: LocalDir.tempDir,
-  ///   subPath: "/images",
-  ///   fileName: "smile.jpg"
+  ///   subPath: '/images',
+  ///   fileName: 'smile.jpg'
   /// ) == "/path/to/tmp/images/smile.jpg"
   /// ```
   ///
@@ -241,10 +241,10 @@ class MyFileExplorerSDK {
 
     // Check for valid file name.
     if (!isValidFileName(fileName)) {
-      throw FormatException("$fileName is not a valid file name!");
+      throw FormatException('$fileName is not a valid file name!');
     }
 
-    return "$path${Platform.pathSeparator}$fileNameSterile";
+    return '$path${Platform.pathSeparator}$fileNameSterile';
   }
 
   /// Returns a new file path by combining the given `filePath` and
@@ -253,16 +253,27 @@ class MyFileExplorerSDK {
   /// Throws [FormatException] if `filePath` is not formatted correctly.
   ///
   /// ```dart
-  /// getNewNameWithPath("/path/to/file/img_2.jpg", "my_image.jpg") == "/path/to/file/my_image.jpg"
-  /// getNewNameWithPath("/path/to/file/", "info.txt") == "/path/to/file/info.txt"
-  /// getNewNameWithPath("my_file.pdf", "my_doc.pdf") => throws FormatException
+  /// getNewNameWithPath(
+  ///   '/path/to/file/img_2.jpg',
+  ///   'my_image.jpg',
+  /// ) == "/path/to/file/my_image.jpg"
+  ///
+  /// getNewNameWithPath(
+  ///   '/path/to/file/',
+  ///   'info.txt',
+  /// ) == "/path/to/file/info.txt"
+  ///
+  /// getNewNameWithPath(
+  ///   'my_file.pdf',
+  ///   'my_doc.pdf',
+  /// ) => throws FormatException
   /// ```
   static String getNewNameWithPath(String filePath, String newFileName) {
     try {
-      return "${filePath.substring(0, filePath.lastIndexOf(Platform.pathSeparator) + 1)}"
-          "$newFileName";
+      return '${filePath.substring(0, filePath.lastIndexOf(Platform.pathSeparator) + 1)}'
+          '$newFileName';
     } catch (e) {
-      throw FormatException("$filePath is not a valid file path.");
+      throw FormatException('$filePath is not a valid file path.');
     }
   }
 
@@ -279,9 +290,9 @@ class MyFileExplorerSDK {
   /// This method gets the file name from a path.
   ///
   /// ```dart
-  /// getFileName("/path/to/file/my_file.jpg") == "my_file.jpg"
-  /// getFileName("/path/to/file/my_file") == null
-  /// getFileName("/path/to/file/.jpg") == null
+  /// getFileName('/path/to/file/my_file.jpg') == "my_file.jpg"
+  /// getFileName('/path/to/file/my_file') == null
+  /// getFileName('/path/to/file/.jpg') == null
   /// ```
   ///
   /// Returns `null` if `filePath` is not formatted in a valid way.
@@ -306,9 +317,9 @@ class MyFileExplorerSDK {
   /// This method gets the file base name from a path.
   ///
   /// ```dart
-  /// getBaseName("/path/to/file/my_file.jpg") == "my_file"
-  /// getBaseName("/path/to/file/my_file") == null
-  /// getBaseName("/path/to/file/.jpg") == null
+  /// getBaseName('/path/to/file/my_file.jpg') == "my_file"
+  /// getBaseName('/path/to/file/my_file') == null
+  /// getBaseName('/path/to/file/.jpg') == null
   /// ```
   ///
   /// Returns `null` if `filePath` is not formatted in a valid way.
@@ -339,9 +350,9 @@ class MyFileExplorerSDK {
     if (filePath.contains(Platform.pathSeparator)) {
       fileName = filePath.substring(
           filePath.lastIndexOf(Platform.pathSeparator) + 1,
-          filePath.lastIndexOf("."));
+          filePath.lastIndexOf('.'));
     } else {
-      fileName = filePath.substring(0, filePath.lastIndexOf("."));
+      fileName = filePath.substring(0, filePath.lastIndexOf('.'));
     }
 
     if (fileName.isEmpty || fileName == Platform.pathSeparator) {
@@ -371,36 +382,36 @@ class MyFileExplorerSDK {
   }
 
   static const List<String> _illegalChars = [
-    "#",
-    "%",
-    "&",
-    "{",
-    "}",
-    "<",
-    ">",
-    "*",
-    "?",
-    " ",
-    "\$",
-    "!",
-    "'",
-    "\"",
-    ":",
-    "@",
-    "+",
-    "`",
-    "|",
-    "=",
+    '#',
+    '%',
+    '&',
+    '{',
+    '}',
+    '<',
+    '>',
+    '*',
+    '?',
+    ' ',
+    '\$',
+    '!',
+    '\'',
+    '"',
+    ':',
+    '@',
+    '+',
+    '`',
+    '|',
+    '=',
   ];
 
   static final List<String> _illegalFileNameChars = [
-    "\\",
-    "/",
+    '\\',
+    '/',
     Platform.pathSeparator,
   ];
 
   static const List<String> _illegalPathChars = [
-    "..",
+    '..',
   ];
 
   /// Removes illegal characters from the givin `fileName`.
@@ -409,15 +420,15 @@ class MyFileExplorerSDK {
     String fileNameSterile = fileName;
 
     for (String char in illegalChars) {
-      fileNameSterile = fileNameSterile.replaceAll(char, "");
+      fileNameSterile = fileNameSterile.replaceAll(char, '');
     }
 
     // Remove improper leading chars.
-    while (fileNameSterile.startsWith("_") || fileNameSterile.startsWith("-")) {
+    while (fileNameSterile.startsWith('_') || fileNameSterile.startsWith('-')) {
       if (fileNameSterile.length > 1) {
         fileNameSterile = fileNameSterile.substring(1);
       } else {
-        fileNameSterile = "";
+        fileNameSterile = '';
         break;
       }
     }
@@ -446,23 +457,23 @@ class MyFileExplorerSDK {
     String filePathSterile = filePath;
 
     for (String char in illegalChars) {
-      filePathSterile = filePathSterile.replaceAll(char, "");
+      filePathSterile = filePathSterile.replaceAll(char, '');
     }
 
     // Remove double path separators.
     while (filePathSterile
-        .contains("${Platform.pathSeparator}${Platform.pathSeparator}")) {
+        .contains('${Platform.pathSeparator}${Platform.pathSeparator}')) {
       filePathSterile.replaceAll(
-          "${Platform.pathSeparator}${Platform.pathSeparator}",
+          '${Platform.pathSeparator}${Platform.pathSeparator}',
           Platform.pathSeparator);
     }
 
     // Remove improper leading chars.
-    while (filePathSterile.startsWith("~") || filePathSterile.startsWith("-")) {
+    while (filePathSterile.startsWith('~') || filePathSterile.startsWith('-')) {
       if (filePathSterile.length > 1) {
         filePathSterile = filePathSterile.substring(1);
       } else {
-        filePathSterile = "";
+        filePathSterile = '';
         break;
       }
     }
@@ -482,7 +493,7 @@ class MyFileExplorerSDK {
 
     // Check for double path separators.
     if (filePath
-        .contains("${Platform.pathSeparator}${Platform.pathSeparator}")) {
+        .contains('${Platform.pathSeparator}${Platform.pathSeparator}')) {
       return false;
     }
 
