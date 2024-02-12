@@ -25,22 +25,22 @@ class MyModalBottomSheetScaffold extends StatelessWidget {
     this.onLeftActionBtn,
     this.leftActionBtn,
   })  : assert(heightFactor >= 0.0 && heightFactor <= 1.0,
-            "ERROR: `heightFactor` must be between 0.0 - 1.0 (inclusive)."),
+            'ERROR: `heightFactor` must be between 0.0 - 1.0 (inclusive).'),
         assert(
             isDragToDismiss
                 ? onRightActionBtn == null
                 : onRightActionBtn != null,
-            "ERROR: If `isDragToDismiss` is `true`, `onRightActionBtn` must be "
-            "`null`! If `isDragToDismiss` is `false`, `onRightActionBtn` must "
-            "not be `null`!"),
+            'ERROR: If `isDragToDismiss` is `true`, `onRightActionBtn` must be '
+            '`null`! If `isDragToDismiss` is `false`, `onRightActionBtn` must '
+            'not be `null`!'),
         assert(
             isDragToDismiss ? onLeftActionBtn == null : true,
-            "ERROR: If `isDragToDismiss` is `true`, `onLeftActionBtn` must be "
-            "`null`!"),
+            'ERROR: If `isDragToDismiss` is `true`, `onLeftActionBtn` must be '
+            '`null`!'),
         assert(rightActionBtn != null ? onRightActionBtn != null : true,
-            "ERROR: `onRightActionBtn` must not be `null`!"),
+            'ERROR: `onRightActionBtn` must not be `null`!'),
         assert(leftActionBtn != null ? onLeftActionBtn != null : true,
-            "ERROR: `onLeftActionBtn` must not be `null`!");
+            'ERROR: `onLeftActionBtn` must not be `null`!');
 
   /// How much of the screen the modal bottom sheet covers.
   ///

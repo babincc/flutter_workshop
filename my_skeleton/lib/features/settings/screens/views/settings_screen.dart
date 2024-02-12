@@ -17,12 +17,12 @@ class SettingsScreen extends StatelessWidget {
       value: viewModel,
       builder: (context, _) => MyScaffold(
         appBar: AppBar(
-          title: const Text("Settings"),
+          title: const Text('Settings'),
         ),
         builder: (context) => TextButton(
           onPressed: () => viewModel.toggleTheme(MyThemeProvider.of(context)),
           child: const Text(
-            "Toggle Theme",
+            'Toggle Theme',
           ),
         ),
       ),

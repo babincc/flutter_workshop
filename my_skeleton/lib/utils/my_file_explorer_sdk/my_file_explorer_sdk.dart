@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 1.0.1
+// @version 1.0.3
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_file_explorer_sdk.dart
 
 // ignore_for_file: always_use_package_imports
@@ -183,7 +183,7 @@ class MyFileExplorerSDK {
   /// createPath(
   ///   localDir: LocalDir.tempDir,
   ///   subPath: '/images',
-  /// ) == '/path/to/tmp/images'
+  /// ) == "/path/to/tmp/images"
   /// ```
   ///
   /// Throws a [FormatException] if `subPath` is not a valid path. Below are
@@ -219,7 +219,7 @@ class MyFileExplorerSDK {
   ///   localDir: LocalDir.tempDir,
   ///   subPath: '/images',
   ///   fileName: 'smile.jpg'
-  /// ) == '/path/to/tmp/images/smile.jpg'
+  /// ) == "/path/to/tmp/images/smile.jpg"
   /// ```
   ///
   /// Throws a [FormatException] if `subPath` is not a valid path or if
@@ -253,9 +253,20 @@ class MyFileExplorerSDK {
   /// Throws [FormatException] if `filePath` is not formatted correctly.
   ///
   /// ```dart
-  /// getNewNameWithPath('/path/to/file/img_2.jpg', 'my_image.jpg') == "/path/to/file/my_image.jpg"
-  /// getNewNameWithPath('/path/to/file/', 'info.txt') == "/path/to/file/info.txt"
-  /// getNewNameWithPath('my_file.pdf', 'my_doc.pdf') => throws FormatException
+  /// getNewNameWithPath(
+  ///   '/path/to/file/img_2.jpg',
+  ///   'my_image.jpg',
+  /// ) == "/path/to/file/my_image.jpg"
+  ///
+  /// getNewNameWithPath(
+  ///   '/path/to/file/',
+  ///   'info.txt',
+  /// ) == "/path/to/file/info.txt"
+  ///
+  /// getNewNameWithPath(
+  ///   'my_file.pdf',
+  ///   'my_doc.pdf',
+  /// ) => throws FormatException
   /// ```
   static String getNewNameWithPath(String filePath, String newFileName) {
     try {
@@ -339,7 +350,7 @@ class MyFileExplorerSDK {
     if (filePath.contains(Platform.pathSeparator)) {
       fileName = filePath.substring(
           filePath.lastIndexOf(Platform.pathSeparator) + 1,
-          filePath.lastIndexOf("."));
+          filePath.lastIndexOf('.'));
     } else {
       fileName = filePath.substring(0, filePath.lastIndexOf('.'));
     }

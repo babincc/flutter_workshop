@@ -23,9 +23,9 @@ class MyUser {
   /// This is used as a placeholder to prevent `null` errors.
   factory MyUser.empty() {
     return MyUser(
-      id: "",
-      firstName: "",
-      lastName: "",
+      id: '',
+      firstName: '',
+      lastName: '',
     );
   }
 

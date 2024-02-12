@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 1.0.0
+// @version 1.1.0
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_text_field.dart
 
 import 'dart:async';
@@ -31,9 +31,10 @@ class MyTextField extends StatefulWidget {
     this.onTap,
     this.onChanged,
     this.onEditingComplete,
-    required this.isLastField,
+    this.isLastField = false,
   });
 
+  /// Controller for the text field.
   final TextEditingController? controller;
 
   /// Whether of not this is the last text field in a group of text fields.
@@ -131,25 +132,26 @@ class MyTextFieldState extends State<MyTextField> {
         keyboardType ??= TextInputType.phone;
         inputFormatters ??= [
           FilteringTextInputFormatter.allow(
-              RegExp(r"^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$")),
+            RegExp(r'^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$'),
+          ),
         ];
         break;
       case InputType.integer:
         keyboardType ??= TextInputType.number;
         inputFormatters ??= [
-          FilteringTextInputFormatter.allow(RegExp(r"^[0-9]*$")),
+          FilteringTextInputFormatter.allow(RegExp(r'^[0-9]*$')),
         ];
         break;
       case InputType.signedInteger:
         keyboardType ??= const TextInputType.numberWithOptions(signed: true);
         inputFormatters ??= [
-          FilteringTextInputFormatter.allow(RegExp(r"^-?[0-9]*$")),
+          FilteringTextInputFormatter.allow(RegExp(r'^-?[0-9]*$')),
         ];
         break;
       case InputType.decimal:
         keyboardType ??= const TextInputType.numberWithOptions(decimal: true);
         inputFormatters ??= [
-          FilteringTextInputFormatter.allow(RegExp(r"^[0-9]*(\.[0-9]*)?$")),
+          FilteringTextInputFormatter.allow(RegExp(r'^[0-9]*(\.[0-9]*)?$')),
         ];
         break;
       case InputType.signedDecimal:
@@ -158,7 +160,7 @@ class MyTextFieldState extends State<MyTextField> {
           decimal: true,
         );
         inputFormatters ??= [
-          FilteringTextInputFormatter.allow(RegExp(r"^-?[0-9]*(\.[0-9]*)?$")),
+          FilteringTextInputFormatter.allow(RegExp(r'^-?[0-9]*(\.[0-9]*)?$')),
         ];
         break;
       case InputType.any:
@@ -305,7 +307,7 @@ class MyTextFieldValidator {
   /// Pre-built validator to test if the text field input is empty.
   const MyTextFieldValidator.testEmpty({
     this.key,
-    this.errorText = "Required",
+    this.errorText = 'Required',
     this.testTrigger = TestTrigger.onComplete,
   })  : _test = _isEmpty,
         expected = false;

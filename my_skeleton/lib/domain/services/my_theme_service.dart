@@ -14,10 +14,10 @@ class MyThemeService {
   static final String dirName = Config.dir.preferences;
 
   /// The code that is written in the local files that means [ThemeType.dark].
-  static const String dark = "dark";
+  static const String dark = 'dark';
 
   /// The code that is written in the local files that means [ThemeType.light].
-  static const String light = "light";
+  static const String light = 'light';
 
   /// The file that stores the user's theme preference.
   static Future<File> get themePref async => File(

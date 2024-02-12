@@ -15,7 +15,7 @@ class MyRouter {
   /// This returns the customized router with all of its credentials.
   static GoRouter getRoutes(MyAuthProvider myAuthProvider) {
     return GoRouter(
-      restorationScopeId: "router",
+      restorationScopeId: 'router',
       refreshListenable: myAuthProvider,
       initialLocation: MyRoutes.loginScreen,
       redirect: (context, state) async {
@@ -62,8 +62,8 @@ class MyRouter {
       },
       routes: [
         GoRoute(
-          name: "/",
-          path: "/",
+          name: '/',
+          path: '/',
           pageBuilder: (context, state) => MaterialPage<void>(
             key: state.pageKey,
             child: const LoginScreen(),

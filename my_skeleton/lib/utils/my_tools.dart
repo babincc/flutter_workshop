@@ -1,11 +1,11 @@
 // @author Christian Babin
-// @version 1.4.0
+// @version 1.5.0
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_tools.dart
 
-import 'dart:collection';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:my_skeleton/utils/debug_log.dart';
 
@@ -88,7 +88,7 @@ class MyTools {
     // If `roundTo` is greater than 18, this method will break. Let the
     // developer know this, and set it to 18.
     try {
-      assert(min <= max);
+      assert(roundTo == null || roundTo <= 18);
     } on AssertionError catch (_) {
       DebugLog.out(
         'WARNING: `roundTo` must be less than or equal to 18! It has been '
@@ -258,8 +258,8 @@ class MyTools {
   /// Capitalizes the first letter of the given `text`.
   ///
   /// ```dart
-  /// capitalizeFirstLetter("howdy") == "Howdy"
-  /// capitalizeFirstLetter("hello world") == "Hello world"
+  /// capitalizeFirstLetter('howdy') == "Howdy"
+  /// capitalizeFirstLetter('hello world') == "Hello world"
   /// ```
   static String capitalizeFirstLetter(String text) {
     if (text.length > 1) {
@@ -276,7 +276,7 @@ class MyTools {
   /// capitalizeEachWord('hello world') == "Hello World"
   /// ```
   static String capitalizeEachWord(String text) {
-    final words = text.split(" ");
+    final words = text.split(' ');
 
     for (int i = 0; i < words.length; i++) {
       words[i] = capitalizeFirstLetter(words[i]);
@@ -286,27 +286,12 @@ class MyTools {
   }
 
   /// Returns `true` if the given lists contain all the same values.
-  static bool listsMatch(List list1, List list2) {
-    final set1 = SplayTreeSet.from(list1);
-    final set2 = SplayTreeSet.from(list2);
-
-    return set1.intersection(set2).length == set1.length;
-  }
+  static bool listsMatch(List list1, List list2) =>
+      const DeepCollectionEquality.unordered().equals(list1, list2);
 
   /// Returns `true` if the given lists contain all the same keys and values.
-  static bool mapsMatch(Map map1, Map map2) {
-    if (map1.length != map2.length) {
-      return false;
-    }
-
-    for (var key in map1.keys) {
-      if (!map2.containsKey(key) || map2[key] != map1[key]) {
-        return false;
-      }
-    }
-
-    return true;
-  }
+  static bool mapsMatch(Map map1, Map map2) =>
+      const DeepCollectionEquality.unordered().equals(map1, map2);
 
   /// This method puts a zero width space in between every character in the
   /// given `text`.

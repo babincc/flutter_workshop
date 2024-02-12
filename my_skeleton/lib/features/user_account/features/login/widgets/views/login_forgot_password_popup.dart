@@ -59,7 +59,7 @@ class _LoginForgotPasswordPopupState extends State<LoginForgotPasswordPopup> {
             bottom: MyMeasurements.elementSpread,
           ),
           child: Text(
-            "${MyTools.capitalizeFirstLetter(viewModel.strings.resetPasswordInstructions)}.",
+            '${MyTools.capitalizeFirstLetter(viewModel.strings.resetPasswordInstructions)}.',
           ),
         ),
 
@@ -93,8 +93,8 @@ class _LoginForgotPasswordPopupState extends State<LoginForgotPasswordPopup> {
                 MyAlert(
                   title: MyTools.capitalizeFirstLetter(viewModel.strings.error),
                   content:
-                      "${MyTools.capitalizeFirstLetter(viewModel.strings.failedPasswordReset)}! "
-                      "${MyTools.capitalizeFirstLetter(viewModel.strings.tryAgainLater)}.",
+                      '${MyTools.capitalizeFirstLetter(viewModel.strings.failedPasswordReset)}! '
+                      '${MyTools.capitalizeFirstLetter(viewModel.strings.tryAgainLater)}.',
                   buttons: {viewModel.strings.ok: () {}},
                 ).show(context);
               }
@@ -129,7 +129,7 @@ class _LoginForgotPasswordPopupState extends State<LoginForgotPasswordPopup> {
               bottom: MyMeasurements.elementSpread,
             ),
             child: Text(
-              "${MyTools.capitalizeFirstLetter(viewModel.strings.passwordResetLinkSent)}!",
+              '${MyTools.capitalizeFirstLetter(viewModel.strings.passwordResetLinkSent)}!',
               style: TextStyle(color: Theme.of(context).colorScheme.primary),
               textAlign: TextAlign.center,
             ),

@@ -8,16 +8,16 @@
 class DBFields {
   // ------------------------------ COLLECTION 1 -------------------------------
   /// "hello"
-  static const String placeholder_1 = "hello";
+  static const String placeholder_1 = 'hello';
 
   // ------------------------------ COLLECTION 2 -------------------------------
   /// "howdy"
-  static const String placeholder_2 = "howdy";
+  static const String placeholder_2 = 'howdy';
 
   /// "hi"
-  static const String placeholder_3 = "hi";
+  static const String placeholder_3 = 'hi';
 
   // ------------------------------ COLLECTION 3 -------------------------------
   /// "hey"
-  static const String placeholder_4 = "hey";
+  static const String placeholder_4 = 'hey';
 }

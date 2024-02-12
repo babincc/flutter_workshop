@@ -52,8 +52,8 @@ class MyAuthProvider extends ChangeNotifier {
 
           MyUser myUser = MyUser(
             id: value.user!.uid,
-            firstName: "",
-            lastName: "",
+            firstName: '',
+            lastName: '',
           );
 
           await MyUserRepo.createUserDoc(myUser);

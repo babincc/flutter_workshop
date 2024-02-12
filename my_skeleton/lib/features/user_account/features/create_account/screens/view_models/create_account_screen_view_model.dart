@@ -113,8 +113,8 @@ class CreateAccountScreenViewModel extends ChangeNotifier {
       toReturn = MyAlert(
         title: MyTools.capitalizeFirstLetter(strings.error),
         content:
-            "${MyTools.capitalizeFirstLetter(strings.failedAccountCreation)}! "
-            "${MyTools.capitalizeFirstLetter(strings.tryAgainLater)}.",
+            '${MyTools.capitalizeFirstLetter(strings.failedAccountCreation)}! '
+            '${MyTools.capitalizeFirstLetter(strings.tryAgainLater)}.',
         buttons: {strings.ok: () {}},
       );
     });

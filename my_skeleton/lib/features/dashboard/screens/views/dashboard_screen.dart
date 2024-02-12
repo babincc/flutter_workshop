@@ -12,7 +12,7 @@ class DashboardScreen extends StatelessWidget {
       drawer: const MyDrawerMenu(),
       builder: (context) => const Column(
         children: [
-          Text("Howdy"),
+          Text('Howdy'),
         ],
       ),
     );

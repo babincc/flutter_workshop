@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 3.1.0
+// @version 3.1.1
 // https://github.com/babincc/flutter_workshop/blob/master/addons/debug_log.dart
 
 // ignore_for_file: avoid_print
@@ -20,8 +20,8 @@ class DebugLog {
   /// in production.
   ///
   /// ```dart
-  /// DebugLog.out('Howdy'); // Howdy
-  /// DebugLog.out('Howdy', logType: LogType.error); // Howdy (in red)
+  /// DebugLog.out('Howdy'); // "Howdy"
+  /// DebugLog.out('Howdy', logType: LogType.error); // "Howdy" (in red)
   /// ```
   ///
   /// In the above examples, if the app is live, nothing happens. The example
@@ -58,8 +58,8 @@ class DebugLog {
     if (frame == null) {
       callPath = 'unknown_calling_class: ';
     } else {
-      callPath =
-          '${frame.uri} ${frame.line ?? '??'}:${frame.column ?? '??'}\t${frame.member ?? 'unknown_calling_method'}';
+      callPath = '${frame.uri} ${frame.line ?? '??'}:${frame.column ?? '??'}\t'
+          '${frame.member ?? 'unknown_calling_method'}';
     }
 
     if (!MyApp.isLive || !kReleaseMode) {
@@ -70,6 +70,7 @@ class DebugLog {
         print(callPath);
       }
 
+      // Apply color to the message based on the log type, and print it.
       switch (logType) {
         case LogType.warning:
           _showWarning(callPath);

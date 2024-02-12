@@ -1,3 +1,8 @@
+// @author Christian Babin
+// @version 0.1.0
+// https://github.com/babincc/flutter_workshop/blob/master/addons/my_validator.dart
+library;
+
 /// Contains methods that check different inputs to see if they are valid.
 class MyValidator {
   /// This method checks to see if a given string is a valid email address.
@@ -9,9 +14,9 @@ class MyValidator {
 
     /// The regex pattern to compare the possible email to.
     const String pattern =
-        "^([-!#-'*+/-9=?A-Z^-~]+(\\.[-!#-'*+/-9=?A-Z^-~]+)*|\"([]!#-[^-~ \\t]|(\\\\[\\t -~]))+\")" // user name
-        "@[0-9A-Za-z]([0-9A-Za-z-]{0,61}[0-9A-Za-z])?" // @domain
-        "(\\.[0-9A-Za-z]([0-9A-Za-z-]{0,61}[0-9A-Za-z])?)+\$"; // .top-level-domain
+        '^([-!#-\'*+/-9=?A-Z^-~]+(\\.[-!#-\'*+/-9=?A-Z^-~]+)*|"([]!#-[^-~ \\t]|(\\\\[\\t -~]))+")' // user name
+        '@[0-9A-Za-z]([0-9A-Za-z-]{0,61}[0-9A-Za-z])?' // @domain
+        '(\\.[0-9A-Za-z]([0-9A-Za-z-]{0,61}[0-9A-Za-z])?)+\$'; // .top-level-domain
 
     /// The regex object that will be compared to the possible email.
     final RegExp regExp = RegExp(pattern);
@@ -58,10 +63,27 @@ class MyValidator {
     return securityFeatures >= 3;
   }
 
+  /// This method checks to see if a given string is a valid phone number.
+  ///
+  /// It will return `true` if the phone number provided is formatted correctly.
+  static bool isValidPhone(String? phone) {
+    // If there is no string, it is not a valid phone number.
+    if (phone == null || phone.isEmpty) return false;
+
+    /// The regex pattern to compare the possible phone number to.
+    const String pattern =
+        r'^(?:\+\d{1,3}|0\d{1,3}|00\d{1,2})?(?:\s?\(\d+\))?(?:[-\/\s.]|\d)+$';
+
+    /// The regex object that will be compared to the possible phone number.
+    final RegExp regExp = RegExp(pattern);
+
+    return regExp.hasMatch(phone);
+  }
+
   /// This method checks to see if a given string is a valid US zip code.
   ///
   /// It will return `true` if the zip code provided is formatted correctly.
-  static bool isValidZipcode(String? zip) {
+  static bool isValidZipCode(String? zip) {
     // If there is no string, it is not a valid zip code.
     if (zip == null || zip.isEmpty) return false;
 

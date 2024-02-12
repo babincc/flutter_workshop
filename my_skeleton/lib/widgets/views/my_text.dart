@@ -1,10 +1,13 @@
 // @author Christian Babin
-// @version 1.0.0
+// @version 1.0.1
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_text.dart
 
 import 'package:flutter/material.dart';
 
 class MyText extends StatelessWidget {
+  /// Creates a new [MyText] widget.
+  ///
+  /// Just like the [Text] widget, but with a few extra features.
   const MyText(
     this.data, {
     super.key,
@@ -23,8 +26,11 @@ class MyText extends StatelessWidget {
     this.textWidthBasis,
     this.textHeightBehavior,
     this.selectionColor,
-  }) : assert(myTextStyle == MyTextStyle.body || style == null,
-            "ERROR: Either `myTextStyle` needs to be [MyTextStyle.body] OR `style` needs to be `null`!");
+  }) : assert(
+          myTextStyle == MyTextStyle.body || style == null,
+          'ERROR: Either `myTextStyle` needs to be [MyTextStyle.body] OR '
+          '`style` needs to be `null`!',
+        );
 
   /// [Text.data]
   final String data;

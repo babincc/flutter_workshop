@@ -90,7 +90,7 @@ class LoginScreenViewModel {
   ///
   /// `error` is the error message that was sent by Firebase.
   MyAlert? handleLoginFail(String error) {
-    if (error == "user-not-found") {
+    if (error == 'user-not-found') {
       MyTextFieldState.setErrorText(
         key: emailFieldKey,
         errorText: strings.emailDoesNotExist,
@@ -98,7 +98,7 @@ class LoginScreenViewModel {
       MyTextFieldState.setErrorText(
         key: passwordFieldKey,
       );
-    } else if (error == "wrong-password") {
+    } else if (error == 'wrong-password') {
       MyTextFieldState.setErrorText(
         key: passwordFieldKey,
         errorText: strings.invalidPassword,
@@ -107,8 +107,8 @@ class LoginScreenViewModel {
       return MyAlert(
         title: MyTools.capitalizeFirstLetter(strings.error),
         content:
-            "${MyTools.capitalizeFirstLetter(strings.somethingWentWrong)}! "
-            "${MyTools.capitalizeFirstLetter(strings.tryAgainLater)}.",
+            '${MyTools.capitalizeFirstLetter(strings.somethingWentWrong)}! '
+            '${MyTools.capitalizeFirstLetter(strings.tryAgainLater)}.',
         buttons: {strings.ok: () {}},
       );
     }
