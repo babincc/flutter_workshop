@@ -1,12 +1,11 @@
 // @author Christian Babin
-// @version 1.0.0
+// @version 1.0.1
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_image_importer.dart
 
 import 'dart:io';
 
 import 'package:image_picker/image_picker.dart';
-
-import 'my_file_explorer_sdk/my_file_explorer_sdk.dart';
+import 'package:my_skeleton/utils/my_file_explorer_sdk/my_file_explorer_sdk.dart';
 
 /// Class is used to import images into this program.
 ///
@@ -16,7 +15,7 @@ class MyImageImporter {
   /// [MyImageImporter].
   ///
   /// Note: "fmii" stands for "from my image importer"
-  static const String filePrefix = "img_fmii_";
+  static const String filePrefix = 'img_fmii_';
 
   /// This method gets an image from the photo gallery and returns the file.
   ///
@@ -76,7 +75,7 @@ class MyImageImporter {
 
     /// The base name of the image file.
     final String fileBaseName =
-        fileName ?? "$filePrefix${DateTime.now().millisecondsSinceEpoch}";
+        fileName ?? '$filePrefix${DateTime.now().millisecondsSinceEpoch}';
 
     /// The path to the image file.
     final String imagePath = await MyFileExplorerSDK.createPathToFile(

@@ -12,6 +12,7 @@ Add-ons are basically plug-ins that aren't high enough quality to be on [pub.dev
 - [my_text](#my_text)
 - [my_text_field](#my_text_field)
 - [my_tools](#my_tools)
+- [my_validator](#my_validator)
 
 <!---     TEMPLATE
 ## class_name
@@ -392,10 +393,38 @@ This is an add-on because each individual method is too small to be a plug-in, a
 
 | Add-ons from this list | .yaml dependencies |
 | --- | --- |
-| - debug_log | *none* |
+| - debug_log | - collection |
 
 ### Usage
 
 *Examples can be found in the source code.*
+
+[back to top](#table-of-contents)
+
+## my_validator
+
+**[source code](my_validator.dart)**
+
+A collection of validators to check user input.
+
+These validators compare the inputs to specified regex patterns to see if they are valid.
+
+### Dependencies
+
+| Add-ons from this list | .yaml dependencies |
+| --- | --- |
+| *none* | *none* |
+
+### Usage
+
+This example shows how to use the email validator.
+
+```dart
+String goodEmail = test@email.com
+String badEmail = test@com
+
+MyValidator.isValidEmail(goodEmail); // true
+MyValidator.isValidEmail(badEmail); // false
+```
 
 [back to top](#table-of-contents)

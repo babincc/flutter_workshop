@@ -1,10 +1,13 @@
 // @author Christian Babin
-// @version 1.0.0
+// @version 1.0.1
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_text.dart
 
 import 'package:flutter/material.dart';
 
 class MyText extends StatelessWidget {
+  /// Creates a new [MyText] widget.
+  ///
+  /// Just like the [Text] widget, but with a few extra features.
   const MyText(
     this.data, {
     super.key,
@@ -17,14 +20,17 @@ class MyText extends StatelessWidget {
     this.locale,
     this.softWrap = true,
     this.overflow,
-    this.textScaleFactor,
+    this.textScaler,
     this.maxLines,
     this.semanticsLabel,
     this.textWidthBasis,
     this.textHeightBehavior,
     this.selectionColor,
-  }) : assert(myTextStyle == MyTextStyle.body || style == null,
-            "ERROR: Either `myTextStyle` needs to be [MyTextStyle.body] OR `style` needs to be `null`!");
+  }) : assert(
+          myTextStyle == MyTextStyle.body || style == null,
+          'ERROR: Either `myTextStyle` needs to be [MyTextStyle.body] OR '
+          '`style` needs to be `null`!',
+        );
 
   /// [Text.data]
   final String data;
@@ -56,8 +62,8 @@ class MyText extends StatelessWidget {
   /// [Text.overflow]
   final TextOverflow? overflow;
 
-  /// [Text.textScaleFactor]
-  final double? textScaleFactor;
+  /// [Text.textScaler]
+  final TextScaler? textScaler;
 
   /// [Text.maxLines]
   final int? maxLines;
@@ -85,7 +91,7 @@ class MyText extends StatelessWidget {
       locale: locale,
       softWrap: softWrap,
       overflow: overflow,
-      textScaleFactor: textScaleFactor,
+      textScaler: textScaler,
       maxLines: maxLines,
       semanticsLabel: semanticsLabel,
       textWidthBasis: textWidthBasis,

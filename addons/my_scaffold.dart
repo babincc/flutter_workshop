@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 1.0.0
+// @version 1.0.1
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_scaffold.dart
 
 import 'package:flutter/material.dart';
@@ -15,13 +15,13 @@ class MyScaffold extends StatelessWidget {
   ///
   /// [Scaffold] > [SafeArea] > [Padding]
   const MyScaffold({
-    Key? key,
+    super.key,
     required this.builder,
     this.appBar,
     this.drawer,
     this.isCentered = true,
     this.padEdges = true,
-  }) : super(key: key);
+  });
 
   /// The app bar of this scaffold.
   final PreferredSizeWidget? appBar;
@@ -36,7 +36,8 @@ class MyScaffold extends StatelessWidget {
   /// screen.
   final bool isCentered;
 
-  /// Whether or not the preset padding will be applied to the edges of the screen.
+  /// Whether or not the preset padding will be applied to the edges of the
+  /// screen.
   final bool padEdges;
 
   @override

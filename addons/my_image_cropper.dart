@@ -1,23 +1,20 @@
 // @author Christian Babin
-// @version 1.0.0
+// @version 1.0.1
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_image_cropper.dart
 
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
-
-import 'my_file_explorer_sdk/my_file_explorer_sdk.dart';
+import 'package:my_skeleton/utils/my_file_explorer_sdk/my_file_explorer_sdk.dart';
 
 /// Allows users to crop images.
 ///
-/// {@tool snippet}
 /// This example shows how to create an image cropper that only allows the user
 /// to create a square image.
 ///
 /// ```dart
 /// /// Original sized image.
-/// File myImage = File("/path/to/image.jpg");
+/// File myImage = File('/path/to/image.jpg');
 ///
 /// // Crop the image.
 /// File? croppedImage = MyImageCropper.crop(
@@ -38,13 +35,12 @@ import 'my_file_explorer_sdk/my_file_explorer_sdk.dart';
 ///   ],
 /// );
 /// ```
-/// {@end-tool}
 class MyImageCropper {
   /// For default file naming, this prefix is used to identify files created by
   /// [MyImageCropper].
   ///
   /// Note: "fmic" stands for "from my image cropper"
-  static const String filePrefix = "img_fmic_";
+  static const String filePrefix = 'img_fmic_';
 
   /// Opens an interface to crop the given `image`.
   ///
