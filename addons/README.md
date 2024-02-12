@@ -69,8 +69,8 @@ Rather than just being a random print statement, `DebugLog` makes a print statem
 ### Usage
 
 ```dart
-DebugLog.out("Howdy"); // Howdy
-DebugLog.out("Howdy", logType: LogType.error); // Howdy (in red)
+DebugLog.out('Howdy'); // Howdy
+DebugLog.out('Howdy', logType: LogType.error); // Howdy (in red)
 ```
 
 In the above examples, if the app is live, nothing happens. The example below shows how to send to Crashlytics.
@@ -78,7 +78,7 @@ In the above examples, if the app is live, nothing happens. The example below sh
 ```dart
 // If live, this will send "Howdy" to Crashlytics.
 // If testing, this will print "Howdy" to the console.
-DebugLog.out("Howdy", sendToCrashlytics: true);
+DebugLog.out('Howdy', sendToCrashlytics: true);
 ```
 
 [back to top](#table-of-contents)
@@ -106,11 +106,11 @@ The example below shows the creation of an alert that is used as a warning. It c
 ```dart
   /// The alert dialog that will be shown to the user.
   MyAlert myAlert = MyAlert(
-    title: "Action Blocked!",
-    content: "Your attempt to do this action has been blocked because this "
-        "action can not be completed at this time. Thank you!",
+    title: 'Action Blocked!',
+    content: 'Your attempt to do this action has been blocked because this '
+        'action can not be completed at this time. Thank you!',
     buttons: {
-      "ok": () {},
+      'ok': () {},
     },
   );
 
@@ -123,10 +123,10 @@ The example below shows the creation of an alert that is used as a way of giving
 ```dart
 /// The alert dialog that will be shown to the user.
 MyAlert myAlert = MyAlert(
-  title: "Did you know?",
-  content: Text("Flutter was initially released in May of 2017?"),
+  title: 'Did you know?',
+  content: Text('Flutter was initially released in May of 2017?'),
   buttons: {
-    "Now I Know": () => null,
+    'Now I Know': () => null,
   },
 );
 
@@ -139,12 +139,12 @@ The example below shows the creation of an alert that is used as a way of confir
 ```dart
 /// The alert dialog that will be shown to the user.
 MyAlert myAlert = MyAlert(
-  title: "Are you sure?",
-  content: "Are you sure you want to leave this page? Any unsaved data "
-      "will be lost.",
+  title: 'Are you sure?',
+  content: 'Are you sure you want to leave this page? Any unsaved data '
+      'will be lost.',
   buttons: {
-    "leave": () => leavePageAnyway(),
-    "cancel": () => null,
+    'leave': () => leavePageAnyway(),
+    'cancel': () => null,
   },
 );
 
@@ -190,7 +190,7 @@ This example shows how to create an image cropper that only allows the user to c
 
 ```dart
 /// Original sized image.
-File myImage = File("/path/to/image.jpg");
+File myImage = File('/path/to/image.jpg');
 
 // Crop the image.
 File? croppedImage = MyImageCropper.crop(
@@ -275,7 +275,7 @@ Takes the place of Flutter's `Scaffold`.
 @override
 Widget build(BuildContext context) {
 	return MyScaffold(
-		appBar: AppBar(title: const Text("Page Title")),
+		appBar: AppBar(title: const Text('Page Title')),
 		builder: (context) => MyPage(), // Your page code here
 	);
 }
@@ -300,9 +300,9 @@ Just like Flutter's `Text` widget. This just adds the abiltity to more easily an
 Example explanation...
 
 ```dart
-MyText("Howdy"); // Howdy
-MyText("Howdy", color: Colors.red); // Howdy (in red)
-MyText("Howdy", myTextStyle: MyTextStyle.title); // Howdy (big)
+MyText('Howdy'); // Howdy
+MyText('Howdy', color: Colors.red); // Howdy (in red)
+MyText('Howdy', myTextStyle: MyTextStyle.title); // Howdy (big)
 ```
 
 [back to top](#table-of-contents)
@@ -337,7 +337,7 @@ List<MyTextFieldValidator> get messageValidators => [
 		test: (value) => value.length <= 250,
 		expected: true,
 		errorText:
-			"Too long - 250 characters max",
+			'Too long - 250 characters max',
 		),
 	];
 ```
@@ -348,7 +348,7 @@ Build the widget.
 MyTextField(
 	key: messageFieldKey,
 	controller: messageController,
-	hint: "Message",
+	hint: 'Message',
 	minLines: 5,
 	maxLines: 250,
 	validators: messageValidators,
@@ -420,8 +420,8 @@ These validators compare the inputs to specified regex patterns to see if they a
 This example shows how to use the email validator.
 
 ```dart
-String goodEmail = test@email.com
-String badEmail = test@com
+String goodEmail = 'test@email.com';
+String badEmail = 'test@com';
 
 MyValidator.isValidEmail(goodEmail); // true
 MyValidator.isValidEmail(badEmail); // false
