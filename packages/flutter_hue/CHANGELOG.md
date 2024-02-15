@@ -1,3 +1,7 @@
+## 1.2.4 - February 15, 2024
+
+- Small documentation fix
+
 ## 1.2.3 - February 9, 2024
 
 - Fixed issue tracker link
