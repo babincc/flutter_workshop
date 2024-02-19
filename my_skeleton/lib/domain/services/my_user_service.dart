@@ -31,13 +31,13 @@ class MyUserService {
   /// Returns `null` if the user does not exist.
   static Future<MyUser?> fetchUser(String userId) async {
     /// Fetch the user document from Firebase.
-    final DocumentSnapshot<Object?> userDoc = await usersCol.doc(userId).get();
+    final DocumentSnapshot userDoc = await usersCol.doc(userId).get();
 
     /// If the document does not exist, return null.
     if (userDoc.data() == null) return null;
 
     /// If the data is corrupt, return null.
-    if (userDoc.data is! Map<String, dynamic>) return null;
+    if (userDoc.data() is! Map<String, dynamic>) return null;
 
     Map<String, dynamic> dataMap = userDoc.data() as Map<String, dynamic>;
 

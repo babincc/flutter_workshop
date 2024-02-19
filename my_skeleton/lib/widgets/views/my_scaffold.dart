@@ -30,7 +30,7 @@ class MyScaffold extends StatelessWidget {
   final Widget? drawer;
 
   /// The body of this scaffold.
-  final Widget Function(BuildContext) builder;
+  final WidgetBuilder builder;
 
   /// Whether or not the contents of this scaffold should be centered on the
   /// screen.

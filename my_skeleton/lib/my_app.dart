@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
     final MyAuthProvider myAuthProvider = MyAuthProvider(firebaseAuth);
-    final MyUserProvider myUserProvider = MyUserProvider(MyUser.empty());
+    final MyUserProvider myUserProvider = MyUserProvider();
     final MyThemeProvider myTheme = MyThemeProvider();
     final MyStringProvider myStringProvider = MyStringProvider();
 

@@ -13,21 +13,22 @@ class MyUser {
   factory MyUser.fromJson(String id, Map<String, dynamic> dataMap) {
     return MyUser(
       id: id,
-      firstName: dataMap[DBFields.placeholder_1],
-      lastName: dataMap[DBFields.placeholder_2],
+      firstName: dataMap[DBFields.firstName],
+      lastName: dataMap[DBFields.lastName],
     );
   }
 
   /// Creates an empty [MyUser] object.
-  ///
-  /// This is used as a placeholder to prevent `null` errors.
-  factory MyUser.empty() {
-    return MyUser(
-      id: '',
-      firstName: '',
-      lastName: '',
-    );
-  }
+  MyUser.empty()
+      : id = '',
+        firstName = '',
+        lastName = '';
+
+  /// Whether or not this user object is empty.
+  bool get isEmpty => id.isEmpty && firstName.isEmpty && lastName.isEmpty;
+
+  /// Whether or not this user object is not empty.
+  bool get isNotEmpty => !isEmpty;
 
   /// This user's document ID in Firebase.
   final String id;
@@ -38,19 +39,52 @@ class MyUser {
   /// The user's last name.
   final String lastName;
 
+  /// Returns a copy of this object.
+  MyUser copy() => copyWith();
+
+  /// Returns a copy of this object with its field values replaced by the ones
+  /// provided to this method.
+  MyUser copyWith({
+    String? id,
+    String? firstName,
+    String? lastName,
+  }) {
+    return MyUser(
+      id: id ?? this.id,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+    );
+  }
+
   /// Returns a data map that represents all of the information in this model.
   ///
   /// This is useful for sending information to Firebase.
   Map<String, dynamic> toJson() {
     return {
-      DBFields.placeholder_1: firstName,
-      DBFields.placeholder_2: lastName,
+      DBFields.firstName: firstName,
+      DBFields.lastName: lastName,
     };
   }
 
-  /// Whether or not this user object has any values.
-  bool get isEmpty => id.isEmpty && firstName.isEmpty && lastName.isEmpty;
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-  /// Whether or not this user object has any values.
-  bool get isNotEmpty => !isEmpty;
+    if (other.runtimeType != runtimeType) return false;
+
+    return other is MyUser &&
+        other.id == id &&
+        other.firstName == firstName &&
+        other.lastName == lastName;
+  }
+
+  @override
+  int get hashCode => Object.hash(
+        id,
+        firstName,
+        lastName,
+      );
+
+  @override
+  String toString() => 'Instance of MyUser: ${toJson()}';
 }
