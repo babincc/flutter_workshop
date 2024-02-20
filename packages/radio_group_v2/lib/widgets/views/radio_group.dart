@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:radio_group_v2/exceptions/invalid_key_type_exception.dart';
 import 'package:radio_group_v2/utils/radio_group_decoration.dart';
@@ -90,7 +93,23 @@ class RadioGroup<T> extends StatefulWidget {
             "ERROR: `indexOfDefault` is out of bounds for the range of "
             "`values`!"),
         _controller = controller ?? RadioGroupController<T>(),
-        super(key: key ?? GlobalKey<RadioGroupState<T>>());
+        super(
+            key: key ??
+                controller?.myRadioGroupKey ??
+                GlobalKey<RadioGroupState<T>>()) {
+    if (controller == null && key == null) {
+      if (kDebugMode) {
+        log(
+          'RadioGroup Warning: You have not included a `key` or a `controller` '
+          'for this radio group. If the parent state is updated, this could '
+          'cause unexpected behavior. To fix this, either include a `key` or a '
+          '`controller` for this radio group, and make sure they will not be '
+          'updated when the parent state is updated.',
+          stackTrace: StackTrace.current,
+        );
+      }
+    }
+  }
 
   /// This allows for setting and getting the value of `this` radio group.
   final RadioGroupController<T>? controller;
@@ -141,6 +160,8 @@ class RadioGroupState<T> extends State<RadioGroup<T>> {
   /// radio group.
   @override
   void initState() {
+    super.initState();
+
     if (widget.key != null) {
       if (widget.key is! GlobalKey<RadioGroupState>) {
         throw InvalidKeyTypeException();
@@ -157,8 +178,6 @@ class RadioGroupState<T> extends State<RadioGroup<T>> {
     } else {
       value = widget.values[widget.indexOfDefault];
     }
-
-    super.initState();
   }
 
   /// Build the radio group and send it back to the calling method.
@@ -206,13 +225,15 @@ class RadioGroupState<T> extends State<RadioGroup<T>> {
       value: value,
       groupValue: _value,
       onChanged: (newValue) {
-        setState(() {
-          _value = newValue;
+        setState(
+          () {
+            _value = newValue;
 
-          if (widget.onChanged != null) {
-            widget.onChanged!(newValue);
-          }
-        });
+            if (widget.onChanged != null) {
+              widget.onChanged!(newValue);
+            }
+          },
+        );
       },
       toggleable: widget.decoration?.toggleable ?? false,
       activeColor: widget.decoration?.activeColor,

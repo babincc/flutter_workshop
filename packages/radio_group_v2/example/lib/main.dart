@@ -35,14 +35,6 @@ class _AppState extends State<App> {
   /// horizontal radio group.
   String horizontalValRequested = "";
 
-  /// The key for the vertical radio group.
-  final GlobalKey<RadioGroupState> verticalGroupKey =
-      GlobalKey<RadioGroupState>();
-
-  /// The key for the horizontal radio group.
-  final GlobalKey<RadioGroupState> horizontalGroupKey =
-      GlobalKey<RadioGroupState>();
-
   /// The controller for the vertical radio group.
   final RadioGroupController verticalGroupController = RadioGroupController();
 
@@ -83,7 +75,6 @@ class _AppState extends State<App> {
                   selectedValBoard(verticalValAutomatic, verticalValRequested),
                   IntrinsicWidth(
                     child: RadioGroup(
-                      key: verticalGroupKey,
                       controller: verticalGroupController,
                       values: verticalValues,
                       onChanged: (newValue) => setState(() {
@@ -104,7 +95,6 @@ class _AppState extends State<App> {
                   selectedValBoard(
                       horizontalValAutomatic, horizontalValRequested),
                   RadioGroup(
-                    key: horizontalGroupKey,
                     controller: horizontalGroupController,
                     values: horizontalValues,
                     orientation: RadioGroupOrientation.horizontal,

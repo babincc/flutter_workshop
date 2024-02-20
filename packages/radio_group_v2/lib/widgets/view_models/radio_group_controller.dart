@@ -52,9 +52,21 @@ class RadioGroupController<T> {
     if (_myRadioGroup == null || !_myRadioGroup!.mounted) {
       _myRadioGroupKey = key;
       _myRadioGroup = _myRadioGroupKey!.currentState;
-    } else {
-      throw MultipleRadioGroupException(radioGroupController: this, key: key);
+
+      return;
     }
+
+    if (_myRadioGroup != null &&
+        _myRadioGroup!.widget.key != null &&
+        _myRadioGroupKey != null &&
+        _myRadioGroup!.widget.key! == _myRadioGroupKey!) {
+      _myRadioGroupKey = key;
+      _myRadioGroup = _myRadioGroupKey!.currentState;
+
+      return;
+    }
+
+    throw MultipleRadioGroupException(radioGroupController: this, key: key);
   }
 
   /// Sets the value of the selected item in `this` controller's radio group.

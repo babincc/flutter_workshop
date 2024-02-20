@@ -1,3 +1,8 @@
+## 3.1.0 - February 20, 2024
+
+- Fixed issue of `MultipleRadioGroupException` being thrown when parent rebuilds.
+  - For best results, include `key` or `controller` when creating a new `RadioGroup`.
+
 ## 3.0.1 - February 9, 2024
 
 - Fixed issue tracker link

@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 3.0.1
+// @version 3.1.0
 // https://github.com/babincc/flutter_workshop/blob/master/packages/radio_group_v2/lib/radio_group_v2.dart
 
 export 'package:radio_group_v2/exceptions/controller_decoupled_exception.dart';
