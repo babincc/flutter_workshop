@@ -116,27 +116,29 @@ void main() {
         ],
       },
     ],
-    ApiFields.locations: [
-      {
-        ApiFields.service: {
-          ApiFields.rid: "abababab-abab-abab-abab-abababababab",
-          ApiFields.rType: ResourceType.device.value,
-        },
-        ApiFields.position: {
-          ApiFields.x: 0.0,
-          ApiFields.y: 0.0,
-          ApiFields.z: 0.0,
-        },
-        ApiFields.positions: [
-          {
-            ApiFields.x: 0.5,
-            ApiFields.y: 0.5,
-            ApiFields.z: 0.5,
+    ApiFields.locations: {
+      ApiFields.serviceLocations: [
+        {
+          ApiFields.service: {
+            ApiFields.rid: "abababab-abab-abab-abab-abababababab",
+            ApiFields.rType: ResourceType.device.value,
           },
-        ],
-        ApiFields.equalizationFactor: 0.2,
-      },
-    ],
+          ApiFields.position: {
+            ApiFields.x: 0.0,
+            ApiFields.y: 0.0,
+            ApiFields.z: 0.0,
+          },
+          ApiFields.positions: [
+            {
+              ApiFields.x: 0.5,
+              ApiFields.y: 0.5,
+              ApiFields.z: 0.5,
+            },
+          ],
+          ApiFields.equalizationFactor: 0.2,
+        },
+      ],
+    },
     ApiFields.lightServices: [
       {
         ApiFields.rid: "00001111-2222-3333-4444-555566667777",

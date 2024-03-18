@@ -1,16 +1,12 @@
 import 'package:flutter_hue/constants/api_fields.dart';
-import 'package:flutter_hue/utils/validators.dart';
 
 /// Represents the mirek capabilities of a light.
 class LightColorTemperatureMirekSchema {
   /// Creates a [LightColorTemperatureMirekSchema] object.
-  LightColorTemperatureMirekSchema({
+  const LightColorTemperatureMirekSchema({
     required this.min,
     required this.max,
-  })  : assert(Validators.isValidMirek(min),
-            "`min` must be between 153 and 500 (inclusive)"),
-        assert(Validators.isValidMirek(max),
-            "`max` must be between 153 and 500 (inclusive)");
+  });
 
   /// Creates a [LightColorTemperatureMirekSchema] object from the JSON response
   /// to a GET request.
@@ -23,7 +19,7 @@ class LightColorTemperatureMirekSchema {
   }
 
   /// Creates an empty [LightColorTemperatureMirekSchema] object.
-  LightColorTemperatureMirekSchema.empty()
+  const LightColorTemperatureMirekSchema.empty()
       : min = 153,
         max = 500;
 

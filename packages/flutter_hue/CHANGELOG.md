@@ -1,3 +1,7 @@
+## 1.2.5 - March 18, 2024
+
+- Removed some assertions to allow to third party products that don't follow the same rules as official Philips Hue products [issue #16](https://github.com/babincc/flutter_workshop/issues/16)
+
 ## 1.2.4 - February 15, 2024
 
 - Small documentation fix

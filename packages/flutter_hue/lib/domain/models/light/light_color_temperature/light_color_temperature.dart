@@ -32,7 +32,7 @@ class LightColorTemperature {
   LightColorTemperature.empty()
       : _mirek = null,
         mirekValid = false,
-        mirekSchema = LightColorTemperatureMirekSchema.empty(),
+        mirekSchema = const LightColorTemperatureMirekSchema.empty(),
         _originalMirek = null;
 
   int? _mirek;

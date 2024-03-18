@@ -65,7 +65,7 @@ void main() {
     colorTemperature: LightColorTemperature(
       mirek: 230,
       mirekValid: true,
-      mirekSchema: LightColorTemperatureMirekSchema(min: 153, max: 500),
+      mirekSchema: const LightColorTemperatureMirekSchema(min: 153, max: 500),
     ),
     colorTemperatureDelta: null,
     color: LightColor(

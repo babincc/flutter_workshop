@@ -42,8 +42,8 @@ class InvalidLatitudeException extends CoordinateException {
 
   /// Creates a [InvalidLatitudeException] object that includes the value that
   /// triggered this exception.
-  const InvalidLatitudeException.withValue(double value, [String? message])
-      : super.withValue(value, message);
+  const InvalidLatitudeException.withValue(double super.value, [super.message])
+      : super.withValue();
 
   @override
   String toString() => getErrorMessage(
@@ -60,8 +60,8 @@ class InvalidLongitudeException extends CoordinateException {
 
   /// Creates a [InvalidLongitudeException] object that includes the value that
   /// triggered this exception.
-  const InvalidLongitudeException.withValue(double value, [String? message])
-      : super.withValue(value, message);
+  const InvalidLongitudeException.withValue(double super.value, [super.message])
+      : super.withValue();
 
   @override
   String toString() => getErrorMessage(

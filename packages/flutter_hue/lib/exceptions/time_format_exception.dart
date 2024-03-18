@@ -42,8 +42,8 @@ class InvalidHourException extends TimeFormatException {
 
   /// Creates a [InvalidHourException] object that includes the value that
   /// triggered this exception.
-  const InvalidHourException.withValue(int value, [String? message])
-      : super.withValue(value, message);
+  const InvalidHourException.withValue(int super.value, [super.message])
+      : super.withValue();
 
   @override
   String toString() => getErrorMessage(
@@ -60,8 +60,8 @@ class InvalidMinuteException extends TimeFormatException {
 
   /// Creates a [InvalidMinuteException] object that includes the value that
   /// triggered this exception.
-  const InvalidMinuteException.withValue(int value, [String? message])
-      : super.withValue(value, message);
+  const InvalidMinuteException.withValue(int super.value, [super.message])
+      : super.withValue();
 
   @override
   String toString() => getErrorMessage(
@@ -78,8 +78,8 @@ class InvalidSecondException extends TimeFormatException {
 
   /// Creates a [InvalidSecondException] object that includes the value that
   /// triggered this exception.
-  const InvalidSecondException.withValue(int value, [String? message])
-      : super.withValue(value, message);
+  const InvalidSecondException.withValue(int super.value, [super.message])
+      : super.withValue();
 
   @override
   String toString() => getErrorMessage(
