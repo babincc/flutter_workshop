@@ -141,35 +141,16 @@ class BridgeDiscoveryRepo {
 
     Map<String, dynamic>? response;
 
-    /// Used as the suffix of this device's name in the bridge whitelist.
-    String device;
-    if (kIsWeb) {
-      device = "web";
-    } else {
-      switch (Platform.operatingSystem) {
-        case "android":
-        case "fuchsia":
-        case "linux":
-          device = Platform.operatingSystem;
-          break;
-        case "ios":
-          device = "iPhone";
-          break;
-        case "macos":
-          device = "mac";
-          break;
-        case "windows":
-          device = "pc";
-          break;
-        default:
-          device = "device";
-      }
-    }
-
     String? appKey;
 
-    String body =
-        JsonTool.writeJson({ApiFields.deviceType: "FlutterHue#$device"});
+    String? clientKey;
+
+    final String body = JsonTool.writeJson(
+      {
+        ApiFields.deviceType: HueHttpRepo.deviceType,
+        ApiFields.generateClientKey: true,
+      },
+    );
 
     // Try for [timeoutSeconds] to connect with the bridge.
     int counter = 0;
@@ -202,6 +183,7 @@ class BridgeDiscoveryRepo {
                   "link button not pressed";
             } else {
               appKey = response![ApiFields.success][ApiFields.username];
+              clientKey = response![ApiFields.success][ApiFields.clientKey];
               return appKey == null || appKey!.isEmpty;
             }
           } catch (_) {
@@ -222,8 +204,12 @@ class BridgeDiscoveryRepo {
 
     if (bridgeJson == null) return null;
 
-    Bridge bridge = Bridge.fromJson(bridgeJson);
-    bridge = bridge.copyWith(ipAddress: bridgeIpAddr, applicationKey: appKey);
+    final Bridge bridge = Bridge.fromJson(bridgeJson)
+      ..copyWith(
+        ipAddress: bridgeIpAddr,
+        applicationKey: appKey,
+        clientKey: clientKey,
+      );
 
     if (bridge.id.isEmpty) return null;
 

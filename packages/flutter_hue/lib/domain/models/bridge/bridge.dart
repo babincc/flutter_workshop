@@ -16,6 +16,7 @@ class Bridge extends Resource {
     required super.id,
     this.idV1 = "",
     this.applicationKey,
+    this.clientKey,
     this.ipAddress,
     required this.owner,
     required this.bridgeId,
@@ -35,6 +36,7 @@ class Bridge extends Resource {
       id: data[ApiFields.id] ?? "",
       idV1: data[ApiFields.idV1] ?? "",
       applicationKey: data[ApiFields.applicationKey],
+      clientKey: data[ApiFields.clientKey],
       ipAddress: data[ApiFields.ipAddress],
       owner: Relative.fromJson(
           Map<String, dynamic>.from(data[ApiFields.owner] ?? {})),
@@ -51,6 +53,7 @@ class Bridge extends Resource {
         bridgeId = "",
         idV1 = "",
         applicationKey = null,
+        clientKey = null,
         ipAddress = null,
         timeZone = "",
         super.empty();
@@ -65,6 +68,19 @@ class Bridge extends Resource {
 
   /// The secret key that is used to talk with the bridge.
   final String? applicationKey;
+
+  /// The secret key that is used to streaming to the bridge.
+  ///
+  /// This can be `null` if the bridge is not updated to the correct version, or
+  /// if it was not saved properly when first contact was made with this bridge.
+  ///
+  /// This is used as the Pre-Shared Key (PSK) in the DTLS streaming connection.
+  /// The client key is only exposed once (this is during first contact) and can
+  /// not be retrieved again. This means if it is not saved properly the first
+  /// time, this bridge needs to be deleted and first contact needs to be made
+  /// again. It never expires, and remains valid as long as the whitelist entry
+  /// of your app is in the bridge.
+  final String? clientKey;
 
   /// The internal IP address of this bridge.
   ///
@@ -94,10 +110,11 @@ class Bridge extends Resource {
   /// Returns a copy of this object with its field values replaced by the
   /// ones provided to this method.
   ///
-  /// Since [ipAddress] and [applicationKey] are nullable, they are defaulted to
-  /// empty strings in this method. If left as empty strings, their current
-  /// values in this [Bridge] object will be used. This way, if they are `null`,
-  /// the program will know that they are intentionally being set to `null`.
+  /// Since [ipAddress], [applicationKey], and [clientKey] are nullable, they
+  /// are defaulted to empty strings in this method. If left as empty strings,
+  /// their current values in this [Bridge] object will be used. This way, if
+  /// they are `null`, the program will know that they are intentionally being
+  /// set to `null`.
   ///
   /// `copyOriginalValues` is true if you want to maintain the original object's
   /// initial values. This is useful if you plan on using this object in a PUT
@@ -110,6 +127,7 @@ class Bridge extends Resource {
     String? id,
     String? idV1,
     String? applicationKey = "",
+    String? clientKey = "",
     String? ipAddress = "",
     Relative? owner,
     String? bridgeId,
@@ -123,6 +141,9 @@ class Bridge extends Resource {
       applicationKey: applicationKey == null || applicationKey.isNotEmpty
           ? applicationKey
           : this.applicationKey,
+      clientKey: clientKey == null || clientKey.isNotEmpty
+          ? clientKey
+          : this.clientKey,
       ipAddress: ipAddress == null || ipAddress.isNotEmpty
           ? ipAddress
           : this.ipAddress,
@@ -165,6 +186,7 @@ class Bridge extends Resource {
       ApiFields.id: id,
       ApiFields.idV1: idV1,
       ApiFields.applicationKey: applicationKey,
+      ApiFields.clientKey: clientKey,
       ApiFields.ipAddress: ipAddress,
       ApiFields.owner: owner.toJson(optimizeFor: optimizeFor),
       ApiFields.bridgeId: bridgeId,
@@ -185,6 +207,9 @@ class Bridge extends Resource {
         ((other.applicationKey == null && applicationKey == null) ||
             ((other.applicationKey != null && applicationKey != null) &&
                 (other.applicationKey == applicationKey))) &&
+        ((other.clientKey == null && clientKey == null) ||
+            ((other.clientKey != null && clientKey != null) &&
+                (other.clientKey == clientKey))) &&
         ((other.ipAddress == null && ipAddress == null) ||
             ((other.ipAddress != null && ipAddress != null) &&
                 (other.ipAddress == ipAddress))) &&
@@ -199,6 +224,7 @@ class Bridge extends Resource {
         id,
         idV1,
         applicationKey,
+        clientKey,
         ipAddress,
         owner,
         bridgeId,

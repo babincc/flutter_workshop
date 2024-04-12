@@ -388,7 +388,7 @@ class EntertainmentConfiguration extends Resource {
     // PUT FULL
     if (identical(optimizeFor, OptimizeFor.putFull)) {
       return {
-        ApiFields.type: type,
+        ApiFields.type: type.value,
         ApiFields.metadata: metadata.toJson(optimizeFor: optimizeFor),
         ApiFields.configurationType: configurationType,
         ApiFields.action: action,
@@ -405,7 +405,7 @@ class EntertainmentConfiguration extends Resource {
     // POST
     if (identical(optimizeFor, OptimizeFor.post)) {
       return {
-        ApiFields.type: type,
+        ApiFields.type: type.value,
         ApiFields.metadata: metadata.toJson(optimizeFor: optimizeFor),
         ApiFields.configurationType: configurationType,
         ApiFields.streamProxy: streamProxy.toJson(optimizeFor: optimizeFor),

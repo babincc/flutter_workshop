@@ -312,7 +312,15 @@ class HueNetwork {
 
   /// Fetch all of the Philip's Hue devices of the given `type` on the network
   /// that this device has permission to fetch.
-  Future<void> fetchAllType(ResourceType type) async {
+  ///
+  /// `decrypter` When the old tokens are read from local storage, they are
+  /// decrypted. This parameter allows you to provide your own decryption
+  /// method. This will be used in addition to the default decryption method.
+  /// This will be performed after the default decryption method.
+  Future<void> fetchAllType(
+    ResourceType type, {
+    String Function(String ciphertext)? decrypter,
+  }) async {
     // Eliminate the possibility of duplicates.
     List<Resource>? resourceList = _getListType(type);
     if (resourceList == null) return;
@@ -324,6 +332,7 @@ class HueNetwork {
         bridgeIpAddr: bridge.ipAddress!,
         applicationKey: bridge.applicationKey!,
         resourceType: type,
+        decrypter: decrypter,
       );
 
       // This would mean there was an error in the GET request.
@@ -349,6 +358,7 @@ class HueNetwork {
           applicationKey: bridge.applicationKey!,
           resourceType: type,
           pathToResource: id,
+          decrypter: decrypter,
         );
 
         if (data == null) continue;
@@ -614,9 +624,14 @@ class HueNetwork {
 
   /// Sends a PUT request to the bridge for each resource in the list.
   ///
+  /// `decrypter` When the old tokens are read from local storage, they are
+  /// decrypted. This parameter allows you to provide your own decryption
+  /// method. This will be used in addition to the default decryption method.
+  /// This will be performed after the default decryption method.
+  ///
   /// NOTE: This method will not send a PUT request for a resource that has a
   /// null `bridge` property.
-  Future<void> put() async {
+  Future<void> put({String Function(String ciphertext)? decrypter}) async {
     List<List<Resource>> nonPuttableResources = [
       bridgeHomes,
       behaviorScripts,
@@ -632,7 +647,7 @@ class HueNetwork {
         if (data.isEmpty) continue;
 
         if (resource.bridge != null) {
-          await resource.bridge!.put(resource);
+          await resource.bridge!.put(resource, decrypter: decrypter);
         }
       }
     }

@@ -20,8 +20,10 @@ environment:
 dependencies:
   collection: ^1.17.0
   crypto: ^3.0.2
+  dtls2: ^0.16.0
   flutter:
     sdk: flutter
+  flutter_openssl_crypto: ^0.3.0
   http: ^1.0.0
   multicast_dns: ^0.3.2+3
   path_provider: ^2.0.13

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter_hue/domain/models/resource_type.dart';
 import 'package:flutter_hue/domain/repos/token_repo.dart';
 import 'package:flutter_hue/domain/services/hue_http_client.dart';
@@ -5,6 +8,36 @@ import 'package:flutter_hue/exceptions/expired_token_exception.dart';
 
 /// This is the way to communicate with Flutter Hue HTTP services.
 class HueHttpRepo {
+  /// The device type for the bridge whitelist.
+  static String get deviceType {
+    /// Used as the suffix of this device's name in the bridge whitelist.
+    String device;
+    if (kIsWeb) {
+      device = "web";
+    } else {
+      switch (Platform.operatingSystem) {
+        case "android":
+        case "fuchsia":
+        case "linux":
+          device = Platform.operatingSystem;
+          break;
+        case "ios":
+          device = "iPhone";
+          break;
+        case "macos":
+          device = "mac";
+          break;
+        case "windows":
+          device = "pc";
+          break;
+        default:
+          device = "device";
+      }
+    }
+
+    return "FlutterHue#$device";
+  }
+
   /// Returns a properly formatted target URL.
   ///
   /// `bridgeIpAddr` is the IP address of the target bridge.

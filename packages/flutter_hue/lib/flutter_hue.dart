@@ -26,6 +26,7 @@ export 'package:flutter_hue/domain/models/entertainment/entertainment_segment/en
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration.dart';
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_channel/entertainment_configuration_channel.dart';
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_channel/entertainment_configuration_channel_member.dart';
+export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_extensions.dart';
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_location.dart';
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_metadata.dart';
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_position.dart';
@@ -106,6 +107,7 @@ export 'package:flutter_hue/domain/models/zigbee_device_discovery/zigbee_device_
 export 'package:flutter_hue/domain/models/zigbee_device_discovery/zigbee_device_discovery_action.dart';
 export 'package:flutter_hue/domain/models/zone/zone.dart';
 export 'package:flutter_hue/domain/repos/bridge_discovery_repo.dart';
+export 'package:flutter_hue/domain/repos/entertainment_stream_repo.dart';
 export 'package:flutter_hue/domain/repos/flutter_hue_maintenance_repo.dart';
 export 'package:flutter_hue/domain/repos/hue_http_repo.dart';
 export 'package:flutter_hue/domain/repos/local_storage_repo.dart';
