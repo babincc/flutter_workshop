@@ -15,7 +15,8 @@ funding:
   - https://venmo.com/u/babincc
 
 environment:
-  sdk: ">=2.19.2 <4.0.0"
+  sdk: ">=3.3.3 <4.0.0"
+  flutter: ">=1.17.0"
 
 dependencies:
   collection: ^1.17.0
@@ -23,7 +24,7 @@ dependencies:
   dtls2: ^0.16.0
   flutter:
     sdk: flutter
-  flutter_openssl_crypto: ^0.3.0
+  # flutter_webrtc: ^0.10.3
   http: ^1.0.0
   multicast_dns: ^0.3.2+3
   path_provider: ^2.0.13

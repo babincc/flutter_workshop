@@ -9,6 +9,17 @@ import 'package:flutter_hue/utils/json_tool.dart';
 /// Entertainment configuration streaming methods.
 extension Streaming on EntertainmentConfiguration {
   /// Start streaming for `this` entertainment configuration.
+  ///
+  /// The `bridge` parameter is the bridge to establish the handshake with.
+  ///
+  /// `decrypter` When the old tokens are read from local storage, they are
+  /// decrypted. This parameter allows you to provide your own decryption
+  /// method. This will be used in addition to the default decryption method.
+  /// This will be performed after the default decryption method.
+  ///
+  /// May throw [ExpiredAccessTokenException] if trying to connect to the bridge
+  /// remotely and the token is expired. If this happens, refresh the token with
+  /// [TokenRepo.refreshRemoteToken].
   Future<bool> startStreaming(
     Bridge bridge, {
     String Function(String ciphertext)? decrypter,
@@ -17,9 +28,10 @@ extension Streaming on EntertainmentConfiguration {
 
     if (!isStarted) return false;
 
-    await EntertainmentStreamRepo.establishDtlsHandshake(bridge);
-
-    return true;
+    return await EntertainmentStreamRepo.establishDtlsHandshake(
+      bridge: bridge,
+      decrypter: decrypter,
+    );
   }
 
   /// Start streaming for `this` entertainment configuration.
@@ -62,12 +74,15 @@ extension Streaming on EntertainmentConfiguration {
     String Function(String ciphertext)? decrypter,
     String body,
   ) async {
-    if (bridge.ipAddress == null) return false;
-    if (bridge.applicationKey == null) return false;
+    final String? bridgeIpAddr = bridge.ipAddress;
+    final String? appKey = bridge.applicationKey;
+
+    if (bridgeIpAddr == null) return false;
+    if (appKey == null) return false;
 
     final Map<String, dynamic>? result = await HueHttpRepo.put(
-      bridgeIpAddr: bridge.ipAddress!,
-      applicationKey: bridge.applicationKey!,
+      bridgeIpAddr: bridgeIpAddr,
+      applicationKey: appKey,
       resourceType: ResourceType.entertainmentConfiguration,
       pathToResource: id,
       body: body,

@@ -4,14 +4,14 @@ publish_to: "none"
 version: 1.2.5
 
 environment:
-  sdk: ">=2.19.2 <3.0.0"
+  sdk: ">=3.3.3 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_hue:
     path: ../
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.6
   uni_links: ^0.5.1
 
 dev_dependencies:
