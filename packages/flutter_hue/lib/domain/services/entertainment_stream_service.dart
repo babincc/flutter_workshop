@@ -26,81 +26,67 @@ class EntertainmentStreamService {
     required Bridge bridge,
     String Function(String)? decrypter,
   }) async {
-    print('START HANDSHAKE METHOD');
-
     final String? bridgeIpAddr = bridge.ipAddress;
     final String? clientKey = bridge.clientKey;
     final String? appKey = bridge.applicationKey;
-
-    print('Checking null values...');
 
     if (bridgeIpAddr == null) return false;
     if (clientKey == null) return false;
     if (appKey == null) return false;
 
-    print('No null values!');
-
-    print('Fetching app ID...');
-
     final String? appId = await _fetchAppId(bridgeIpAddr, appKey, decrypter);
 
     if (appId == null) return false;
 
-    print('App ID fetched!');
-
-    print('Creating client context...');
-
     final DtlsClientContext clientContext = DtlsClientContext(
-      verify: true,
-      withTrustedRoots: true,
-      ciphers: 'TLS_PSK_WITH_AES_128_GCM_SHA256',
+      // verify: true,
+      // withTrustedRoots: true,
+      // ciphers: 'TLS_PSK_WITH_AES_128_GCM_SHA256',
+      // ciphers: 'PSK-AES128-GCM-SHA256',
+      ciphers: 'PSK_WITH_AES_128_GCM_SHA256',
       pskCredentialsCallback: (_) {
-        print('creating credentials...');
-
-        final credentials = PskCredentials(
+        return PskCredentials(
           identity: Uint8List.fromList(utf8.encode(appId)),
           preSharedKey: Uint8List.fromList(utf8.encode(clientKey)),
         );
-
-        print('credentials created!');
-
-        return credentials;
       },
     );
 
-    print('Client context created!');
+    List<String>? possibleIpAddresses = await _fetchIpAddr();
 
-    print('Binding to DTLS client...');
+    if (possibleIpAddresses == null) return false;
 
-    final DtlsClient dtlsClient;
-    try {
-      dtlsClient = await DtlsClient.bind('::', 0);
-    } catch (e) {
-      print('FAILED TO BIND:');
-      print(e);
+    DtlsClient? dtlsClient;
+    DtlsConnection? connection;
+    for (String ipAddress in possibleIpAddresses) {
+      try {
+        dtlsClient = await DtlsClient.bind(ipAddress, 0);
+      } catch (e) {
+        continue;
+      }
 
-      return false;
+      print('Attempting DTLS handshake...');
+
+      try {
+        connection = await dtlsClient.connect(
+          InternetAddress(bridgeIpAddr),
+          2100,
+          clientContext,
+          timeout: const Duration(seconds: 5),
+        );
+
+        break;
+      } catch (e) {
+        print('FAILED TO CONNECT:');
+        print(e);
+
+        await dtlsClient.close();
+        continue;
+      }
     }
 
-    print('DTLS client bound!');
-
-    print('Attempting DTLS handshake...');
-
-    final DtlsConnection connection;
-    try {
-      connection = await dtlsClient.connect(
-        InternetAddress(bridgeIpAddr),
-        2100,
-        clientContext,
-        timeout: const Duration(seconds: 5),
-      );
-    } catch (e) {
-      print('FAILED TO CONNECT:');
-      print(e);
-
-      await dtlsClient.close();
-      return false;
-    }
+    if (dtlsClient == null) return false;
+    if (connection == null) return false;
 
     print('DTLS handshake successful!');
 
@@ -112,7 +98,7 @@ class EntertainmentStreamService {
         print(utf8.decode(dataGram.data));
 
         if (count == 6) {
-          await dtlsClient.close();
+          await dtlsClient!.close();
         }
 
         count++;
@@ -168,5 +154,33 @@ class EntertainmentStreamService {
     if (response == null) return null;
 
     return response['hue-application-id'];
+  }
+
+  /// Fetches a list of IP addresses for the user's device.
+  ///
+  /// Returns `null` if the request fails.
+  static Future<List<String>?> _fetchIpAddr() async {
+    try {
+      List<NetworkInterface> networkInterfaces = await NetworkInterface.list(
+        includeLoopback: false,
+        type: InternetAddressType.IPv4,
+      );
+
+      final List<String> possibleIpAddresses = [];
+
+      for (NetworkInterface interface in networkInterfaces) {
+        for (InternetAddress addr in interface.addresses) {
+          if (addr.address.isNotEmpty) {
+            possibleIpAddresses.add(addr.address);
+          }
+        }
+      }
+
+      if (possibleIpAddresses.isEmpty) return null;
+
+      return possibleIpAddresses;
+    } catch (e) {
+      return null;
+    }
   }
 }
