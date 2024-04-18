@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:dtls2/dtls2.dart';
 import 'package:flutter_hue/domain/models/bridge/bridge.dart';
+import 'package:flutter_hue/domain/models/entertainment_configuration/dtls_data.dart';
 import 'package:flutter_hue/domain/repos/token_repo.dart';
 import 'package:flutter_hue/domain/services/hue_http_client.dart';
 
@@ -24,6 +24,7 @@ class EntertainmentStreamService {
   /// [TokenRepo.refreshRemoteToken].
   static Future<bool> establishDtlsHandshake({
     required Bridge bridge,
+    required DtlsData dtlsData,
     String Function(String)? decrypter,
   }) async {
     final String? bridgeIpAddr = bridge.ipAddress;
@@ -38,16 +39,20 @@ class EntertainmentStreamService {
 
     if (appId == null) return false;
 
+    List<int> clientKeyBytes = [];
+    for (int i = 0; i < clientKey.length; i += 2) {
+      String hex = clientKey.substring(i, i + 2);
+      clientKeyBytes.add(int.parse(hex, radix: 16));
+    }
+
     final DtlsClientContext clientContext = DtlsClientContext(
-      // verify: true,
-      // withTrustedRoots: true,
-      // ciphers: 'TLS_PSK_WITH_AES_128_GCM_SHA256',
-      // ciphers: 'PSK-AES128-GCM-SHA256',
-      ciphers: 'PSK_WITH_AES_128_GCM_SHA256',
+      verify: true,
+      withTrustedRoots: true,
+      ciphers: 'PSK-AES128-GCM-SHA256',
       pskCredentialsCallback: (_) {
         return PskCredentials(
-          identity: Uint8List.fromList(utf8.encode(appId)),
-          preSharedKey: Uint8List.fromList(utf8.encode(clientKey)),
+          identity: utf8.encode(appId),
+          preSharedKey: clientKeyBytes,
         );
       },
     );
@@ -56,19 +61,18 @@ class EntertainmentStreamService {
 
     if (possibleIpAddresses == null) return false;
 
-    DtlsClient? dtlsClient;
-    DtlsConnection? connection;
+    // Flush out old connection data.
+    await dtlsData.tryDispose();
+
     for (String ipAddress in possibleIpAddresses) {
       try {
-        dtlsClient = await DtlsClient.bind(ipAddress, 0);
+        dtlsData.dtlsClient = await DtlsClient.bind(ipAddress, 0);
       } catch (e) {
         continue;
       }
 
-      print('Attempting DTLS handshake...');
-
       try {
-        connection = await dtlsClient.connect(
+        dtlsData.connection = await dtlsData.dtlsClient!.connect(
           InternetAddress(bridgeIpAddr),
           2100,
           clientContext,
@@ -77,37 +81,19 @@ class EntertainmentStreamService {
 
         break;
       } catch (e) {
-        print('FAILED TO CONNECT:');
-        print(e);
+        await dtlsData.tryCloseClient();
 
-        await dtlsClient.close();
         continue;
       }
     }
 
-    if (dtlsClient == null) return false;
-    if (connection == null) return false;
+    if (dtlsData.dtlsClient == null) return false;
 
-    print('DTLS handshake successful!');
+    if (dtlsData.connection == null) {
+      await dtlsData.tryCloseClient();
 
-    int count = 0;
-
-    connection.listen(
-      (dataGram) async {
-        print('Result vvvvv');
-        print(utf8.decode(dataGram.data));
-
-        if (count == 6) {
-          await dtlsClient!.close();
-        }
-
-        count++;
-      },
-    );
-
-    print('END HANDSHAKE METHOD');
-
-    // connection.send(Uint8List.fromList(utf8.encode('Hello World')));
+      return false;
+    }
 
     return true;
   }

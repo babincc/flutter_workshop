@@ -26,7 +26,6 @@ export 'package:flutter_hue/domain/models/entertainment/entertainment_segment/en
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration.dart';
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_channel/entertainment_configuration_channel.dart';
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_channel/entertainment_configuration_channel_member.dart';
-export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_extensions.dart';
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_location.dart';
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_metadata.dart';
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_position.dart';

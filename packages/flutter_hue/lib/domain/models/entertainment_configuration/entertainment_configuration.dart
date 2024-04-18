@@ -2,6 +2,8 @@
 
 import 'package:collection/collection.dart';
 import 'package:flutter_hue/constants/api_fields.dart';
+import 'package:flutter_hue/domain/models/bridge/bridge.dart';
+import 'package:flutter_hue/domain/models/entertainment_configuration/dtls_data.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_channel/entertainment_configuration_channel.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_location.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_metadata.dart';
@@ -9,6 +11,7 @@ import 'package:flutter_hue/domain/models/entertainment_configuration/entertainm
 import 'package:flutter_hue/domain/models/relative.dart';
 import 'package:flutter_hue/domain/models/resource.dart';
 import 'package:flutter_hue/domain/models/resource_type.dart';
+import 'package:flutter_hue/domain/repos/entertainment_stream_repo.dart';
 import 'package:flutter_hue/exceptions/invalid_name_exception.dart';
 import 'package:flutter_hue/utils/json_tool.dart';
 import 'package:flutter_hue/utils/misc_tools.dart';
@@ -232,6 +235,73 @@ class EntertainmentConfiguration extends Resource {
 
   /// The value of [action] when this object was instantiated.
   String? _originalAction;
+
+  /// DTLS client and connection information.
+  final DtlsData _dtlsData = DtlsData();
+
+  /// Start streaming for `this` entertainment configuration.
+  ///
+  /// The `bridge` parameter is the bridge to establish the handshake with.
+  ///
+  /// `decrypter` When the old tokens are read from local storage, they are
+  /// decrypted. This parameter allows you to provide your own decryption
+  /// method. This will be used in addition to the default decryption method.
+  /// This will be performed after the default decryption method.
+  ///
+  /// May throw [ExpiredAccessTokenException] if trying to connect to the bridge
+  /// remotely and the token is expired. If this happens, refresh the token with
+  /// [TokenRepo.refreshRemoteToken].
+  Future<bool> startStreaming(
+    Bridge bridge, {
+    String Function(String ciphertext)? decrypter,
+  }) async {
+    return await EntertainmentStreamRepo.startStreaming(
+      bridge,
+      this,
+      _dtlsData,
+      decrypter: decrypter,
+    );
+  }
+
+  /// Stop streaming for `this` entertainment configuration.
+  ///
+  /// The `bridge` parameter is the bridge to establish the handshake with.
+  ///
+  /// `decrypter` When the old tokens are read from local storage, they are
+  /// decrypted. This parameter allows you to provide your own decryption
+  /// method. This will be used in addition to the default decryption method.
+  /// This will be performed after the default decryption method.
+  ///
+  /// May throw [ExpiredAccessTokenException] if trying to connect to the bridge
+  /// remotely and the token is expired. If this happens, refresh the token with
+  /// [TokenRepo.refreshRemoteToken].
+  Future<bool> stopStreaming(
+    Bridge bridge, {
+    String Function(String ciphertext)? decrypter,
+  }) async =>
+      await EntertainmentStreamRepo.stopStreaming(
+        bridge,
+        this,
+        _dtlsData,
+        decrypter: decrypter,
+      );
+
+  // TODO: Add documentation
+  Future<void> sendData() async =>
+      // await EntertainmentStreamRepo.sendDataAsRgb(
+      //   _dtlsData,
+      //   this,
+      //   channel1: const ColorRgb(255, 0, 0),
+      //   channel2: const ColorRgb(0, 255, 0),
+      //   channel3: const ColorRgb(0, 0, 255),
+      // );
+      await EntertainmentStreamRepo.sendDataAsXy(
+        _dtlsData,
+        this,
+        channel1: ColorXy.fromRgb(255, 0, 0, 1.0),
+        channel2: ColorXy.fromRgb(0, 255, 0, 1.0),
+        channel3: ColorXy.fromRgb(0, 0, 255, 1.0),
+      );
 
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.

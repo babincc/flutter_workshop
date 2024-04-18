@@ -12,6 +12,8 @@ class ColorConverter {
         "x must be greater than 0 and less than or equal to 1");
     assert(y > 0.0 && y <= 1.0,
         "y must be greater than 0 and less than or equal to 1");
+    assert(brightness > 0.0 && brightness <= 1.0,
+        "brightness must be greater than 0 and less than or equal to 1");
 
     final double z = 1.0 - x - y;
     final double Y = brightness;
