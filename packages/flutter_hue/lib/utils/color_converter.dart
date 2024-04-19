@@ -8,15 +8,19 @@ class ColorConverter {
   ///
   /// Returns a list of doubles representing the RGB values. [r, g, b]
   static List<int> xy2rgb(double x, double y, [double brightness = 1.0]) {
-    assert(x > 0.0 && x <= 1.0,
-        "x must be greater than 0 and less than or equal to 1");
-    assert(y > 0.0 && y <= 1.0,
-        "y must be greater than 0 and less than or equal to 1");
-    assert(brightness > 0.0 && brightness <= 1.0,
-        "brightness must be greater than 0 and less than or equal to 1");
+    assert(x >= 0.0 && x <= 1.0,
+        "x must be greater than or equal to 0 and less than or equal to 1");
+    assert(y >= 0.0 && y <= 1.0,
+        "y must be greater than or equal to 0 and less than or equal to 1");
+    assert(
+      brightness >= 0.0 && brightness <= 1.0,
+      "brightness must be greater than or equal to 0 and less than or equal to "
+      "1",
+    );
 
     final double z = 1.0 - x - y;
     final double Y = brightness;
+    if (y == 0) y = 0.0001;
     final double X = (Y / y) * x;
     final double Z = (Y / y) * z;
 
@@ -63,6 +67,11 @@ class ColorConverter {
   ///
   /// Returns a list of doubles representing the HSV values. [h, s, v]
   static List<double> xy2hsv(double x, double y) {
+    assert(x >= 0.0 && x <= 1.0,
+        "x must be greater than or equal to 0 and less than or equal to 1");
+    assert(y >= 0.0 && y <= 1.0,
+        "y must be greater than or equal to 0 and less than or equal to 1");
+
     final List<int> rgb = xy2rgb(x, y);
     return rgb2hsv(rgb[0], rgb[1], rgb[2]);
   }
@@ -71,6 +80,11 @@ class ColorConverter {
   ///
   /// Returns a string representing the hex value. ffffffff
   static String xy2hex(double x, double y) {
+    assert(x >= 0.0 && x <= 1.0,
+        "x must be greater than or equal to 0 and less than or equal to 1");
+    assert(y >= 0.0 && y <= 1.0,
+        "y must be greater than or equal to 0 and less than or equal to 1");
+
     final List<int> rgb = xy2rgb(x, y);
     return rgb2hex(rgb[0], rgb[1], rgb[2]);
   }
@@ -79,18 +93,33 @@ class ColorConverter {
   ///
   /// Returns a list of doubles representing the HSL values. [h, s, l]
   static List<double> xy2hsl(double x, double y) {
+    assert(x >= 0.0 && x <= 1.0,
+        "x must be greater than or equal to 0 and less than or equal to 1");
+    assert(y >= 0.0 && y <= 1.0,
+        "y must be greater than or equal to 0 and less than or equal to 1");
+
     final List<int> rgb = xy2rgb(x, y);
     return rgb2hsl(rgb[0], rgb[1], rgb[2]);
   }
 
   /// Converts xy coordinates in the CIE 1931 color space to a Flutter Color.
   static Color xy2color(double x, double y) {
+    assert(x >= 0.0 && x <= 1.0,
+        "x must be greater than or equal to 0 and less than or equal to 1");
+    assert(y >= 0.0 && y <= 1.0,
+        "y must be greater than or equal to 0 and less than or equal to 1");
+
     final List<int> rgb = xy2rgb(x, y);
     return Color.fromARGB(255, rgb[0], rgb[1], rgb[2]);
   }
 
   /// Converts xy coordinates in the CIE 1931 color space to an integer.
   static int xy2int(double x, double y) {
+    assert(x >= 0.0 && x <= 1.0,
+        "x must be greater than or equal to 0 and less than or equal to 1");
+    assert(y >= 0.0 && y <= 1.0,
+        "y must be greater than or equal to 0 and less than or equal to 1");
+
     final List<int> rgb = xy2rgb(x, y);
     return rgb2int(rgb[0], rgb[1], rgb[2]);
   }

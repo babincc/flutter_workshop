@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:flutter_hue/constants/api_fields.dart';
 import 'package:flutter_hue/domain/models/bridge/bridge.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/dtls_data.dart';
-import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration.dart';
 import 'package:flutter_hue/domain/models/resource_type.dart';
 import 'package:flutter_hue/domain/repos/hue_http_repo.dart';
 import 'package:flutter_hue/domain/services/entertainment_stream_service.dart';
@@ -26,13 +25,13 @@ class EntertainmentStreamRepo {
   /// [TokenRepo.refreshRemoteToken].
   static Future<bool> startStreaming(
     Bridge bridge,
-    EntertainmentConfiguration entertainmentConfiguration,
+    String entertainmentConfigurationId,
     DtlsData dtlsData, {
     String Function(String ciphertext)? decrypter,
   }) async {
     final bool isStarted = await _startStreaming(
       bridge,
-      entertainmentConfiguration,
+      entertainmentConfigurationId,
       decrypter: decrypter,
     );
 
@@ -48,16 +47,16 @@ class EntertainmentStreamRepo {
   /// Start streaming for the givin `entertainmentConfiguration`.
   static Future<bool> _startStreaming(
     Bridge bridge,
-    EntertainmentConfiguration entertainmentConfiguration, {
+    String entertainmentConfigurationId, {
     String Function(String ciphertext)? decrypter,
   }) async {
     final String body = JsonTool.writeJson(
       {ApiFields.action: ApiFields.start},
     );
 
-    return await _setStreamingState(
+    return await __setStreamingState(
       bridge,
-      entertainmentConfiguration,
+      entertainmentConfigurationId,
       decrypter,
       body,
     );
@@ -66,7 +65,7 @@ class EntertainmentStreamRepo {
   /// Stop streaming for the givin `entertainmentConfiguration`.
   static Future<bool> stopStreaming(
     Bridge bridge,
-    EntertainmentConfiguration entertainmentConfiguration,
+    String entertainmentConfigurationId,
     DtlsData dtlsData, {
     String Function(String ciphertext)? decrypter,
   }) async {
@@ -74,7 +73,7 @@ class EntertainmentStreamRepo {
 
     return await _stopStreaming(
       bridge,
-      entertainmentConfiguration,
+      entertainmentConfigurationId,
       decrypter: decrypter,
     );
   }
@@ -82,25 +81,25 @@ class EntertainmentStreamRepo {
   /// Stop streaming for the givin `entertainmentConfiguration`.
   static Future<bool> _stopStreaming(
     Bridge bridge,
-    EntertainmentConfiguration entertainmentConfiguration, {
+    String entertainmentConfigurationId, {
     String Function(String ciphertext)? decrypter,
   }) async {
     final String body = JsonTool.writeJson(
       {ApiFields.action: ApiFields.stop},
     );
 
-    return await _setStreamingState(
+    return await __setStreamingState(
       bridge,
-      entertainmentConfiguration,
+      entertainmentConfigurationId,
       decrypter,
       body,
     );
   }
 
   /// Set the streaming state for the given `entertainmentConfiguration`.
-  static Future<bool> _setStreamingState(
+  static Future<bool> __setStreamingState(
     Bridge bridge,
-    EntertainmentConfiguration entertainmentConfiguration,
+    String entertainmentConfigurationId,
     String Function(String ciphertext)? decrypter,
     String body,
   ) async {
@@ -114,7 +113,7 @@ class EntertainmentStreamRepo {
       bridgeIpAddr: bridgeIpAddr,
       applicationKey: appKey,
       resourceType: ResourceType.entertainmentConfiguration,
-      pathToResource: entertainmentConfiguration.id,
+      pathToResource: entertainmentConfigurationId,
       body: body,
       decrypter: decrypter,
     );
@@ -163,7 +162,7 @@ class EntertainmentStreamRepo {
 
   static List<int> _getPacketBase(
     _ColorMode colorMode,
-    EntertainmentConfiguration entertainmentConfiguration,
+    String entertainmentConfigurationId,
   ) {
     /// The first part of the packet.
     List<dynamic> part1 = [
@@ -186,7 +185,7 @@ class EntertainmentStreamRepo {
     List<dynamic> part2 = [
       0x00, // Reserved, write 0’s
 
-      entertainmentConfiguration.id, // Entertainment configuration id
+      entertainmentConfigurationId, // Entertainment configuration ID
     ];
 
     return [
@@ -212,10 +211,18 @@ class EntertainmentStreamRepo {
     return toReturn;
   }
 
-  // TODO: Added docs
-  static Future<bool> sendDataAsXy(
-    DtlsData dtlsData,
-    EntertainmentConfiguration entertainmentConfiguration, {
+  /// Creates a packet to send to the bridge, using XY+brightness color space
+  /// encoding.
+  ///
+  /// The `entertainmentConfigurationId` parameter is the ID of the
+  /// entertainment configuration to send the data to.
+  ///
+  /// The `channel0` through `channel19` parameters are the channels that are
+  /// having their colors set. If a channel is `null`, it will be skipped.
+  ///
+  /// Returns a list of bytes representing the packet.
+  static List<int> getDataAsXy(
+    String entertainmentConfigurationId, {
     ColorXy? channel0,
     ColorXy? channel1,
     ColorXy? channel2,
@@ -236,9 +243,7 @@ class EntertainmentStreamRepo {
     ColorXy? channel17,
     ColorXy? channel18,
     ColorXy? channel19,
-  }) async {
-    if (!dtlsData.isReady) return false;
-
+  }) {
     List<ColorXy?> channels = [
       channel0,
       channel1,
@@ -263,7 +268,7 @@ class EntertainmentStreamRepo {
     ];
 
     final List<int> packet =
-        _getPacketBase(_ColorMode.xy, entertainmentConfiguration);
+        _getPacketBase(_ColorMode.xy, entertainmentConfigurationId);
 
     for (int i = 0; i < channels.length; i++) {
       if (channels[i] == null) continue;
@@ -279,19 +284,21 @@ class EntertainmentStreamRepo {
       );
     }
 
-    try {
-      dtlsData.connection!.send(packet);
-    } catch (e) {
-      // Connection has been cut at this point.
-      return false;
-    }
-
-    return true;
+    return packet;
   }
 
-  static Future<bool> sendDataAsRgb(
+  /// Creates a packet to send to the bridge, using RGB color space encoding.
+  ///
+  /// The `entertainmentConfigurationId` parameter is the ID of the
+  /// entertainment configuration to send the data to.
+  ///
+  /// The `channel0` through `channel19` parameters are the channels that are
+  /// having their colors set. If a channel is `null`, it will be skipped.
+  ///
+  /// Returns a list of bytes representing the packet.
+  static List<int> getDataAsRgb(
     DtlsData dtlsData,
-    EntertainmentConfiguration entertainmentConfiguration, {
+    String entertainmentConfigurationId, {
     ColorRgb? channel0,
     ColorRgb? channel1,
     ColorRgb? channel2,
@@ -312,9 +319,7 @@ class EntertainmentStreamRepo {
     ColorRgb? channel17,
     ColorRgb? channel18,
     ColorRgb? channel19,
-  }) async {
-    if (!dtlsData.isReady) return false;
-
+  }) {
     List<ColorRgb?> channels = [
       channel0,
       channel1,
@@ -339,7 +344,7 @@ class EntertainmentStreamRepo {
     ];
 
     final List<int> packet =
-        _getPacketBase(_ColorMode.rgb, entertainmentConfiguration);
+        _getPacketBase(_ColorMode.rgb, entertainmentConfigurationId);
 
     for (int i = 0; i < channels.length; i++) {
       if (channels[i] == null) continue;
@@ -355,6 +360,13 @@ class EntertainmentStreamRepo {
       );
     }
 
+    return packet;
+  }
+
+  /// Sends the `packet` through the DTLS connection in `dtlsData`.
+  ///
+  /// Returns `true` if the data was send successfully; otherwise, false.
+  static Future<bool> sendData(DtlsData dtlsData, List<int> packet) async {
     try {
       dtlsData.connection!.send(packet);
     } catch (e) {
@@ -395,16 +407,17 @@ class EntertainmentStreamRepo {
 class ColorXy {
   const ColorXy(this.x, this.y, this.brightness)
       : assert(
-          x > 0.0 && x <= 1.0,
-          'x must be greater than 0 and less than or equal to 1',
+          x >= 0.0 && x <= 1.0,
+          'x must be greater than or equal to 0 and less than or equal to 1',
         ),
         assert(
-          y > 0.0 && y <= 1.0,
-          'y must be greater than 0 and less than or equal to 1',
+          y >= 0.0 && y <= 1.0,
+          'y must be greater than or equal to 0 and less than or equal to 1',
         ),
         assert(
-          brightness > 0.0 && brightness <= 1.0,
-          'brightness must be greater than 0 and less than or equal to 1',
+          brightness >= 0.0 && brightness <= 1.0,
+          'brightness must be greater than or equal to 0 and less than or '
+          'equal to 1',
         );
 
   /// Creates a new [ColorXy] instance from the given `r`, `g`, and `b` values.
@@ -415,8 +428,9 @@ class ColorXy {
   factory ColorXy.fromRgb(int r, int g, int b, [double? brightness]) {
     if (brightness != null) {
       assert(
-        brightness > 0.0 && brightness <= 1.0,
-        'brightness must be greater than 0 and less than or equal to 1',
+        brightness >= 0.0 && brightness <= 1.0,
+        'brightness must be greater than or equal to 0 and less than or equal '
+        'to 1',
       );
     }
 
@@ -465,8 +479,9 @@ class ColorRgb {
   factory ColorRgb.fromXy(double x, double y, [double? brightness]) {
     if (brightness != null) {
       assert(
-        brightness > 0.0 && brightness <= 1.0,
-        'brightness must be greater than 0 and less than or equal to 1',
+        brightness >= 0.0 && brightness <= 1.0,
+        'brightness must be greater than or equal to 0 and less than or equal '
+        'to 1',
       );
     }
 

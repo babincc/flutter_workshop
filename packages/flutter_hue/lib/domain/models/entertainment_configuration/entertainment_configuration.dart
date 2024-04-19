@@ -1,17 +1,19 @@
 // ignore_for_file: deprecated_member_use_from_same_package
 
+import 'dart:async';
+
 import 'package:collection/collection.dart';
 import 'package:flutter_hue/constants/api_fields.dart';
 import 'package:flutter_hue/domain/models/bridge/bridge.dart';
-import 'package:flutter_hue/domain/models/entertainment_configuration/dtls_data.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_channel/entertainment_configuration_channel.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_location.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_metadata.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_stream_proxy.dart';
+import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream_controller.dart';
+import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream_packet.dart';
 import 'package:flutter_hue/domain/models/relative.dart';
 import 'package:flutter_hue/domain/models/resource.dart';
 import 'package:flutter_hue/domain/models/resource_type.dart';
-import 'package:flutter_hue/domain/repos/entertainment_stream_repo.dart';
 import 'package:flutter_hue/exceptions/invalid_name_exception.dart';
 import 'package:flutter_hue/utils/json_tool.dart';
 import 'package:flutter_hue/utils/misc_tools.dart';
@@ -236,8 +238,9 @@ class EntertainmentConfiguration extends Resource {
   /// The value of [action] when this object was instantiated.
   String? _originalAction;
 
-  /// DTLS client and connection information.
-  final DtlsData _dtlsData = DtlsData();
+  /// Handles the entertainment stream.
+  final EntertainmentStreamController _entertainmentStream =
+      EntertainmentStreamController();
 
   /// Start streaming for `this` entertainment configuration.
   ///
@@ -254,14 +257,12 @@ class EntertainmentConfiguration extends Resource {
   Future<bool> startStreaming(
     Bridge bridge, {
     String Function(String ciphertext)? decrypter,
-  }) async {
-    return await EntertainmentStreamRepo.startStreaming(
-      bridge,
-      this,
-      _dtlsData,
-      decrypter: decrypter,
-    );
-  }
+  }) async =>
+      await _entertainmentStream.startStreaming(
+        bridge,
+        id,
+        decrypter: decrypter,
+      );
 
   /// Stop streaming for `this` entertainment configuration.
   ///
@@ -279,29 +280,31 @@ class EntertainmentConfiguration extends Resource {
     Bridge bridge, {
     String Function(String ciphertext)? decrypter,
   }) async =>
-      await EntertainmentStreamRepo.stopStreaming(
+      _entertainmentStream.stopStreaming(
         bridge,
-        this,
-        _dtlsData,
+        id,
         decrypter: decrypter,
       );
 
-  // TODO: Add documentation
-  Future<void> sendData() async =>
-      // await EntertainmentStreamRepo.sendDataAsRgb(
-      //   _dtlsData,
-      //   this,
-      //   channel1: const ColorRgb(255, 0, 0),
-      //   channel2: const ColorRgb(0, 255, 0),
-      //   channel3: const ColorRgb(0, 0, 255),
-      // );
-      await EntertainmentStreamRepo.sendDataAsXy(
-        _dtlsData,
-        this,
-        channel1: ColorXy.fromRgb(255, 0, 0, 1.0),
-        channel2: ColorXy.fromRgb(0, 255, 0, 1.0),
-        channel3: ColorXy.fromRgb(0, 0, 255, 1.0),
-      );
+  /// The current length of the queue.
+  ///
+  /// This is the number of packets that are waiting to be sent to the bridge.
+  ///
+  /// This is used to see if the queue is getting backed up. If so, you can call
+  /// [replaceStreamQueue] to replace the queue with a new packet.
+  int get queueLength => _entertainmentStream.queueLength;
+
+  /// Adds a packet to the stream queue.
+  void addToStreamQueue(EntertainmentStreamPacket packet) =>
+      _entertainmentStream.addToQueue(packet);
+
+  /// Adds a list of packets to the stream queue.
+  void addAllToStreamQueue(List<EntertainmentStreamPacket> packets) =>
+      _entertainmentStream.addAllToQueue(packets);
+
+  /// Replaces the stream queue with the packets provided.
+  void replaceStreamQueue(List<EntertainmentStreamPacket> packets) =>
+      _entertainmentStream.replaceQueue(packets);
 
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.

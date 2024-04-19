@@ -82,8 +82,9 @@ class _HomePageState extends State<HomePage> {
             }
 
             TokenRepo.fetchRemoteToken(
-              clientId: "[clientId]",
-              clientSecret: "[clientSecret]",
+              clientId: "[clientId]", // TODO: Replace with your client ID
+              clientSecret:
+                  "[clientSecret]", // TODO: Replace with your client secret
               pkce: pkce,
               code: code,
               stateSecret: stateSecret,
@@ -100,8 +101,8 @@ class _HomePageState extends State<HomePage> {
     // Initialize Flutter Hue and keep all of the locally stored data up to
     // date.
     FlutterHueMaintenanceRepo.maintain(
-      clientId: "[clientId]",
-      clientSecret: "[clientSecret]",
+      clientId: "[clientId]", // TODO: Replace with your client ID
+      clientSecret: "[clientSecret]", // TODO: Replace with your client secret
       redirectUri: "flutterhue://auth",
       deviceName: "TestDevice",
       stateEncrypter: (plaintext) => "abcd${plaintext}1234",
@@ -119,6 +120,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: doSomething,
+          icon: const Icon(Icons.science),
+        ),
         title: const Text("Flutter Hue"),
         actions: isLoading
             ? [
@@ -268,6 +273,26 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
 
+              const SizedBox(height: padding * 2),
+
+              sectionHeader("Entertainment Streaming"),
+
+              // START STREAMING
+              ElevatedButton(
+                onPressed:
+                    (hueNetwork == null || isStreaming) ? null : startStreaming,
+                child: const Text("Start Steaming"),
+              ),
+
+              const SizedBox(height: padding * 2),
+
+              // STOP STREAMING
+              ElevatedButton(
+                onPressed:
+                    (hueNetwork == null || !isStreaming) ? null : stopStreaming,
+                child: const Text("Stop Streaming"),
+              ),
+
               const SizedBox(height: padding),
             ],
           ),
@@ -325,6 +350,24 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Future<void> doSomething() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    // ignore: avoid_print
+    print('Doing something...');
+
+    // TODO: You can do your experiments easily here.
+
+    // ignore: avoid_print
+    print('Done!');
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   /// Searches the network for bridges.
   ///
   /// If any are found, their IP addresses are placed in the [bridgeIps] list.
@@ -370,7 +413,7 @@ class _HomePageState extends State<HomePage> {
     });
 
     await BridgeDiscoveryRepo.remoteAuthRequest(
-      clientId: "[clientId]",
+      clientId: "[clientId]", // TODO: Replace with your client ID
       redirectUri: "flutterhue://auth",
       deviceName: "TestDevice",
       encrypter: (plaintext) => "abcd${plaintext}1234",
@@ -518,6 +561,97 @@ class _HomePageState extends State<HomePage> {
     await bridge!.put(light!);
 
     setState(() {
+      isLoading = false;
+    });
+  }
+
+  bool isStreaming = false;
+
+  /// Starts the entertainment streaming process.
+  Future<void> startStreaming() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    bool isStreaming = this.isStreaming;
+
+    try {
+      await hueNetwork!.entertainmentConfigurations.first
+          .startStreaming(bridge!)
+          .then(
+        (value) {
+          if (value) {
+            isStreaming = true;
+
+            final ColorXy white = ColorXy.fromRgb(255, 255, 255, 0.5);
+            final ColorXy off = ColorXy.fromRgb(0, 0, 0, 0.0);
+
+            final List<int> packet1 = EntertainmentStreamRepo.getDataAsXy(
+              hueNetwork!.entertainmentConfigurations.first.id,
+              channel0: white,
+              channel1: off,
+            );
+
+            final List<int> packet2 = EntertainmentStreamRepo.getDataAsXy(
+              hueNetwork!.entertainmentConfigurations.first.id,
+              channel0: off,
+              channel1: white,
+            );
+
+            // This should cause two lights to alternate between white and off.
+            //
+            // There will be a 500ms pause between each animation.
+            for (int i = 0; i < 5; i++) {
+              hueNetwork!.entertainmentConfigurations.first.addToStreamQueue(
+                EntertainmentStreamPacket(
+                  packets: [packet1],
+                  waitAfterAnimation: const Duration(milliseconds: 500),
+                ),
+              );
+              hueNetwork!.entertainmentConfigurations.first.addToStreamQueue(
+                EntertainmentStreamPacket(
+                  packets: [packet2],
+                  waitAfterAnimation: const Duration(milliseconds: 500),
+                ),
+              );
+            }
+          }
+        },
+      );
+    } catch (e) {
+      // Do nothing
+    }
+
+    setState(() {
+      this.isStreaming = isStreaming;
+      isLoading = false;
+    });
+  }
+
+  /// Stops the entertainment streaming process.
+  Future<void> stopStreaming() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    bool isStreaming = this.isStreaming;
+
+    try {
+      await hueNetwork!.entertainmentConfigurations.first
+          .stopStreaming(bridge!)
+          .then(
+        (value) {
+          if (value) {
+            isStreaming = false;
+          }
+        },
+      );
+    } catch (e) {
+      // Do nothing
+    }
+
+    setState(() {
+      this.isStreaming = isStreaming;
       isLoading = false;
     });
   }
