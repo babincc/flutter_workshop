@@ -30,7 +30,10 @@ export 'package:flutter_hue/domain/models/entertainment_configuration/entertainm
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_metadata.dart';
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_position.dart';
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_stream_proxy.dart';
-export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream_packet.dart';
+export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_bundle.dart';
+export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_color.dart';
+export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_command.dart';
+export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_packet.dart';
 export 'package:flutter_hue/domain/models/geofence_client/geofence_client.dart';
 export 'package:flutter_hue/domain/models/geolocation/geolocation.dart';
 export 'package:flutter_hue/domain/models/grouped_light/grouped_light.dart';

@@ -4,10 +4,11 @@ import 'dart:typed_data';
 import 'package:flutter_hue/constants/api_fields.dart';
 import 'package:flutter_hue/domain/models/bridge/bridge.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/dtls_data.dart';
+import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_color.dart';
+import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_command.dart';
 import 'package:flutter_hue/domain/models/resource_type.dart';
 import 'package:flutter_hue/domain/repos/hue_http_repo.dart';
 import 'package:flutter_hue/domain/services/entertainment_stream_service.dart';
-import 'package:flutter_hue/utils/color_converter.dart';
 import 'package:flutter_hue/utils/json_tool.dart';
 
 class EntertainmentStreamRepo {
@@ -161,7 +162,7 @@ class EntertainmentStreamRepo {
       );
 
   static List<int> _getPacketBase(
-    _ColorMode colorMode,
+    ColorMode colorMode,
     String entertainmentConfigurationId,
   ) {
     /// The first part of the packet.
@@ -179,7 +180,7 @@ class EntertainmentStreamRepo {
     ///
     /// - 0x00 for RGB
     /// - 0x01 for XY
-    final int colorModeValue = colorMode == _ColorMode.xy ? 0x01 : 0x00;
+    final int colorModeValue = colorMode == ColorMode.xy ? 0x01 : 0x00;
 
     /// The second part of the packet.
     List<dynamic> part2 = [
@@ -217,71 +218,38 @@ class EntertainmentStreamRepo {
   /// The `entertainmentConfigurationId` parameter is the ID of the
   /// entertainment configuration to send the data to.
   ///
-  /// The `channel0` through `channel19` parameters are the channels that are
-  /// having their colors set. If a channel is `null`, it will be skipped.
+  /// The `channels` are the channels that are having their colors set, and what
+  /// color they are being set to. Note, any channel that is using RGB instead
+  /// of XY will be ignored.
   ///
   /// Returns a list of bytes representing the packet.
   static List<int> getDataAsXy(
-    String entertainmentConfigurationId, {
-    ColorXy? channel0,
-    ColorXy? channel1,
-    ColorXy? channel2,
-    ColorXy? channel3,
-    ColorXy? channel4,
-    ColorXy? channel5,
-    ColorXy? channel6,
-    ColorXy? channel7,
-    ColorXy? channel8,
-    ColorXy? channel9,
-    ColorXy? channel10,
-    ColorXy? channel11,
-    ColorXy? channel12,
-    ColorXy? channel13,
-    ColorXy? channel14,
-    ColorXy? channel15,
-    ColorXy? channel16,
-    ColorXy? channel17,
-    ColorXy? channel18,
-    ColorXy? channel19,
-  }) {
-    List<ColorXy?> channels = [
-      channel0,
-      channel1,
-      channel2,
-      channel3,
-      channel4,
-      channel5,
-      channel6,
-      channel7,
-      channel8,
-      channel9,
-      channel10,
-      channel11,
-      channel12,
-      channel13,
-      channel14,
-      channel15,
-      channel16,
-      channel17,
-      channel18,
-      channel19,
-    ];
-
+    String entertainmentConfigurationId,
+    List<EntertainmentStreamCommand> commands,
+  ) {
     final List<int> packet =
-        _getPacketBase(_ColorMode.xy, entertainmentConfigurationId);
+        _getPacketBase(ColorMode.xy, entertainmentConfigurationId);
 
-    for (int i = 0; i < channels.length; i++) {
-      if (channels[i] == null) continue;
+    // Add every command to the packet.
+    int counter = 0;
+    for (final EntertainmentStreamCommand command in commands) {
+      // Skip any commands that are not using XY color space.
+      if (command.color is! ColorXy) continue;
 
-      packet.add(i);
+      // Only allow 20 commands per packet.
+      if (counter >= 20) break;
+
+      packet.add(command.channel);
 
       packet.addAll(
         _formatXy(
-          channels[i]!.x,
-          channels[i]!.y,
-          channels[i]!.brightness,
+          (command.color as ColorXy).x,
+          (command.color as ColorXy).y,
+          (command.color as ColorXy).brightness,
         ),
       );
+
+      counter++;
     }
 
     return packet;
@@ -290,74 +258,40 @@ class EntertainmentStreamRepo {
   /// Creates a packet to send to the bridge, using RGB color space encoding.
   ///
   /// The `entertainmentConfigurationId` parameter is the ID of the
-  /// entertainment configuration to send the data to.
+  /// entertainment configuration to send the data to. Note, any channel that is
+  /// using XY instead of RGB will be ignored.
   ///
-  /// The `channel0` through `channel19` parameters are the channels that are
-  /// having their colors set. If a channel is `null`, it will be skipped.
+  /// The `channels` are the channels that are having their colors set, and what
+  /// color they are being set to.
   ///
   /// Returns a list of bytes representing the packet.
   static List<int> getDataAsRgb(
-    DtlsData dtlsData,
-    String entertainmentConfigurationId, {
-    ColorRgb? channel0,
-    ColorRgb? channel1,
-    ColorRgb? channel2,
-    ColorRgb? channel3,
-    ColorRgb? channel4,
-    ColorRgb? channel5,
-    ColorRgb? channel6,
-    ColorRgb? channel7,
-    ColorRgb? channel8,
-    ColorRgb? channel9,
-    ColorRgb? channel10,
-    ColorRgb? channel11,
-    ColorRgb? channel12,
-    ColorRgb? channel13,
-    ColorRgb? channel14,
-    ColorRgb? channel15,
-    ColorRgb? channel16,
-    ColorRgb? channel17,
-    ColorRgb? channel18,
-    ColorRgb? channel19,
-  }) {
-    List<ColorRgb?> channels = [
-      channel0,
-      channel1,
-      channel2,
-      channel3,
-      channel4,
-      channel5,
-      channel6,
-      channel7,
-      channel8,
-      channel9,
-      channel10,
-      channel11,
-      channel12,
-      channel13,
-      channel14,
-      channel15,
-      channel16,
-      channel17,
-      channel18,
-      channel19,
-    ];
-
+    String entertainmentConfigurationId,
+    List<EntertainmentStreamCommand> commands,
+  ) {
     final List<int> packet =
-        _getPacketBase(_ColorMode.rgb, entertainmentConfigurationId);
+        _getPacketBase(ColorMode.rgb, entertainmentConfigurationId);
 
-    for (int i = 0; i < channels.length; i++) {
-      if (channels[i] == null) continue;
+    // Add every command to the packet.
+    int counter = 0;
+    for (final EntertainmentStreamCommand command in commands) {
+      // Skip any commands that are not using XY color space.
+      if (command.color is! ColorRgb) continue;
 
-      packet.add(i);
+      // Only allow 20 commands per packet.
+      if (counter >= 20) break;
+
+      packet.add(command.channel);
 
       packet.addAll(
         _formatRgb(
-          channels[i]!.r,
-          channels[i]!.g,
-          channels[i]!.b,
+          (command.color as ColorRgb).r,
+          (command.color as ColorRgb).g,
+          (command.color as ColorRgb).b,
         ),
       );
+
+      counter++;
     }
 
     return packet;
@@ -401,117 +335,4 @@ class EntertainmentStreamRepo {
   /// endian integer.
   static Uint8List __int16BigEndianBytes(int value) =>
       Uint8List(2)..buffer.asByteData().setInt16(0, value, Endian.big);
-}
-
-/// A class representing a color in the CIE 1931 color space.
-class ColorXy {
-  const ColorXy(this.x, this.y, this.brightness)
-      : assert(
-          x >= 0.0 && x <= 1.0,
-          'x must be greater than or equal to 0 and less than or equal to 1',
-        ),
-        assert(
-          y >= 0.0 && y <= 1.0,
-          'y must be greater than or equal to 0 and less than or equal to 1',
-        ),
-        assert(
-          brightness >= 0.0 && brightness <= 1.0,
-          'brightness must be greater than or equal to 0 and less than or '
-          'equal to 1',
-        );
-
-  /// Creates a new [ColorXy] instance from the given `r`, `g`, and `b` values.
-  ///
-  /// The `brightness` parameter is the brightness of the color. If not
-  /// provided, it defaults to the calculated brightness of the color. Note,
-  /// this is typically a bit dim.
-  factory ColorXy.fromRgb(int r, int g, int b, [double? brightness]) {
-    if (brightness != null) {
-      assert(
-        brightness >= 0.0 && brightness <= 1.0,
-        'brightness must be greater than or equal to 0 and less than or equal '
-        'to 1',
-      );
-    }
-
-    final List<double> xyList = ColorConverter.rgb2xy(r, g, b);
-
-    return ColorXy(xyList[0], xyList[1], brightness ?? xyList[2]);
-  }
-
-  /// The x value of the color.
-  final double x;
-
-  /// The y value of the color.
-  final double y;
-
-  /// The brightness of the color.
-  final double brightness;
-
-  /// Converts this color to an RGB color.
-  ///
-  /// The `brightness` parameter is the brightness of the color. If not
-  /// provided, it defaults to the [brightness] of this XY color.
-  ColorRgb toRgb([double? brightness]) =>
-      ColorRgb.fromXy(x, y, brightness ?? this.brightness);
-}
-
-/// A class representing a color in the RGB color space.
-class ColorRgb {
-  const ColorRgb(this.r, this.g, this.b)
-      : assert(
-          r >= 0 && r <= 255,
-          'r must be greater than or equal to 0 and less than or equal to 255',
-        ),
-        assert(
-          g >= 0 && g <= 255,
-          'g must be greater than or equal to 0 and less than or equal to 255',
-        ),
-        assert(
-          b >= 0 && b <= 255,
-          'b must be greater than or equal to 0 and less than or equal to 255',
-        );
-
-  /// Creates a new [ColorRgb] instance from the given `x` and `y` values.
-  ///
-  /// The `brightness` parameter is the brightness of the color. If not
-  /// provided, it defaults to `1.0`.
-  factory ColorRgb.fromXy(double x, double y, [double? brightness]) {
-    if (brightness != null) {
-      assert(
-        brightness >= 0.0 && brightness <= 1.0,
-        'brightness must be greater than or equal to 0 and less than or equal '
-        'to 1',
-      );
-    }
-
-    final List<int> rgbList = ColorConverter.xy2rgb(x, y, brightness ?? 1.0);
-
-    return ColorRgb(rgbList[0], rgbList[1], rgbList[2]);
-  }
-
-  /// The red value of the color.
-  final int r;
-
-  /// The green value of the color.
-  final int g;
-
-  /// The blue value of the color.
-  final int b;
-
-  /// Converts this color to an XY color.
-  ///
-  /// The `brightness` parameter is the brightness of the color. If not
-  /// provided, it defaults to the calculated brightness of the color. Note,
-  /// this is typically a bit dim.
-  ColorXy toXy([double? brightness]) => ColorXy.fromRgb(r, g, b, brightness);
-}
-
-/// An enum representing the color mode of the entertainment stream.
-enum _ColorMode {
-  /// The color mode is XY and uses the CIE 1931 color space.
-  xy,
-
-  /// The color mode is RGB and uses the RGB color space.
-  rgb,
 }

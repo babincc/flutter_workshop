@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_hue/domain/models/bridge/bridge.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/dtls_data.dart';
-import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream_packet.dart';
+import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_bundle.dart';
 import 'package:flutter_hue/domain/repos/entertainment_stream_repo.dart';
 
 class EntertainmentStreamController {
@@ -10,7 +10,7 @@ class EntertainmentStreamController {
   final DtlsData _dtlsData = DtlsData();
 
   /// The queue of packets that need to be send to the bridge.
-  final List<EntertainmentStreamPacket> _queue = [];
+  final List<EntertainmentStreamBundle> _queue = [];
 
   /// The current length of the queue.
   ///
@@ -144,17 +144,17 @@ class EntertainmentStreamController {
   }
 
   /// Add a packet to the queue.
-  void addToQueue(EntertainmentStreamPacket packet) {
+  void addToQueue(EntertainmentStreamBundle packet) {
     _queue.add(packet);
   }
 
   /// Add multiple packets to the queue.
-  void addAllToQueue(List<EntertainmentStreamPacket> packets) {
+  void addAllToQueue(List<EntertainmentStreamBundle> packets) {
     _queue.addAll(packets);
   }
 
   /// Empty the queue and replace it with `packets`.
-  Future<void> replaceQueue(List<EntertainmentStreamPacket> packets) async {
+  Future<void> replaceQueue(List<EntertainmentStreamBundle> packets) async {
     _queue.clear();
     _queue.addAll(packets);
   }
@@ -169,25 +169,43 @@ class EntertainmentStreamController {
       return;
     }
 
-    final EntertainmentStreamPacket packet = _queue.removeAt(0);
+    final EntertainmentStreamBundle bundle = _queue.removeAt(0);
 
-    if (packet.packets.isEmpty) {
+    if (bundle.packets.isEmpty) {
       __isHandlingQueue = false;
       return;
     }
 
-    if (packet.animationDuration == null) {
+    if (bundle.animationDuration == null) {
       // If there is no animation duration, send the last packet in the list,
       // and move on.
-      _currentPacket = packet.packets.last;
+      _currentPacket = bundle.packets.last.toBytes();
     } else {
       // If there is an animation duration, send the packets in order, for the
       // duration of the animation.
 
+      /// Whether or not the animation is currently running.
+      bool isAnimating = true;
+
       final Timer animationTimer = Timer.periodic(
-        packet.animationDuration!,
+        Duration(milliseconds: _sendIntervalMilliseconds),
         (timer) {
           try {
+            if (!isAnimating) return;
+
+            final int elapsedMilliseconds =
+                (timer.tick - 1) * _sendIntervalMilliseconds;
+
+            final int index =
+                (elapsedMilliseconds / bundle.timePerColor).floor();
+
+            if (index >= bundle.packets.length) {
+              isAnimating = false;
+              return;
+            }
+
+            _currentPacket = bundle.packets[index].toBytes();
+
             // TODO
           } catch (e) {
             // This is for the rare case where the timer starts after the
@@ -197,14 +215,16 @@ class EntertainmentStreamController {
         },
       );
 
-      await Future.delayed(packet.animationDuration!);
+      await Future.delayed(bundle.animationDuration!);
+
+      isAnimating = false;
 
       animationTimer.cancel();
     }
 
     // Wait after the animation is done.
-    if (packet.waitAfterAnimation != null) {
-      await Future.delayed(packet.waitAfterAnimation!);
+    if (bundle.waitAfterAnimation != null) {
+      await Future.delayed(bundle.waitAfterAnimation!);
     }
 
     // Signal that we are ready to handle the next packet.

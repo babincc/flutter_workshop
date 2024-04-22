@@ -9,8 +9,8 @@ import 'package:flutter_hue/domain/models/entertainment_configuration/entertainm
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_location.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_metadata.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_stream_proxy.dart';
-import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream_controller.dart';
-import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream_packet.dart';
+import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_bundle.dart';
+import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_controller.dart';
 import 'package:flutter_hue/domain/models/relative.dart';
 import 'package:flutter_hue/domain/models/resource.dart';
 import 'package:flutter_hue/domain/models/resource_type.dart';
@@ -295,15 +295,15 @@ class EntertainmentConfiguration extends Resource {
   int get queueLength => _entertainmentStream.queueLength;
 
   /// Adds a packet to the stream queue.
-  void addToStreamQueue(EntertainmentStreamPacket packet) =>
+  void addToStreamQueue(EntertainmentStreamBundle packet) =>
       _entertainmentStream.addToQueue(packet);
 
   /// Adds a list of packets to the stream queue.
-  void addAllToStreamQueue(List<EntertainmentStreamPacket> packets) =>
+  void addAllToStreamQueue(List<EntertainmentStreamBundle> packets) =>
       _entertainmentStream.addAllToQueue(packets);
 
   /// Replaces the stream queue with the packets provided.
-  void replaceStreamQueue(List<EntertainmentStreamPacket> packets) =>
+  void replaceStreamQueue(List<EntertainmentStreamBundle> packets) =>
       _entertainmentStream.replaceQueue(packets);
 
   /// Called after a successful PUT request, this method refreshed the

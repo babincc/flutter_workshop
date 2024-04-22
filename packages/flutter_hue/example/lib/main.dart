@@ -583,35 +583,37 @@ class _HomePageState extends State<HomePage> {
           if (value) {
             isStreaming = true;
 
-            final ColorXy white = ColorXy.fromRgb(255, 255, 255, 0.5);
-            final ColorXy off = ColorXy.fromRgb(0, 0, 0, 0.0);
+            final ColorXy red = ColorXy.fromRgb(255, 0, 0, 1.0);
+            final ColorXy blue = ColorXy.fromRgb(0, 0, 255, 1.0);
 
-            final List<int> packet1 = EntertainmentStreamRepo.getDataAsXy(
-              hueNetwork!.entertainmentConfigurations.first.id,
-              channel0: white,
-              channel1: off,
+            final EntertainmentStreamPacket packet1 = EntertainmentStreamPacket(
+              entertainmentConfigurationId:
+                  hueNetwork!.entertainmentConfigurations.first.id,
+              commands: [
+                EntertainmentStreamCommand(channel: 0, color: red),
+              ],
             );
 
-            final List<int> packet2 = EntertainmentStreamRepo.getDataAsXy(
-              hueNetwork!.entertainmentConfigurations.first.id,
-              channel0: off,
-              channel1: white,
+            final EntertainmentStreamPacket packet2 = EntertainmentStreamPacket(
+              entertainmentConfigurationId:
+                  hueNetwork!.entertainmentConfigurations.first.id,
+              commands: [
+                EntertainmentStreamCommand(channel: 0, color: blue),
+              ],
             );
 
-            // This should cause two lights to alternate between white and off.
+            // This should cause one lights to alternate between red and blue.
             //
-            // There will be a 500ms pause between each animation.
+            // They will stay red or blue for 500ms then switch. This will
+            // happen for 5 seconds, then it should stop on blue.
+            //
+            // Since blue is the last state, it will still be streaming blue so
+            // the bridge doesn't drop the connection due to inactivity.
             for (int i = 0; i < 5; i++) {
               hueNetwork!.entertainmentConfigurations.first.addToStreamQueue(
-                EntertainmentStreamPacket(
-                  packets: [packet1],
-                  waitAfterAnimation: const Duration(milliseconds: 500),
-                ),
-              );
-              hueNetwork!.entertainmentConfigurations.first.addToStreamQueue(
-                EntertainmentStreamPacket(
-                  packets: [packet2],
-                  waitAfterAnimation: const Duration(milliseconds: 500),
+                EntertainmentStreamBundle(
+                  packets: [packet1, packet2],
+                  animationDuration: const Duration(milliseconds: 1000),
                 ),
               );
             }

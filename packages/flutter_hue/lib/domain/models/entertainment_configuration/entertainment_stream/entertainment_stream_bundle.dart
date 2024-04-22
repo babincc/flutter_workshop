@@ -1,5 +1,7 @@
-class EntertainmentStreamPacket {
-  const EntertainmentStreamPacket({
+import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_packet.dart';
+
+class EntertainmentStreamBundle {
+  const EntertainmentStreamBundle({
     required this.packets,
     this.animationDuration,
     this.waitAfterAnimation,
@@ -12,7 +14,7 @@ class EntertainmentStreamPacket {
   ///
   /// These will be sent in the order they are in the list, over the course of
   /// [animationDuration].
-  final List<List<int>> packets;
+  final List<EntertainmentStreamPacket> packets;
 
   /// The duration of the animation.
   ///
@@ -22,4 +24,8 @@ class EntertainmentStreamPacket {
 
   /// The duration to wait after the animation has finished.
   final Duration? waitAfterAnimation;
+
+  /// The amount of time to spend on each color in a linear curve from the
+  /// first color to the last color.
+  double get timePerColor => animationDuration!.inMilliseconds / packets.length;
 }
