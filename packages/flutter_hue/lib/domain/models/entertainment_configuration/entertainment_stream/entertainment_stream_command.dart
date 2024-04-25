@@ -78,13 +78,13 @@ class EntertainmentStreamCommand {
 
           // Calculate and set [_currentColor] based on animation type.
           switch (animationType) {
-            case AnimationType.fade:
+            case AnimationType.ease:
               if (previousColor == null) {
                 __getCurrentColorNoAnimation();
                 break;
               }
 
-              __getCurrentColorFade(previousColor, elapsedMilliseconds);
+              __getCurrentColorEase(previousColor, elapsedMilliseconds);
               break;
             case AnimationType.none:
               __getCurrentColorNoAnimation();
@@ -107,7 +107,7 @@ class EntertainmentStreamCommand {
     _isRunning = false;
   }
 
-  void __getCurrentColorFade(
+  void __getCurrentColorEase(
     EntertainmentStreamColor previousColor,
     int elapsedMilliseconds,
   ) {
@@ -163,7 +163,7 @@ enum AnimationType {
   ///
   /// Prolong the amount of time on the specified color by setting the command's
   /// [waitAfterAnimation] property.
-  fade,
+  ease,
 
   /// Instantly switch from the previous command's color to the one in the
   /// current command.

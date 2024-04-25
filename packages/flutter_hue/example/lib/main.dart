@@ -709,14 +709,14 @@ class _HomePageState extends State<HomePage> {
       channel: 0,
       color: red,
       animationDuration: const Duration(milliseconds: 500),
-      animationType: AnimationType.fade,
+      animationType: AnimationType.ease,
     );
 
     final EntertainmentStreamCommand command2 = EntertainmentStreamCommand(
       channel: 0,
       color: blue,
       animationDuration: const Duration(milliseconds: 500),
-      animationType: AnimationType.fade,
+      animationType: AnimationType.ease,
     );
 
     // This should cause one lights to alternate between red and blue.
