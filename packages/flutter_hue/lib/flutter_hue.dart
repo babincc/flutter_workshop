@@ -30,7 +30,6 @@ export 'package:flutter_hue/domain/models/entertainment_configuration/entertainm
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_metadata.dart';
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_position.dart';
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_stream_proxy.dart';
-export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_bundle.dart';
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_color.dart';
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_command.dart';
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_packet.dart';
@@ -119,6 +118,7 @@ export 'package:flutter_hue/exceptions/coordinate_exception.dart';
 export 'package:flutter_hue/exceptions/corrupt_token_data_exception.dart';
 export 'package:flutter_hue/exceptions/expired_token_exception.dart';
 export 'package:flutter_hue/exceptions/gradient_exception.dart';
+export 'package:flutter_hue/exceptions/invalid_command_channel_exception.dart';
 export 'package:flutter_hue/exceptions/invalid_id_exception.dart';
 export 'package:flutter_hue/exceptions/invalid_name_exception.dart';
 export 'package:flutter_hue/exceptions/invalid_value_exception.dart';

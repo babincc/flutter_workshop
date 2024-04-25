@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter_hue/flutter_hue.dart';
 import 'package:flutter_hue/utils/color_converter.dart';
 
 /// Represents a color that can be sent as a command to the bridge.
@@ -18,8 +20,54 @@ abstract class EntertainmentStreamColor {
       'brightness must be greater than or equal to 0 and less than or equal to '
       '1';
 
+  /// Returns a copy of this object.
+  EntertainmentStreamColor copy();
+
+  /// Returns a copy of this object with its field values replaced by the ones
+  /// provided to this method.
+  EntertainmentStreamColor copyWith();
+
   /// Converts this color to the given `colorMode`.
   EntertainmentStreamColor to(ColorMode colorMode, [double? brightness]);
+
+  /// {@template lerp}
+  /// Linearly interpolate between two colors.
+  ///
+  /// The `t` parameter is the interpolation value. It must be between `0.0` and
+  /// `1.0`.
+  /// {@endtemplate}
+  ///
+  /// If `a` and `b` are the same [Type], the result will be the same [Type]. If
+  /// `a` and `b` are different [Type]s, the result will be a [ColorXy].
+  static EntertainmentStreamColor lerp(
+    EntertainmentStreamColor a,
+    EntertainmentStreamColor b,
+    double t,
+  ) {
+    if (a is ColorXy && b is ColorXy) {
+      return ColorXy.lerp(a, b, t);
+    }
+
+    if (a is ColorRgb && b is ColorRgb) {
+      return ColorRgb.lerp(a, b, t);
+    }
+
+    final ColorXy aXy;
+    if (a is ColorXy) {
+      aXy = a;
+    } else {
+      aXy = a.to(ColorMode.xy) as ColorXy;
+    }
+
+    final ColorXy bXy;
+    if (b is ColorXy) {
+      bXy = b;
+    } else {
+      bXy = b.to(ColorMode.xy) as ColorXy;
+    }
+
+    return ColorXy.lerp(aXy, bXy, t);
+  }
 }
 
 /// A class representing a color in the CIE 1931 color space.
@@ -66,8 +114,10 @@ class ColorXy extends EntertainmentStreamColor {
   /// The brightness of the color.
   final double brightness;
 
-  /// Returns a copy of this object with its field values replaced by the ones
-  /// provided to this method.
+  @override
+  ColorXy copy() => copyWith();
+
+  @override
   ColorXy copyWith({
     double? x,
     double? y,
@@ -99,6 +149,31 @@ class ColorXy extends EntertainmentStreamColor {
   @override
   String toString() =>
       'Instance of ColorXy: x=$x, y=$y, brightness=$brightness';
+
+  /// {@macro lerp}
+  static ColorXy lerp(
+    ColorXy a,
+    ColorXy b,
+    double t,
+  ) {
+    final double x = clampDouble(
+      a.x + (b.x - a.x) * t,
+      0.0,
+      1.0,
+    );
+    final double y = clampDouble(
+      a.y + (b.y - a.y) * t,
+      0.0,
+      1.0,
+    );
+    final double brightness = clampDouble(
+      a.brightness + (b.brightness - a.brightness) * t,
+      0.0,
+      1.0,
+    );
+
+    return ColorXy(x, y, brightness);
+  }
 }
 
 /// A class representing a color in the RGB color space.
@@ -144,8 +219,10 @@ class ColorRgb extends EntertainmentStreamColor {
   /// The blue value of the color.
   final int b;
 
-  /// Returns a copy of this object with its field values replaced by the ones
-  /// provided to this method.
+  @override
+  ColorRgb copy() => copyWith();
+
+  @override
   ColorRgb copyWith({
     int? r,
     int? g,
@@ -176,6 +253,37 @@ class ColorRgb extends EntertainmentStreamColor {
 
   @override
   String toString() => 'Instance of ColorRgb: r=$r, g=$g, b=$b';
+
+  /// {@macro lerp}
+  static ColorRgb lerp(
+    ColorRgb a,
+    ColorRgb b,
+    double t,
+  ) {
+    final int red = (a.r + (b.r - a.r) * t)
+        .round()
+        .clamp(
+          0,
+          255,
+        )
+        .toInt();
+    final int green = (a.g + (b.g - a.g) * t)
+        .round()
+        .clamp(
+          0,
+          255,
+        )
+        .toInt();
+    final int blue = (a.b + (b.b - a.b) * t)
+        .round()
+        .clamp(
+          0,
+          255,
+        )
+        .toInt();
+
+    return ColorRgb(red, green, blue);
+  }
 }
 
 /// An enum representing the color mode of the entertainment stream.

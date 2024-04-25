@@ -9,7 +9,7 @@ import 'package:flutter_hue/domain/models/entertainment_configuration/entertainm
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_location.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_metadata.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_stream_proxy.dart';
-import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_bundle.dart';
+import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_command.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_controller.dart';
 import 'package:flutter_hue/domain/models/relative.dart';
 import 'package:flutter_hue/domain/models/resource.dart';
@@ -45,7 +45,8 @@ class EntertainmentConfiguration extends Resource {
         _originalAction = action,
         _originalStreamProxy = streamProxy.copyWith(),
         _originalLocations =
-            locations.map((location) => location.copyWith()).toList();
+            locations.map((location) => location.copyWith()).toList(),
+        _entertainmentStream = EntertainmentStreamController(id);
 
   /// Creates a [EntertainmentConfiguration] object from the JSON response to a
   /// GET request.
@@ -109,6 +110,7 @@ class EntertainmentConfiguration extends Resource {
         _originalLocations = [],
         lightServices = [],
         _originalAction = null,
+        _entertainmentStream = EntertainmentStreamController.empty(),
         super.empty();
 
   /// Clip v1 resource identifier.
@@ -239,8 +241,7 @@ class EntertainmentConfiguration extends Resource {
   String? _originalAction;
 
   /// Handles the entertainment stream.
-  final EntertainmentStreamController _entertainmentStream =
-      EntertainmentStreamController();
+  final EntertainmentStreamController _entertainmentStream;
 
   /// Start streaming for `this` entertainment configuration.
   ///
@@ -260,7 +261,6 @@ class EntertainmentConfiguration extends Resource {
   }) async =>
       await _entertainmentStream.startStreaming(
         bridge,
-        id,
         decrypter: decrypter,
       );
 
@@ -282,29 +282,55 @@ class EntertainmentConfiguration extends Resource {
   }) async =>
       _entertainmentStream.stopStreaming(
         bridge,
-        id,
         decrypter: decrypter,
       );
 
-  /// The current length of the queue.
+  /// The current length of the queue in the given `channel`.
   ///
-  /// This is the number of packets that are waiting to be sent to the bridge.
+  /// This is the number of commands that are waiting to be sent to the bridge
+  /// for the given `channel`.
   ///
   /// This is used to see if the queue is getting backed up. If so, you can call
-  /// [replaceStreamQueue] to replace the queue with a new packet.
-  int get queueLength => _entertainmentStream.queueLength;
+  /// [flushStreamQueue], [replaceStreamQueue], or [replaceStreamQueueChannel]
+  /// to help deal with the backup.
+  int queueLengthInChannel(int channel) =>
+      _entertainmentStream.queueLengthInChannel(channel);
 
-  /// Adds a packet to the stream queue.
-  void addToStreamQueue(EntertainmentStreamBundle packet) =>
-      _entertainmentStream.addToQueue(packet);
+  /// Adds a command to the stream queue.
+  void addToStreamQueue(EntertainmentStreamCommand command) =>
+      _entertainmentStream.addToQueue(command);
 
-  /// Adds a list of packets to the stream queue.
-  void addAllToStreamQueue(List<EntertainmentStreamBundle> packets) =>
-      _entertainmentStream.addAllToQueue(packets);
+  /// Adds a list of commands to the stream queue.
+  void addAllToStreamQueue(List<EntertainmentStreamCommand> commands) =>
+      _entertainmentStream.addAllToQueue(commands);
 
-  /// Replaces the stream queue with the packets provided.
-  void replaceStreamQueue(List<EntertainmentStreamBundle> packets) =>
-      _entertainmentStream.replaceQueue(packets);
+  /// Empties the queue.
+  void flushStreamQueue() => _entertainmentStream.flushQueue();
+
+  /// Empty the queue and replace it with `newQueue`.
+  ///
+  /// The keys in `newQueue` are the channels that the commands are for.
+  ///
+  /// The values in `newQueue` are the commands to send to the bridge.
+  ///
+  /// Throws [InvalidCommandChannelException] if a command in `newQueue` map is
+  /// not in the same channel as the channel it was initialized with.
+  void replaceStreamQueue(
+    Map<int, List<EntertainmentStreamCommand>> newQueue,
+  ) =>
+      _entertainmentStream.replaceQueue(newQueue);
+
+  /// Empty the queue only in the given 'channel' and replace that data with
+  /// `newQueue`.
+  ///
+  /// Throws [InvalidCommandChannelException] if a command in `newQueue` is does
+  /// not have the same channel as the `channel` parameter provided to this
+  /// method.
+  void replaceStreamQueueChannel(
+    int channel,
+    List<EntertainmentStreamCommand> newChannelQueue,
+  ) =>
+      _entertainmentStream.replaceQueueChannel(channel, newChannelQueue);
 
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.

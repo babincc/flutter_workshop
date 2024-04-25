@@ -277,11 +277,33 @@ class _HomePageState extends State<HomePage> {
 
               sectionHeader("Entertainment Streaming"),
 
-              // START STREAMING
-              ElevatedButton(
-                onPressed:
-                    (hueNetwork == null || isStreaming) ? null : startStreaming,
-                child: const Text("Start Steaming"),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: padding),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // STREAM 1
+                    ElevatedButton(
+                      onPressed:
+                          hueNetwork == null ? null : () => startStreaming(1),
+                      child: const Text('Stream 1'),
+                    ),
+
+                    // STREAM 2
+                    ElevatedButton(
+                      onPressed:
+                          hueNetwork == null ? null : () => startStreaming(2),
+                      child: const Text('Stream 2'),
+                    ),
+
+                    // STREAM 3
+                    ElevatedButton(
+                      onPressed:
+                          hueNetwork == null ? null : () => startStreaming(3),
+                      child: const Text('Stream 3'),
+                    ),
+                  ],
+                ),
               ),
 
               const SizedBox(height: padding * 2),
@@ -565,69 +587,202 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  bool isStreaming = false;
+  /// Whether or not the entertainment streaming process is currently active.
+  bool get isStreaming =>
+      _isStreamingPattern1 || _isStreamingPattern2 || _isStreamingPattern3;
 
   /// Starts the entertainment streaming process.
-  Future<void> startStreaming() async {
+  ///
+  /// The `pattern` parameter determines which pattern to use. The patterns are
+  /// as follows:
+  /// * `1`: Toggle 1 light between red and blue colors.
+  /// * `2`: Gently fade 1 light between red and blue colors.
+  /// * `3`: Toggles 2 lights between white and off, as if the light is jumping
+  ///         back and forth between the two lights.
+  Future<void> startStreaming(int pattern) async {
     setState(() {
       isLoading = true;
     });
 
-    bool isStreaming = this.isStreaming;
-
     try {
-      await hueNetwork!.entertainmentConfigurations.first
-          .startStreaming(bridge!)
-          .then(
-        (value) {
-          if (value) {
-            isStreaming = true;
+      if (!isStreaming) {
+        final bool didStart = await hueNetwork!
+            .entertainmentConfigurations.first
+            .startStreaming(bridge!);
 
-            final ColorXy red = ColorXy.fromRgb(255, 0, 0, 1.0);
-            final ColorXy blue = ColorXy.fromRgb(0, 0, 255, 1.0);
+        if (!didStart) throw "Failed to start stream";
+      }
 
-            final EntertainmentStreamPacket packet1 = EntertainmentStreamPacket(
-              entertainmentConfigurationId:
-                  hueNetwork!.entertainmentConfigurations.first.id,
-              commands: [
-                EntertainmentStreamCommand(channel: 0, color: red),
-              ],
-            );
+      // Clear out the stream queue before starting a new stream.
+      hueNetwork!.entertainmentConfigurations.first.flushStreamQueue();
 
-            final EntertainmentStreamPacket packet2 = EntertainmentStreamPacket(
-              entertainmentConfigurationId:
-                  hueNetwork!.entertainmentConfigurations.first.id,
-              commands: [
-                EntertainmentStreamCommand(channel: 0, color: blue),
-              ],
-            );
-
-            // This should cause one lights to alternate between red and blue.
-            //
-            // They will stay red or blue for 500ms then switch. This will
-            // happen for 5 seconds, then it should stop on blue.
-            //
-            // Since blue is the last state, it will still be streaming blue so
-            // the bridge doesn't drop the connection due to inactivity.
-            for (int i = 0; i < 5; i++) {
-              hueNetwork!.entertainmentConfigurations.first.addToStreamQueue(
-                EntertainmentStreamBundle(
-                  packets: [packet1, packet2],
-                  animationDuration: const Duration(milliseconds: 1000),
-                ),
-              );
-            }
-          }
-        },
-      );
+      if (pattern == 1) {
+        await _startStreaming1();
+      } else if (pattern == 2) {
+        await _startStreaming2();
+      } else if (pattern == 3) {
+        await _startStreaming3();
+      } else {
+        // ignore: avoid_print
+        print('Invalid pattern');
+      }
     } catch (e) {
-      // Do nothing
+      // ignore: avoid_print
+      print('Error starting stream: $e');
     }
 
     setState(() {
-      this.isStreaming = isStreaming;
       isLoading = false;
     });
+  }
+
+  /// Whether or not the entertainment streaming process is currently active and
+  /// using pattern 1.
+  bool _isStreamingPattern1 = false;
+
+  /// Starts the entertainment streaming process, with streaming pattern 1.
+  ///
+  /// Toggle 1 light between red and blue colors.
+  ///
+  /// This should cause one light to alternate between red and blue.
+  ///
+  /// The light will stay red or blue for 500ms then switch. This will
+  /// happen for 5 seconds, then it should stop on blue.
+  ///
+  /// Since blue is the last state, it will still be streaming blue so
+  /// the bridge doesn't drop the connection due to inactivity.
+  Future<void> _startStreaming1() async {
+    _isStreamingPattern1 = true;
+    _isStreamingPattern2 = false;
+    _isStreamingPattern3 = false;
+
+    final ColorXy red = ColorXy.fromRgb(255, 0, 0, 1.0);
+    final ColorXy blue = ColorXy.fromRgb(0, 0, 255, 1.0);
+
+    final EntertainmentStreamCommand command1 = EntertainmentStreamCommand(
+      channel: 0,
+      color: red,
+      waitAfterAnimation: const Duration(milliseconds: 500),
+    );
+
+    final EntertainmentStreamCommand command2 = EntertainmentStreamCommand(
+      channel: 0,
+      color: blue,
+      waitAfterAnimation: const Duration(milliseconds: 500),
+    );
+
+    for (int i = 0; i < 5; i++) {
+      // IMPORTANT NOTE: The copy method is used here to ensure that the
+      // same command isn't added to the queue multiple times. If the
+      // same command is added multiple times, the bridge will only
+      // execute the command once.
+      hueNetwork!.entertainmentConfigurations.first.addAllToStreamQueue(
+        [command1.copy(), command2.copy()],
+      );
+    }
+  }
+
+  /// Whether or not the entertainment streaming process is currently active and
+  /// using pattern 2.
+  bool _isStreamingPattern2 = false;
+
+  /// Starts the entertainment streaming process, with streaming pattern 2.
+  ///
+  /// Gently fade 1 light between red and blue colors.
+  ///
+  /// This should cause one light to fade between red and blue.
+  ///
+  /// The light will fade from red to blue over 500ms, then fade back to red
+  /// over 500ms. This will happen for 5 seconds, then it should stop on blue.
+  ///
+  /// Since blue is the last state, it will still be streaming blue so
+  /// the bridge doesn't drop the connection due to inactivity.
+  Future<void> _startStreaming2() async {
+    _isStreamingPattern1 = false;
+    _isStreamingPattern2 = true;
+    _isStreamingPattern3 = false;
+
+    final ColorXy red = ColorXy.fromRgb(255, 0, 0, 1.0);
+    final ColorXy blue = ColorXy.fromRgb(0, 0, 255, 1.0);
+
+    final EntertainmentStreamCommand command1 = EntertainmentStreamCommand(
+      channel: 0,
+      color: red,
+      animationDuration: const Duration(milliseconds: 500),
+      animationType: AnimationType.fade,
+    );
+
+    final EntertainmentStreamCommand command2 = EntertainmentStreamCommand(
+      channel: 0,
+      color: blue,
+      animationDuration: const Duration(milliseconds: 500),
+      animationType: AnimationType.fade,
+    );
+
+    // This should cause one lights to alternate between red and blue.
+    //
+    // They will stay red or blue for 500ms then switch. This will
+    // happen for 5 seconds, then it should stop on blue.
+    //
+    // Since blue is the last state, it will still be streaming blue so
+    // the bridge doesn't drop the connection due to inactivity.
+    for (int i = 0; i < 5; i++) {
+      // IMPORTANT NOTE: The copy method is used here to ensure that the
+      // same command isn't added to the queue multiple times. If the
+      // same command is added multiple times, the bridge will only
+      // execute the command once.
+      hueNetwork!.entertainmentConfigurations.first.addAllToStreamQueue(
+        [command1.copy(), command2.copy()],
+      );
+    }
+  }
+
+  /// Whether or not the entertainment streaming process is currently active and
+  /// using pattern 3.
+  bool _isStreamingPattern3 = false;
+
+  /// Starts the entertainment streaming process, with streaming pattern 3.
+  ///
+  /// Toggles 2 lights between white and off, as if the light is jumping back
+  /// and forth between the two lights.
+  ///
+  /// One light will stay white for 500ms, then turn off for 500ms. The other
+  /// light will do the opposite. This will happen continuously until the user
+  /// stops the stream.
+  Future<void> _startStreaming3() async {
+    _isStreamingPattern1 = false;
+    _isStreamingPattern2 = false;
+    _isStreamingPattern3 = true;
+
+    final ColorXy white = ColorXy.fromRgb(255, 255, 255, 0.5);
+    final ColorXy off = ColorXy.fromRgb(0, 0, 0, 0.0);
+
+    // Continuously alternate between white and off for 500ms each.
+    Timer.periodic(
+      const Duration(milliseconds: 500),
+      (timer) {
+        // Turn the timer off when the user stops the stream.
+        if (!_isStreamingPattern3) {
+          timer.cancel();
+          return;
+        }
+
+        hueNetwork!.entertainmentConfigurations.first.addAllToStreamQueue(
+          [
+            EntertainmentStreamCommand(
+              channel: 0,
+              color: (timer.tick - 1) % 2 == 0 ? white : off,
+              waitAfterAnimation: const Duration(milliseconds: 500),
+            ),
+            EntertainmentStreamCommand(
+              channel: 1,
+              color: (timer.tick - 1) % 2 == 0 ? off : white,
+              waitAfterAnimation: const Duration(milliseconds: 500),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   /// Stops the entertainment streaming process.
@@ -649,11 +804,16 @@ class _HomePageState extends State<HomePage> {
         },
       );
     } catch (e) {
-      // Do nothing
+      // ignore: avoid_print
+      print('Error stopping stream: $e');
     }
 
     setState(() {
-      this.isStreaming = isStreaming;
+      if (!isStreaming) {
+        _isStreamingPattern1 = false;
+        _isStreamingPattern2 = false;
+        _isStreamingPattern3 = false;
+      }
       isLoading = false;
     });
   }

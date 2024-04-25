@@ -56,6 +56,9 @@ class EntertainmentStreamPacket {
     }
   }
 
-  // TODO: Add toByteBundle() to handle more than 20 commands. Also, reference
-  //  this method in the docs for the toBytes() method.
+  @override
+  String toString() => 'Instance of EntertainmentStreamPacket: {'
+      'entertainmentConfigurationId: $entertainmentConfigurationId, '
+      'colorMode: $colorMode, '
+      'commands: $commands}';
 }

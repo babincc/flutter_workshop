@@ -1,38 +1,58 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter_hue/domain/models/bridge/bridge.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/dtls_data.dart';
-import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_bundle.dart';
+import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_color.dart';
+import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_command.dart';
+import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_packet.dart';
 import 'package:flutter_hue/domain/repos/entertainment_stream_repo.dart';
+import 'package:flutter_hue/exceptions/invalid_command_channel_exception.dart';
 
+/// Controls the streaming of entertainment data to a bridge.
 class EntertainmentStreamController {
+  /// Creates a new [EntertainmentStreamController] object.
+  EntertainmentStreamController(this.entertainmentConfigurationId);
+
+  /// Creates an empty [EntertainmentStreamController] object.
+  EntertainmentStreamController.empty() : entertainmentConfigurationId = '';
+
+  /// The ID of the entertainment configuration that this stream is for.
+  final String entertainmentConfigurationId;
+
   /// DTLS client and connection information.
   final DtlsData _dtlsData = DtlsData();
 
   /// The queue of packets that need to be send to the bridge.
-  final List<EntertainmentStreamBundle> _queue = [];
-
-  /// The current length of the queue.
   ///
-  /// This is the number of packets that are waiting to be sent to the bridge.
+  /// The key is the channel that the commands are for.
+  final Map<int, List<EntertainmentStreamCommand>> _queue = {};
+
+  /// The current length of the queue in the given `channel`.
+  ///
+  /// This is the number of commands that are waiting to be sent to the bridge
+  /// for the given `channel`.
   ///
   /// This is used to see if the queue is getting backed up. If so, you can call
-  /// [replaceQueue] to replace the queue with a new packet.
-  int get queueLength => _queue.length;
+  /// [flushQueue], [replaceQueue], or [replaceQueueChannel] to help deal with
+  /// the backup.
+  int queueLengthInChannel(int channel) => _queue[channel]?.length ?? 0;
 
-  /// The packet that is being sent to the bridge.
-  List<int>? _currentPacket;
+  /// The current state of the channels.
+  ///
+  /// The key is the channel that the color state is for.
+  final Map<int, EntertainmentStreamColor> _currentChannelStates = {};
 
   /// The interval at which data is sent to the bridge.
   ///
   /// This is the number of times per second that data is sent to the bridge.
-  static const int _sendIntervalHz = 55;
+  static const int sendIntervalHz = 55;
 
   /// The interval at which data is sent to the bridge in milliseconds.
-  int get _sendIntervalMilliseconds => (1000 / _sendIntervalHz).round();
+  static int get sendIntervalMilliseconds => (1000 / sendIntervalHz).round();
 
   /// Sends [_currentPacket] to the bridge.
-  Timer? _timer;
+  Timer? _sendTimer;
 
   /// Counts the number of times a frame of time was skipped instead of sending
   /// data.
@@ -43,7 +63,7 @@ class EntertainmentStreamController {
   /// The maximum number of skips before the stream is stopped.
   ///
   /// This is 10 seconds worth of skips.
-  int get _maxNumSkips => (10000 / _sendIntervalMilliseconds).floor();
+  int get _maxNumSkips => (10000 / sendIntervalMilliseconds).floor();
 
   /// Start `this` entertainment stream.
   ///
@@ -61,48 +81,99 @@ class EntertainmentStreamController {
   /// remotely and the token is expired. If this happens, refresh the token with
   /// [TokenRepo.refreshRemoteToken].
   Future<bool> startStreaming(
-    Bridge bridge,
-    String entertainmentConfigurationId, {
+    Bridge bridge, {
     String Function(String ciphertext)? decrypter,
   }) async {
     // Init variables
     _reset();
 
     // This timer sends the data to the bridge.
-    _timer = Timer.periodic(
-      Duration(milliseconds: _sendIntervalMilliseconds),
+    _sendTimer = Timer.periodic(
+      Duration(milliseconds: sendIntervalMilliseconds),
       (timer) async {
-        if (!__isHandlingQueue) {
-          __isHandlingQueue = true;
-          _handleQueue();
-        }
-
-        if (_currentPacket == null) {
-          _numSkips++;
-
+        try {
           if (_numSkips >= _maxNumSkips) {
             await stopStreaming(
               bridge,
-              entertainmentConfigurationId,
               decrypter: decrypter,
             );
           }
 
-          return;
-        }
+          if (!__isHandlingQueue) {
+            __isHandlingQueue = true;
+            int startChannel = 0;
+            while (true) {
+              final int endChannel = _handleQueue(startChannel);
 
-        try {
-          await EntertainmentStreamRepo.sendData(
-            _dtlsData,
-            _currentPacket!,
-          );
+              if (endChannel == startChannel) {
+                break;
+              } else {
+                startChannel = endChannel + 1;
+              }
+            }
+          }
+
+          if (_currentChannelStates.isEmpty) {
+            _numSkips++;
+            return;
+          }
+
+          // Send packets based on groups of up to 20 commands.
+          for (int i = 0; i < _currentChannelStates.keys.length; i += 20) {
+            // The current group of 20 channels to send data for.
+            final List<int> channels =
+                _currentChannelStates.keys.toList().sublist(
+                      i,
+                      min(i + 20, _currentChannelStates.keys.length),
+                    );
+
+            /// The color mode of the first channel.
+            final ColorMode colorMode =
+                _currentChannelStates[channels.first]!.colorMode;
+
+            /// The commands to send to the bridge.
+            final List<EntertainmentStreamCommand> commands = [];
+
+            // Go through the current channels and add the commands to the
+            // packet that will be sent to the bridge.
+            for (final int channel in channels) {
+              /// The command color in the same type as colorMode.
+              final EntertainmentStreamColor color;
+              if (identical(
+                  _currentChannelStates[channel]!.colorMode, colorMode)) {
+                color = _currentChannelStates[channel]!;
+              } else {
+                color = _currentChannelStates[channel]!.to(colorMode);
+              }
+
+              commands.add(
+                EntertainmentStreamCommand(channel: channel, color: color),
+              );
+            }
+
+            // Create the packet to send to the bridge.
+            final EntertainmentStreamPacket packet = EntertainmentStreamPacket(
+              entertainmentConfigurationId: entertainmentConfigurationId,
+              colorMode: colorMode,
+              commands: commands,
+            );
+
+            try {
+              await EntertainmentStreamRepo.sendData(
+                _dtlsData,
+                packet.toBytes(),
+              );
+            } catch (e) {
+              _numSkips++;
+              return;
+            }
+          }
+
+          _numSkips = 0;
         } catch (e) {
-          // If we end up here, then [_currentPacket] was changed to `null` in
-          // the middle of this method call.
-          return;
+          // If we get here, then the stream has ended.
+          _numSkips++;
         }
-
-        _numSkips = 0;
       },
     );
 
@@ -127,13 +198,12 @@ class EntertainmentStreamController {
   /// remotely and the token is expired. If this happens, refresh the token with
   /// [TokenRepo.refreshRemoteToken].
   Future<bool> stopStreaming(
-    Bridge bridge,
-    String entertainmentConfigurationId, {
+    Bridge bridge, {
     String Function(String ciphertext)? decrypter,
   }) async {
     // Reset variables
     _reset();
-    _currentPacket = null;
+    _currentChannelStates.clear();
 
     return await EntertainmentStreamRepo.stopStreaming(
       bridge,
@@ -143,101 +213,184 @@ class EntertainmentStreamController {
     );
   }
 
-  /// Add a packet to the queue.
-  void addToQueue(EntertainmentStreamBundle packet) {
-    _queue.add(packet);
+  /// Add a command to the queue.
+  void addToQueue(EntertainmentStreamCommand command) {
+    if (_queue[command.channel] == null) {
+      _queue[command.channel] = [];
+    }
+
+    _queue[command.channel]!.add(command);
   }
 
-  /// Add multiple packets to the queue.
-  void addAllToQueue(List<EntertainmentStreamBundle> packets) {
-    _queue.addAll(packets);
+  /// Add multiple commands to the queue.
+  void addAllToQueue(List<EntertainmentStreamCommand> commands) {
+    for (final command in commands) {
+      addToQueue(command);
+    }
   }
 
-  /// Empty the queue and replace it with `packets`.
-  Future<void> replaceQueue(List<EntertainmentStreamBundle> packets) async {
+  /// Empties the queue.
+  void flushQueue() {
     _queue.clear();
-    _queue.addAll(packets);
+  }
+
+  /// Empty the queue and replace it with `newQueue`.
+  ///
+  /// The keys in `newQueue` are the channels that the commands are for.
+  ///
+  /// The values in `newQueue` are the commands to send to the bridge.
+  ///
+  /// Throws [InvalidCommandChannelException] if a command in `newQueue` map is
+  /// not in the same channel as the channel it was initialized with.
+  void replaceQueue(Map<int, List<EntertainmentStreamCommand>> newQueue) {
+    _queue.clear();
+
+    final Map<int, List<EntertainmentStreamCommand>> verifiedQueue = {};
+
+    for (final int key in newQueue.keys) {
+      verifiedQueue[key] = _verifyCommandsInProperChannel(key, newQueue[key]!);
+    }
+
+    _queue.addAll(verifiedQueue);
+  }
+
+  /// Empty the queue only in the given 'channel' and replace that data with
+  /// `newQueue`.
+  ///
+  /// Throws [InvalidCommandChannelException] if a command in `newQueue` is does
+  /// not have the same channel as the `channel` parameter provided to this
+  /// method.
+  void replaceQueueChannel(
+    int channel,
+    List<EntertainmentStreamCommand> newChannelQueue,
+  ) {
+    _queue[channel] = _verifyCommandsInProperChannel(channel, newChannelQueue);
+  }
+
+  /// Checks to make sure each command in `commands` has the same channel as
+  /// `channel`.
+  ///
+  /// Returns a copied version of `commands` if all is well; otherwise, throws
+  /// [InvalidCommandChannelException].
+  List<EntertainmentStreamCommand> _verifyCommandsInProperChannel(
+    int channel,
+    List<EntertainmentStreamCommand> commands,
+  ) {
+    final List<EntertainmentStreamCommand> verifiedCommands = [];
+
+    for (final EntertainmentStreamCommand command in commands) {
+      if (!identical(channel, command.channel)) {
+        throw InvalidCommandChannelException.withValues(
+          command.channel,
+          channel,
+        );
+      }
+
+      verifiedCommands.add(command);
+    }
+
+    return verifiedCommands;
   }
 
   /// Whether or not [_handleQueue] is currently handling the queue.
   bool __isHandlingQueue = false;
 
-  /// Handles the next packet in the queue.
-  Future<void> _handleQueue() async {
+  /// Handles the queue and builds packets to be sent to the bridge.
+  ///
+  /// The `startChannel` parameter is the channel in the queue to start at. This
+  /// method will start there and go up to 20 channels ahead, only counting
+  /// channels with data in them.
+  ///
+  /// Returns the channel that the method stopped at. That means, the return
+  /// value is a channel that has been handled.
+  ///
+  /// If the `startChannel` value is returned, then the queue has been handled
+  /// in its entirety.
+  int _handleQueue(int startChannel) {
     if (_queue.isEmpty) {
       __isHandlingQueue = false;
-      return;
+      return startChannel;
     }
 
-    final EntertainmentStreamBundle bundle = _queue.removeAt(0);
+    /// All of the channels in the queue.
+    final List<int> channels = _queue.keys.toList()..sort();
 
-    if (bundle.packets.isEmpty) {
+    // Ignore channels with no data.
+    for (final int key in _queue.keys) {
+      if (_queue[key]!.isEmpty) {
+        channels.remove(key);
+      }
+    }
+
+    if (channels.isEmpty || startChannel > channels.last) {
       __isHandlingQueue = false;
-      return;
+      return startChannel;
     }
 
-    if (bundle.animationDuration == null) {
-      // If there is no animation duration, send the last packet in the list,
-      // and move on.
-      _currentPacket = bundle.packets.last.toBytes();
-    } else {
-      // If there is an animation duration, send the packets in order, for the
-      // duration of the animation.
+    int startChannelIndex = -1;
 
-      /// Whether or not the animation is currently running.
-      bool isAnimating = true;
-
-      final Timer animationTimer = Timer.periodic(
-        Duration(milliseconds: _sendIntervalMilliseconds),
-        (timer) {
-          try {
-            if (!isAnimating) return;
-
-            final int elapsedMilliseconds =
-                (timer.tick - 1) * _sendIntervalMilliseconds;
-
-            final int index =
-                (elapsedMilliseconds / bundle.timePerColor).floor();
-
-            if (index >= bundle.packets.length) {
-              isAnimating = false;
-              return;
-            }
-
-            _currentPacket = bundle.packets[index].toBytes();
-
-            // TODO
-          } catch (e) {
-            // This is for the rare case where the timer starts after the
-            // following Future.delayed call. In this case, we catch a few
-            // milliseconds of errors and move on.
-          }
-        },
-      );
-
-      await Future.delayed(bundle.animationDuration!);
-
-      isAnimating = false;
-
-      animationTimer.cancel();
+    /// Find the channel range to handle.
+    for (int i = 0; i < channels.length; i++) {
+      if (channels[i] >= startChannel) {
+        startChannelIndex = i;
+        break;
+      }
     }
 
-    // Wait after the animation is done.
-    if (bundle.waitAfterAnimation != null) {
-      await Future.delayed(bundle.waitAfterAnimation!);
+    if (startChannelIndex < 0) {
+      __isHandlingQueue = false;
+      return startChannel;
     }
 
-    // Signal that we are ready to handle the next packet.
+    final List<int> handledChannels = channels.sublist(
+      startChannelIndex,
+      min(startChannelIndex + 20, channels.length),
+    );
+
+    // Up to this point, everything has been done synchronously to prevent race
+    // conditions. Now, we can handle the queue asynchronously.
+    __handleQueue(handledChannels);
+
+    return handledChannels.last;
+  }
+
+  /// Handles the queue and builds packets to be sent to the bridge.
+  ///
+  /// `channels` is the list of channels to handle.
+  Future<void> __handleQueue(List<int> channels) async {
+    for (final int channel in channels) {
+      if (_queue[channel] == null || _queue[channel]!.isEmpty) continue;
+
+      final EntertainmentStreamCommand command = _queue[channel]!.first;
+
+      if (command.currentColor == null) {
+        command.run(_currentChannelStates[channel]);
+        continue;
+      }
+
+      _currentChannelStates[channel] = command.currentColor!;
+
+      if (command.didRun) {
+        _queue[channel]!.removeAt(0);
+      }
+    }
+
     __isHandlingQueue = false;
   }
 
   /// Resets the stream controlling data to its initial state.
   void _reset() {
-    if (_timer != null && _timer!.isActive) {
-      _timer?.cancel();
-      _timer = null;
+    if (_sendTimer != null && _sendTimer!.isActive) {
+      _sendTimer?.cancel();
+      _sendTimer = null;
     }
 
     _numSkips = 0;
+
+    flushQueue();
   }
+
+  @override
+  String toString() => 'Instance of EntertainmentStreamController: {'
+      'entertainmentConfigurationId: $entertainmentConfigurationId}';
 }
