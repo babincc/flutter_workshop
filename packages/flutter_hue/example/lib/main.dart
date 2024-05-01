@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:example/stream_demos/stream_demos_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hue/flutter_hue.dart';
 import 'package:uni_links/uni_links.dart';
@@ -275,7 +276,33 @@ class _HomePageState extends State<HomePage> {
 
               const SizedBox(height: padding * 2),
 
-              sectionHeader("Entertainment Streaming"),
+              sectionHeader(
+                "Entertainment Streaming",
+                GestureDetector(
+                  onTap: (hueNetwork == null || !isStreaming)
+                      ? null
+                      : () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) {
+                                return StreamDemosScreen(
+                                  entertainmentConfiguration: hueNetwork!
+                                      .entertainmentConfigurations.first,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                  child: Text(
+                    "more >",
+                    style: TextStyle(
+                      color: (hueNetwork == null || !isStreaming)
+                          ? Colors.grey
+                          : Colors.blue,
+                    ),
+                  ),
+                ),
+              ),
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: padding),
@@ -324,7 +351,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   /// The titles and dividers that separate each group of buttons.
-  Widget sectionHeader(String title) {
+  Widget sectionHeader(String title, [Widget? actionBtn]) {
     return Column(
       children: [
         Row(
@@ -337,6 +364,9 @@ class _HomePageState extends State<HomePage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
+            if (actionBtn != null) const Spacer(),
+            if (actionBtn != null) actionBtn,
+            if (actionBtn != null) const SizedBox(width: padding),
           ],
         ),
         const Padding(
