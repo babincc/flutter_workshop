@@ -182,7 +182,7 @@ class EntertainmentStreamCommand {
     _currentColor = EntertainmentStreamColor.lerp(
       previousColor,
       toColor,
-      nextElapsedTimeRatio >= 0.99 ? 1.0 : elapsedTimeRatio,
+      nextElapsedTimeRatio >= 0.98 ? 1.0 : elapsedTimeRatio,
     );
   }
 
