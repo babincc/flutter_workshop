@@ -5,7 +5,7 @@ import 'package:flutter_hue/constants/api_fields.dart';
 import 'package:flutter_hue/domain/models/bridge/bridge.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/dtls_data.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_color.dart';
-import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_command.dart';
+import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_controller.dart';
 import 'package:flutter_hue/domain/models/resource_type.dart';
 import 'package:flutter_hue/domain/repos/hue_http_repo.dart';
 import 'package:flutter_hue/domain/services/entertainment_stream_service.dart';

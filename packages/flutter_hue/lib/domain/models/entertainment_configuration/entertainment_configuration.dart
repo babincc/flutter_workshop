@@ -9,7 +9,6 @@ import 'package:flutter_hue/domain/models/entertainment_configuration/entertainm
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_location.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_metadata.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_stream_proxy.dart';
-import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_command.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_controller.dart';
 import 'package:flutter_hue/domain/models/relative.dart';
 import 'package:flutter_hue/domain/models/resource.dart';

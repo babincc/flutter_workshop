@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_hue/flutter_hue.dart';
 import 'package:flutter_hue/utils/color_converter.dart';
 
 /// Represents a color that can be sent as a command to the bridge.
@@ -19,6 +18,12 @@ abstract class EntertainmentStreamColor {
   static const String invalidBrightnessMessage =
       'brightness must be greater than or equal to 0 and less than or equal to '
       '1';
+
+  /// Whether or not this color would turn the lights off.
+  bool get isOff;
+
+  /// Whether or not this color would not turn the lights off.
+  bool get isNotOff => !isOff;
 
   /// Returns a copy of this object.
   EntertainmentStreamColor copy();
@@ -113,6 +118,9 @@ class ColorXy extends EntertainmentStreamColor {
 
   /// The brightness of the color.
   final double brightness;
+
+  @override
+  bool get isOff => x == 0.0 && y == 0.0 && brightness == 0.0;
 
   @override
   ColorXy copy() => copyWith();
@@ -220,6 +228,9 @@ class ColorRgb extends EntertainmentStreamColor {
   final int b;
 
   @override
+  bool get isOff => r == 0 && g == 0 && b == 0;
+
+  @override
   ColorRgb copy() => copyWith();
 
   @override
@@ -240,7 +251,8 @@ class ColorRgb extends EntertainmentStreamColor {
       case ColorMode.xy:
         return toXy(brightness);
       case ColorMode.rgb:
-        return this;
+        if (brightness == null) return this;
+        return toXy(brightness).toRgb();
     }
   }
 

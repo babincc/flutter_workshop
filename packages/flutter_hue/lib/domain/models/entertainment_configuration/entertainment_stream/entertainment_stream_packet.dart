@@ -1,5 +1,5 @@
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_color.dart';
-import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_command.dart';
+import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_controller.dart';
 import 'package:flutter_hue/domain/repos/entertainment_stream_repo.dart';
 
 class EntertainmentStreamPacket {
@@ -59,6 +59,6 @@ class EntertainmentStreamPacket {
   @override
   String toString() => 'Instance of EntertainmentStreamPacket: {'
       'entertainmentConfigurationId: $entertainmentConfigurationId, '
-      'colorMode: $colorMode, '
+      'colorMode: ${colorMode.name}, '
       'commands: $commands}';
 }

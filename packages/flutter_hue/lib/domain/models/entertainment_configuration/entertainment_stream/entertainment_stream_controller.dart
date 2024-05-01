@@ -4,10 +4,11 @@ import 'dart:math';
 import 'package:flutter_hue/domain/models/bridge/bridge.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/dtls_data.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_color.dart';
-import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_command.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_packet.dart';
 import 'package:flutter_hue/domain/repos/entertainment_stream_repo.dart';
 import 'package:flutter_hue/exceptions/invalid_command_channel_exception.dart';
+
+part 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_command.dart';
 
 /// Controls the streaming of entertainment data to a bridge.
 class EntertainmentStreamController {
@@ -219,6 +220,10 @@ class EntertainmentStreamController {
       _queue[command.channel] = [];
     }
 
+    if (_queue[command.channel]!.isNotEmpty) {
+      command._previousCommand = _queue[command.channel]!.last;
+    }
+
     _queue[command.channel]!.add(command);
   }
 
@@ -229,8 +234,25 @@ class EntertainmentStreamController {
     }
   }
 
+  void flushQueueChannel(int channel) {
+    if (_queue[channel] == null || _queue[channel]!.isEmpty) return;
+
+    final List<EntertainmentStreamCommand> oldCommands =
+        List.from(_queue[channel]!);
+
+    _queue[channel]!.clear();
+
+    for (final EntertainmentStreamCommand command in oldCommands) {
+      command.dispose();
+    }
+  }
+
   /// Empties the queue.
   void flushQueue() {
+    for (final int key in _queue.keys) {
+      flushQueueChannel(key);
+    }
+
     _queue.clear();
   }
 
@@ -243,7 +265,7 @@ class EntertainmentStreamController {
   /// Throws [InvalidCommandChannelException] if a command in `newQueue` map is
   /// not in the same channel as the channel it was initialized with.
   void replaceQueue(Map<int, List<EntertainmentStreamCommand>> newQueue) {
-    _queue.clear();
+    flushQueue();
 
     final Map<int, List<EntertainmentStreamCommand>> verifiedQueue = {};
 
@@ -251,7 +273,9 @@ class EntertainmentStreamController {
       verifiedQueue[key] = _verifyCommandsInProperChannel(key, newQueue[key]!);
     }
 
-    _queue.addAll(verifiedQueue);
+    for (final int key in verifiedQueue.keys) {
+      addAllToQueue(verifiedQueue[key]!);
+    }
   }
 
   /// Empty the queue only in the given 'channel' and replace that data with
@@ -264,7 +288,12 @@ class EntertainmentStreamController {
     int channel,
     List<EntertainmentStreamCommand> newChannelQueue,
   ) {
-    _queue[channel] = _verifyCommandsInProperChannel(channel, newChannelQueue);
+    final List<EntertainmentStreamCommand> verifiedChannel =
+        _verifyCommandsInProperChannel(channel, newChannelQueue);
+
+    flushQueueChannel(channel);
+
+    addAllToQueue(verifiedChannel);
   }
 
   /// Checks to make sure each command in `commands` has the same channel as
@@ -371,7 +400,7 @@ class EntertainmentStreamController {
       _currentChannelStates[channel] = command.currentColor!;
 
       if (command.didRun) {
-        _queue[channel]!.removeAt(0);
+        _queue[channel]!.removeAt(0).dispose();
       }
     }
 
