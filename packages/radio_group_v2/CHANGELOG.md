@@ -1,3 +1,7 @@
+## 3.1.1 - May 5, 2024
+
+- Added `selectedIndex` getter so you can get the index of the currently selected item.
+
 ## 3.1.0 - February 20, 2024
 
 - Fixed issue of `MultipleRadioGroupException` being thrown when parent rebuilds.
