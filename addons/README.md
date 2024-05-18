@@ -393,7 +393,7 @@ This is an add-on because each individual method is too small to be a plug-in, a
 
 | Add-ons from this list | .yaml dependencies |
 | --- | --- |
-| - debug_log | - collection |
+| - debug_log | - intl |
 
 ### Usage
 

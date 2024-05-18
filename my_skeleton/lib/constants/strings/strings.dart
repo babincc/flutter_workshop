@@ -68,3 +68,67 @@ abstract class Strings {
 
   String get tryAgainLater;
 }
+
+extension StringTools on String {
+  /// This method determines if a given string is a number.
+  ///
+  /// Returns `true` if the string is a number.
+  bool isNumber() => double.tryParse(this) != null;
+
+  /// Capitalizes the first letter of the given `text`.
+  ///
+  /// ```dart
+  /// 'howdy'.capitalizeFirstLetter() == "Howdy"
+  /// 'hello world'.capitalizeFirstLetter() == "Hello world"
+  /// ```
+  String capitalizeFirstLetter() {
+    if (length > 1) {
+      return this[0].toUpperCase() + substring(1);
+    } else {
+      return this[0].toUpperCase();
+    }
+  }
+
+  /// Capitalizes the first letter of each word in the given `text`.
+  ///
+  /// ```dart
+  /// 'howdy'.capitalizeEachWord() == "Howdy"
+  /// 'hello world'.capitalizeEachWord() == "Hello World"
+  /// ```
+  String capitalizeEachWord() {
+    final words = split(' ');
+
+    for (int i = 0; i < words.length; i++) {
+      words[i] = words[i].capitalizeFirstLetter();
+    }
+
+    return words.join(' ');
+  }
+
+  /// This method puts a zero width space in between every character in the
+  /// given `text`.
+  ///
+  /// This is useful when you want a string that wraps to the next line at the
+  /// character that hit the overflow limit rather than taking that whole word
+  /// to the next line.
+  ///
+  /// ```
+  /// Without this method:
+  /// aaaaaaaaaa-bbbbbbbbbb-
+  /// cccccccccc-dddddddddd
+  ///
+  /// With this method:
+  /// aaaaaaaaaa-bbbbbbbbbb-cccccc
+  /// cccc-dddddddddd
+  /// ```
+  String wordBreak() {
+    StringBuffer buffer = StringBuffer();
+
+    for (var element in runes) {
+      buffer.write(String.fromCharCode(element));
+      buffer.write("\u200B");
+    }
+
+    return buffer.toString();
+  }
+}

@@ -155,6 +155,15 @@ class RadioGroupState<T> extends State<RadioGroup<T>> {
   T? get value => _value;
   set value(T? value) => setState(() => _value = value);
 
+  /// The index of the selected element in the radio group.
+  int get selectedIndex {
+    if (_value == null) {
+      return -1;
+    } else {
+      return widget.values.indexOf(_value as T);
+    }
+  }
+
   /// Called when the app creates a radio group. This needs to be called
   /// specifically to set default values in the [RadioGroupController] for this
   /// radio group.

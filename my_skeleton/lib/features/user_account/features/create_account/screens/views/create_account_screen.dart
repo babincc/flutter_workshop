@@ -5,7 +5,6 @@ import 'package:my_skeleton/constants/theme/my_measurements.dart';
 import 'package:my_skeleton/features/user_account/features/create_account/screens/view_models/create_account_screen_view_model.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/providers/my_string_provider.dart';
-import 'package:my_skeleton/utils/my_tools.dart';
 import 'package:my_skeleton/widgets/views/my_scaffold.dart';
 import 'package:my_skeleton/widgets/views/my_text_field.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +30,7 @@ class CreateAccountScreen extends StatelessWidget {
       value: viewModel,
       builder: (context, _) => MyScaffold(
         appBar: AppBar(
-          title: Text(MyTools.capitalizeEachWord(strings.createAccount)),
+          title: Text(strings.createAccount.capitalizeEachWord()),
         ),
         builder: (context) => Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -105,7 +104,7 @@ class CreateAccountScreen extends StatelessWidget {
                       .then((myAlert) => myAlert?.show(context));
                 },
                 child: Text(
-                  MyTools.capitalizeEachWord(strings.createAccount),
+                  strings.createAccount.capitalizeEachWord(),
                 ),
               ),
             ),

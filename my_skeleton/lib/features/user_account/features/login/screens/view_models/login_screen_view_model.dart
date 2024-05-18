@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:my_skeleton/constants/strings/strings.dart';
 import 'package:my_skeleton/navigation/my_routes.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
-import 'package:my_skeleton/utils/my_tools.dart';
 import 'package:my_skeleton/utils/my_validator.dart';
 import 'package:my_skeleton/widgets/views/my_alert.dart';
 import 'package:my_skeleton/widgets/views/my_text_field.dart';
@@ -105,10 +104,9 @@ class LoginScreenViewModel {
       );
     } else {
       return MyAlert(
-        title: MyTools.capitalizeFirstLetter(strings.error),
-        content:
-            '${MyTools.capitalizeFirstLetter(strings.somethingWentWrong)}! '
-            '${MyTools.capitalizeFirstLetter(strings.tryAgainLater)}.',
+        title: strings.error.capitalizeFirstLetter(),
+        content: '${strings.somethingWentWrong.capitalizeFirstLetter()}! '
+            '${strings.tryAgainLater.capitalizeFirstLetter()}.',
         buttons: {strings.ok: () {}},
       );
     }

@@ -1,12 +1,14 @@
 // @author Christian Babin
-// @version 1.5.0
+// @version 2.0.0
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_tools.dart
 
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:my_skeleton/constants/theme/my_measurements.dart';
 import 'package:my_skeleton/utils/debug_log.dart';
 
 /// This is a collection of generic tools. These range from random number
@@ -255,68 +257,254 @@ class MyTools {
     return isConnected;
   }
 
-  /// Capitalizes the first letter of the given `text`.
+  /// This method scrambles the characters in a string. A scrambled string can
+  /// be run through again to be unscrambled.
+  static String scrambleString(String data) {
+    // Split the data string into an array of each individual letter.
+    List<String> dataAsArray = data.split('');
+
+    // Loop through the array of letters and swap every pair of letters.
+    // ex. Given two strings (the first one having an even amount of letters and
+    //     the second one having an odd amount), this is what we expect from the
+    //     loop:
+    //     Given:
+    //          a, b, c, d, e, f
+    //            - and -
+    //          l, m, n, o, p
+    //     this loop would change them to be:
+    //          b, a, d, c, f, e
+    //            - and -
+    //          m, l, o, n, p
+    for (int i = 0; i < dataAsArray.length; i++) {
+      // Don't swap if we are on the last letter.
+      if (i + 1 >= dataAsArray.length) {
+        continue;
+      }
+
+      // Insert the current letter to the right of the next letter.
+      // ex. Given current index is 2
+      //     a, b, c, d, e
+      //     would become:
+      //     a, b, c, d, c, e
+      dataAsArray.insert(i + 2, dataAsArray[i]);
+
+      // Delete the current letter.
+      // ex. Given current index is 2
+      //     a, b, c, d, c, e
+      //     would become:
+      //     a, b, d, c, e
+      dataAsArray.removeAt(i);
+
+      // Move the current index up by one. If we did not do this, then all this
+      // method would do is just put the first letter at the end and nothing
+      // else would change.
+      i++;
+    }
+
+    // Put all the letters together as one string and return it.
+    return dataAsArray.join();
+  }
+
+  /// Reverse the given `data`.
+  static String reverseString(String data) =>
+      String.fromCharCodes(data.runes.toList().reversed);
+
+  /// This method encodes plaintext in base64.
+  static String encodeBase64(String plaintext) {
+    // First, convert the plaintext string to bytes.
+    List<int> dataBytes = utf8.encode(plaintext);
+
+    // Then, encode those bytes.
+    return base64.encode(dataBytes);
+  }
+
+  /// This method decodes a string that was encrypted in base64.
+  ///
+  /// If it fails, `null` is returned.
+  static String? decodeBase64(String ciphertext) {
+    // Convert the ciphertext string into bytes and decode the string at the
+    // same time.
+    List<int> dataBytes;
+    try {
+      dataBytes = base64.decode(ciphertext);
+    } on Exception {
+      // This string was not encoded in base64, thus it cannot be decoded.
+      return null;
+    }
+
+    // Finally, convert the bytes into a readable string and return that.
+    return utf8.decode(dataBytes);
+  }
+
+  /// This method returns the line height of a specific style of text.
+  static double getLineHeight(TextStyleType styleType) {
+    late final double textHeight;
+    late final double fontSize;
+
+    switch (styleType) {
+      case TextStyleType.displayLarge:
+        textHeight = MyMeasurements.defaultHeightDisplayLarge;
+        fontSize = MyMeasurements.defaultFontSizeDisplayLarge;
+        break;
+      case TextStyleType.displayMedium:
+        textHeight = MyMeasurements.defaultHeightDisplayMedium;
+        fontSize = MyMeasurements.defaultFontSizeDisplayMedium;
+        break;
+      case TextStyleType.displaySmall:
+        textHeight = MyMeasurements.defaultHeightDisplaySmall;
+        fontSize = MyMeasurements.defaultFontSizeDisplaySmall;
+        break;
+      case TextStyleType.headlineLarge:
+        textHeight = MyMeasurements.defaultHeightHeadlineLarge;
+        fontSize = MyMeasurements.defaultFontSizeHeadlineLarge;
+        break;
+      case TextStyleType.headlineMedium:
+        textHeight = MyMeasurements.defaultHeightHeadlineMedium;
+        fontSize = MyMeasurements.defaultFontSizeHeadlineMedium;
+        break;
+      case TextStyleType.headlineSmall:
+        textHeight = MyMeasurements.defaultHeightHeadlineSmall;
+        fontSize = MyMeasurements.defaultFontSizeHeadlineSmall;
+        break;
+      case TextStyleType.titleLarge:
+        textHeight = MyMeasurements.defaultHeightTitleLarge;
+        fontSize = MyMeasurements.defaultFontSizeTitleLarge;
+        break;
+      case TextStyleType.titleMedium:
+        textHeight = MyMeasurements.defaultHeightTitleMedium;
+        fontSize = MyMeasurements.defaultFontSizeTitleMedium;
+        break;
+      case TextStyleType.titleSmall:
+        textHeight = MyMeasurements.defaultHeightTitleSmall;
+        fontSize = MyMeasurements.defaultFontSizeTitleSmall;
+        break;
+      case TextStyleType.bodyLarge:
+        textHeight = MyMeasurements.defaultHeightBodyLarge;
+        fontSize = MyMeasurements.defaultFontSizeBodyLarge;
+        break;
+      case TextStyleType.bodyMedium:
+        textHeight = MyMeasurements.defaultHeightBodyMedium;
+        fontSize = MyMeasurements.defaultFontSizeBodyMedium;
+        break;
+      case TextStyleType.bodySmall:
+        textHeight = MyMeasurements.defaultHeightBodySmall;
+        fontSize = MyMeasurements.defaultFontSizeBodySmall;
+        break;
+      case TextStyleType.labelLarge:
+        textHeight = MyMeasurements.defaultHeightLabelLarge;
+        fontSize = MyMeasurements.defaultFontSizeLabelLarge;
+        break;
+      case TextStyleType.labelMedium:
+        textHeight = MyMeasurements.defaultHeightLabelMedium;
+        fontSize = MyMeasurements.defaultFontSizeLabelMedium;
+        break;
+      case TextStyleType.labelSmall:
+        textHeight = MyMeasurements.defaultHeightLabelSmall;
+        fontSize = MyMeasurements.defaultFontSizeLabelSmall;
+        break;
+    }
+
+    return textHeight * fontSize;
+  }
+}
+
+/// Text style types.
+enum TextStyleType {
+  displayLarge,
+  displayMedium,
+  displaySmall,
+  headlineLarge,
+  headlineMedium,
+  headlineSmall,
+  titleLarge,
+  titleMedium,
+  titleSmall,
+  bodyLarge,
+  bodyMedium,
+  bodySmall,
+  labelLarge,
+  labelMedium,
+  labelSmall,
+}
+
+/// This is a collection of tools for working with percentages.
+extension PercentageTools on num {
+  /// This method returns what `this` percent of the given `num` is.
+  ///
+  /// This uses the formula: `is`/`of` == `%`/`100`
+  ///
+  /// So, `is` = (`of` * `%)` / `100`
   ///
   /// ```dart
-  /// capitalizeFirstLetter('howdy') == "Howdy"
-  /// capitalizeFirstLetter('hello world') == "Hello world"
+  /// // For example, 50% of 10 is what?
+  /// // is/10 == 50/100
+  /// // is = (10 * 50) / 100
+  /// // is = 5
+  /// 50.percentOf(10) == 5 // So, 50% of 10 is 5.
   /// ```
-  static String capitalizeFirstLetter(String text) {
-    if (text.length > 1) {
-      return text[0].toUpperCase() + text.substring(1);
+  num percentOf(num num) => (num * this) / 100;
+
+  /// This method returns what the given `num` is `this` percent of.
+  ///
+  /// This uses the formula: `is`/`of` == `%`/`100`
+  ///
+  /// So, `of` = (`is` * `100`) / `%`
+  ///
+  /// ```dart
+  /// // For example, 50% of what is 5?
+  /// // 5/of == 50/100
+  /// // of = (5 * 100) / 50
+  /// // of = 10
+  /// 50.percentOfWhatIs(5) == 10 // So, 50% of 10 is 5.
+  /// ```
+  num percentOfWhatIs(num num) => (num * 100) / this;
+
+  /// This method returns the percentage of the given `num` that `this` number
+  /// is.
+  ///
+  /// This uses the formula: `is`/`of` == `%`/`100`
+  ///
+  /// So, `%` = (`100` * `is`) / `of`
+  ///
+  /// ```dart
+  /// // For example, 5 is what percent of 10?
+  /// // 5/10 == %/100
+  /// // % = (100 * 5) / 10
+  /// // % = 50
+  /// 5.isWhatPercentOf(10) == 50 // So, 5 is 50% of 10.
+  /// ```
+  num isWhatPercentOf(num num) => (100 * this) / num;
+}
+
+/// This is a collection of tools for working with numbers.
+extension NumTools on num {
+  /// This method rounds `this` number to the given number of decimal `places`.
+  double roundTo(int places) {
+    final num mod = pow(10.0, places);
+    return ((this * mod).round().toDouble() / mod);
+  }
+
+  /// This method converts `this` number to a currency string.
+  ///
+  /// If `withCents` is `true`, the cents will be included in the string.
+  ///
+  /// ```dart
+  /// 1.toCurrencyString() == '1'
+  /// 1000.toCurrencyString() == '1,000'
+  /// 500.25.toCurrencyString() == '500'
+  ///
+  /// 1.toCurrencyStringWithCents(true) == '1.00'
+  /// 1000.toCurrencyStringWithCents(true) == '1,000.00'
+  /// 500.25.toCurrencyStringWithCents(true) == '500.25'
+  /// ```
+  String toCurrencyString([bool withCents = false]) {
+    final NumberFormat currency;
+    if (withCents) {
+      currency = NumberFormat('#,##0.00', 'en_US');
     } else {
-      return text[0].toUpperCase();
-    }
-  }
-
-  /// Capitalizes the first letter of each word in the given `text`.
-  ///
-  /// ```dart
-  /// capitalizeEachWord('howdy') == "Howdy"
-  /// capitalizeEachWord('hello world') == "Hello World"
-  /// ```
-  static String capitalizeEachWord(String text) {
-    final words = text.split(' ');
-
-    for (int i = 0; i < words.length; i++) {
-      words[i] = capitalizeFirstLetter(words[i]);
+      currency = NumberFormat('#,##0', 'en_US');
     }
 
-    return words.join(' ');
-  }
-
-  /// Returns `true` if the given lists contain all the same values.
-  static bool listsMatch(List list1, List list2) =>
-      const DeepCollectionEquality.unordered().equals(list1, list2);
-
-  /// Returns `true` if the given lists contain all the same keys and values.
-  static bool mapsMatch(Map map1, Map map2) =>
-      const DeepCollectionEquality.unordered().equals(map1, map2);
-
-  /// This method puts a zero width space in between every character in the
-  /// given `text`.
-  ///
-  /// This is useful when you want a string that wraps to the next line at the
-  /// character that hit the overflow limit rather than taking that whole word
-  /// to the next line.
-  ///
-  /// ```
-  /// Without this method:
-  /// aaaaaaaaaa-bbbbbbbbbb-
-  /// cccccccccc-dddddddddd
-  ///
-  /// With this method:
-  /// aaaaaaaaaa-bbbbbbbbbb-cccccc
-  /// cccc-dddddddddd
-  /// ```
-  static String wordBreak(String text) {
-    StringBuffer buffer = StringBuffer();
-
-    for (var element in text.runes) {
-      buffer.write(String.fromCharCode(element));
-      buffer.write("\u200B");
-    }
-
-    return buffer.toString();
+    return currency.format(this);
   }
 }

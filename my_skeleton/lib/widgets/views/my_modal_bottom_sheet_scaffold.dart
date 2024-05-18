@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:my_skeleton/constants/strings/strings.dart';
 import 'package:my_skeleton/constants/theme/my_measurements.dart';
 import 'package:my_skeleton/providers/my_string_provider.dart';
-import 'package:my_skeleton/utils/my_tools.dart';
 
 class MyModalBottomSheetScaffold extends StatelessWidget {
   /// Creates a custom foundation for a modal bottom sheet.
@@ -122,10 +121,10 @@ class MyModalBottomSheetScaffold extends StatelessWidget {
                     TextButton(
                       onPressed: onLeftActionBtn,
                       style: const ButtonStyle(
-                        minimumSize: MaterialStatePropertyAll<Size>(Size.zero),
+                        minimumSize: WidgetStatePropertyAll<Size>(Size.zero),
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        padding: MaterialStatePropertyAll<EdgeInsets>(
-                            EdgeInsets.zero),
+                        padding:
+                            WidgetStatePropertyAll<EdgeInsets>(EdgeInsets.zero),
                       ),
                       child: leftActionBtn ??
                           Row(children: [
@@ -136,20 +135,20 @@ class MyModalBottomSheetScaffold extends StatelessWidget {
                                   .bodyMedium
                                   ?.fontSize,
                             ),
-                            Text(MyTools.capitalizeFirstLetter(strings.back))
+                            Text(strings.back.capitalizeFirstLetter())
                           ]),
                     ),
                   if (onRightActionBtn != null)
                     TextButton(
                       onPressed: onRightActionBtn,
                       style: const ButtonStyle(
-                        minimumSize: MaterialStatePropertyAll<Size>(Size.zero),
+                        minimumSize: WidgetStatePropertyAll<Size>(Size.zero),
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        padding: MaterialStatePropertyAll<EdgeInsets>(
-                            EdgeInsets.zero),
+                        padding:
+                            WidgetStatePropertyAll<EdgeInsets>(EdgeInsets.zero),
                       ),
                       child: rightActionBtn ??
-                          Text(MyTools.capitalizeFirstLetter(strings.cancel)),
+                          Text(strings.cancel.capitalizeFirstLetter()),
                     ),
                 ],
               ),
@@ -160,7 +159,7 @@ class MyModalBottomSheetScaffold extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(
                   vertical: MyMeasurements.elementSpread,
                 ),
-                child: Text(MyTools.capitalizeEachWord(title!)),
+                child: Text(title!.capitalizeEachWord()),
               ),
 
             _buildChild(),

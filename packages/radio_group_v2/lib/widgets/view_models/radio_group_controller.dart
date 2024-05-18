@@ -103,6 +103,21 @@ class RadioGroupController<T> {
     throw ControllerDecoupledException(radioGroupController: this);
   }
 
+  /// Returns the index of the selected item in `this` controller's radio group.
+  ///
+  /// **Note:** If no item is selected, this method will return `-1`.
+  ///
+  /// @throws [ControllerDecoupledException] If the controller cannot access the
+  /// value of its radio group.
+  int get selectedIndex {
+    if (_myRadioGroup != null) {
+      return _myRadioGroup!.selectedIndex;
+    }
+
+    // If it makes it to this point, something has gone wrong.
+    throw ControllerDecoupledException(radioGroupController: this);
+  }
+
   /// Sets the value of the selected item in `this` controller's radio group to
   /// the value of the element at `index` in the radio group's value list.
   ///

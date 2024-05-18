@@ -7,7 +7,6 @@ import 'package:my_skeleton/features/user_account/features/login/screens/view_mo
 import 'package:my_skeleton/features/user_account/features/login/widgets/views/login_forgot_password_popup.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/providers/my_string_provider.dart';
-import 'package:my_skeleton/utils/my_tools.dart';
 import 'package:my_skeleton/widgets/views/my_scaffold.dart';
 import 'package:my_skeleton/widgets/views/my_text_field.dart';
 import 'package:provider/provider.dart';
@@ -94,7 +93,7 @@ class LoginScreen extends StatelessWidget {
                     )
                     .then((myAlert) => myAlert?.show(context));
               },
-              child: Text(MyTools.capitalizeEachWord(strings.logIn)),
+              child: Text(strings.logIn.capitalizeEachWord()),
             ),
           ),
 
@@ -113,9 +112,9 @@ class LoginScreen extends StatelessWidget {
                 );
               },
               style: const ButtonStyle(
-                minimumSize: MaterialStatePropertyAll<Size>(Size.zero),
+                minimumSize: WidgetStatePropertyAll<Size>(Size.zero),
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                padding: MaterialStatePropertyAll<EdgeInsets>(EdgeInsets.zero),
+                padding: WidgetStatePropertyAll<EdgeInsets>(EdgeInsets.zero),
               ),
               child: Text(strings.forgotPassword),
             ),
@@ -128,9 +127,9 @@ class LoginScreen extends StatelessWidget {
               viewModel.onSignUp(GoRouter.of(context));
             },
             style: const ButtonStyle(
-              minimumSize: MaterialStatePropertyAll<Size>(Size.zero),
+              minimumSize: WidgetStatePropertyAll<Size>(Size.zero),
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              padding: MaterialStatePropertyAll<EdgeInsets>(EdgeInsets.zero),
+              padding: WidgetStatePropertyAll<EdgeInsets>(EdgeInsets.zero),
             ),
             child: Text(strings.createAccount),
           ),
