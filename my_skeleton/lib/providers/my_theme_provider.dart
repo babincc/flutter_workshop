@@ -43,7 +43,7 @@ class MyThemeProvider extends ChangeNotifier {
               : Brightness.dark, // For iOS (light == dark icons)
         ),
       ),
-      canvasColor: colors.colorScheme.background,
+      canvasColor: colors.colorScheme.surface,
       inputDecorationTheme: InputDecorationTheme(
         floatingLabelBehavior: FloatingLabelBehavior.always,
         contentPadding: const EdgeInsets.symmetric(
@@ -59,10 +59,10 @@ class MyThemeProvider extends ChangeNotifier {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
-          foregroundColor: MaterialStateColor.resolveWith(
+          foregroundColor: WidgetStateColor.resolveWith(
             (states) => colors.colorScheme.onPrimary,
           ),
-          backgroundColor: MaterialStateColor.resolveWith(
+          backgroundColor: WidgetStateColor.resolveWith(
             (states) => colors.colorScheme.primary,
           ),
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,

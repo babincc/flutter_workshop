@@ -5,7 +5,6 @@ import 'package:my_skeleton/constants/theme/my_measurements.dart';
 import 'package:my_skeleton/navigation/my_routes.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/providers/my_string_provider.dart';
-import 'package:my_skeleton/utils/my_tools.dart';
 
 class MyDrawerMenu extends StatelessWidget {
   const MyDrawerMenu({super.key});
@@ -40,7 +39,7 @@ class MyDrawerMenu extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  MyTools.capitalizeEachWord(strings.profile),
+                  strings.profile.capitalizeEachWord(),
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
@@ -62,7 +61,7 @@ class MyDrawerMenu extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  MyTools.capitalizeEachWord(strings.settings),
+                  strings.settings.capitalizeEachWord(),
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
@@ -84,7 +83,7 @@ class MyDrawerMenu extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  MyTools.capitalizeEachWord(strings.help),
+                  strings.help.capitalizeEachWord(),
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
@@ -106,7 +105,7 @@ class MyDrawerMenu extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  MyTools.capitalizeEachWord(strings.logOut),
+                  strings.logOut.capitalizeEachWord(),
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],

@@ -8,6 +8,9 @@ class StringsEN implements Strings {
   const StringsEN();
 
   @override
+  LangCode get langCode => LangCode.en;
+
+  @override
   String get back => 'back';
 
   @override
@@ -51,9 +54,6 @@ class StringsEN implements Strings {
 
   @override
   String get invalidPassword => 'invalid password';
-
-  @override
-  LangCode get langCode => LangCode.en;
 
   @override
   String get logIn => 'log in';
