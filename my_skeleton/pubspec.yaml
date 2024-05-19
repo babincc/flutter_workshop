@@ -27,6 +27,30 @@ dev_dependencies:
   flutter_lints: ^4.0.0
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.4.0
+  # flutter pub global activate rename
+  # rename setAppName --targets ios,android --value "My Skeleton"
+  rename: ^3.0.2
+
+flutter_launcher_icons: # dart run flutter_launcher_icons
+  android: true
+  ios: true
+  image_path: "dev/images/logo.jpg"
+  image_path_android: "dev/images/logo.jpg"
+  web:
+    generate: true
+    image_path: "dev/images/logo.jpg"
+  windows:
+    generate: true
+    image_path: "dev/images/logo.jpg"
+  macos:
+    generate: true
+    image_path: "dev/images/logo_mac.png"
+
+flutter_native_splash: # dart run flutter_native_splash:create
+  color: "#f6f6f6"
+  image: "dev/images/logo.jpg"
 
 flutter:
   uses-material-design: true
