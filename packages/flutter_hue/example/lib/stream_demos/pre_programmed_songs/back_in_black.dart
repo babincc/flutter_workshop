@@ -9,6 +9,11 @@ class BackInBlack {
         ..._getVocals(),
       ];
 
+  static const int _drumsChannel = 0;
+  static const int _guitarChannel1 = 1;
+  static const int _guitarChannel2 = 3;
+  static const int _vocalsChannel = 2;
+
   static List<EntertainmentStreamCommand> _getDrums() {
     int timeMillis = 0;
     int durationMillis = 0;
@@ -20,7 +25,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -31,7 +36,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 0.3),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -42,7 +47,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -53,7 +58,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 0.3),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -64,7 +69,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -75,7 +80,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 0.3),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -86,7 +91,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -97,7 +102,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 0.3),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -108,7 +113,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -119,7 +124,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 0.3),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -130,7 +135,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -141,7 +146,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 0.3),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -152,7 +157,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -163,7 +168,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 0.1),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -174,7 +179,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -185,7 +190,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 0.1),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -196,7 +201,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -204,7 +209,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -214,7 +219,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -223,7 +228,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -233,7 +238,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -245,7 +250,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -253,7 +258,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -263,7 +268,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -275,7 +280,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -283,7 +288,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -293,7 +298,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -305,7 +310,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -313,7 +318,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -323,7 +328,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -335,7 +340,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -343,7 +348,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -353,7 +358,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -365,7 +370,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -373,7 +378,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -383,7 +388,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -395,7 +400,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -403,7 +408,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -413,7 +418,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -425,7 +430,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -433,7 +438,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -443,7 +448,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -455,7 +460,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -463,7 +468,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -473,7 +478,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -485,7 +490,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -493,7 +498,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -503,7 +508,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -515,7 +520,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -523,7 +528,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -533,7 +538,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -545,7 +550,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -553,7 +558,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -563,7 +568,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -575,7 +580,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -583,7 +588,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -593,7 +598,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -602,7 +607,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -612,7 +617,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -621,7 +626,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -631,7 +636,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -640,7 +645,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -650,7 +655,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -659,7 +664,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -669,7 +674,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -678,7 +683,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -688,7 +693,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -697,7 +702,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -707,7 +712,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -716,7 +721,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -726,7 +731,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -735,7 +740,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -745,7 +750,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -757,7 +762,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -765,7 +770,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -775,7 +780,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -787,7 +792,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -795,7 +800,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -805,7 +810,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -817,7 +822,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -825,7 +830,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -835,7 +840,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -847,7 +852,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -855,7 +860,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -865,7 +870,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -877,7 +882,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -885,7 +890,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -895,7 +900,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -907,7 +912,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -915,7 +920,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -925,7 +930,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -937,7 +942,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -945,7 +950,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -955,7 +960,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -967,7 +972,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -975,7 +980,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -985,7 +990,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -997,7 +1002,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -1005,7 +1010,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -1015,7 +1020,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -1027,7 +1032,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -1035,7 +1040,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -1045,7 +1050,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -1057,7 +1062,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -1065,7 +1070,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -1075,7 +1080,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -1087,7 +1092,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -1095,7 +1100,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -1105,7 +1110,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -1117,7 +1122,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -1125,7 +1130,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -1135,7 +1140,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -1144,7 +1149,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -1154,7 +1159,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -1163,7 +1168,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -1173,7 +1178,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -1182,7 +1187,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -1192,7 +1197,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -1201,7 +1206,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -1211,7 +1216,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -1220,7 +1225,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -1230,7 +1235,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -1239,7 +1244,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -1249,7 +1254,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -1258,7 +1263,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -1268,7 +1273,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -1277,7 +1282,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -1287,7 +1292,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -1299,7 +1304,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -1307,7 +1312,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: ColorXy.fromRgb(255, 255, 255, 1.0),
       ),
     );
@@ -1317,7 +1322,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 0,
+        channel: _drumsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -1342,7 +1347,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis1),
       ),
@@ -1350,7 +1355,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis2),
       ),
@@ -1358,14 +1363,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -1377,7 +1382,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -1386,7 +1391,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -1395,14 +1400,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -1414,7 +1419,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -1423,7 +1428,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -1432,14 +1437,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -1451,7 +1456,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -1460,7 +1465,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -1469,14 +1474,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -1488,7 +1493,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -1497,7 +1502,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -1506,14 +1511,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -1525,7 +1530,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -1534,7 +1539,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -1543,14 +1548,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -1562,7 +1567,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 0.5),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -1571,7 +1576,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 0.5),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -1580,14 +1585,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -1599,7 +1604,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 0.5),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -1608,7 +1613,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 0.5),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -1617,14 +1622,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -1636,7 +1641,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 0.5),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -1645,7 +1650,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 0.5),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -1654,14 +1659,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -1673,7 +1678,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -1682,7 +1687,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -1691,14 +1696,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -1710,7 +1715,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -1719,7 +1724,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -1728,14 +1733,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -1747,7 +1752,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -1756,7 +1761,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -1765,14 +1770,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -1784,7 +1789,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -1793,7 +1798,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -1802,14 +1807,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -1821,7 +1826,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -1830,7 +1835,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -1839,14 +1844,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -1858,7 +1863,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -1867,7 +1872,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -1876,14 +1881,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -1895,7 +1900,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -1904,7 +1909,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -1913,14 +1918,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -1932,7 +1937,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -1941,7 +1946,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -1950,14 +1955,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -1969,7 +1974,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -1978,7 +1983,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -1987,14 +1992,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -2006,7 +2011,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -2015,7 +2020,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -2024,14 +2029,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -2043,7 +2048,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -2052,7 +2057,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -2061,14 +2066,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -2080,7 +2085,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -2089,7 +2094,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -2098,14 +2103,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -2117,7 +2122,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -2126,7 +2131,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -2135,14 +2140,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -2154,7 +2159,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -2163,7 +2168,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -2172,14 +2177,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -2191,7 +2196,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -2200,7 +2205,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -2209,14 +2214,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -2228,7 +2233,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 0.5),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -2237,7 +2242,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 0.5),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -2246,14 +2251,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -2265,7 +2270,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 0.5),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -2274,7 +2279,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 0.5),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -2283,14 +2288,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -2302,7 +2307,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 0.5),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -2311,7 +2316,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 0.5),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -2320,14 +2325,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -2339,7 +2344,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -2348,7 +2353,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -2357,14 +2362,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -2376,7 +2381,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -2385,7 +2390,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -2394,14 +2399,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -2413,7 +2418,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -2422,7 +2427,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -2431,14 +2436,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -2450,7 +2455,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -2459,7 +2464,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -2468,14 +2473,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -2487,7 +2492,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -2496,7 +2501,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -2505,14 +2510,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -2524,7 +2529,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -2533,7 +2538,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -2542,14 +2547,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -2561,7 +2566,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -2570,7 +2575,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -2579,14 +2584,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -2598,7 +2603,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -2607,7 +2612,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -2616,14 +2621,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -2635,7 +2640,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -2644,7 +2649,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -2653,14 +2658,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -2672,7 +2677,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -2681,7 +2686,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -2690,14 +2695,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -2709,7 +2714,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -2718,7 +2723,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -2727,14 +2732,14 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: ColorXy.fromRgb(31, 17, 158, 1.0),
       ),
     );
@@ -2746,7 +2751,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 1,
+        channel: _guitarChannel1,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis1),
@@ -2755,7 +2760,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 3,
+        channel: _guitarChannel2,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis2),
@@ -2776,7 +2781,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 2,
+        channel: _vocalsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         waitAfterAnimation: Duration(milliseconds: durationMillis),
       ),
@@ -2784,7 +2789,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 2,
+        channel: _vocalsChannel,
         color: ColorXy.fromRgb(55, 139, 184, 1.0),
       ),
     );
@@ -2794,7 +2799,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 2,
+        channel: _vocalsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -2803,7 +2808,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 2,
+        channel: _vocalsChannel,
         color: ColorXy.fromRgb(55, 139, 184, 1.0),
       ),
     );
@@ -2813,7 +2818,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 2,
+        channel: _vocalsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),
@@ -2822,7 +2827,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 2,
+        channel: _vocalsChannel,
         color: ColorXy.fromRgb(55, 139, 184, 1.0),
       ),
     );
@@ -2832,7 +2837,7 @@ class BackInBlack {
 
     commands.add(
       EntertainmentStreamCommand(
-        channel: 2,
+        channel: _vocalsChannel,
         color: const ColorXy(0.0, 0.0, 0.0),
         animationType: AnimationType.ease,
         animationDuration: Duration(milliseconds: durationMillis),

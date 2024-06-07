@@ -111,10 +111,11 @@ class Validators {
   static bool isValidValue<T>(T value, List<T> validValues) {
     if (value == null) return false;
 
-    if (validValues.isEmpty) {
-      if (value is String) return value.isEmpty;
-
-      if (value is Iterable) return value.isEmpty;
+    // Let empty values pass.
+    if (value is String) {
+      if (value.isEmpty) return true;
+    } else if (value is Iterable) {
+      if (value.isEmpty) return true;
     }
 
     return validValues.contains(value);
