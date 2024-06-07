@@ -204,12 +204,11 @@ class BridgeDiscoveryRepo {
 
     if (bridgeJson == null) return null;
 
-    final Bridge bridge = Bridge.fromJson(bridgeJson)
-      ..copyWith(
-        ipAddress: bridgeIpAddr,
-        applicationKey: appKey,
-        clientKey: clientKey,
-      );
+    final Bridge bridge = Bridge.fromJson(bridgeJson).copyWith(
+      ipAddress: bridgeIpAddr,
+      applicationKey: appKey,
+      clientKey: clientKey,
+    );
 
     if (bridge.id.isEmpty) return null;
 
