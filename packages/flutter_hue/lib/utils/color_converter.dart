@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_color.dart';
 
 /// A class for converting between color spaces.
 class ColorConverter {
@@ -674,5 +675,17 @@ extension Converters on Color {
   /// Converts a Flutter Color object to an integer.
   int toInt() {
     return ColorConverter.color2int(this);
+  }
+
+  /// Converts a Flutter Color object to a [ColorXy] object.
+  ColorXy toColorXy() {
+    final List<double> xy = ColorConverter.color2xy(this);
+    return ColorXy(xy[0], xy[1], xy[2]);
+  }
+
+  /// Converts a Flutter Color object to a [ColorRgb] object.
+  ColorRgb toColorRgb() {
+    final List<int> rgb = ColorConverter.color2rgb(this);
+    return ColorRgb(rgb[0], rgb[1], rgb[2]);
   }
 }

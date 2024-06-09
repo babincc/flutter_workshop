@@ -316,7 +316,8 @@ class EntertainmentStreamRepo {
       __colorToBytes(x, y, brightness);
 
   /// Formats the given `r`, `g`, and `b` values into a list of bytes.
-  static List<int> _formatRgb(int r, int g, int b) => __colorToBytes(r, g, b);
+  static List<int> _formatRgb(int r, int g, int b) =>
+      __colorToBytes(r / 255.0, g / 255.0, b / 255.0);
 
   /// Formats the given `a`, `b`, and `c` values into a list of bytes.
   static List<int> __colorToBytes(num a, num b, num c) {

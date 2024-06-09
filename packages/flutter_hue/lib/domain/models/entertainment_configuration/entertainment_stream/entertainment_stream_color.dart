@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_hue/utils/color_converter.dart';
 
 /// Represents a color that can be sent as a command to the bridge.
@@ -110,6 +111,19 @@ class ColorXy extends EntertainmentStreamColor {
     return ColorXy(xyList[0], xyList[1], brightness ?? xyList[2]);
   }
 
+  /// Creates a new [ColorXy] instance from the given `color`.
+  ///
+  /// The `brightness` parameter is the brightness of the color. If not
+  /// provided, it defaults to whatever is calculated from `color`. Note, this
+  /// is usually a bit dim.
+  factory ColorXy.fromColor(Color color, [double? brightness]) {
+    final ColorXy toReturn = color.toColorXy();
+
+    if (brightness == null) return toReturn;
+
+    return toReturn.copyWith(brightness: brightness);
+  }
+
   /// The x value of the color.
   final double x;
 
@@ -217,6 +231,9 @@ class ColorRgb extends EntertainmentStreamColor {
 
     return ColorRgb(rgbList[0], rgbList[1], rgbList[2]);
   }
+
+  /// Creates a new [ColorRgb] instance from the given `color`.
+  factory ColorRgb.fromColor(Color color) => color.toColorRgb();
 
   /// The red value of the color.
   final int r;
