@@ -44,8 +44,9 @@ class EntertainmentConfiguration extends Resource {
         _originalAction = action,
         _originalStreamProxy = streamProxy.copyWith(),
         _originalLocations =
-            locations.map((location) => location.copyWith()).toList(),
-        _entertainmentStream = EntertainmentStreamController(id);
+            locations.map((location) => location.copyWith()).toList() {
+    _entertainmentStream = EntertainmentStreamController(this);
+  }
 
   /// Creates a [EntertainmentConfiguration] object from the JSON response to a
   /// GET request.
@@ -240,7 +241,7 @@ class EntertainmentConfiguration extends Resource {
   String? _originalAction;
 
   /// Handles the entertainment stream.
-  final EntertainmentStreamController _entertainmentStream;
+  late final EntertainmentStreamController _entertainmentStream;
 
   /// Start streaming for `this` entertainment configuration.
   ///

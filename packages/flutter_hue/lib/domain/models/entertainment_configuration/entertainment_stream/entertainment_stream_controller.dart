@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter_hue/domain/models/bridge/bridge.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/dtls_data.dart';
+import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_color.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_packet.dart';
 import 'package:flutter_hue/domain/repos/entertainment_stream_repo.dart';
@@ -13,13 +14,17 @@ part 'package:flutter_hue/domain/models/entertainment_configuration/entertainmen
 /// Controls the streaming of entertainment data to a bridge.
 class EntertainmentStreamController {
   /// Creates a new [EntertainmentStreamController] object.
-  EntertainmentStreamController(this.entertainmentConfigurationId);
+  EntertainmentStreamController(this.entertainmentConfiguration);
 
   /// Creates an empty [EntertainmentStreamController] object.
-  EntertainmentStreamController.empty() : entertainmentConfigurationId = '';
+  EntertainmentStreamController.empty()
+      : entertainmentConfiguration = EntertainmentConfiguration.empty();
 
-  /// The ID of the entertainment configuration that this stream is for.
-  final String entertainmentConfigurationId;
+  /// The entertainment configuration that this stream is for.
+  final EntertainmentConfiguration entertainmentConfiguration;
+
+  /// The ID of the entertainment configuration to send the data to.
+  String get entertainmentConfigurationId => entertainmentConfiguration.id;
 
   /// DTLS client and connection information.
   final DtlsData _dtlsData = DtlsData();
@@ -154,7 +159,7 @@ class EntertainmentStreamController {
 
             // Create the packet to send to the bridge.
             final EntertainmentStreamPacket packet = EntertainmentStreamPacket(
-              entertainmentConfigurationId: entertainmentConfigurationId,
+              entertainmentConfiguration: entertainmentConfiguration,
               colorMode: colorMode,
               commands: commands,
             );
