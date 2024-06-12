@@ -27,7 +27,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 
 ```yaml
 dependencies:
-  flutter_hue: ^2.0.0-beta.1
+  flutter_hue: ^2.0.0-beta.2
 ```
 
 Import it to each file you use it in:
