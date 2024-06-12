@@ -1,6 +1,10 @@
-## 2.0.0-beta.2 - June 12, 2024
+## 2.0.0-beta.3 - June 12, 2024
 
 - Added platforms that were accidentally dropped
+
+## 2.0.0-beta.2 - June 12, 2024
+
+- Attempted environment fix to add platforms that were accidentally dropped
 
 ## 2.0.0-beta.1 - June 11, 2024
 
