@@ -1,3 +1,8 @@
+## 2.0.0-beta.1 - June 11, 2024
+
+- Added Entertainment Streaming
+- Breaking changes in places such as `put` and `post` commands
+
 ## 1.2.5 - March 18, 2024
 
 - Removed some assertions to allow to third party products that don't follow the same rules as official Philips Hue products [issue #16](https://github.com/babincc/flutter_workshop/issues/16)

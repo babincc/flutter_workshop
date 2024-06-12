@@ -1,7 +1,7 @@
 name: example
 description: Demonstrates how to use the flutter_hue package.
 publish_to: "none"
-version: 1.2.5
+version: 2.0.0-beta.1
 
 environment:
   sdk: ">=3.3.3 <4.0.0"
@@ -12,10 +12,6 @@ dependencies:
     sdk: flutter
   flutter_hue:
     path: ../
-  flutter_openssl_crypto:
-    git:
-      url: https://gitlab.com/jkr_hb/flutter_openssl_crypto.git
-      ref: add-ssl
   just_audio: ^0.9.37
   uni_links: ^0.5.1
 

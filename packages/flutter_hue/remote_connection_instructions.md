@@ -33,7 +33,7 @@ When this method is called, the user's browser will open up to Philips Hue's web
 
 `ios > Runner > Info.plist`
 
-Add this and replace "flutterhue" with the *scheme* part of your Callback URL that you set up in your Hue Dev account:
+Add this and replace "flutterhue" with the _scheme_ part of your Callback URL that you set up in your Hue Dev account:
 
 ```
 <key>LSApplicationQueriesSchemes</key>
@@ -70,12 +70,12 @@ Add this inside of `manifest` before `application`:
 </queries>
 ```
 
-Add this inside `activity` named ".MainActivity" and replace "flutterhue" with the *scheme* part of your Callback URL that you set up in your Hue Dev account:
+Add this inside `activity` named ".MainActivity" and replace "flutterhue" with the _scheme_ part of your Callback URL that you set up in your Hue Dev account:
 
 ```xml
-<meta-data 
-    android:name="flutter_deeplinking_enabled" 
-    android:value="true" 
+<meta-data
+    android:name="flutter_deeplinking_enabled"
+    android:value="true"
     />
 <intent-filter>
     <action android:name="android.intent.action.VIEW" />
@@ -91,7 +91,7 @@ Once your app has permission to talk to the user's Philips Hue account, you will
 
 ### Deep Linking
 
-Once you have your iOS and Android configured, your app is ready to receive deep links. This means that Philips Hue's website will be able to open your app when the user is done there. This next step will show you how to handle the deep link. 
+Once you have your iOS and Android configured, your app is ready to receive deep links. This means that Philips Hue's website will be able to open your app when the user is done there. This next step will show you how to handle the deep link.
 
 Note: This is one of many ways to handle deep links. Feel free to use your favorite method.
 
@@ -126,7 +126,7 @@ void initState() {
 
                 // Handle Flutter Hue deep link
                 if (pkce != null && code != null && resState != null) {
-                    // `clientID` and `clientSecret` are found in your Hue Dev 
+                    // `clientID` and `clientSecret` are found in your Hue Dev
                     // account where you added your remote API ID.
                     TokenRepo.fetchRemoteToken(
                         clientId: "[clientId]",
@@ -157,7 +157,7 @@ void dispose() {
 The access tokens expire. You will need to keep them up to date, or the user will need to grant the app permission again. To do this, call:
 
 ```dart
-// `clientID` and `clientSecret` are found in your Hue Dev account where you 
+// `clientID` and `clientSecret` are found in your Hue Dev account where you
 // added your remote API ID.
 await TokenRepo.refreshRemoteToken(
     clientId: "[clientId]",
