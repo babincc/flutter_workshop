@@ -29,6 +29,9 @@ class RadioGroupDecoration {
   /// define that radio group's style and design.
   const RadioGroupDecoration({
     this.spacing = 0.0,
+    this.runSpacing = 0.0,
+    this.verticalAlignment = MainAxisAlignment.start,
+    this.horizontalAlignment = WrapAlignment.center,
     this.labelStyle,
     this.toggleable = false,
     this.activeColor,
@@ -37,12 +40,28 @@ class RadioGroupDecoration {
     this.hoverColor,
     this.overlayColor,
     this.splashRadius,
-  }) : assert(spacing >= 0.0, "ERROR: `spacing` cannot be less than 0.0!");
+  })  : assert(spacing >= 0.0, "ERROR: `spacing` cannot be less than 0.0!"),
+        assert(
+            runSpacing >= 0.0, "ERROR: `runSpacing` cannot be less than 0.0!");
 
   /// The amount of space between each button.
+  final double spacing;
+
+  /// The amount of space between each row if the radio group is horizontal and
+  /// needs to wrap to multiple rows.
   ///
   /// **Note:** This only applies to horizontal radio group elements.
-  final double spacing;
+  final double runSpacing;
+
+  /// How the radio buttons should be aligned horizontally in a vertical list.
+  ///
+  /// **Note:** This only applies to vertical radio group elements.
+  final MainAxisAlignment verticalAlignment;
+
+  /// Where the radio buttons should be aligned in the horizontal direction.
+  ///
+  /// **Note:** This only applies to horizontal radio group elements.
+  final WrapAlignment horizontalAlignment;
 
   /// The text style for the radio buttons labels.
   ///
@@ -82,7 +101,7 @@ class RadioGroupDecoration {
   ///
   /// Comment info copied from:
   /// https://api.flutter.dev/flutter/material/Radio/fillColor.html
-  final MaterialStateProperty<Color?>? fillColor;
+  final WidgetStateProperty<Color?>? fillColor;
 
   /// The color for the radio's `Material` when it has the input focus.
   ///
@@ -128,7 +147,7 @@ class RadioGroupDecoration {
   ///
   /// Comment info copied from:
   /// https://api.flutter.dev/flutter/material/Radio/overlayColor.html
-  final MaterialStateProperty<Color?>? overlayColor;
+  final WidgetStateProperty<Color?>? overlayColor;
 
   /// The splash radius of the circular `Material` ink response.
   ///

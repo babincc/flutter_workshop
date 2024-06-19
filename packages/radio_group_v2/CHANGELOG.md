@@ -1,3 +1,12 @@
+## 3.2.0 - June 19, 2024
+
+- Added option for spacing in vertical lists.
+- Added option for horizontal alignment in vertical lists.
+- Added option for vertical spacing in horizontal lists.
+- Added option for wrap alignment in horizontal lists.
+- Breaking change: Upgraded from `MaterialState` to `WidgetState` with properties and colors.
+- Behavior change: If a value is changed programmatically, the `onChanged` function is called (if one was provided).
+
 ## 3.1.1 - May 5, 2024
 
 - Added `selectedIndex` getter so you can get the index of the currently selected item.

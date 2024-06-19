@@ -132,7 +132,7 @@ class RadioGroup<T> extends StatefulWidget {
   /// button than the on that is currently selected.
   ///
   /// `value` is the value that was just selected to trigger this function.
-  final void Function(T value)? onChanged;
+  final void Function(T? value)? onChanged;
 
   /// The index in the [values] list of the radio button which will start out
   /// selected.
@@ -153,7 +153,13 @@ class RadioGroupState<T> extends State<RadioGroup<T>> {
 
   /// The value of the selected element in the radio group.
   T? get value => _value;
-  set value(T? value) => setState(() => _value = value);
+  set value(T? value) => setState(() {
+        _value = value;
+
+        if (widget.onChanged == null) return;
+
+        widget.onChanged!(value);
+      });
 
   /// The index of the selected element in the radio group.
   int get selectedIndex {
@@ -183,9 +189,9 @@ class RadioGroupState<T> extends State<RadioGroup<T>> {
 
     // Set default starting value.
     if (widget.indexOfDefault < 0) {
-      value = null;
+      _value = null;
     } else {
-      value = widget.values[widget.indexOfDefault];
+      _value = widget.values[widget.indexOfDefault];
     }
   }
 
@@ -195,15 +201,16 @@ class RadioGroupState<T> extends State<RadioGroup<T>> {
     // If the orientation of the radio button list is vertical, do this.
     if (widget.orientation == RadioGroupOrientation.vertical) {
       return Column(
-        children: [
-          for (final T currValue in widget.values) _radioItemBuilder(currValue),
-        ],
+        mainAxisSize: MainAxisSize.min,
+        children: _verticalRadioListBuilder(),
       );
     } else {
       // Otherwise, the orientation is horizontal; so, do this.
       return Wrap(
-        alignment: WrapAlignment.center,
+        alignment:
+            widget.decoration?.horizontalAlignment ?? WrapAlignment.center,
         spacing: widget.decoration?.spacing ?? 0.0,
+        runSpacing: widget.decoration?.runSpacing ?? 0.0,
         children: [
           for (final T currValue in widget.values)
             IntrinsicWidth(
@@ -214,10 +221,37 @@ class RadioGroupState<T> extends State<RadioGroup<T>> {
     }
   }
 
+  /// This method builds a vertical radio list.
+  ///
+  /// This method is needed to account for the spacing between each radio
+  /// button.
+  List<Widget> _verticalRadioListBuilder() {
+    // If there is no spacing, just return the radio buttons.
+    if (widget.decoration == null || widget.decoration!.spacing == 0.0) {
+      return widget.values.map((value) {
+        return _radioItemBuilder(value);
+      }).toList();
+    }
+
+    final List<Widget> radioList = [];
+
+    for (int i = 0; i < widget.values.length; i++) {
+      radioList.add(_radioItemBuilder(widget.values[i]));
+
+      if (i < widget.values.length - 1) {
+        radioList.add(SizedBox(height: widget.decoration!.spacing));
+      }
+    }
+
+    return radioList;
+  }
+
   /// This method builds each radio item, which consists of the button and its
   /// label.
   Row _radioItemBuilder(T value) {
     return Row(
+      mainAxisAlignment:
+          widget.decoration?.verticalAlignment ?? MainAxisAlignment.start,
       children: [
         _buttonBuilder(value),
         _labelBuilder(value),
