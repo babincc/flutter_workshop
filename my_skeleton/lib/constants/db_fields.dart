@@ -7,8 +7,14 @@
 /// having to change the name in several places in the code.
 class DBFields {
   // ---------------------------------- USERS ----------------------------------
+  /// "age"
+  static const String age = 'age';
+
   /// "name_first"
   static const String firstName = 'name_first';
+
+  /// "friend_ids"
+  static const String friendIds = 'friend_ids';
 
   /// "name_last"
   static const String lastName = 'name_last';

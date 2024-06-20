@@ -166,12 +166,12 @@ class _AppState extends State<App> {
   Padding actionButtons(RadioGroupId radioGroupId) {
     /// Make the buttons blue.
     ButtonStyle buttonStyle = ButtonStyle(
-      backgroundColor: MaterialStateProperty.resolveWith(
-        (states) => states.contains(MaterialState.pressed)
+      backgroundColor: WidgetStateProperty.resolveWith(
+        (states) => states.contains(WidgetState.pressed)
             ? Colors.blueAccent
             : Colors.blue,
       ),
-      padding: MaterialStateProperty.all(
+      padding: WidgetStateProperty.all(
         const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 8,

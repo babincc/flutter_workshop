@@ -72,6 +72,28 @@ class MyDrawerMenu extends StatelessWidget {
             },
           ),
 
+          // FORM EXAMPLE
+          ListTile(
+            title: Row(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(right: MyMeasurements.textPadding),
+                  child: Icon(
+                    Icons.edit_document,
+                  ),
+                ),
+                Text(
+                  strings.formExample.capitalizeEachWord(),
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ],
+            ),
+            onTap: () {
+              closeDrawer(context);
+              goToScreen(context, MyRoutes.formExampleScreen);
+            },
+          ),
+
           // HELP
           ListTile(
             title: Row(
