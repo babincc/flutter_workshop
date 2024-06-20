@@ -47,6 +47,9 @@ class StringsEN implements Strings {
   String get forgotPassword => 'forgot password';
 
   @override
+  String get formExample => 'form example';
+
+  @override
   String get help => 'help';
 
   @override

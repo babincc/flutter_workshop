@@ -32,6 +32,8 @@ abstract class Strings {
 
   String get forgotPassword;
 
+  String get formExample;
+
   String get help;
 
   String get invalidEmail;

@@ -9,6 +9,8 @@ class MyRoutes {
 
   static const String errorScreen = '/error_screen';
 
+  static const String formExampleScreen = '/form_example_screen';
+
   static const String helpScreen = '/help_screen';
 
   static const String loginScreen = '${_MyFolders.userAccount}/login_screen';

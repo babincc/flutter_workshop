@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_skeleton/features/dashboard/screens/views/dashboard_screen.dart';
 import 'package:my_skeleton/features/error_404/screens/views/error_screen.dart';
+import 'package:my_skeleton/features/form_example/screens/views/form_example_screen.dart';
 import 'package:my_skeleton/features/help/screens/views/help_screen.dart';
+import 'package:my_skeleton/features/settings/screens/views/settings_screen.dart';
 import 'package:my_skeleton/features/user_account/features/create_account/screens/views/create_account_screen.dart';
 import 'package:my_skeleton/features/user_account/features/login/screens/views/login_screen.dart';
 import 'package:my_skeleton/features/user_account/features/profile/screens/views/profile_screen.dart';
-import 'package:my_skeleton/features/settings/screens/views/settings_screen.dart';
 import 'package:my_skeleton/navigation/my_routes.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
 
@@ -91,6 +92,14 @@ class MyRouter {
           pageBuilder: (context, state) => MaterialPage<void>(
             key: state.pageKey,
             child: const ErrorScreen(),
+          ),
+        ),
+        GoRoute(
+          name: MyRoutes.formExampleScreen,
+          path: MyRoutes.formExampleScreen,
+          pageBuilder: (context, state) => MaterialPage<void>(
+            key: state.pageKey,
+            child: FormExampleScreen(),
           ),
         ),
         GoRoute(
