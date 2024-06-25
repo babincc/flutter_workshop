@@ -66,6 +66,11 @@ class MyUser {
 
   /// Returns a copy of this object with its field values replaced by the ones
   /// provided to this method.
+  ///
+  /// Since [age] is nullable, it is defaulted to an empty object in this
+  /// method. If left as an empty object, its current value in this [MyUser]
+  /// object will be used. This way, if it is `null`, the program will know that
+  /// it is intentionally being set to `null`.
   MyUser copyWith({
     String? id,
     String? firstName,
