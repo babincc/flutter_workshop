@@ -3,19 +3,20 @@
 Add-ons are basically plug-ins that aren't high enough quality to be on [pub.dev](https://pub.dev/) (external link). They are just files to add to your project manually.
 
 ## Table of Contents
-- [debug_log](#debug_log)
-- [my_alert](#my_alert)
-- [my_file_explorer_sdk](#my_file_explorer_sdk)
-- [my_image_cropper](#my_image_cropper)
-- [my_image_importer](#my_image_importer)
-- [my_scaffold](#my_scaffold)
-- [my_text](#my_text)
-- [my_text_field](#my_text_field)
-- [my_tools](#my_tools)
-- [my_validator](#my_validator)
+- [DebugLog](#DebugLog)
+- [MyAlert](#MyAlert)
+- [MyFileExplorerSDK](#MyFileExplorerSDK)
+- [MyImageCropper](#MyImageCropper)
+- [MyImageImporter](#MyImageImporter)
+- [MyLoadingOverlay](#MyLoadingOverlay)
+- [MyScaffold](#MyScaffold)
+- [MyText](#MyText)
+- [MyTextField](#MyTextField)
+- [MyTools](#MyTools)
+- [MyValidator](#MyValidator)
 
 <!---     TEMPLATE
-## class_name
+## ClassName
 
 **[source code](class_name.dart)**
 
@@ -46,7 +47,7 @@ code example...
 [back to top](#table-of-contents)
 --->
 
-## debug_log
+## DebugLog
 
 **[source code](debug_log.dart)**
 
@@ -83,7 +84,7 @@ DebugLog.out('Howdy', sendToCrashlytics: true);
 
 [back to top](#table-of-contents)
 
-## my_alert
+## MyAlert
 
 **[source code](my_alert.dart)**
 
@@ -104,19 +105,19 @@ To use it, you must first create a MyAlert object with all of the parameters for
 The example below shows the creation of an alert that is used as a warning. It can explain to the user why they are not being allowed to do a certain thing.
 
 ```dart
-  /// The alert dialog that will be shown to the user.
-  MyAlert myAlert = MyAlert(
-    title: 'Action Blocked!',
-    content: 'Your attempt to do this action has been blocked because this '
-        'action can not be completed at this time. Thank you!',
-    buttons: {
-      'ok': () {},
-    },
-  );
+/// The alert dialog that will be shown to the user.
+MyAlert myAlert = MyAlert(
+  title: 'Action Blocked!',
+  content: 'Your attempt to do this action has been blocked because this '
+      'action can not be completed at this time. Thank you!',
+  buttons: {
+    'ok': () {},
+  },
+);
 
- // Show [myAlert] to the user.
- myAlert.show(context);
- ```
+// Show [myAlert] to the user.
+myAlert.show(context);
+```
 
 The example below shows the creation of an alert that is used as a way of giving the user information.
 
@@ -154,7 +155,7 @@ myAlert.show(context);
 
 [back to top](#table-of-contents)
 
-## my_file_explorer_sdk
+## MyFileExplorerSDK
 
 **[source code](my_file_explorer_sdk/my_file_explorer_sdk.dart)**
 
@@ -172,7 +173,7 @@ This allows for the easy exploration of your app's working directory on the devi
 
 [back to top](#table-of-contents)
 
-## my_image_cropper
+## MyImageCropper
 
 **[source code](my_image_cropper.dart)**
 
@@ -214,7 +215,7 @@ File? croppedImage = MyImageCropper.crop(
 
 [back to top](#table-of-contents)
 
-## my_image_importer
+## MyImageImporter
 
 **[source code](my_image_importer.dart)**
 
@@ -253,7 +254,48 @@ File? myImage = await MyImageImporter.import(imageOrigin);
 
 [back to top](#table-of-contents)
 
-## my_scaffold
+## MyLoadingOverlay
+
+**[source code](my_loading_overlay.dart)**
+
+A loading overlay that shows a circular progress indicator or a user defined widget.
+
+### Dependencies
+
+| Add-ons from this list | .yaml dependencies |
+| --- | --- |
+| *none* | *none* |
+
+### Usage
+
+This is just a simple loading overlay with a circular progress indicator. This example also demonstrates how to show and close the overlay.
+
+```dart
+final MyLoadingOverlay myLoadingOverlay = MyLoadingOverlay();
+await myLoadingOverlay.show(context);
+// Do some work here.
+await myLoadingOverlay.close();
+```
+
+This example shows how to use a custom widget for the loading overlay. This custom widget will be displayed instead of the default circular progress indicator.
+
+Note: For Columns, be sure to set the `mainAxisSize` to `MainAxisSize.min` if you want this widget to be centered.
+
+```dart
+MyLoadingOverlay(
+  child: const Column(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      CircularProgressIndicator(),
+      Text('Loading...'),
+    ],
+  ),
+);
+```
+
+[back to top](#table-of-contents)
+
+## MyScaffold
 
 **[source code](my_scaffold.dart)**
 
@@ -274,16 +316,16 @@ Takes the place of Flutter's `Scaffold`.
 ```dart
 @override
 Widget build(BuildContext context) {
-	return MyScaffold(
-		appBar: AppBar(title: const Text('Page Title')),
-		builder: (context) => MyPage(), // Your page code here
-	);
+  return MyScaffold(
+    appBar: AppBar(title: const Text('Page Title')),
+    builder: (context) => MyPage(), // Your page code here
+  );
 }
 ```
 
 [back to top](#table-of-contents)
 
-## my_text
+## MyText
 
 **[source code](my_text.dart)**
 
@@ -307,7 +349,7 @@ MyText('Howdy', myTextStyle: MyTextStyle.title); // Howdy (big)
 
 [back to top](#table-of-contents)
 
-## my_text_field
+## MyTextField
 
 **[source code](my_text_field.dart)**
 
@@ -332,27 +374,26 @@ Create your tests. This example shows two tests. The first is a default test tha
 
 ```dart
 List<MyTextFieldValidator> get messageValidators => [
-	const MyTextFieldValidator.testEmpty(testTrigger: TestTrigger.never),
-	MyTextFieldValidator(
-		test: (value) => value.length <= 250,
-		expected: true,
-		errorText:
-			'Too long - 250 characters max',
-		),
-	];
+  const MyTextFieldValidator.testEmpty(testTrigger: TestTrigger.never),
+  MyTextFieldValidator(
+    test: (value) => value.length <= 250,
+    expected: true,
+    errorText: 'Too long - 250 characters max',
+  ),
+];
 ```
 
 Build the widget.
 
 ```dart
 MyTextField(
-	key: messageFieldKey,
-	controller: messageController,
-	hint: 'Message',
-	minLines: 5,
-	maxLines: 250,
-	validators: messageValidators,
-	isLastField: true,
+  key: messageFieldKey,
+  controller: messageController,
+  hint: 'Message',
+  minLines: 5,
+  maxLines: 250,
+  validators: messageValidators,
+  isLastField: true,
 ),
 ```
 
@@ -367,21 +408,21 @@ Check for errors before subitting form.
 ///
 /// Returns `true` if there are any errors.
 Future<bool> hasInputError({bool displayErrorMsg = false}) async {
-	// Check the message.
-	bool messageHasError = false;
-	if (messageFieldKey.currentState != null) {
-		messageHasError = await messageFieldKey.currentState!.hasErrors(
-			displayErrorMsg: displayErrorMsg,
-		);
-	}
+  // Check the message.
+  bool messageHasError = false;
+  if (messageFieldKey.currentState != null) {
+    messageHasError = await messageFieldKey.currentState!.hasErrors(
+      displayErrorMsg: displayErrorMsg,
+    );
+  }
 
-	return messageHasError;
+  return messageHasError;
 }
 ```
 
 [back to top](#table-of-contents)
 
-## my_tools
+## MyTools
 
 **[source code](my_tools.dart)**
 
@@ -401,7 +442,7 @@ This is an add-on because each individual method is too small to be a plug-in, a
 
 [back to top](#table-of-contents)
 
-## my_validator
+## MyValidator
 
 **[source code](my_validator.dart)**
 
