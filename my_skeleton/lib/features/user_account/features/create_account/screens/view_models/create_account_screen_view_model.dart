@@ -5,6 +5,7 @@ import 'package:my_skeleton/navigation/my_routes.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/utils/my_validator.dart';
 import 'package:my_skeleton/widgets/views/my_alert.dart';
+import 'package:my_skeleton/widgets/views/my_loading_overlay.dart';
 import 'package:my_skeleton/widgets/views/my_text_field.dart';
 
 /// This is used to control all of the logic on the account creation screen.
@@ -79,6 +80,7 @@ class CreateAccountScreenViewModel extends ChangeNotifier {
   Future<MyAlert?> onSignUp({
     required MyAuthProvider myAuthProvider,
     required GoRouter router,
+    required MyLoadingOverlay myLoadingOverlay,
   }) async {
     MyAlert? toReturn;
 
@@ -91,8 +93,11 @@ class CreateAccountScreenViewModel extends ChangeNotifier {
     // Only continue if the user's input is formatted correctly.
     if (await hasInputError(displayErrorMsg: true)) return null;
 
-    await myAuthProvider.signUp(email: email, password: password).then((value) {
+    await myAuthProvider
+        .signUp(email: email, password: password)
+        .then((value) async {
       if (value == null) {
+        await myLoadingOverlay.close();
         router.goNamed(MyRoutes.dashboardScreen);
         return;
       }
@@ -104,6 +109,14 @@ class CreateAccountScreenViewModel extends ChangeNotifier {
           MyTextFieldState.setErrorText(
             key: emailFieldKey,
             errorText: strings.emailAlreadyExists,
+          );
+          return;
+        }
+      } else {
+        if (emailFieldKey.currentState != null) {
+          MyTextFieldState.setErrorText(
+            key: emailFieldKey,
+            errorText: null,
           );
           return;
         }

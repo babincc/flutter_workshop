@@ -4,7 +4,7 @@ Add-ons are basically plug-ins that aren't high enough quality to be on [pub.dev
 
 ## Table of Contents
 - [DebugLog](#DebugLog)
-- [MyAler](#MyAlert)
+- [MyAlert](#MyAlert)
 - [MyFileExplorerSDK](#MyFileExplorerSDK)
 - [MyImageCropper](#MyImageCropper)
 - [MyImageImporter](#MyImageImporter)
