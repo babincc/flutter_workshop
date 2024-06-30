@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:my_skeleton/constants/strings/strings.dart';
 import 'package:my_skeleton/navigation/my_routes.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/utils/my_validator.dart';
 import 'package:my_skeleton/widgets/views/my_alert.dart';
 import 'package:my_skeleton/widgets/views/my_text_field.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 /// This is used to control all of the logic on the login screen.
 class LoginScreenViewModel {
@@ -139,6 +139,11 @@ class LoginScreenViewModel {
           errorText: strings.required,
         );
       }
+    } else {
+      MyTextFieldState.setErrorText(
+        key: passwordFieldKey,
+        errorText: null,
+      );
     }
 
     return emailHasError || passwordHasError;

@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:my_skeleton/constants/assets.dart';
 import 'package:my_skeleton/constants/strings/strings.dart';
 import 'package:my_skeleton/constants/theme/my_measurements.dart';
@@ -9,6 +7,8 @@ import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/providers/my_string_provider.dart';
 import 'package:my_skeleton/widgets/views/my_scaffold.dart';
 import 'package:my_skeleton/widgets/views/my_text_field.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 /// The screen the user is sent to when they are not connected to Firebase.
@@ -30,110 +30,112 @@ class LoginScreen extends StatelessWidget {
         context.read<LoginScreenViewModel?>() ?? LoginScreenViewModel(strings);
 
     return MyScaffold(
-      builder: (context) => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          /// LOGO image
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: MyMeasurements.elementSpread,
-            ),
-            child: Image.asset(
-              Assets.logo,
-              width: 175,
-            ),
-          ),
-
-          /// EMAIL text field
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: MyMeasurements.elementSpread,
-            ),
-            child: MyTextField(
-              key: viewModel.emailFieldKey,
-              controller: viewModel.emailController,
-              isLastField: false,
-              hint: strings.email,
-              prefixIcon: const Icon(
-                Icons.email,
+      builder: (context) => SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            /// LOGO image
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: MyMeasurements.elementSpread,
               ),
-              validators: viewModel.emailValidators,
-            ),
-          ),
-
-          /// PASSWORD text field
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: MyMeasurements.elementSpread,
-            ),
-            child: MyTextField(
-              key: viewModel.passwordFieldKey,
-              controller: viewModel.passwordController,
-              isLastField: true,
-              hint: strings.password,
-              prefixIcon: const Icon(
-                Icons.password,
+              child: Image.asset(
+                Assets.logo,
+                width: 175,
               ),
-              isPassword: true,
             ),
-          ),
 
-          /// LOG IN button
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: MyMeasurements.elementSpread * 2.0,
+            /// EMAIL text field
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: MyMeasurements.elementSpread,
+              ),
+              child: MyTextField(
+                key: viewModel.emailFieldKey,
+                controller: viewModel.emailController,
+                isLastField: false,
+                hint: strings.email,
+                prefixIcon: const Icon(
+                  Icons.email,
+                ),
+                validators: viewModel.emailValidators,
+              ),
             ),
-            child: ElevatedButton(
-              onPressed: () async {
-                FocusScope.of(context).unfocus();
-                await viewModel
-                    .onLogIn(
-                      myAuthProvider: MyAuthProvider.of(context),
-                      router: GoRouter.of(context),
-                    )
-                    .then((myAlert) => myAlert?.show(context));
-              },
-              child: Text(strings.logIn.capitalizeEachWord()),
-            ),
-          ),
 
-          /// FORGOT PASSWORD button
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: MyMeasurements.elementSpread,
+            /// PASSWORD text field
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: MyMeasurements.elementSpread,
+              ),
+              child: MyTextField(
+                key: viewModel.passwordFieldKey,
+                controller: viewModel.passwordController,
+                isLastField: true,
+                hint: strings.password,
+                prefixIcon: const Icon(
+                  Icons.password,
+                ),
+                isPassword: true,
+              ),
             ),
-            child: TextButton(
+
+            /// LOG IN button
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: MyMeasurements.elementSpread * 2.0,
+              ),
+              child: ElevatedButton(
+                onPressed: () async {
+                  FocusScope.of(context).unfocus();
+                  await viewModel
+                      .onLogIn(
+                        myAuthProvider: MyAuthProvider.of(context),
+                        router: GoRouter.of(context),
+                      )
+                      .then((myAlert) => myAlert?.show(context));
+                },
+                child: Text(strings.logIn.capitalizeEachWord()),
+              ),
+            ),
+
+            /// FORGOT PASSWORD button
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: MyMeasurements.elementSpread,
+              ),
+              child: TextButton(
+                onPressed: () {
+                  FocusScope.of(context).unfocus();
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    builder: ((context) => const LoginForgotPasswordPopup()),
+                  );
+                },
+                style: const ButtonStyle(
+                  minimumSize: WidgetStatePropertyAll<Size>(Size.zero),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  padding: WidgetStatePropertyAll<EdgeInsets>(EdgeInsets.zero),
+                ),
+                child: Text(strings.forgotPassword),
+              ),
+            ),
+
+            /// CREATE ACCOUNT button
+            TextButton(
               onPressed: () {
                 FocusScope.of(context).unfocus();
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  builder: ((context) => const LoginForgotPasswordPopup()),
-                );
+                viewModel.onSignUp(GoRouter.of(context));
               },
               style: const ButtonStyle(
                 minimumSize: WidgetStatePropertyAll<Size>(Size.zero),
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 padding: WidgetStatePropertyAll<EdgeInsets>(EdgeInsets.zero),
               ),
-              child: Text(strings.forgotPassword),
+              child: Text(strings.createAccount),
             ),
-          ),
-
-          /// CREATE ACCOUNT button
-          TextButton(
-            onPressed: () {
-              FocusScope.of(context).unfocus();
-              viewModel.onSignUp(GoRouter.of(context));
-            },
-            style: const ButtonStyle(
-              minimumSize: WidgetStatePropertyAll<Size>(Size.zero),
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              padding: WidgetStatePropertyAll<EdgeInsets>(EdgeInsets.zero),
-            ),
-            child: Text(strings.createAccount),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

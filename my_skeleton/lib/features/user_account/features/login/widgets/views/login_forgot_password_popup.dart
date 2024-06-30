@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:my_skeleton/constants/strings/strings.dart';
 import 'package:my_skeleton/constants/theme/my_measurements.dart';
 import 'package:my_skeleton/features/user_account/features/login/widgets/view_models/login_forgot_password_popup_view_model.dart';
@@ -7,6 +6,7 @@ import 'package:my_skeleton/providers/my_string_provider.dart';
 import 'package:my_skeleton/widgets/views/my_alert.dart';
 import 'package:my_skeleton/widgets/views/my_modal_bottom_sheet_scaffold.dart';
 import 'package:my_skeleton/widgets/views/my_text_field.dart';
+import 'package:flutter/material.dart';
 
 class LoginForgotPasswordPopup extends StatefulWidget {
   const LoginForgotPasswordPopup({super.key});
