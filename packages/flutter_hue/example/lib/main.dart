@@ -428,10 +428,12 @@ class _HomePageState extends State<HomePage> {
       isLoading = true;
     });
 
-    List<String> bridges = await BridgeDiscoveryRepo.discoverBridges();
+    List<DiscoveredBridge> bridges =
+        await BridgeDiscoveryRepo.discoverBridges();
 
     setState(() {
-      bridgeIps.addAll(bridges);
+      bridgeIps.clear();
+      bridgeIps.addAll(bridges.map((e) => e.ipAddress));
       isLoading = false;
     });
   }

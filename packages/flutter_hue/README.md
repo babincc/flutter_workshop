@@ -27,7 +27,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 
 ```yaml
 dependencies:
-  flutter_hue: ^2.0.0-beta.3
+  flutter_hue: ^2.0.0-beta.4
 ```
 
 Import it to each file you use it in:
@@ -65,7 +65,9 @@ Note: If your app does not support remote connection, just use `FlutterHueMainte
 This example shows how to get a list of all of the IP addresses of the Philips Hue bridges on the network.
 
 ```dart
-List<String> bridgeIps = await BridgeDiscoveryRepo.discoverBridges();
+List<DiscoveredBridge> newBridges = await BridgeDiscoveryRepo.discoverBridges();
+
+List<String> ipAddresses = newBridges.map((e) => e.ipAddress).toList();
 ```
 
 ### Example 2 - First contact with bridge

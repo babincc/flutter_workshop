@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 2.0.0-beta.3
+// @version 2.0.0-beta.4
 // https://github.com/babincc/flutter_workshop/blob/master/packages/flutter_hue/lib/flutter_hue.dart
 
 library flutter_hue;
@@ -12,6 +12,7 @@ export 'package:flutter_hue/domain/models/behavior_script/behavior_script.dart';
 export 'package:flutter_hue/domain/models/behavior_script/behavior_script_metadata.dart';
 export 'package:flutter_hue/domain/models/bridge/bridge.dart';
 export 'package:flutter_hue/domain/models/bridge/bridge_extensions.dart';
+export 'package:flutter_hue/domain/models/bridge/discovered_bridge.dart';
 export 'package:flutter_hue/domain/models/bridge_home/bridge_home.dart';
 export 'package:flutter_hue/domain/models/button/button.dart';
 export 'package:flutter_hue/domain/models/device/device.dart';
