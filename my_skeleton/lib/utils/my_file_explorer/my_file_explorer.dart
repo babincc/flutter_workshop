@@ -1,6 +1,6 @@
 // @author Christian Babin
 // @version 2.0.0
-// https://github.com/babincc/flutter_workshop/blob/master/addons/my_file_explorer.dart
+// https://github.com/babincc/flutter_workshop/blob/master/addons/my_file_explorer/my_file_explorer.dart
 
 import 'dart:io';
 
