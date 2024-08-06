@@ -1,3 +1,7 @@
+// @author Christian Babin
+// @version 0.1.0
+// https://github.com/babincc/flutter_workshop/blob/master/addons/db_tools.dart
+
 import 'package:my_skeleton/utils/my_tools.dart';
 
 class DbTools {
