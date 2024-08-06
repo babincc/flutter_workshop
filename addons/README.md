@@ -3,9 +3,10 @@
 Add-ons are basically plug-ins that aren't high enough quality to be on [pub.dev](https://pub.dev/) (external link). They are just files to add to your project manually.
 
 ## Table of Contents
+- [DbTools](#DbTools)
 - [DebugLog](#DebugLog)
 - [MyAlert](#MyAlert)
-- [MyFileExplorerSDK](#MyFileExplorerSDK)
+- [MyFileExplorer](#MyFileExplorer)
 - [MyImageCropper](#MyImageCropper)
 - [MyImageImporter](#MyImageImporter)
 - [MyLoadingOverlay](#MyLoadingOverlay)
@@ -46,6 +47,21 @@ code example...
 
 [back to top](#table-of-contents)
 --->
+
+## DbTools
+
+**[source code](db_tools.dart)**
+
+These are database tools. There are encryptors and decryptors to store data in the database safely.
+
+### Dependencies
+
+| Add-ons from this list | .yaml dependencies |
+| --- | --- |
+| - my_tools | *none* |
+
+
+[back to top](#table-of-contents)
 
 ## DebugLog
 
@@ -155,9 +171,9 @@ myAlert.show(context);
 
 [back to top](#table-of-contents)
 
-## MyFileExplorerSDK
+## MyFileExplorer
 
-**[source code](my_file_explorer_sdk/my_file_explorer_sdk.dart)**
+**[source code](my_file_explorer/my_file_explorer.dart)**
 
 This allows for the easy exploration of your app's working directory on the device.
 
@@ -183,7 +199,7 @@ This add-on allows users to crop images.
 
 | Add-ons from this list | .yaml dependencies |
 | --- | --- |
-| - my_file_explorer_sdk | - image_cropper |
+| - my_file_explorer | - image_cropper |
 
 ### Usage
 
@@ -225,7 +241,7 @@ This is used to import an image into the program. It can get an image from the d
 
 | Add-ons from this list | .yaml dependencies |
 | --- | --- |
-| - my_file_explorer_sdk | - image_picker |
+| - my_file_explorer | - image_picker |
 
 ### Usage
 
@@ -274,7 +290,19 @@ This is just a simple loading overlay with a circular progress indicator. This e
 final MyLoadingOverlay myLoadingOverlay = MyLoadingOverlay();
 await myLoadingOverlay.show(context);
 // Do some work here.
-await myLoadingOverlay.close();
+if (closeNow) {
+  await myLoadingOverlay.close(); // To close immediately
+}
+// Do more work here.
+if(wasSuccessful) {
+  await myLoadingOverlay.closeWithSuccess();
+} else {
+  await myLoadingOverlay.closeWithFailure();
+}
+// Alternatively
+await myLoadingOverlay.closeWithCustomMessage(child: 
+  Text('Custom widget here'),
+);
 ```
 
 This example shows how to use a custom widget for the loading overlay. This custom widget will be displayed instead of the default circular progress indicator.

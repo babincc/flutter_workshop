@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 1.0.1
+// @version 1.1.0
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_scaffold.dart
 
 import 'package:flutter/material.dart';
@@ -21,6 +21,8 @@ class MyScaffold extends StatelessWidget {
     this.drawer,
     this.isCentered = true,
     this.padEdges = true,
+    this.padBottom = true,
+    this.onPopInvoked,
   });
 
   /// The app bar of this scaffold.
@@ -40,32 +42,48 @@ class MyScaffold extends StatelessWidget {
   /// screen.
   final bool padEdges;
 
+  /// Whether or not the preset padding will be applied to the bottom of the
+  /// screen.
+  final bool padBottom;
+
+  /// A callback that is invoked when the back button is pressed.
+  ///
+  /// If this callback returns `true`, the pop will be invoked; otherwise, if
+  /// it returns `false`, the pop will be canceled.
+  final Future<bool> Function()? onPopInvoked;
+
   @override
   Widget build(BuildContext context) {
-    EdgeInsets padding;
+    final EdgeInsets padding = EdgeInsets.fromLTRB(
+      padEdges ? MyMeasurements.distanceFromEdge : 0.0,
+      appBar == null ? MyMeasurements.distanceFromEdge : 0.0,
+      padEdges ? MyMeasurements.distanceFromEdge : 0.0,
+      padBottom ? MyMeasurements.distanceFromEdge : 0.0,
+    );
 
-    if (padEdges) {
-      if (appBar == null) {
-        padding = const EdgeInsets.all(MyMeasurements.distanceFromEdge);
-      } else {
-        padding = const EdgeInsets.fromLTRB(
-          MyMeasurements.distanceFromEdge,
-          0.0,
-          MyMeasurements.distanceFromEdge,
-          MyMeasurements.distanceFromEdge,
-        );
-      }
-    } else {
-      padding = EdgeInsets.zero;
-    }
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
 
-    return Scaffold(
-      appBar: appBar,
-      drawer: drawer,
-      body: SafeArea(
-        child: Padding(
-          padding: padding,
-          child: _buildLayout(context),
+        if (onPopInvoked == null) {
+          Navigator.of(context).pop();
+        } else {
+          await onPopInvoked!().then((canPop) {
+            if (canPop) {
+              Navigator.of(context).pop();
+            }
+          });
+        }
+      },
+      child: Scaffold(
+        appBar: appBar,
+        drawer: drawer,
+        body: SafeArea(
+          child: Padding(
+            padding: padding,
+            child: _buildLayout(context),
+          ),
         ),
       ),
     );

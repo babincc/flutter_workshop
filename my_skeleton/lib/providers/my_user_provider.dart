@@ -4,15 +4,15 @@ import 'package:provider/provider.dart';
 
 class MyUserProvider extends ChangeNotifier {
   /// Creates a new [MyUserProvider].
-  MyUserProvider() : _myUser = MyUser.empty();
+  MyUserProvider() : _user = MyUser.empty();
 
   /// The current user.
-  MyUser _myUser;
+  MyUser _user;
 
   /// The current user.
-  MyUser get myUser => _myUser;
-  set myUser(MyUser value) {
-    _myUser = value;
+  MyUser get user => _user;
+  set user(MyUser value) {
+    _user = value;
     notifyListeners();
   }
 

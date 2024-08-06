@@ -1,15 +1,16 @@
 // @author Christian Babin
-// @version 2.0.0
+// @version 3.0.0
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_tools.dart
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
 import 'package:my_skeleton/constants/theme/my_measurements.dart';
-import 'package:my_skeleton/utils/debug_log.dart';
 
 /// This is a collection of generic tools. These range from random number
 /// generators to network connection checkers.
@@ -86,19 +87,7 @@ class MyTools {
   ///
   /// `roundTo` is the number of places the returned value should be rounded to.
   /// If it is `null`, no extra rounding will be done.
-  static double randDouble(double min, double max, {int? roundTo}) {
-    // If `roundTo` is greater than 18, this method will break. Let the
-    // developer know this, and set it to 18.
-    try {
-      assert(roundTo == null || roundTo <= 18);
-    } on AssertionError catch (_) {
-      DebugLog.out(
-        'WARNING: `roundTo` must be less than or equal to 18! It has been '
-        'automatically switched to 18.',
-        logType: LogType.warning,
-      );
-    }
-
+  static double randDouble(double min, double max) {
     // If `min` and `max` are the same number, just return that number.
     if (min == max) {
       return min;
@@ -113,26 +102,6 @@ class MyTools {
 
     // Find the random number in the range.
     double toReturn = (Random().nextDouble() * (max - min)) + min;
-
-    // Round the return value (if applicable).
-    if (roundTo != null) {
-      if (roundTo > 18) {
-        roundTo = 18;
-      }
-
-      toReturn = roundDouble(toReturn, roundTo);
-
-      // Check to see if the rounding has pushed the return value outside of the
-      // range. If so, fix it.
-      if (toReturn < min) {
-        String absMinStr = min.toStringAsFixed(roundTo);
-        toReturn = double.parse(absMinStr);
-      } else if (toReturn > max) {
-        String absMaxStr = min.toStringAsFixed(roundTo + 1);
-        absMaxStr = absMaxStr.substring(0, absMaxStr.length - 1);
-        toReturn = double.parse(absMaxStr);
-      }
-    }
 
     return toReturn;
   }
@@ -165,74 +134,11 @@ class MyTools {
     }
   }
 
-  /// This method rounds a double to a certain number of places after the
-  /// decimal.
-  ///
-  /// The double being rounded is `value`.
-  ///
-  /// `maxPlaces` is the number of places that `value` will be rounded to. If
-  /// there are trailing zeros, they will be removed (excluding a solitary zero
-  /// if that is all that follows the decimal). This behavior is why the word
-  /// "max" as included in the parameter name.
-  ///
-  /// ### Examples
-  ///
-  /// The below example will return 3.2.
-  ///
-  /// ```dart
-  /// roundDouble(3.2000, 4);
-  /// ```
-  ///
-  /// The below example will return 3.2001.
-  ///
-  /// ```dart
-  /// roundDouble(3.2001, 4);
-  /// ```
-  ///
-  /// **Note:** This method does fall victim to "broken double math". Since some
-  /// fractions can't be represented by binary numbers, this method could have
-  /// slightly incorrect return values.
-  ///
-  /// Ex.
-  ///
-  /// roundDouble(73.4750, 2) returns 73.47 instead of 73.48.
-  static double roundDouble(double value, int maxPlaces) {
-    // If `places` is less than 0, let the developer know that 0 will be used
-    // instead.
-    try {
-      assert(maxPlaces >= 0);
-    } on AssertionError catch (_) {
-      DebugLog.out(
-        'WARNING: `places` must be greater than or equal to 0! To avoid '
-        'returning `null`, 0 will be used instead of '
-        '"${maxPlaces.toString()}".',
-        logType: LogType.warning,
-      );
-    }
-
-    // If `places` is less than 0, change it to 0.
-    if (maxPlaces < 0) {
-      maxPlaces = 0;
-    }
-
-    /// This value is how the algorithm knows how many places to round the
-    /// `value` to.
-    double mod = pow(10.0, maxPlaces).toDouble();
-
-    // Round the `value`, and return it.
-    return ((value * mod).round().toDouble() / mod);
-  }
-
   /// This method converts degrees to radians.
   static double deg2Rad(num deg) => deg * (pi / 180.0);
 
   /// This method converts radians to degrees.
   static double rad2Deg(num rad) => rad * (180.0 / pi);
-
-  /// This method determines if a given string is a number.
-  ///
-  /// Returns `true` if the string is a number.
-  static bool isNumber(String string) => double.tryParse(string) != null;
 
   /// This method checks to see if the device is connected to the internet.
   ///
@@ -406,6 +312,42 @@ class MyTools {
 
     return textHeight * fontSize;
   }
+
+  /// This method measures the size of the given `widget`.
+  static Future<Size?> measureWidgetSize(
+    BuildContext context,
+    Widget widget,
+  ) async {
+    final GlobalKey<_SizeMeasureWidgetState> key = GlobalKey();
+    final Completer<Size?> completer = Completer<Size?>();
+
+    // Create an Offstage widget and add it to the Overlay
+    final overlayEntry = OverlayEntry(
+      builder: (_) => Offstage(
+        child: _SizeMeasureWidget(key: key, child: widget),
+      ),
+    );
+
+    // Delay the insertion until the current frame is complete.
+    SchedulerBinding.instance.addPostFrameCallback(
+      (_) {
+        Overlay.of(context).insert(overlayEntry);
+
+        // Schedule a frame to ensure the widget is fully laid out.
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          final Size? size = _SizeMeasureWidget.getSize(key);
+
+          // Complete the future with the size.
+          completer.complete(size);
+
+          // Remove the widget from the Overlay.
+          overlayEntry.remove();
+        });
+      },
+    );
+
+    return completer.future;
+  }
 }
 
 /// Text style types.
@@ -506,5 +448,102 @@ extension NumTools on num {
     }
 
     return currency.format(this);
+  }
+}
+
+/// A widget that measures the size of its child.
+class _SizeMeasureWidget extends StatefulWidget {
+  const _SizeMeasureWidget({super.key, required this.child});
+
+  final Widget child;
+
+  static Size? getSize(
+      // ignore: library_private_types_in_public_api
+      GlobalKey<_SizeMeasureWidgetState> key) {
+    if (key.currentState != null && key.currentState!.mounted) {
+      return key.currentState!.calculateSize();
+    }
+
+    return null;
+  }
+
+  @override
+  State<_SizeMeasureWidget> createState() => _SizeMeasureWidgetState();
+}
+
+class _SizeMeasureWidgetState extends State<_SizeMeasureWidget> {
+  final GlobalKey _sizeKey1 = GlobalKey();
+  final GlobalKey _sizeKey2 = GlobalKey();
+
+  Size? _screenSize;
+
+  // double? _availableWidth;
+  // double? _availableHeight;
+
+  @override
+  Widget build(BuildContext context) {
+    _screenSize = MediaQuery.of(context).size;
+
+    return Material(
+      color: Colors.transparent,
+      child: Container(
+        constraints: BoxConstraints(maxHeight: _screenSize!.height),
+        child: Column(
+          children: [
+            Container(
+              constraints: BoxConstraints(maxWidth: _screenSize!.width),
+              child: Row(
+                children: [
+                  Container(
+                    constraints: BoxConstraints(maxWidth: _screenSize!.width),
+                    child: widget.child,
+                  ),
+                  // TODO Making this "Expanded" will make the width of the widget
+                  //  cut in half if the widget we are measuring is also an
+                  //  "Expanded" widget.
+                  Expanded(
+                    child: Container(
+                      key: _sizeKey1,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // TODO Making this "Expanded" will make the height of the widget cut
+            //  in half if the widget we are measuring is also an "Expanded"
+            //  widget.
+            Expanded(
+              child: Container(
+                key: _sizeKey2,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Size? calculateSize() {
+    if (_screenSize == null) return null;
+
+    final BuildContext? currentContext1 = _sizeKey1.currentContext;
+    final BuildContext? currentContext2 = _sizeKey2.currentContext;
+
+    if (currentContext1 == null) return null;
+    if (currentContext2 == null) return null;
+
+    final RenderObject? renderBox1 = currentContext1.findRenderObject();
+    final RenderObject? renderBox2 = currentContext2.findRenderObject();
+
+    if (renderBox1 == null) return null;
+    if (renderBox2 == null) return null;
+
+    if (renderBox1 is! RenderBox) return null;
+    if (renderBox2 is! RenderBox) return null;
+
+    final double width = _screenSize!.width - renderBox1.size.width;
+    final double height = _screenSize!.height - renderBox2.size.height;
+
+    return Size(width, height);
   }
 }

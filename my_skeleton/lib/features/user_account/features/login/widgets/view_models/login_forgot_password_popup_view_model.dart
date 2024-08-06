@@ -60,7 +60,7 @@ class LoginForgotPasswordPopupViewModel {
 
         if (value.contains('not') && value.contains('found')) {
           if (emailFieldKey.currentState != null) {
-            MyTextFieldState.setErrorText(
+            MyTextField.setErrorText(
               key: emailFieldKey,
               errorText: strings.emailAlreadyExists,
             );

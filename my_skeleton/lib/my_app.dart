@@ -4,11 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_skeleton/domain/models/my_user.dart';
 import 'package:my_skeleton/domain/repos/my_user_repo.dart';
-import 'package:my_skeleton/providers/my_theme_provider.dart';
 import 'package:my_skeleton/navigation/my_router.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/providers/my_string_provider.dart';
+import 'package:my_skeleton/providers/my_theme_provider.dart';
 import 'package:my_skeleton/providers/my_user_provider.dart';
+import 'package:my_skeleton/utils/my_file_explorer/my_file_explorer_provider.dart';
 import 'package:provider/provider.dart';
 
 /// This file sets up the app and is the root file connecting all of the others
@@ -29,6 +30,8 @@ class MyApp extends StatelessWidget {
     final MyUserProvider myUserProvider = MyUserProvider();
     final MyThemeProvider myTheme = MyThemeProvider();
     final MyStringProvider myStringProvider = MyStringProvider();
+    final MyFileExplorerProvider myFileExplorerProvider =
+        MyFileExplorerProvider();
 
     final GoRouter router = MyRouter.getRoutes(myAuthProvider);
 
@@ -46,6 +49,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<MyStringProvider>(
           create: (_) => myStringProvider,
         ),
+        ChangeNotifierProvider<MyFileExplorerProvider>(
+          create: (_) => myFileExplorerProvider,
+        ),
       ],
       builder: (_, __) {
         return Selector<MyAuthProvider, bool>(
@@ -57,8 +63,8 @@ class MyApp extends StatelessWidget {
                       ? SystemUiOverlayStyle.light
                       : SystemUiOverlayStyle.dark,
               child: FutureBuilder(
-                future: _fetchMyUser(
-                    context, myUserProvider, myAuthProvider.user?.uid),
+                future:
+                    _initApp(context, myUserProvider, myAuthProvider.user?.uid),
                 builder: (context, snapshot) {
                   if (identical(
                       snapshot.connectionState, ConnectionState.done)) {
@@ -89,14 +95,25 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  Future<void> _fetchMyUser(BuildContext context, MyUserProvider myUserProvider,
-      String? userId) async {
-    if (userId != null) {
-      MyUserRepo.fetchUser(userId).then((value) {
-        final MyUser myUser = value ?? MyUser.empty();
+  /// Initializes the app.
+  Future<void> _initApp(
+    BuildContext context,
+    MyUserProvider myUserProvider,
+    String? userId,
+  ) async {
+    await MyFileExplorerProvider.of(context).ensureInitialized().then(
+      (_) async {
+        if (userId == null) return;
 
-        myUserProvider.myUser = myUser;
-      });
-    }
+        // Fetch user data from Firestore.
+        await MyUserRepo.fetchUser(userId).then(
+          (value) async {
+            final MyUser user = value ?? MyUser.empty();
+
+            myUserProvider.user = user;
+          },
+        );
+      },
+    );
   }
 }

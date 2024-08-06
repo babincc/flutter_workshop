@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 1.1.0
+// @version 1.2.0
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_text_field.dart
 
 import 'dart:async';
@@ -31,6 +31,7 @@ class MyTextField extends StatefulWidget {
     this.onTap,
     this.onChanged,
     this.onEditingComplete,
+    this.enabled = true,
     this.isLastField = false,
   });
 
@@ -96,6 +97,20 @@ class MyTextField extends StatefulWidget {
   /// Called when the user is finished making changes to this text field's
   /// input.
   final void Function()? onEditingComplete;
+
+  /// Whether or not this text field is able to be edited.
+  final bool enabled;
+
+  /// This method allows the error text to be set manually from outside of this
+  /// widget.
+  static void setErrorText({
+    required GlobalKey<MyTextFieldState> key,
+    String? errorText,
+  }) {
+    if (key.currentState != null && key.currentState!.mounted) {
+      key.currentState!.setErrorText(errorText);
+    }
+  }
 
   @override
   State<MyTextField> createState() => MyTextFieldState();
@@ -187,6 +202,7 @@ class MyTextFieldState extends State<MyTextField> {
       maxLength: widget.maxLength,
       keyboardType: keyboardType,
       inputFormatters: inputFormatters,
+      enabled: widget.enabled,
       onTap: widget.onTap,
       onChanged: (value) {
         // Run the function that was passed into this text field, if it exists.
@@ -215,13 +231,10 @@ class MyTextFieldState extends State<MyTextField> {
 
   /// This method allows the error text to be set manually from outside of this
   /// widget.
-  static void setErrorText({
-    required GlobalKey<MyTextFieldState> key,
-    String? errorText,
-  }) {
-    if (key.currentState != null && key.currentState!.mounted) {
-      key.currentState!.setState(() {
-        key.currentState!.errorText = errorText;
+  void setErrorText(String? errorText) {
+    if (mounted) {
+      setState(() {
+        this.errorText = errorText;
       });
     }
   }

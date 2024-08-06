@@ -1,49 +1,59 @@
 import 'package:collection/collection.dart';
-import 'package:my_skeleton/constants/db_fields.dart';
+import 'package:my_skeleton/constants/database/db_fields.dart';
+import 'package:my_skeleton/constants/defaults.dart';
+import 'package:my_skeleton/domain/enums/user_role.dart';
+import 'package:my_skeleton/utils/db_tools.dart';
 
 /// This model represents the user of the app.
 class MyUser {
   /// Creates a [MyUser] object.
   MyUser({
     required this.id,
+    required this.role,
     required this.firstName,
     required this.lastName,
     required this.age,
+    required this.ssn,
     required this.friendIds,
   });
 
-  /// Creates a [MyUser] object from the data map obtained from Firebase.
-  factory MyUser.fromJson(String id, Map<String, dynamic> dataMap) {
-    return MyUser(
-      id: id,
-      firstName: dataMap[DBFields.firstName] ?? '',
-      lastName: dataMap[DBFields.lastName] ?? '',
-      age: dataMap[DBFields.age],
-      friendIds: dataMap[DBFields.friendIds] ?? [],
-    );
-  }
+  /// Creates a [MyUser] object from a JSON data map.
+  MyUser.fromJson(this.id, Map<String, dynamic> data)
+      : role = UserRole.fromString(data[DbFields.role] ?? ''),
+        firstName = data[DbFields.firstName] ?? '',
+        lastName = data[DbFields.lastName] ?? '',
+        age = data[DbFields.age],
+        ssn = DbTools.decryptOrNull(data[DbFields.ssn]) ?? '',
+        friendIds = data[DbFields.friendIds] ?? [];
 
   /// Creates an empty [MyUser] object.
   MyUser.empty()
       : id = '',
+        role = UserRole.other,
         firstName = '',
         lastName = '',
         age = null,
+        ssn = '',
         friendIds = [];
 
-  /// Whether or not this user object is empty.
+  /// Whether or not this object is empty.
   bool get isEmpty =>
       id.isEmpty &&
+      identical(role, UserRole.other) &&
       firstName.isEmpty &&
       lastName.isEmpty &&
       age == null &&
+      ssn.isEmpty &&
       friendIds.isEmpty;
 
-  /// Whether or not this user object is not empty.
+  /// Whether or not this object is not empty.
   bool get isNotEmpty => !isEmpty;
 
   /// This user's document ID in Firebase.
   final String id;
+
+  /// The user's role.
+  final UserRole role;
 
   /// The user's first name.
   final String firstName;
@@ -54,15 +64,14 @@ class MyUser {
   /// The user's age.
   final int? age;
 
+  /// The user's social security number.
+  final String ssn;
+
   /// The IDs of this user's friends.
   final List<String> friendIds;
 
   /// Returns a copy of this object.
   MyUser copy() => copyWith();
-
-  /// Used in the [copyWith] method to check if nullable values are meant to be
-  /// copied over.
-  static const sentinelValue = Object();
 
   /// Returns a copy of this object with its field values replaced by the ones
   /// provided to this method.
@@ -73,33 +82,37 @@ class MyUser {
   /// it is intentionally being set to `null`.
   MyUser copyWith({
     String? id,
+    UserRole? role,
     String? firstName,
     String? lastName,
-    Object? age = sentinelValue,
+    Object? age = Defaults.sentinelValue,
+    String? ssn,
     List<String>? friendIds,
   }) {
-    if (!identical(age, sentinelValue)) {
+    if (!identical(age, Defaults.sentinelValue)) {
       assert(age is int?, "`age` must be an `int?` object");
     }
 
     return MyUser(
       id: id ?? this.id,
+      role: role ?? this.role,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
-      age: identical(age, sentinelValue) ? this.age : age as int?,
+      age: identical(age, Defaults.sentinelValue) ? this.age : age as int?,
+      ssn: ssn ?? this.ssn,
       friendIds: friendIds ?? List<String>.from(this.friendIds),
     );
   }
 
-  /// Returns a data map that represents all of the information in this model.
-  ///
-  /// This is useful for sending information to Firebase.
+  /// Returns a JSON representation of the object.
   Map<String, dynamic> toJson() {
     return {
-      DBFields.firstName: firstName,
-      DBFields.lastName: lastName,
-      DBFields.age: age,
-      DBFields.friendIds: friendIds,
+      DbFields.role: role.value,
+      DbFields.firstName: firstName,
+      DbFields.lastName: lastName,
+      DbFields.age: age,
+      DbFields.ssn: DbTools.encrypt(ssn),
+      DbFields.friendIds: friendIds,
     };
   }
 
@@ -111,11 +124,11 @@ class MyUser {
 
     return other is MyUser &&
         other.id == id &&
+        identical(other.role, role) &&
         other.firstName == firstName &&
         other.lastName == lastName &&
-        ((other.age == null && age == null) ||
-            ((other.age != null && age != null) &&
-                identical(other.age, age))) &&
+        identical(other.age, age) &&
+        other.ssn == ssn &&
         const DeepCollectionEquality.unordered()
             .equals(other.friendIds, friendIds);
   }
@@ -123,12 +136,21 @@ class MyUser {
   @override
   int get hashCode => Object.hash(
         id,
+        role,
         firstName,
         lastName,
         age,
+        ssn,
         const DeepCollectionEquality.unordered().hash(friendIds),
       );
 
   @override
-  String toString() => 'Instance of MyUser: $id - ${toJson()}';
+  String toString() => 'Instance of MyUser: $id - {'
+      'role: ${role.value}, '
+      'firstName: $firstName, '
+      'lastName: $lastName, '
+      'age: $age, '
+      'ssn: $ssn, '
+      'friendIds: $friendIds'
+      '}';
 }

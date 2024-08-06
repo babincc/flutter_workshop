@@ -106,7 +106,7 @@ class CreateAccountScreenViewModel extends ChangeNotifier {
           value.contains('in') &&
           value.contains('use')) {
         if (emailFieldKey.currentState != null) {
-          MyTextFieldState.setErrorText(
+          MyTextField.setErrorText(
             key: emailFieldKey,
             errorText: strings.emailAlreadyExists,
           );
@@ -114,7 +114,7 @@ class CreateAccountScreenViewModel extends ChangeNotifier {
         }
       } else {
         if (emailFieldKey.currentState != null) {
-          MyTextFieldState.setErrorText(
+          MyTextField.setErrorText(
             key: emailFieldKey,
             errorText: null,
           );
