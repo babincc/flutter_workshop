@@ -5,7 +5,7 @@
 /// strings, there won't be a chance of misspelling any of the names in other
 /// parts of the code. This also allows for name changes in Firebase without
 /// having to change the name in several places in the code.
-class DBFields {
+class DbFields {
   // ---------------------------------- USERS ----------------------------------
   /// "age"
   static const String age = 'age';
@@ -18,4 +18,10 @@ class DBFields {
 
   /// "name_last"
   static const String lastName = 'name_last';
+
+  /// "role"
+  static const String role = 'role';
+
+  /// "ssn"
+  static const String ssn = 'ssn';
 }

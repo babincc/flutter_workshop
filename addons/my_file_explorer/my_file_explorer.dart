@@ -1,17 +1,97 @@
 // @author Christian Babin
-// @version 1.0.3
-// https://github.com/babincc/flutter_workshop/blob/master/addons/my_file_explorer_sdk.dart
+// @version 2.0.0
+// https://github.com/babincc/flutter_workshop/blob/master/addons/my_file_explorer/my_file_explorer.dart
 
-// ignore_for_file: always_use_package_imports
 import 'dart:io';
 
-import 'libraries/directories.dart';
-import 'libraries/paths.dart';
+import 'package:path_provider/path_provider.dart';
 
 /// This class allows for the easy exploration of this app's working directory.
-class MyFileExplorerSDK {
-  /// Fetches the local directory that matches the given `localDir`.
-  static Future<Directory> fetchDir(LocalDir localDir) {
+class MyFileExplorer {
+  MyFileExplorer._() {
+    _init();
+  }
+
+  factory MyFileExplorer() {
+    return _instance;
+  }
+
+  // The single instance of the class
+  static final MyFileExplorer _instance = MyFileExplorer._();
+
+  Future<void> _init() async {
+    appDocsDir = await getApplicationDocumentsDirectory();
+    appSupportDir = await getApplicationSupportDirectory();
+    tempDir = await getTemporaryDirectory();
+
+    _didInit = true;
+  }
+
+  /// Makes sure that the instance of this class is initialized.
+  ///
+  /// Throws a [FileSystemException] if the instance is not initialized in time.
+  Future<void> ensureInitialized() async {
+    int counter = 0;
+
+    while (!_didInit) {
+      await Future.delayed(const Duration(milliseconds: 100));
+      counter++;
+
+      if (counter > 100) {
+        throw const FileSystemException(
+          'MyFileExplorer did not initialize in time!',
+        );
+      }
+    }
+  }
+
+  bool _didInit = false;
+
+  /// The path separator for the current platform.
+  static String get pathSeparator {
+    String pathSeparator;
+    try {
+      pathSeparator = Platform.pathSeparator;
+    } catch (e) {
+      pathSeparator = '/';
+    }
+
+    return pathSeparator;
+  }
+
+  /// The path to the app's documents directory.
+  ///
+  /// This directory is used to store user-generated content.
+  ///
+  /// May throw an exception if called before the instance of this class is
+  /// initialized. To make sure the instance is initialized, call and `await`
+  /// [ensureInitialized].
+  late final Directory appDocsDir;
+
+  /// The path to the app's support directory.
+  ///
+  /// This directory is used to store app-generated content.
+  ///
+  /// May throw an exception if called before the instance of this class is
+  /// initialized. To make sure the instance is initialized, call and `await`
+  /// [ensureInitialized].
+  late final Directory appSupportDir;
+
+  /// The path to the app's temporary directory.
+  ///
+  /// This directory is used to store temporary content.
+  ///
+  /// May throw an exception if called before the instance of this class is
+  /// initialized. To make sure the instance is initialized, call and `await`
+  /// [ensureInitialized].
+  late final Directory tempDir;
+
+  /// Gets the local directory that matches the given `localDir`.
+  ///
+  /// May throw an exception if called before the instance of this class is
+  /// initialized. To make sure the instance is initialized, call and `await`
+  /// [ensureInitialized].
+  Directory getDir(LocalDir localDir) {
     switch (localDir) {
       case LocalDir.appDocsDir:
         return appDocsDir;
@@ -22,22 +102,26 @@ class MyFileExplorerSDK {
     }
   }
 
-  /// Fetches the local directory path that matches the given `localDir`.
-  static Future<String> fetchPath(LocalDir localDir) {
+  /// Gets the local directory path that matches the given `localDir`.
+  ///
+  /// May throw an exception if called before the instance of this class is
+  /// initialized. To make sure the instance is initialized, call and `await`
+  /// [ensureInitialized].
+  String getPath(LocalDir localDir) {
     switch (localDir) {
       case LocalDir.appDocsDir:
-        return appDocsPath;
+        return appDocsDir.path;
       case LocalDir.tempDir:
-        return tempPath;
+        return tempDir.path;
       default:
-        return appSupportPath;
+        return appSupportDir.path;
     }
   }
 
   /// Returns the file that is found with the given `filePath`.
   ///
   /// Throws [FileSystemException] if the file does not exist.
-  static Future<File> fetchFile(String filePath) async {
+  static File getFile(String filePath) {
     if (File(filePath).existsSync()) {
       return File(filePath);
     } else {
@@ -45,11 +129,11 @@ class MyFileExplorerSDK {
     }
   }
 
-  /// Like [fetchFile] except that this function returns `null` where a similar
-  /// call to [fetchFile] would throw a [FileSystemException].
-  static Future<File?> tryFetchFile(String filePath) async {
+  /// Like [getFile] except that this function returns `null` where a similar
+  /// call to [getFile] would throw a [FileSystemException].
+  static File? tryGetFile(String filePath) {
     try {
-      return fetchFile(filePath);
+      return getFile(filePath);
     } on FileSystemException {
       return null;
     }
@@ -157,7 +241,7 @@ class MyFileExplorerSDK {
     }
 
     // Check for path separators.
-    if (fileName.contains(Platform.pathSeparator)) {
+    if (fileName.contains(pathSeparator)) {
       return false;
     }
 
@@ -195,12 +279,15 @@ class MyFileExplorerSDK {
   /// subPath: '~' => throws FormatException
   /// subPath: '' => throws FormatException
   /// ```
-  static Future<String> createPath({
+  ///
+  /// May throw an exception if called before the instance of this class is
+  /// initialized. To make sure the instance is initialized, call and `await`
+  /// [ensureInitialized].
+  String createPath({
     required LocalDir localDir,
     required String subPath,
-  }) async {
-    final String localDirPath =
-        '${await fetchPath(localDir)}${Platform.pathSeparator}';
+  }) {
+    final String localDirPath = '${getPath(localDir)}$pathSeparator';
     final String subPathSterile = sterilizePath(subPath);
 
     // Check for valid sub-path.
@@ -225,18 +312,22 @@ class MyFileExplorerSDK {
   /// Throws a [FormatException] if `subPath` is not a valid path or if
   /// `fileName` is not a valid file name. See [createPath] and
   /// [isValidFileName] for examples of invalid inputs.
-  static Future<String> createPathToFile({
+  ///
+  /// May throw an exception if called before the instance of this class is
+  /// initialized. To make sure the instance is initialized, call and `await`
+  /// [ensureInitialized].
+  String createPathToFile({
     required LocalDir localDir,
     String? subPath,
     required String fileName,
-  }) async {
+  }) {
     String path;
     final String fileNameSterile = sterilizeFileName(fileName);
 
     if (subPath != null) {
-      path = await createPath(localDir: localDir, subPath: subPath);
+      path = createPath(localDir: localDir, subPath: subPath);
     } else {
-      path = await fetchPath(localDir);
+      path = getPath(localDir);
     }
 
     // Check for valid file name.
@@ -244,7 +335,7 @@ class MyFileExplorerSDK {
       throw FormatException('$fileName is not a valid file name!');
     }
 
-    return '$path${Platform.pathSeparator}$fileNameSterile';
+    return '$path$pathSeparator$fileNameSterile';
   }
 
   /// Returns a new file path by combining the given `filePath` and
@@ -270,7 +361,7 @@ class MyFileExplorerSDK {
   /// ```
   static String getNewNameWithPath(String filePath, String newFileName) {
     try {
-      return '${filePath.substring(0, filePath.lastIndexOf(Platform.pathSeparator) + 1)}'
+      return '${filePath.substring(0, filePath.lastIndexOf(pathSeparator) + 1)}'
           '$newFileName';
     } catch (e) {
       throw FormatException('$filePath is not a valid file path.');
@@ -347,15 +438,14 @@ class MyFileExplorerSDK {
 
     String fileName;
 
-    if (filePath.contains(Platform.pathSeparator)) {
+    if (filePath.contains(pathSeparator)) {
       fileName = filePath.substring(
-          filePath.lastIndexOf(Platform.pathSeparator) + 1,
-          filePath.lastIndexOf('.'));
+          filePath.lastIndexOf(pathSeparator) + 1, filePath.lastIndexOf('.'));
     } else {
       fileName = filePath.substring(0, filePath.lastIndexOf('.'));
     }
 
-    if (fileName.isEmpty || fileName == Platform.pathSeparator) {
+    if (fileName.isEmpty || fileName == pathSeparator) {
       return null;
     }
 
@@ -367,14 +457,14 @@ class MyFileExplorerSDK {
     String filePathClean;
 
     // Remove leading path separator.
-    if (filePath.startsWith(Platform.pathSeparator)) {
+    if (filePath.startsWith(pathSeparator)) {
       filePathClean = filePath.substring(1);
     } else {
       filePathClean = filePath;
     }
 
     // Remove trailing path separator.
-    if (filePathClean.endsWith(Platform.pathSeparator)) {
+    if (filePathClean.endsWith(pathSeparator)) {
       filePathClean = filePathClean.substring(0, filePathClean.length - 1);
     }
 
@@ -407,7 +497,7 @@ class MyFileExplorerSDK {
   static final List<String> _illegalFileNameChars = [
     '\\',
     '/',
-    Platform.pathSeparator,
+    pathSeparator,
   ];
 
   static const List<String> _illegalPathChars = [
@@ -461,11 +551,11 @@ class MyFileExplorerSDK {
     }
 
     // Remove double path separators.
-    while (filePathSterile
-        .contains('${Platform.pathSeparator}${Platform.pathSeparator}')) {
+    while (filePathSterile.contains('$pathSeparator$pathSeparator')) {
       filePathSterile.replaceAll(
-          '${Platform.pathSeparator}${Platform.pathSeparator}',
-          Platform.pathSeparator);
+        '$pathSeparator$pathSeparator',
+        pathSeparator,
+      );
     }
 
     // Remove improper leading chars.
@@ -492,8 +582,7 @@ class MyFileExplorerSDK {
     }
 
     // Check for double path separators.
-    if (filePath
-        .contains('${Platform.pathSeparator}${Platform.pathSeparator}')) {
+    if (filePath.contains('$pathSeparator$pathSeparator')) {
       return false;
     }
 
@@ -503,12 +592,18 @@ class MyFileExplorerSDK {
 
 /// All of the local directories used by this program.
 enum LocalDir {
-  /// {@macro myFileExplorerSdk.directories.appDocsDir}
+  /// The path to the app's documents directory.
+  ///
+  /// This directory is used to store user-generated content.
   appDocsDir,
 
-  /// {@macro myFileExplorerSdk.directories.appSupportDir}
+  /// The path to the app's support directory.
+  ///
+  /// This directory is used to store app-generated content.
   appSupportDir,
 
-  /// {@macro myFileExplorerSdk.directories.tempDir}
+  /// The path to the app's temporary directory.
+  ///
+  /// This directory is used to store temporary content.
   tempDir,
 }

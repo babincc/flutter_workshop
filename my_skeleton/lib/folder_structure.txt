@@ -11,6 +11,8 @@ lib/
 │   ├── config.dart
 │   └── ...
 ├── domain/
+│   ├── enums/
+│   │   └── ...
 │   ├── models/
 │   │   └── ...
 │   ├── repos/
@@ -23,6 +25,8 @@ lib/
 ├── features/
 │   ├── feature_one/
 │   │   ├── domain/
+│   │   │   ├── enums/
+│   │   │   │   └── ...
 │   │   │   ├── models/
 │   │   │   │   ├── feature_one_obj.dart
 │   │   │   │   ├── feature_one_thing.dart
@@ -61,6 +65,8 @@ lib/
 │   │   └── ...
 │   └── large_feature/
 │       ├── domain/
+│       │   ├── enums/
+│       │   │   └── ...
 │       │   ├── models/
 │       │   │   └── ...
 │       │   ├── repos/

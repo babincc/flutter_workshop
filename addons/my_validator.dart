@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 1.0.0
+// @version 1.1.0
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_validator.dart
 
 /// Contains methods that check different inputs to see if they are valid.
@@ -72,8 +72,10 @@ class MyValidator {
     /// The regex pattern to compare the possible phone number to.
     const String pattern =
         '^(?:\\+\\d{1,3}|0\\d{1,3}|00\\d{1,2})?' // country code
-        '(?:\\s?\\(\\d+\\))?(?:[-\\/\\s.]|\\d)+' // phone number
-        '(\\s?ext(.)?(?:\\s?\\(\\d+\\))?(?:[-\\/\\s.]|\\d)+)?\$'; // extension
+        '(?:\\s?\\(\\d+\\))?' // area code
+        '(?:[-\\/\\s.]|\\d)+' // phone number
+        '(,?\\s?(e|E)xt(ension)?\\.?' // the word "extension" or "ext" etc.
+        '(?:\\s?\\(\\d+\\))?(?:[-\\/\\s.]|\\d)+)?\$'; // the extension number
 
     /// The regex object that will be compared to the possible phone number.
     final RegExp regExp = RegExp(pattern);

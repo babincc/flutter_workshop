@@ -15,7 +15,8 @@ class MyThemeProvider extends ChangeNotifier {
 
   set themeType(ThemeType themeType) {
     _themeType = themeType;
-    MyThemeService.cacheThemeType(themeType).then((value) => notifyListeners());
+    MyThemeService.cacheThemeType(themeType);
+    notifyListeners();
   }
 
   ThemeType get themeType => _themeType;
@@ -76,9 +77,9 @@ class MyThemeProvider extends ChangeNotifier {
   }
 
   /// Checks the phone for which theme it should apply to the app.
-  Future<void> initThemeType() async {
+  void initThemeType() {
     // See if the user has a theme preference saved in their local files.
-    ThemeType? tempThemeType = await MyThemeService.cachedThemeType;
+    ThemeType? tempThemeType = MyThemeService.cachedThemeType;
     if (tempThemeType != null) {
       themeType = tempThemeType;
       return;

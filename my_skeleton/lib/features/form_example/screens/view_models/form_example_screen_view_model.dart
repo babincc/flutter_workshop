@@ -69,10 +69,10 @@ class FormExampleScreenViewModel {
     emailController.clear();
 
     // Clear all error messages.
-    MyTextFieldState.setErrorText(key: colorKey, errorText: null);
-    MyTextFieldState.setErrorText(key: shapeKey, errorText: null);
-    MyTextFieldState.setErrorText(key: luckyNumberKey, errorText: null);
-    MyTextFieldState.setErrorText(key: emailKey, errorText: null);
+    MyTextField.setErrorText(key: colorKey, errorText: null);
+    MyTextField.setErrorText(key: shapeKey, errorText: null);
+    MyTextField.setErrorText(key: luckyNumberKey, errorText: null);
+    MyTextField.setErrorText(key: emailKey, errorText: null);
   }
 
   /// Called when the user hits the submit button.

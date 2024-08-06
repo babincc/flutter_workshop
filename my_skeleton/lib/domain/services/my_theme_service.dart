@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:my_skeleton/constants/config.dart';
 import 'package:my_skeleton/providers/my_theme_provider.dart';
-import 'package:my_skeleton/utils/my_file_explorer_sdk/my_file_explorer_sdk.dart';
+import 'package:my_skeleton/utils/my_file_explorer/my_file_explorer.dart';
 
 /// This object has the ability to check local files and manipulate them to save
 /// or retrieve the user's preferred theme type.
@@ -20,8 +20,8 @@ class MyThemeService {
   static const String light = 'light';
 
   /// The file that stores the user's theme preference.
-  static Future<File> get themePref async => File(
-        await MyFileExplorerSDK.createPathToFile(
+  static File get themePref => File(
+        MyFileExplorer().createPathToFile(
           localDir: LocalDir.appSupportDir,
           subPath: dirName,
           fileName: fileName,
@@ -32,12 +32,12 @@ class MyThemeService {
   ///
   /// Returns `null` if they do not have a preferred theme type saved to their
   /// local files.
-  static Future<ThemeType?> get cachedThemeType async {
-    File themePrefFile = await themePref;
+  static ThemeType? get cachedThemeType {
+    File themePrefFile = themePref;
 
     if (!themePrefFile.existsSync()) return null;
 
-    String themeTypeStr = await themePrefFile.readAsString();
+    String themeTypeStr = themePrefFile.readAsStringSync();
 
     if (themeTypeStr == dark) {
       return ThemeType.dark;
@@ -47,7 +47,7 @@ class MyThemeService {
   }
 
   /// Writes the user's preferred theme type to their local files.
-  static Future<void> cacheThemeType(ThemeType themeType) async {
+  static void cacheThemeType(ThemeType themeType) {
     String theme;
 
     if (themeType == ThemeType.dark) {
@@ -56,13 +56,13 @@ class MyThemeService {
       theme = light;
     }
 
-    File themePrefFile = await themePref;
+    File themePrefFile = themePref;
 
     if (!themePrefFile.existsSync()) {
-      await themePrefFile.create(recursive: true);
+      themePrefFile.createSync(recursive: true);
     }
 
-    await themePrefFile.writeAsString(
+    themePrefFile.writeAsStringSync(
       theme,
       flush: true,
     );

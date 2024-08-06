@@ -1,20 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:my_skeleton/constants/config.dart';
 import 'package:my_skeleton/constants/strings/lang_code.dart';
 import 'package:my_skeleton/constants/strings/strings.dart';
-import 'package:my_skeleton/constants/config.dart';
-import 'package:my_skeleton/utils/my_file_explorer_sdk/my_file_explorer_sdk.dart';
+import 'package:my_skeleton/utils/my_file_explorer/my_file_explorer.dart';
 import 'package:provider/provider.dart';
 
 class MyStringProvider extends ChangeNotifier {
   MyStringProvider({LangCode? langCode}) : _langCode = langCode ?? LangCode.en {
-    _init();
-  }
-
-  /// Initialize the string provider.
-  Future<void> _init() async {
-    langCode = await _fetchLangPref();
+    langCode = _fetchLangPref();
   }
 
   /// The name of the local file that the language type preference is saved in.
@@ -24,8 +19,8 @@ class MyStringProvider extends ChangeNotifier {
   static final String dirName = Config.dir.preferences;
 
   /// The file that stores the user's theme preference.
-  static Future<File> get langPref async => File(
-        await MyFileExplorerSDK.createPathToFile(
+  static File get langPref => File(
+        MyFileExplorer().createPathToFile(
           localDir: LocalDir.appSupportDir,
           subPath: dirName,
           fileName: fileName,
@@ -36,6 +31,7 @@ class MyStringProvider extends ChangeNotifier {
   /// app.
   Strings get strings => _langCode.strings;
 
+  /// The currently selected language code.
   LangCode _langCode;
 
   /// The currently selected language code.
@@ -51,8 +47,8 @@ class MyStringProvider extends ChangeNotifier {
   ///
   /// If there is no preference saved, or there is an error, it will default to
   /// English.
-  Future<LangCode> _fetchLangPref() async {
-    File langPrefFile = await langPref;
+  LangCode _fetchLangPref() {
+    File langPrefFile = langPref;
 
     if (!langPrefFile.existsSync()) return LangCode.en;
 
@@ -62,10 +58,10 @@ class MyStringProvider extends ChangeNotifier {
   }
 
   /// Writes the user's language preference to their local file directory.
-  Future<void> _saveLangPref() async {
+  void _saveLangPref() {
     final String langCodeStr = _langCode.value;
 
-    File langPrefFile = await langPref;
+    File langPrefFile = langPref;
 
     if (!langPrefFile.existsSync()) {
       langPrefFile.createSync(recursive: true);

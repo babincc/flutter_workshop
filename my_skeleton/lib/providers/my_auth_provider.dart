@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:my_skeleton/domain/enums/user_role.dart';
 import 'package:my_skeleton/domain/models/my_user.dart';
 import 'package:my_skeleton/domain/repos/my_user_repo.dart';
 import 'package:provider/provider.dart';
@@ -52,9 +53,11 @@ class MyAuthProvider extends ChangeNotifier {
 
           MyUser myUser = MyUser(
             id: value.user!.uid,
+            role: UserRole.normal,
             firstName: '',
             lastName: '',
             age: null,
+            ssn: '',
             friendIds: [],
           );
 
