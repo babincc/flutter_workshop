@@ -8,6 +8,27 @@ Note: This SDK uses Philips Hue's new API v2.
 
 With Flutter Hue, developers can easily discover Hue bridges on the network, establish communication with them, and manipulate their connected devices. All of this is shown in the examples below. Also shown is how to change the color of lights and turning them on and off.
 
+<div style="background-color: #101010; border-radius: 25px;" align="center">
+	</br>
+	<span style="color: #efefef;">
+		<h3>Special thanks to <a href="https://www.vibesandlogic.com/" target="_blank">Vibes + Logic</a> and the <a href="https://www.vibesandlogic.com/lumens-ai-app" target="_blank">Lumens App</a> for their support!</h3>
+	</span>
+	</br>
+	</br>
+	<a href="https://www.vibesandlogic.com/" target="_blank">
+		<img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/sponsors/vibes_and_logic_logo.gif" alt="Vibes and Logic Logo" height="85">
+	</a>
+	</br>
+	</br>
+	<a href="https://www.vibesandlogic.com/lumens-ai-app" target="_blank">
+		<img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/sponsors/lumens_logo.png" alt="Lumens App Logo" height="110">
+	</a>
+	</br>
+	</br>
+	</br>
+</div>
+
+
 ## Features
 
 Shown in this demo gif:
