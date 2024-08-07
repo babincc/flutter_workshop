@@ -11,7 +11,7 @@ With Flutter Hue, developers can easily discover Hue bridges on the network, est
 <div style="background-color: #101010; border-radius: 25px;" align="center">
 	</br>
 	<span style="color: #efefef;">
-		<h3>Special thanks to <a href="https://www.vibesandlogic.com/" target="_blank">Vibes + Logic</a> and the <a href="https://www.vibesandlogic.com/lumens-ai-app" target="_blank">Lumens App</a> for their support!</h3>
+		<h3>Special thanks to <a href="https://www.vibesandlogic.com/" target="_blank" style="color: #3270c7;">Vibes + Logic</a> and the <a href="https://www.vibesandlogic.com/lumens-ai-app" target="_blank" style="color: #3270c7;">Lumens App</a> for their support!</h3>
 	</span>
 	</br>
 	</br>
