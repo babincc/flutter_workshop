@@ -11,17 +11,17 @@ With Flutter Hue, developers can easily discover Hue bridges on the network, est
 <div style="background-color: #101010; border-radius: 25px;" align="center">
 	</br>
 	<span style="color: #efefef;">
-		<h3>Special thanks to <a href="https://www.vibesandlogic.com/" target="_blank" style="color: #3270c7;">Vibes + Logic</a> and the <a href="https://www.vibesandlogic.com/lumens-ai-app" target="_blank" style="color: #3270c7;">Lumens App</a> for their support!</h3>
+		<h4>Special thanks to <a href="https://www.vibesandlogic.com/" target="_blank" style="color: #3270c7;">Vibes + Logic</a> and the <a href="https://www.vibesandlogic.com/lumens-ai-app" target="_blank" style="color: #3270c7;">Lumens App</a> for their support!</h4>
 	</span>
 	</br>
 	</br>
 	<a href="https://www.vibesandlogic.com/" target="_blank">
-		<img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/sponsors/vibes_and_logic_logo.gif" alt="Vibes and Logic Logo" height="85">
+		<img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/sponsors/vibes_and_logic_logo.gif" alt="Vibes and Logic Logo" height="50">
 	</a>
 	</br>
 	</br>
 	<a href="https://www.vibesandlogic.com/lumens-ai-app" target="_blank">
-		<img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/sponsors/lumens_logo.png" alt="Lumens App Logo" height="110">
+		<img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/sponsors/lumens_logo.png" alt="Lumens App Logo" height="85">
 	</a>
 	</br>
 	</br>
