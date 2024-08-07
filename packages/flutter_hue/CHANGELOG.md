@@ -1,3 +1,7 @@
+## 2.0.0-beta.5 - August 6, 2024
+
+- Documentation updates
+
 ## 2.0.0-beta.4 - July 17, 2024
 
 - Breaking change: Gave access to bridge IDs when `BridgeDiscoveryRepo.discoverBridges()` is called [issue #20](https://github.com/babincc/flutter_workshop/issues/20)
