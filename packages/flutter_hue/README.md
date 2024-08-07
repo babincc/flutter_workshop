@@ -8,6 +8,26 @@ Note: This SDK uses Philips Hue's new API v2.
 
 With Flutter Hue, developers can easily discover Hue bridges on the network, establish communication with them, and manipulate their connected devices. All of this is shown in the examples below. Also shown is how to change the color of lights and turning them on and off.
 
+<div style="background-color: #101010; border-radius: 25px;" align="center">
+	</br>
+	<span style="color: #efefef;">
+		<h4>Special thanks to <a href="https://www.vibesandlogic.com/" target="_blank" style="color: #3270c7;">Vibes + Logic</a> and the <a href="https://www.vibesandlogic.com/lumens-ai-app" target="_blank" style="color: #3270c7;">Lumens App</a> for their support!</h4>
+	</span>
+	</br>
+	</br>
+	<a href="https://www.vibesandlogic.com/" target="_blank">
+		<img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/sponsors/vibes_and_logic_logo.gif" alt="Vibes and Logic Logo" height="50">
+	</a>
+	</br>
+	</br>
+	<a href="https://www.vibesandlogic.com/lumens-ai-app" target="_blank">
+		<img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/sponsors/lumens_logo.png" alt="Lumens App Logo" height="85">
+	</a>
+	</br>
+	</br>
+	</br>
+</div>
+
 ## Features
 
 Shown in this demo gif:
@@ -27,7 +47,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 
 ```yaml
 dependencies:
-  flutter_hue: ^2.0.0-beta.4
+  flutter_hue: ^2.0.0-beta.5
 ```
 
 Import it to each file you use it in:
