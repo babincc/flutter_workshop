@@ -153,13 +153,17 @@ class RadioGroupState<T> extends State<RadioGroup<T>> {
 
   /// The value of the selected element in the radio group.
   T? get value => _value;
-  set value(T? value) => setState(() {
-        _value = value;
+  set value(T? value) {
+    if (!mounted) return;
 
-        if (widget.onChanged == null) return;
+    setState(() {
+      _value = value;
 
-        widget.onChanged!(value);
-      });
+      if (widget.onChanged == null) return;
+
+      widget.onChanged!(value);
+    });
+  }
 
   /// The index of the selected element in the radio group.
   int get selectedIndex {
@@ -268,6 +272,8 @@ class RadioGroupState<T> extends State<RadioGroup<T>> {
       value: value,
       groupValue: _value,
       onChanged: (newValue) {
+        if (!mounted) return;
+
         setState(
           () {
             _value = newValue;

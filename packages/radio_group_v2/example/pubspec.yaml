@@ -1,7 +1,7 @@
 name: example
 description: Demonstrates how to use the radio_group_v2 package.
 publish_to: "none"
-version: 3.2.0
+version: 3.2.1
 
 environment:
   sdk: ">=3.3.3 <4.0.0"
