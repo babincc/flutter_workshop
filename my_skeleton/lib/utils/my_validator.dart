@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 1.1.0
+// @version 1.2.0
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_validator.dart
 
 /// Contains methods that check different inputs to see if they are valid.
@@ -97,5 +97,23 @@ class MyValidator {
     final RegExp regExp = RegExp(pattern);
 
     return regExp.hasMatch(zip);
+  }
+
+  /// This method checks to see if a given string is a valid name.
+  ///
+  /// It will return `true` if the name provided is formatted correctly.
+  static bool isValidName(String? name) {
+    // If there is no string, it is not a valid name.
+    if (name == null || name.isEmpty) return false;
+
+    /// The regex pattern to compare the possible name to.
+    const String pattern = r'^[a-zA-Z0-9\s_.+-]+$';
+
+    /// The regex object that will be compared to the possible name.
+    final regExp = RegExp(pattern);
+
+    // Return `true` if the name is formatted correctly; otherwise, return
+    // false.
+    return regExp.hasMatch(name);
   }
 }

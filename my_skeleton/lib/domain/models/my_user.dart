@@ -90,7 +90,7 @@ class MyUser {
     List<String>? friendIds,
   }) {
     if (!identical(age, Defaults.sentinelValue)) {
-      assert(age is int?, "`age` must be an `int?` object");
+      assert(age is int?, '`age` must be an `int?` object');
     }
 
     return MyUser(

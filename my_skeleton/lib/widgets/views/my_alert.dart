@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 2.1.1
+// @version 3.0.0
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_alert.dart
 
 import 'dart:io' show Platform;
@@ -95,7 +95,7 @@ class MyAlert extends StatelessWidget {
     this.title,
     dynamic content,
     this.buttons,
-    this.barrierDismissible = true,
+    this.isBarrierDismissible = true,
   }) : body = (content is Widget)
             ? content
             : (content == null ? null : Text(content.toString()));
@@ -111,7 +111,7 @@ class MyAlert extends StatelessWidget {
   final Map<String?, Function>? buttons;
 
   /// Whether or not this alert will close if the user clicks outside of it.
-  final bool barrierDismissible;
+  final bool isBarrierDismissible;
 
   /// Keeps track of whether or not this alert is currently being displayed.
   final _VisManager _visManager = _VisManager();
@@ -123,7 +123,7 @@ class MyAlert extends StatelessWidget {
 
       await showDialog(
         context: context,
-        barrierDismissible: barrierDismissible,
+        barrierDismissible: isBarrierDismissible,
         builder: (dialogContext) {
           _visManager.context = dialogContext;
 
@@ -145,16 +145,22 @@ class MyAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Display an alert that looks native to the device's platform.
+    final Widget alert;
     if (!kIsWeb && Platform.isIOS) {
-      return _iosAlert(context);
+      alert = _iosAlert(context);
     } else {
-      return _androidAlert(context);
+      alert = _androidAlert(context);
     }
+
+    return Material(
+      type: MaterialType.transparency,
+      child: alert,
+    );
   }
 
   /// This method displays an alert using a layout that looks more native to
   /// Android devices.
-  _androidAlert(BuildContext context) {
+  Widget _androidAlert(BuildContext context) {
     /// The list of buttons that will be displayed at the bottom of the dialog
     /// box.
     List<Widget> builtButtons = [];
@@ -188,7 +194,7 @@ class MyAlert extends StatelessWidget {
 
   /// This method displays an alert using a layout that looks more native to iOS
   /// devices.
-  _iosAlert(BuildContext context) {
+  Widget _iosAlert(BuildContext context) {
     /// The list of buttons that will be displayed at the bottom of the dialog
     /// box.
     List<Widget> builtButtons = [];

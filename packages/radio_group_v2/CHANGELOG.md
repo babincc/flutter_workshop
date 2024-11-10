@@ -1,3 +1,7 @@
+## 3.2.1 - August 13, 2024
+
+- Fixed bug where `setState` could be called after `dispose`.
+
 ## 3.2.0 - June 19, 2024
 
 - Added option for spacing in vertical lists.

@@ -1,112 +1,56 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:my_skeleton/constants/theme/my_colors.dart';
-import 'package:my_skeleton/constants/theme/my_measurements.dart';
-import 'package:my_skeleton/domain/services/my_theme_service.dart';
+import 'package:my_skeleton/constants/theme/my_theme.dart';
+import 'package:my_skeleton/domain/enums/my_theme_type.dart';
+import 'package:my_skeleton/domain/repos/my_theme_repo.dart';
 import 'package:provider/provider.dart';
 
 class MyThemeProvider extends ChangeNotifier {
-  MyThemeProvider() : _themeType = ThemeType.dark {
+  MyThemeProvider() : _themeType = MyThemeType.dark {
     initThemeType();
   }
 
   /// Describes the main brightness level of the UI throughout the app.
-  ThemeType _themeType;
+  MyThemeType _themeType;
 
-  set themeType(ThemeType themeType) {
+  /// Describes the main brightness level of the UI throughout the app.
+  MyThemeType get themeType => _themeType;
+  set themeType(MyThemeType themeType) {
+    if (identical(themeType, _themeType)) return;
+
     _themeType = themeType;
-    MyThemeService.cacheThemeType(themeType);
+    MyThemeRepo.cacheThemeType(themeType);
     notifyListeners();
   }
 
-  ThemeType get themeType => _themeType;
-
+  /// Returns the app's color scheme based on the selected [themeType].
   MyColors get colors => MyColors(themeType);
 
-  /// Returns the app UI's theme data based on the selected [_themeType].
-  ThemeData get themeData {
-    final OutlineInputBorder border = OutlineInputBorder(
-      borderSide: BorderSide.none,
-      borderRadius: BorderRadius.circular(MyMeasurements.borderRadius),
-      gapPadding: MyMeasurements.textPadding,
-    );
-
-    return ThemeData(
-      useMaterial3: true,
-      colorScheme: colors.colorScheme,
-      appBarTheme: AppBarTheme(
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarIconBrightness: _themeType == ThemeType.light
-              ? Brightness.dark
-              : Brightness.light, // For Android (dark == dark icons)
-          statusBarBrightness: _themeType == ThemeType.light
-              ? Brightness.light
-              : Brightness.dark, // For iOS (light == dark icons)
-        ),
-      ),
-      canvasColor: colors.colorScheme.surface,
-      inputDecorationTheme: InputDecorationTheme(
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: MyMeasurements.textPadding * 2,
-          vertical: MyMeasurements.textPadding,
-        ),
-        filled: true,
-        fillColor: colors.textField,
-        enabledBorder: border,
-        focusedBorder: border,
-        errorBorder: border,
-        focusedErrorBorder: border,
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ButtonStyle(
-          foregroundColor: WidgetStateColor.resolveWith(
-            (states) => colors.colorScheme.onPrimary,
-          ),
-          backgroundColor: WidgetStateColor.resolveWith(
-            (states) => colors.colorScheme.primary,
-          ),
-          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        ),
-      ),
-      dividerTheme: const DividerThemeData(
-        space: MyMeasurements.textPadding * 2.0,
-        thickness: 2.0,
-      ),
-    );
-  }
+  /// Returns the app UI's theme data based on the selected [themeType].
+  ThemeData get themeData => identical(_themeType, MyThemeType.light)
+      ? MyTheme.lightThemeData
+      : MyTheme.darkThemeData;
 
   /// Checks the phone for which theme it should apply to the app.
   void initThemeType() {
     // See if the user has a theme preference saved in their local files.
-    ThemeType? tempThemeType = MyThemeService.cachedThemeType;
+    final MyThemeType? tempThemeType = MyThemeRepo.cachedThemeType;
     if (tempThemeType != null) {
       themeType = tempThemeType;
       return;
     }
 
     // If there is no saved preference, try to match the phone's theme.
-    var brightness =
+    final Brightness brightness =
         WidgetsBinding.instance.platformDispatcher.platformBrightness;
-    bool isDarkMode = brightness == Brightness.dark;
+    bool isDarkMode = identical(brightness, Brightness.dark);
     if (isDarkMode) {
-      themeType = ThemeType.dark;
+      themeType = MyThemeType.dark;
     } else {
-      themeType = ThemeType.light;
+      themeType = MyThemeType.light;
     }
   }
 
   static MyThemeProvider of(BuildContext context, {bool listen = false}) =>
       Provider.of<MyThemeProvider>(context, listen: listen);
-}
-
-/// The main brightness level of the app's UI.
-enum ThemeType {
-  /// All of the main background colors will be dark with lighter foreground
-  /// colors for contrast.
-  dark,
-
-  /// All of the main background colors will be light with darker foreground
-  /// colors for contrast.
-  light,
 }

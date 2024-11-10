@@ -1,5 +1,3 @@
-import 'package:my_skeleton/utils/my_file_explorer/my_file_explorer.dart';
-
 /// The directory and file names used throughout the app.
 class Config {
   Config._();
@@ -13,17 +11,14 @@ class Config {
 class Dirs {
   Dirs._();
 
+  /// The name of the assets directory.
+  final String assets = 'assets';
+
   /// The name of the images directory.
   final String images = 'images';
 
   /// The name of the preferences directory.
   final String preferences = 'preferences';
-
-  /// The name of the QR codes directory.
-  ///
-  /// This is just an example with the path separator. This folder does not
-  /// actually exist.
-  String get qrCodes => '$images${MyFileExplorer.pathSeparator}qr_codes';
 }
 
 /// The names of the files used throughout the app.

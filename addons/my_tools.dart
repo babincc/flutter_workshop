@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 3.0.0
+// @version 4.0.0
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_tools.dart
 
 import 'dart:async';
@@ -9,7 +9,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:my_skeleton/constants/theme/my_measurements.dart';
 
 /// This is a collection of generic tools. These range from random number
@@ -25,7 +25,7 @@ class MyTools {
 
     // If `min` is greater than `max`, swap their values.
     if (min > max) {
-      int temp = min;
+      final int temp = min;
       min = max;
       max = temp;
     }
@@ -53,7 +53,7 @@ class MyTools {
 
     // If `min` is greater than `max`, swap their values.
     if (min > max) {
-      int temp = min;
+      final int temp = min;
       min = max;
       max = temp;
     }
@@ -95,36 +95,39 @@ class MyTools {
 
     // If `min` is greater than `max`, swap their values.
     if (min > max) {
-      double temp = min;
+      final double temp = min;
       min = max;
       max = temp;
     }
 
     // Find the random number in the range.
-    double toReturn = (Random().nextDouble() * (max - min)) + min;
-
-    return toReturn;
+    return (Random().nextDouble() * (max - min)) + min;
   }
 
   /// This method generates and returns a random color.
-  static Color randColor({bool randomizeOpacity = false}) {
-    int red = randInt(0, 255);
-    int green = randInt(0, 255);
-    int blue = randInt(0, 255);
+  static Color randColor([bool randomizeOpacity = false]) {
+    final int red = randInt(0, 255);
+    final int green = randInt(0, 255);
+    final int blue = randInt(0, 255);
 
     return Color.fromRGBO(
-        red, green, blue, randomizeOpacity ? randDouble(0.0, 1.0) : 1.0);
+      red,
+      green,
+      blue,
+      randomizeOpacity ? randDouble(0.0, 1.0) : 1.0,
+    );
   }
 
   /// This method returns a color for text, icons, etc. based on the given
   /// `bgColor` that it will be displayed on top of.
   static Color getForegroundColor(Color bgColor) {
-    int red = bgColor.red;
-    int green = bgColor.green;
-    int blue = bgColor.blue;
+    final int red = bgColor.red;
+    final int green = bgColor.green;
+    final int blue = bgColor.blue;
 
-    double darkness =
+    final double darkness =
         1 - (((0.299 * red) + (0.587 * green) + (0.114 * blue)) / 255);
+
     if (darkness < 0.5) {
       // The background is light.
       return Colors.black;
@@ -144,9 +147,6 @@ class MyTools {
   ///
   /// It returns `true` if the device is connected to the internet; otherwise,
   /// it returns `false`.
-  ///
-  /// WARNING: This method will not work in China, North Korea, or any place
-  /// where the government censors "google.com".
   static Future<bool> isConnectedToNetwork() async {
     bool isConnected = false;
 
@@ -348,6 +348,40 @@ class MyTools {
 
     return completer.future;
   }
+
+  /// This method measures the size of the given `text` with the given `style`.
+  ///
+  /// Note: This only works for single-line text.
+  static Size measureText(
+    String text,
+    TextStyle? style, {
+    TextDirection textDirection = TextDirection.ltr,
+  }) {
+    final TextSpan span = TextSpan(style: style, text: text);
+
+    final TextPainter textPainter = TextPainter(
+      text: span,
+      maxLines: 1,
+      textDirection: textDirection,
+    );
+
+    textPainter.layout();
+    final Size size = textPainter.size;
+
+    return size;
+  }
+
+  /// The path separator for the current platform.
+  static String get pathSeparator {
+    String pathSeparator;
+    try {
+      pathSeparator = Platform.pathSeparator;
+    } catch (e) {
+      pathSeparator = '/';
+    }
+
+    return pathSeparator;
+  }
 }
 
 /// Text style types.
@@ -440,11 +474,11 @@ extension NumTools on num {
   /// 500.25.toCurrencyStringWithCents(true) == '500.25'
   /// ```
   String toCurrencyString([bool withCents = false]) {
-    final NumberFormat currency;
+    final intl.NumberFormat currency;
     if (withCents) {
-      currency = NumberFormat('#,##0.00', 'en_US');
+      currency = intl.NumberFormat('#,##0.00', 'en_US');
     } else {
-      currency = NumberFormat('#,##0', 'en_US');
+      currency = intl.NumberFormat('#,##0', 'en_US');
     }
 
     return currency.format(this);

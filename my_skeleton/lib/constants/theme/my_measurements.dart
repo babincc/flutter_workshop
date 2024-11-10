@@ -96,6 +96,16 @@ class MyMeasurements {
   /// The padding between elements and the edge of the screen.
   static const double distanceFromEdge = 25.0;
 
+  /// The thickness of dividers throughout the app.
+  static const double dividerThickness = 2.0;
+
+  /// The thickness of dividers throughout the app.
+  ///
+  /// This is the width of padding around the divider plus the thickness of the
+  /// divider itself. In other words, the entire height of the divider (or width
+  /// of a vertical divider).
+  static const double dividerSpace = (textPadding * 2.0) - dividerThickness;
+
   /// The elevation of elements throughout the app.
   ///
   /// This mostly defines how pronounced an element's drop shadow will be.
@@ -106,6 +116,12 @@ class MyMeasurements {
 
   /// The height and width of icons.
   static const double iconSize = 24.0;
+
+  /// The width of screen breakpoint for the responsive design.
+  ///
+  /// Note: The screen must go BELOW this width to be considered responsive. If
+  /// the size is equal to this value, it is NOT considered responsive.
+  static const double responsiveBreakpoint = 840.0;
 
   /// How far a shadow extends.
   ///

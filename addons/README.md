@@ -10,6 +10,7 @@ Add-ons are basically plug-ins that aren't high enough quality to be on [pub.dev
 - [MyImageCropper](#MyImageCropper)
 - [MyImageImporter](#MyImageImporter)
 - [MyLoadingOverlay](#MyLoadingOverlay)
+- [MyRichText](#MyRichText)
 - [MyScaffold](#MyScaffold)
 - [MyText](#MyText)
 - [MyTextField](#MyTextField)
@@ -319,6 +320,35 @@ MyLoadingOverlay(
     ],
   ),
 );
+```
+
+[back to top](#table-of-contents)
+
+## MyRichText
+
+**[source code](my_rich_text.dart)**
+
+A widget that displays text with the ability to only emphasize certain parts of the text.
+
+### Dependencies
+
+| Add-ons from this list | .yaml dependencies |
+| --- | --- |
+| *none* | *none* |
+
+### Usage
+
+This will display "Hello, **world**!" with "world" being the emphasized text, thus it takes on the characteristics of the provided style (in this case, bold).
+
+```dart
+MyRichText(
+  style: TextStyle(fontWeight: FontWeight.bold),
+  children: [
+    MyNormalText('Hello, '),
+    MyEmphasizedText('world'),
+    MyNormalText('!'),
+  ],
+)
 ```
 
 [back to top](#table-of-contents)

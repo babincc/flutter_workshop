@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:my_skeleton/constants/strings/strings.dart';
 import 'package:my_skeleton/constants/theme/my_measurements.dart';
 import 'package:my_skeleton/features/user_account/features/login/widgets/view_models/login_forgot_password_popup_view_model.dart';
@@ -6,7 +7,6 @@ import 'package:my_skeleton/providers/my_string_provider.dart';
 import 'package:my_skeleton/widgets/views/my_alert.dart';
 import 'package:my_skeleton/widgets/views/my_modal_bottom_sheet_scaffold.dart';
 import 'package:my_skeleton/widgets/views/my_text_field.dart';
-import 'package:flutter/material.dart';
 
 class LoginForgotPasswordPopup extends StatefulWidget {
   const LoginForgotPasswordPopup({super.key});
@@ -83,21 +83,28 @@ class _LoginForgotPasswordPopupState extends State<LoginForgotPasswordPopup> {
         TextButton(
           onPressed: () async {
             FocusScope.of(context).unfocus();
-            await viewModel.onReset(MyAuthProvider.of(context)).then((result) {
-              if (result > 0) {
-                setState(() {
-                  linkSent = true;
-                });
-              } else if (result < 0) {
-                MyAlert(
-                  title: viewModel.strings.error.capitalizeFirstLetter(),
-                  content:
-                      '${viewModel.strings.failedPasswordReset.capitalizeFirstLetter()}! '
-                      '${viewModel.strings.tryAgainLater.capitalizeFirstLetter()}.',
-                  buttons: {viewModel.strings.ok: () {}},
-                ).show(context);
-              }
-            });
+            await viewModel.onReset(MyAuthProvider.of(context)).then(
+              (result) {
+                if (result > 0) {
+                  setState(() {
+                    linkSent = true;
+                  });
+                } else if (result < 0) {
+                  final MyAlert alert = MyAlert(
+                    title: viewModel.strings.error.capitalizeFirstLetter(),
+                    content:
+                        '${viewModel.strings.failedPasswordReset.capitalizeFirstLetter()}! '
+                        '${viewModel.strings.tryAgainLater.capitalizeFirstLetter()}.',
+                    buttons: {viewModel.strings.ok: () {}},
+                  );
+
+                  final BuildContext currentContext = context;
+                  if (currentContext.mounted) {
+                    alert.show(currentContext);
+                  }
+                }
+              },
+            );
           },
           child: Text(viewModel.strings.reset.capitalizeEachWord()),
         ),

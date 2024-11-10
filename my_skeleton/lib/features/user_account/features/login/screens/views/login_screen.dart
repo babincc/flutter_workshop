@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_skeleton/constants/assets.dart';
 import 'package:my_skeleton/constants/strings/strings.dart';
 import 'package:my_skeleton/constants/theme/my_measurements.dart';
@@ -7,8 +9,6 @@ import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/providers/my_string_provider.dart';
 import 'package:my_skeleton/widgets/views/my_scaffold.dart';
 import 'package:my_skeleton/widgets/views/my_text_field.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 /// The screen the user is sent to when they are not connected to Firebase.
@@ -89,10 +89,16 @@ class LoginScreen extends StatelessWidget {
                   FocusScope.of(context).unfocus();
                   await viewModel
                       .onLogIn(
-                        myAuthProvider: MyAuthProvider.of(context),
-                        router: GoRouter.of(context),
-                      )
-                      .then((myAlert) => myAlert?.show(context));
+                    myAuthProvider: MyAuthProvider.of(context),
+                    router: GoRouter.of(context),
+                  )
+                      .then(
+                    (myAlert) {
+                      if (context.mounted) {
+                        myAlert?.show(context);
+                      }
+                    },
+                  );
                 },
                 child: Text(strings.logIn.capitalizeEachWord()),
               ),

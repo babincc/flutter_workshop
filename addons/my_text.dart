@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 1.0.1
+// @version 1.1.0
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_text.dart
 
 import 'package:flutter/material.dart';
@@ -100,8 +100,15 @@ class MyText extends StatelessWidget {
     );
   }
 
-  TextStyle? _getStyle(BuildContext context) {
+  TextStyle? _getStyle(BuildContext context) => getStyle(context, myTextStyle);
+
+  /// Returns the [TextStyle] for the given [MyTextStyle].
+  static TextStyle? getStyle(BuildContext context, MyTextStyle myTextStyle) {
     switch (myTextStyle) {
+      case MyTextStyle.display:
+        return Theme.of(context).textTheme.displayLarge?.copyWith(
+              fontWeight: FontWeight.w900,
+            );
       case MyTextStyle.title:
         return Theme.of(context).textTheme.headlineSmall;
       case MyTextStyle.header:
@@ -122,12 +129,15 @@ enum MyTextStyle {
   /// Normal text seen all throughout the app.
   body,
 
-  /// The most bold and obvious text to denote a new topic.
+  /// The largest text to denote a new topic.
+  display,
+
+  /// The second most bold and obvious text to denote a new topic.
   title,
 
   /// Bold and obvious text to denote a new sub-topic.
   header,
 
   /// The smallest text like fine print.
-  caption,
+  caption;
 }
