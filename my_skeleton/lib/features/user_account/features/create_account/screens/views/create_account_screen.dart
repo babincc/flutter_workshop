@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_skeleton/constants/strings/strings.dart';
 import 'package:my_skeleton/constants/theme/my_measurements.dart';
 import 'package:my_skeleton/features/user_account/features/create_account/screens/view_models/create_account_screen_view_model.dart';
@@ -6,8 +8,6 @@ import 'package:my_skeleton/providers/my_string_provider.dart';
 import 'package:my_skeleton/widgets/views/my_loading_overlay.dart';
 import 'package:my_skeleton/widgets/views/my_scaffold.dart';
 import 'package:my_skeleton/widgets/views/my_text_field.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 /// Where the user goes to create a new account for this app.
@@ -114,9 +114,13 @@ class CreateAccountScreen extends StatelessWidget {
                       (myAlert) async {
                         // Close the progress dialog.
                         await myLoadingOverlay.close().then(
-                              // Show the alert dialog.
-                              (didClose) => myAlert?.show(context),
-                            );
+                          // Show the alert dialog.
+                          (didClose) {
+                            if (context.mounted) {
+                              myAlert?.show(context);
+                            }
+                          },
+                        );
                       },
                     );
                   },

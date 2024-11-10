@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:my_skeleton/constants/config.dart';
-import 'package:my_skeleton/providers/my_theme_provider.dart';
+import 'package:my_skeleton/domain/enums/my_theme_type.dart';
 import 'package:my_skeleton/utils/my_file_explorer/my_file_explorer.dart';
 
 /// This object has the ability to check local files and manipulate them to save
@@ -12,12 +12,6 @@ class MyThemeService {
 
   /// The name of the parent directory of the theme preference file.
   static final String dirName = Config.dir.preferences;
-
-  /// The code that is written in the local files that means [ThemeType.dark].
-  static const String dark = 'dark';
-
-  /// The code that is written in the local files that means [ThemeType.light].
-  static const String light = 'light';
 
   /// The file that stores the user's theme preference.
   static File get themePref => File(
@@ -32,30 +26,18 @@ class MyThemeService {
   ///
   /// Returns `null` if they do not have a preferred theme type saved to their
   /// local files.
-  static ThemeType? get cachedThemeType {
+  static MyThemeType? get cachedThemeType {
     File themePrefFile = themePref;
 
     if (!themePrefFile.existsSync()) return null;
 
     String themeTypeStr = themePrefFile.readAsStringSync();
 
-    if (themeTypeStr == dark) {
-      return ThemeType.dark;
-    } else {
-      return ThemeType.light;
-    }
+    return MyThemeType.fromString(themeTypeStr);
   }
 
   /// Writes the user's preferred theme type to their local files.
-  static void cacheThemeType(ThemeType themeType) {
-    String theme;
-
-    if (themeType == ThemeType.dark) {
-      theme = dark;
-    } else {
-      theme = light;
-    }
-
+  static void cacheThemeType(MyThemeType themeType) {
     File themePrefFile = themePref;
 
     if (!themePrefFile.existsSync()) {
@@ -63,7 +45,7 @@ class MyThemeService {
     }
 
     themePrefFile.writeAsStringSync(
-      theme,
+      themeType.value,
       flush: true,
     );
   }

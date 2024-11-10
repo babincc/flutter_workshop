@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 3.1.1
+// @version 4.0.0
 // https://github.com/babincc/flutter_workshop/blob/master/addons/debug_log.dart
 
 // ignore_for_file: avoid_print
@@ -9,7 +9,6 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
-import 'package:my_skeleton/my_app.dart';
 import 'package:stack_trace/stack_trace.dart';
 
 /// This class is used to help with debugging.
@@ -62,7 +61,7 @@ class DebugLog {
           '${frame.member ?? 'unknown_calling_method'}';
     }
 
-    if (!MyApp.isLive || !kReleaseMode) {
+    if (!kReleaseMode) {
       // This print statement causes the console to create a hyperlink to the
       // file and line number of the call to this debugger. This can't be done
       // when color is applied.

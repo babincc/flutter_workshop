@@ -128,7 +128,7 @@ extension StringTools on String {
 
     for (var element in runes) {
       buffer.write(String.fromCharCode(element));
-      buffer.write("\u200B");
+      buffer.write('\u200B');
     }
 
     return buffer.toString();

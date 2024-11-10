@@ -133,9 +133,13 @@ class MyDrawerMenu extends StatelessWidget {
               ],
             ),
             onTap: () {
-              MyAuthProvider.of(context)
-                  .logOut()
-                  .then((value) => context.goNamed(MyRoutes.loginScreen));
+              MyAuthProvider.of(context).logOut().then(
+                (value) {
+                  if (context.mounted) {
+                    context.goNamed(MyRoutes.loginScreen);
+                  }
+                },
+              );
             },
           ),
           const SizedBox(

@@ -1,10 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_skeleton/domain/models/my_user.dart';
-import 'package:my_skeleton/domain/repos/my_user_repo.dart';
-import 'package:my_skeleton/navigation/my_router.dart';
+import 'package:my_skeleton/domain/enums/my_theme_type.dart';
+import 'package:my_skeleton/domain/models/my_app_initializer.dart';
+import 'package:my_skeleton/navigation/my_routes.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/providers/my_string_provider.dart';
 import 'package:my_skeleton/providers/my_theme_provider.dart';
@@ -16,101 +15,100 @@ import 'package:provider/provider.dart';
 /// at runtime. This file controls the navigation and the theme of the entire
 /// app.
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({
+    super.key,
+    required this.myAuthProvider,
+    required this.myUserProvider,
+    required this.myThemeProvider,
+    required this.myStringProvider,
+    required this.myFileExplorerProvider,
+    required this.myGoRouter,
+  });
 
-  /// TODO: Set this to true when you are ready to deploy to the app store.
-  /// This will enable Crashlytics and disable the debug printouts.
-  static const bool isLive = false;
+  final MyAuthProvider myAuthProvider;
+  final MyUserProvider myUserProvider;
+  final MyThemeProvider myThemeProvider;
+  final MyStringProvider myStringProvider;
+  final MyFileExplorerProvider myFileExplorerProvider;
+  final GoRouter myGoRouter;
 
   @override
   Widget build(BuildContext context) {
-    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-
-    final MyAuthProvider myAuthProvider = MyAuthProvider(firebaseAuth);
-    final MyUserProvider myUserProvider = MyUserProvider();
-    final MyThemeProvider myTheme = MyThemeProvider();
-    final MyStringProvider myStringProvider = MyStringProvider();
-    final MyFileExplorerProvider myFileExplorerProvider =
-        MyFileExplorerProvider();
-
-    final GoRouter router = MyRouter.getRoutes(myAuthProvider);
-
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<MyAuthProvider>(
-          create: (_) => myAuthProvider,
+        ChangeNotifierProvider<MyAuthProvider>.value(
+          value: myAuthProvider,
         ),
-        ChangeNotifierProvider<MyUserProvider>(
-          create: (_) => myUserProvider,
+        ChangeNotifierProvider<MyUserProvider>.value(
+          value: myUserProvider,
         ),
-        ChangeNotifierProvider<MyThemeProvider>(
-          create: (_) => myTheme,
+        ChangeNotifierProvider<MyThemeProvider>.value(
+          value: myThemeProvider,
         ),
-        ChangeNotifierProvider<MyStringProvider>(
-          create: (_) => myStringProvider,
+        ChangeNotifierProvider<MyStringProvider>.value(
+          value: myStringProvider,
         ),
-        ChangeNotifierProvider<MyFileExplorerProvider>(
-          create: (_) => myFileExplorerProvider,
+        ChangeNotifierProvider<MyFileExplorerProvider>.value(
+          value: myFileExplorerProvider,
         ),
       ],
-      builder: (_, __) {
+      builder: (context, _) {
         return Selector<MyAuthProvider, bool>(
-          selector: (_, myAuthProvider) => myAuthProvider.isLoggedIn,
+          selector: (context, myAuthProvider) => myAuthProvider.isLoggedIn,
           builder: (context, isLoggedIn, _) {
             return AnnotatedRegion<SystemUiOverlayStyle>(
-              value:
-                  context.watch<MyThemeProvider>().themeType == ThemeType.dark
-                      ? SystemUiOverlayStyle.light
-                      : SystemUiOverlayStyle.dark,
+              value: identical(context.watch<MyThemeProvider>().themeType,
+                      MyThemeType.dark)
+                  ? SystemUiOverlayStyle.light
+                  : SystemUiOverlayStyle.dark,
               child: FutureBuilder(
-                future:
-                    _initApp(context, myUserProvider, myAuthProvider.user?.uid),
+                future: MyAppInitializer.didInit
+                    ? Future.value(true)
+                    : MyAppInitializer.initApp(context),
                 builder: (context, snapshot) {
+                  final bool didInit;
+                  if (snapshot.hasData && snapshot.data is bool) {
+                    didInit = snapshot.data as bool;
+                  } else {
+                    didInit = false;
+                  }
+
                   if (identical(
                       snapshot.connectionState, ConnectionState.done)) {
+                    if (!didInit) {
+                      // Failed to initialize the app–display error screen.
+                      WidgetsBinding.instance.addPostFrameCallback(
+                        (_) {
+                          GoRouter.of(context).goNamed(MyRoutes.errorScreen);
+                        },
+                      );
+                    }
+
+                    // App is initialized–display the app.
                     return GestureDetector(
                       onTap: () =>
                           FocusManager.instance.primaryFocus?.unfocus(),
                       child: MaterialApp.router(
-                        routerConfig: router,
+                        title: 'My Skeleton',
+                        routerConfig: myGoRouter,
                         theme: context.select<MyThemeProvider, ThemeData>(
                             (MyThemeProvider myTheme) => myTheme.themeData),
                       ),
                     );
                   } else {
+                    // App is not initialized–display a blank screen.
                     return MaterialApp(
-                      builder: (context, child) {
-                        return const Scaffold(
-                          backgroundColor: Colors.black,
-                        );
+                      title: 'My Skeleton',
+                      theme: context.select<MyThemeProvider, ThemeData>(
+                          (MyThemeProvider myTheme) => myTheme.themeData),
+                      builder: (context, _) {
+                        return const Scaffold();
                       },
                     );
                   }
                 },
               ),
             );
-          },
-        );
-      },
-    );
-  }
-
-  /// Initializes the app.
-  Future<void> _initApp(
-    BuildContext context,
-    MyUserProvider myUserProvider,
-    String? userId,
-  ) async {
-    await MyFileExplorerProvider.of(context).ensureInitialized().then(
-      (_) async {
-        if (userId == null) return;
-
-        // Fetch user data from Firestore.
-        await MyUserRepo.fetchUser(userId).then(
-          (value) async {
-            final MyUser user = value ?? MyUser.empty();
-
-            myUserProvider.user = user;
           },
         );
       },
