@@ -18,19 +18,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final MyRootProvidersContainer myRootProviders = MyRootProvidersContainer();
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<MyAuthProvider>.value(
-          value: MyRootProvidersContainer().myAuthProvider,
+          value: myRootProviders.myAuthProvider,
         ),
         ChangeNotifierProvider<MyUserProvider>.value(
-          value: MyRootProvidersContainer().myUserProvider,
+          value: myRootProviders.myUserProvider,
         ),
         ChangeNotifierProvider<MyThemeProvider>.value(
-          value: MyRootProvidersContainer().myThemeProvider,
+          value: myRootProviders.myThemeProvider,
         ),
         ChangeNotifierProvider<MyStringProvider>.value(
-          value: MyRootProvidersContainer().myStringProvider,
+          value: myRootProviders.myStringProvider,
         ),
       ],
       builder: (context, _) {
@@ -60,8 +62,7 @@ class MyApp extends StatelessWidget {
                       // Failed to initialize the app, display error screen.
                       WidgetsBinding.instance.addPostFrameCallback(
                         (_) {
-                          MyRootProvidersContainer()
-                              .myGoRouter
+                          myRootProviders.myGoRouter
                               .goNamed(MyRoutes.errorScreen);
                         },
                       );
@@ -73,7 +74,7 @@ class MyApp extends StatelessWidget {
                           FocusManager.instance.primaryFocus?.unfocus(),
                       child: MaterialApp.router(
                         title: 'My Skeleton',
-                        routerConfig: MyRootProvidersContainer().myGoRouter,
+                        routerConfig: myRootProviders.myGoRouter,
                         theme: context.select<MyThemeProvider, ThemeData>(
                             (MyThemeProvider myTheme) => myTheme.themeData),
                       ),
