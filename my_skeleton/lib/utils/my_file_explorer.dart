@@ -1,6 +1,6 @@
 // @author Christian Babin
-// @version 2.0.0
-// https://github.com/babincc/flutter_workshop/blob/master/addons/my_file_explorer/my_file_explorer.dart
+// @version 3.0.0
+// https://github.com/babincc/flutter_workshop/blob/master/addons/my_file_explorer.dart
 
 import 'dart:io';
 
@@ -12,6 +12,18 @@ class MyFileExplorer {
     _init();
   }
 
+  /// An object that allows for the easy exploration of this app's working
+  /// directory.
+  ///
+  /// This is a singleton class, so it is only created once.
+  ///
+  /// Make sure to call:
+  ///
+  /// ```dart
+  /// await MyFileExplorer().ensureInitialized();
+  /// ```
+  /// before using this object. This should be done in the `main` function
+  /// before running the app.
   factory MyFileExplorer() {
     return _instance;
   }

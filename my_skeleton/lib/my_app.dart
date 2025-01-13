@@ -1,55 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
 import 'package:my_skeleton/domain/enums/my_theme_type.dart';
 import 'package:my_skeleton/domain/models/my_app_initializer.dart';
+import 'package:my_skeleton/domain/models/my_root_providers_container.dart';
 import 'package:my_skeleton/navigation/my_routes.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/providers/my_string_provider.dart';
 import 'package:my_skeleton/providers/my_theme_provider.dart';
 import 'package:my_skeleton/providers/my_user_provider.dart';
-import 'package:my_skeleton/utils/my_file_explorer/my_file_explorer_provider.dart';
 import 'package:provider/provider.dart';
 
 /// This file sets up the app and is the root file connecting all of the others
 /// at runtime. This file controls the navigation and the theme of the entire
 /// app.
 class MyApp extends StatelessWidget {
-  const MyApp({
-    super.key,
-    required this.myAuthProvider,
-    required this.myUserProvider,
-    required this.myThemeProvider,
-    required this.myStringProvider,
-    required this.myFileExplorerProvider,
-    required this.myGoRouter,
-  });
-
-  final MyAuthProvider myAuthProvider;
-  final MyUserProvider myUserProvider;
-  final MyThemeProvider myThemeProvider;
-  final MyStringProvider myStringProvider;
-  final MyFileExplorerProvider myFileExplorerProvider;
-  final GoRouter myGoRouter;
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<MyAuthProvider>.value(
-          value: myAuthProvider,
+          value: MyRootProvidersContainer().myAuthProvider,
         ),
         ChangeNotifierProvider<MyUserProvider>.value(
-          value: myUserProvider,
+          value: MyRootProvidersContainer().myUserProvider,
         ),
         ChangeNotifierProvider<MyThemeProvider>.value(
-          value: myThemeProvider,
+          value: MyRootProvidersContainer().myThemeProvider,
         ),
         ChangeNotifierProvider<MyStringProvider>.value(
-          value: myStringProvider,
-        ),
-        ChangeNotifierProvider<MyFileExplorerProvider>.value(
-          value: myFileExplorerProvider,
+          value: MyRootProvidersContainer().myStringProvider,
         ),
       ],
       builder: (context, _) {
@@ -79,7 +60,9 @@ class MyApp extends StatelessWidget {
                       // Failed to initialize the app, display error screen.
                       WidgetsBinding.instance.addPostFrameCallback(
                         (_) {
-                          GoRouter.of(context).goNamed(MyRoutes.errorScreen);
+                          MyRootProvidersContainer()
+                              .myGoRouter
+                              .goNamed(MyRoutes.errorScreen);
                         },
                       );
                     }
@@ -90,7 +73,7 @@ class MyApp extends StatelessWidget {
                           FocusManager.instance.primaryFocus?.unfocus(),
                       child: MaterialApp.router(
                         title: 'My Skeleton',
-                        routerConfig: myGoRouter,
+                        routerConfig: MyRootProvidersContainer().myGoRouter,
                         theme: context.select<MyThemeProvider, ThemeData>(
                             (MyThemeProvider myTheme) => myTheme.themeData),
                       ),

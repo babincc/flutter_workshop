@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:my_skeleton/constants/config.dart';
 import 'package:my_skeleton/domain/enums/my_theme_type.dart';
-import 'package:my_skeleton/utils/my_file_explorer/my_file_explorer.dart';
+import 'package:my_skeleton/utils/my_file_explorer.dart';
 
 /// This object has the ability to check local files and manipulate them to save
 /// or retrieve the user's preferred theme type.
@@ -26,9 +26,7 @@ class MyThemeService {
   ///
   /// Returns `null` if they do not have a preferred theme type saved to their
   /// local files.
-  static Future<MyThemeType?> get cachedThemeType async {
-    await MyFileExplorer().ensureInitialized();
-
+  static MyThemeType? get cachedThemeType {
     File themePrefFile = themePref;
 
     if (!themePrefFile.existsSync()) return null;

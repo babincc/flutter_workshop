@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:my_skeleton/constants/config.dart';
 import 'package:my_skeleton/constants/strings/lang_code.dart';
 import 'package:my_skeleton/constants/strings/strings.dart';
-import 'package:my_skeleton/utils/my_file_explorer/my_file_explorer.dart';
+import 'package:my_skeleton/utils/my_file_explorer.dart';
 import 'package:provider/provider.dart';
 
 class MyStringProvider extends ChangeNotifier {

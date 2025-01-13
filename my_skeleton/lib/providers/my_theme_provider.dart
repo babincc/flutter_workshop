@@ -32,9 +32,9 @@ class MyThemeProvider extends ChangeNotifier {
       : MyTheme.darkThemeData;
 
   /// Checks the phone for which theme it should apply to the app.
-  Future<void> initThemeType() async {
+  void initThemeType() {
     // See if the user has a theme preference saved in their local files.
-    final MyThemeType? tempThemeType = await MyThemeRepo.cachedThemeType;
+    final MyThemeType? tempThemeType = MyThemeRepo.cachedThemeType;
     if (tempThemeType != null) {
       themeType = tempThemeType;
       return;
