@@ -6,7 +6,8 @@ class MyThemeRepo {
   ///
   /// Returns `null` if they do not have a preferred theme type saved to their
   /// local files.
-  static MyThemeType? get cachedThemeType => MyThemeService.cachedThemeType;
+  static Future<MyThemeType?> get cachedThemeType async =>
+      await MyThemeService.cachedThemeType;
 
   /// Writes the user's preferred theme type to their local files.
   static void cacheThemeType(MyThemeType themeType) =>

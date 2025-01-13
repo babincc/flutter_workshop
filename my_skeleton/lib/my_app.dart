@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
                   if (identical(
                       snapshot.connectionState, ConnectionState.done)) {
                     if (!didInit) {
-                      // Failed to initialize the app–display error screen.
+                      // Failed to initialize the app, display error screen.
                       WidgetsBinding.instance.addPostFrameCallback(
                         (_) {
                           GoRouter.of(context).goNamed(MyRoutes.errorScreen);
@@ -84,7 +84,7 @@ class MyApp extends StatelessWidget {
                       );
                     }
 
-                    // App is initialized–display the app.
+                    // App is initialized, display the app.
                     return GestureDetector(
                       onTap: () =>
                           FocusManager.instance.primaryFocus?.unfocus(),
@@ -96,7 +96,7 @@ class MyApp extends StatelessWidget {
                       ),
                     );
                   } else {
-                    // App is not initialized–display a blank screen.
+                    // App is not initialized, display a blank screen.
                     return MaterialApp(
                       title: 'My Skeleton',
                       theme: context.select<MyThemeProvider, ThemeData>(

@@ -26,7 +26,9 @@ class MyThemeService {
   ///
   /// Returns `null` if they do not have a preferred theme type saved to their
   /// local files.
-  static MyThemeType? get cachedThemeType {
+  static Future<MyThemeType?> get cachedThemeType async {
+    await MyFileExplorer().ensureInitialized();
+
     File themePrefFile = themePref;
 
     if (!themePrefFile.existsSync()) return null;
