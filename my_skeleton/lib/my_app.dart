@@ -1,55 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
 import 'package:my_skeleton/domain/enums/my_theme_type.dart';
 import 'package:my_skeleton/domain/models/my_app_initializer.dart';
+import 'package:my_skeleton/domain/models/my_root_providers_container.dart';
 import 'package:my_skeleton/navigation/my_routes.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/providers/my_string_provider.dart';
 import 'package:my_skeleton/providers/my_theme_provider.dart';
 import 'package:my_skeleton/providers/my_user_provider.dart';
-import 'package:my_skeleton/utils/my_file_explorer/my_file_explorer_provider.dart';
 import 'package:provider/provider.dart';
 
 /// This file sets up the app and is the root file connecting all of the others
 /// at runtime. This file controls the navigation and the theme of the entire
 /// app.
 class MyApp extends StatelessWidget {
-  const MyApp({
-    super.key,
-    required this.myAuthProvider,
-    required this.myUserProvider,
-    required this.myThemeProvider,
-    required this.myStringProvider,
-    required this.myFileExplorerProvider,
-    required this.myGoRouter,
-  });
-
-  final MyAuthProvider myAuthProvider;
-  final MyUserProvider myUserProvider;
-  final MyThemeProvider myThemeProvider;
-  final MyStringProvider myStringProvider;
-  final MyFileExplorerProvider myFileExplorerProvider;
-  final GoRouter myGoRouter;
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final MyRootProvidersContainer myRootProviders = MyRootProvidersContainer();
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<MyAuthProvider>.value(
-          value: myAuthProvider,
+          value: myRootProviders.myAuthProvider,
         ),
         ChangeNotifierProvider<MyUserProvider>.value(
-          value: myUserProvider,
+          value: myRootProviders.myUserProvider,
         ),
         ChangeNotifierProvider<MyThemeProvider>.value(
-          value: myThemeProvider,
+          value: myRootProviders.myThemeProvider,
         ),
         ChangeNotifierProvider<MyStringProvider>.value(
-          value: myStringProvider,
-        ),
-        ChangeNotifierProvider<MyFileExplorerProvider>.value(
-          value: myFileExplorerProvider,
+          value: myRootProviders.myStringProvider,
         ),
       ],
       builder: (context, _) {
@@ -76,27 +59,28 @@ class MyApp extends StatelessWidget {
                   if (identical(
                       snapshot.connectionState, ConnectionState.done)) {
                     if (!didInit) {
-                      // Failed to initialize the app–display error screen.
+                      // Failed to initialize the app, display error screen.
                       WidgetsBinding.instance.addPostFrameCallback(
                         (_) {
-                          GoRouter.of(context).goNamed(MyRoutes.errorScreen);
+                          myRootProviders.myGoRouter
+                              .goNamed(MyRoutes.errorScreen);
                         },
                       );
                     }
 
-                    // App is initialized–display the app.
+                    // App is initialized, display the app.
                     return GestureDetector(
                       onTap: () =>
                           FocusManager.instance.primaryFocus?.unfocus(),
                       child: MaterialApp.router(
                         title: 'My Skeleton',
-                        routerConfig: myGoRouter,
+                        routerConfig: myRootProviders.myGoRouter,
                         theme: context.select<MyThemeProvider, ThemeData>(
                             (MyThemeProvider myTheme) => myTheme.themeData),
                       ),
                     );
                   } else {
-                    // App is not initialized–display a blank screen.
+                    // App is not initialized, display a blank screen.
                     return MaterialApp(
                       title: 'My Skeleton',
                       theme: context.select<MyThemeProvider, ThemeData>(

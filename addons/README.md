@@ -174,7 +174,7 @@ myAlert.show(context);
 
 ## MyFileExplorer
 
-**[source code](my_file_explorer/my_file_explorer.dart)**
+**[source code](my_file_explorer.dart)**
 
 This allows for the easy exploration of your app's working directory on the device.
 

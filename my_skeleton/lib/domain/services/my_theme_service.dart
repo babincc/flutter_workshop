@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:my_skeleton/constants/config.dart';
 import 'package:my_skeleton/domain/enums/my_theme_type.dart';
-import 'package:my_skeleton/utils/my_file_explorer/my_file_explorer.dart';
+import 'package:my_skeleton/utils/my_file_explorer.dart';
 
 /// This object has the ability to check local files and manipulate them to save
 /// or retrieve the user's preferred theme type.
