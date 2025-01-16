@@ -13,7 +13,7 @@ class StreamDemosScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, _) {
         if (didPop) {
           _player.stop();
           entertainmentConfiguration.flushStreamQueue();

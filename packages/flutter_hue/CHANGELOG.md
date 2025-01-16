@@ -1,3 +1,9 @@
+## 2.0.0-beta.7 - January 15, 2025
+
+- Breaking change: Color calculators now treat RGB values are doubles instead of integers
+- Updated dependencies
+- Fixed linting issues
+
 ## 2.0.0-beta.6 - January 15, 2025
 
 - Updated example

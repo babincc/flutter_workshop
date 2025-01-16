@@ -8,7 +8,7 @@ class ColorConverter {
   /// Converts xy coordinates in the CIE 1931 color space to RGB.
   ///
   /// Returns a list of doubles representing the RGB values. [r, g, b]
-  static List<int> xy2rgb(double x, double y, [double brightness = 1.0]) {
+  static List<double> xy2rgb(double x, double y, [double brightness = 1.0]) {
     assert(x >= 0.0 && x <= 1.0,
         "x must be greater than or equal to 0 and less than or equal to 1");
     assert(y >= 0.0 && y <= 1.0,
@@ -21,7 +21,7 @@ class ColorConverter {
 
     final double z = 1.0 - x - y;
     final double Y = brightness;
-    if (y == 0) y = 0.0001;
+    if (y == 0.0) y = 0.0001;
     final double X = (Y / y) * x;
     final double Z = (Y / y) * z;
 
@@ -57,11 +57,11 @@ class ColorConverter {
     if (b < 0.0) b = 0.0;
 
     // Convert to 0-255 range.
-    r = r * 255;
-    g = g * 255;
-    b = b * 255;
+    r = r * 255.0;
+    g = g * 255.0;
+    b = b * 255.0;
 
-    return [r.round(), g.round(), b.round()];
+    return [r, g, b];
   }
 
   /// Converts xy coordinates in the CIE 1931 color space to HSV.
@@ -73,7 +73,7 @@ class ColorConverter {
     assert(y >= 0.0 && y <= 1.0,
         "y must be greater than or equal to 0 and less than or equal to 1");
 
-    final List<int> rgb = xy2rgb(x, y);
+    final List<double> rgb = xy2rgb(x, y);
     return rgb2hsv(rgb[0], rgb[1], rgb[2]);
   }
 
@@ -86,7 +86,7 @@ class ColorConverter {
     assert(y >= 0.0 && y <= 1.0,
         "y must be greater than or equal to 0 and less than or equal to 1");
 
-    final List<int> rgb = xy2rgb(x, y);
+    final List<double> rgb = xy2rgb(x, y);
     return rgb2hex(rgb[0], rgb[1], rgb[2]);
   }
 
@@ -99,7 +99,7 @@ class ColorConverter {
     assert(y >= 0.0 && y <= 1.0,
         "y must be greater than or equal to 0 and less than or equal to 1");
 
-    final List<int> rgb = xy2rgb(x, y);
+    final List<double> rgb = xy2rgb(x, y);
     return rgb2hsl(rgb[0], rgb[1], rgb[2]);
   }
 
@@ -110,8 +110,8 @@ class ColorConverter {
     assert(y >= 0.0 && y <= 1.0,
         "y must be greater than or equal to 0 and less than or equal to 1");
 
-    final List<int> rgb = xy2rgb(x, y);
-    return Color.fromARGB(255, rgb[0], rgb[1], rgb[2]);
+    final List<double> rgb = xy2rgb(x, y);
+    return Color.fromARGB(255, rgb[0].round(), rgb[1].round(), rgb[2].round());
   }
 
   /// Converts xy coordinates in the CIE 1931 color space to an integer.
@@ -121,20 +121,20 @@ class ColorConverter {
     assert(y >= 0.0 && y <= 1.0,
         "y must be greater than or equal to 0 and less than or equal to 1");
 
-    final List<int> rgb = xy2rgb(x, y);
+    final List<double> rgb = xy2rgb(x, y);
     return rgb2int(rgb[0], rgb[1], rgb[2]);
   }
 
   /// Converts RGB values to xy coordinates in the CIE 1931 color space.
   ///
   /// Returns a list of doubles representing the xy values. [x, y, brightness]
-  static List<double> rgb2xy(int r, int g, int b) {
-    if (r == 0 && g == 0 && b == 0) return [0.0, 0.0, 0.0];
+  static List<double> rgb2xy(double r, double g, double b) {
+    if (r == 0.0 && g == 0.0 && b == 0.0) return [0.0, 0.0, 0.0];
 
     // Convert to a linear RGB color space.
-    double R = r / 255;
-    double G = g / 255;
-    double B = b / 255;
+    double R = r / 255.0;
+    double G = g / 255.0;
+    double B = b / 255.0;
 
     // Apply gamma correction.
     R = _gammaCorrection(R);
@@ -156,44 +156,44 @@ class ColorConverter {
   /// Converts RGB values to HSV values.
   ///
   /// Returns a list of doubles representing the HSV values. [h, s, v]
-  static List<double> rgb2hsv(int r, int g, int b) {
-    final double R = r / 255;
-    final double G = g / 255;
-    final double B = b / 255;
+  static List<double> rgb2hsv(double r, double g, double b) {
+    final double R = r / 255.0;
+    final double G = g / 255.0;
+    final double B = b / 255.0;
 
     final double maximum = max(R, max(G, B));
     final double minimum = min(R, min(G, B));
     final double delta = maximum - minimum;
 
-    double h = 0;
-    double s = 0;
+    double h = 0.0;
+    double s = 0.0;
     double v = maximum;
 
-    if (delta != 0) {
+    if (delta != 0.0) {
       s = delta / maximum;
 
       if (R == maximum) {
         h = (G - B) / delta;
       } else if (G == maximum) {
-        h = 2 + (B - R) / delta;
+        h = 2.0 + (B - R) / delta;
       } else if (B == maximum) {
-        h = 4 + (R - G) / delta;
+        h = 4.0 + (R - G) / delta;
       }
 
-      h *= 60;
+      h *= 60.0;
 
-      if (h < 0) {
-        h += 360;
+      if (h < 0.0) {
+        h += 360.0;
       }
     }
 
-    return [h.roundToDouble(), s, v];
+    return [h, s, v];
   }
 
   /// Converts RGB values to a hex string.
   ///
   /// Returns a string representing the hex value. ffffffff
-  static String rgb2hex(int r, int g, int b) {
+  static String rgb2hex(double r, double g, double b) {
     final int integer = rgb2int(r, g, b);
     return int2hex(integer);
   }
@@ -201,66 +201,66 @@ class ColorConverter {
   /// Converts RGB values to HSL values.
   ///
   /// Returns a list of doubles representing the HSL values. [h, s, l]
-  static List<double> rgb2hsl(int r, int g, int b) {
-    final double R = r / 255;
-    final double G = g / 255;
-    final double B = b / 255;
+  static List<double> rgb2hsl(double r, double g, double b) {
+    final double R = r / 255.0;
+    final double G = g / 255.0;
+    final double B = b / 255.0;
 
     final double maximum = max(R, max(G, B));
     final double minimum = min(R, min(G, B));
     final double delta = maximum - minimum;
 
-    double h = 0;
-    double s = 0;
-    double l = (maximum + minimum) / 2;
+    double h = 0.0;
+    double s = 0.0;
+    double l = (maximum + minimum) / 2.0;
 
-    if (delta != 0) {
+    if (delta != 0.0) {
       if (l < 0.5) {
         s = delta / (maximum + minimum);
       } else {
-        s = delta / (2 - maximum - minimum);
+        s = delta / (2.0 - maximum - minimum);
       }
 
       if (R == maximum) {
         h = (G - B) / delta;
       } else if (G == maximum) {
-        h = 2 + (B - R) / delta;
+        h = 2.0 + (B - R) / delta;
       } else if (B == maximum) {
-        h = 4 + (R - G) / delta;
+        h = 4.0 + (R - G) / delta;
       }
 
-      h *= 60;
+      h *= 60.0;
 
-      if (h < 0) {
-        h += 360;
+      if (h < 0.0) {
+        h += 360.0;
       }
     }
 
-    return [h.roundToDouble(), s, l];
+    return [h, s, l];
   }
 
   /// Converts RGB values to a Flutter Color object.
-  static Color rgb2color(int r, int g, int b) {
-    return Color.fromRGBO(r, g, b, 1.0);
+  static Color rgb2color(double r, double g, double b) {
+    return Color.fromRGBO(r.round(), g.round(), b.round(), 1.0);
   }
 
   /// Converts RGB values to an integer.
-  static int rgb2int(int r, int g, int b) {
-    return (255 << 24) | (r << 16) | (g << 8) | b;
+  static int rgb2int(double r, double g, double b) {
+    return (255 << 24) | (r.round() << 16) | (g.round() << 8) | b.round();
   }
 
   /// Converts HSV values to xy coordinates in the CIE 1931 color space.
   ///
   /// Returns a list of doubles representing the xy values. [x, y, brightness]
   static List<double> hsv2xy(int h, double s, double v) {
-    final List<int> rgb = hsv2rgb(h, s, v);
+    final List<double> rgb = hsv2rgb(h, s, v);
     return rgb2xy(rgb[0], rgb[1], rgb[2]);
   }
 
   /// Converts HSV values to RGB values.
   ///
   /// Returns a list of doubles representing the RGB values. [r, g, b]
-  static List<int> hsv2rgb(int h, double s, double v) {
+  static List<double> hsv2rgb(int h, double s, double v) {
     if (h < 0) {
       h = 0;
     } else if (h > 360) {
@@ -269,14 +269,14 @@ class ColorConverter {
 
     double S;
     if (s > 1.0) {
-      S = s / 100;
+      S = s / 100.0;
     } else {
       S = s;
     }
 
     double V;
     if (v > 1.0) {
-      V = v / 100;
+      V = v / 100.0;
     } else {
       V = v;
     }
@@ -293,42 +293,42 @@ class ColorConverter {
     if (h >= 0 && h < 60) {
       r = c;
       g = x;
-      b = 0;
+      b = 0.0;
     } else if (h >= 60 && h < 120) {
       r = x;
       g = c;
-      b = 0;
+      b = 0.0;
     } else if (h >= 120 && h < 180) {
-      r = 0;
+      r = 0.0;
       g = c;
       b = x;
     } else if (h >= 180 && h < 240) {
-      r = 0;
+      r = 0.0;
       g = x;
       b = c;
     } else if (h >= 240 && h < 300) {
       r = x;
-      g = 0;
+      g = 0.0;
       b = c;
     } else if (h >= 300 && h < 360) {
       r = c;
-      g = 0;
+      g = 0.0;
       b = x;
     }
 
     // Convert to a linear RGB color space.
-    r = (r + m) * 255;
-    g = (g + m) * 255;
-    b = (b + m) * 255;
+    r = (r + m) * 255.0;
+    g = (g + m) * 255.0;
+    b = (b + m) * 255.0;
 
-    return [r.round(), g.round(), b.round()];
+    return [r, g, b];
   }
 
   /// Converts HSV values to a hex string.
   ///
   /// Returns a string representing the hex value. ffffffff
   static String hsv2hex(int h, double s, double v) {
-    final List<int> rgb = hsv2rgb(h, s, v);
+    final List<double> rgb = hsv2rgb(h, s, v);
     return rgb2hex(rgb[0], rgb[1], rgb[2]);
   }
 
@@ -336,19 +336,19 @@ class ColorConverter {
   ///
   /// Returns a list of doubles representing the HSL values. [h, s, l]
   static List<double> hsv2hsl(int h, double s, double v) {
-    final List<int> rgb = hsv2rgb(h, s, v);
+    final List<double> rgb = hsv2rgb(h, s, v);
     return rgb2hsl(rgb[0], rgb[1], rgb[2]);
   }
 
   /// Converts HSV values to a Flutter Color object.
   static Color hsv2color(int h, double s, double v) {
-    final List<int> rgb = hsv2rgb(h, s, v);
+    final List<double> rgb = hsv2rgb(h, s, v);
     return rgb2color(rgb[0], rgb[1], rgb[2]);
   }
 
   /// Converts HSV values to an integer.
   static int hsv2int(int h, double s, double v) {
-    final List<int> rgb = hsv2rgb(h, s, v);
+    final List<double> rgb = hsv2rgb(h, s, v);
     return rgb2int(rgb[0], rgb[1], rgb[2]);
   }
 
@@ -356,14 +356,14 @@ class ColorConverter {
   ///
   /// Returns a list of doubles representing the xy values. [x, y, brightness]
   static List<double> hex2xy(hex) {
-    final List<int> rgb = hex2rgb(hex);
+    final List<double> rgb = hex2rgb(hex);
     return rgb2xy(rgb[0], rgb[1], rgb[2]);
   }
 
   /// Converts a hex string to RGB values.
   ///
   /// Returns a list of doubles representing the RGB values. [r, g, b]
-  static List<int> hex2rgb(hex) {
+  static List<double> hex2rgb(hex) {
     String hexString = hex.toString().replaceAll("#", "");
     hexString = hexString.replaceAll("0x", "");
 
@@ -380,14 +380,14 @@ class ColorConverter {
     final int g = int.parse(hexString.substring(2, 4), radix: 16);
     final int b = int.parse(hexString.substring(4, 6), radix: 16);
 
-    return [r, g, b];
+    return [r.toDouble(), g.toDouble(), b.toDouble()];
   }
 
   /// Converts a hex string to HSV values.
   ///
   /// Returns a list of doubles representing the HSV values. [h, s, v]
   static List<double> hex2hsv(hex) {
-    final List<int> rgb = hex2rgb(hex);
+    final List<double> rgb = hex2rgb(hex);
     return rgb2hsv(rgb[0], rgb[1], rgb[2]);
   }
 
@@ -395,19 +395,19 @@ class ColorConverter {
   ///
   /// Returns a list of doubles representing the HSL values. [h, s, l]
   static List<double> hex2hsl(hex) {
-    final List<int> rgb = hex2rgb(hex);
+    final List<double> rgb = hex2rgb(hex);
     return rgb2hsl(rgb[0], rgb[1], rgb[2]);
   }
 
   /// Converts a hex string to a Flutter Color object.
   static Color hex2color(hex) {
-    final List<int> rgb = hex2rgb(hex);
+    final List<double> rgb = hex2rgb(hex);
     return rgb2color(rgb[0], rgb[1], rgb[2]);
   }
 
   /// Converts a hex string to an integer.
   static int hex2int(hex) {
-    final List<int> rgb = hex2rgb(hex);
+    final List<double> rgb = hex2rgb(hex);
     return rgb2int(rgb[0], rgb[1], rgb[2]);
   }
 
@@ -415,14 +415,14 @@ class ColorConverter {
   ///
   /// Returns a list of doubles representing the xy values. [x, y, brightness]
   static List<double> hsl2xy(int h, double s, double l) {
-    final List<int> rgb = hsl2rgb(h, s, l);
+    final List<double> rgb = hsl2rgb(h, s, l);
     return rgb2xy(rgb[0], rgb[1], rgb[2]);
   }
 
   /// Converts HSL values to RGB values.
   ///
   /// Returns a list of doubles representing the RGB values. [r, g, b]
-  static List<int> hsl2rgb(int h, double s, double l) {
+  static List<double> hsl2rgb(int h, double s, double l) {
     if (h < 0) {
       h = 0;
     } else if (h > 360) {
@@ -483,14 +483,14 @@ class ColorConverter {
     g = (g + m) * 255;
     b = (b + m) * 255;
 
-    return [r.round(), g.round(), b.round()];
+    return [r, g, b];
   }
 
   /// Converts HSL values to HSV values.
   ///
   /// Returns a list of doubles representing the HSV values. [h, s, v]
   static List<double> hsl2hsv(int h, double s, double l) {
-    final List<int> rgb = hsl2rgb(h, s, l);
+    final List<double> rgb = hsl2rgb(h, s, l);
     return rgb2hsv(rgb[0], rgb[1], rgb[2]);
   }
 
@@ -498,19 +498,19 @@ class ColorConverter {
   ///
   /// Returns a string representing the hex value. ffffffff
   static String hsl2hex(int h, double s, double l) {
-    final List<int> rgb = hsl2rgb(h, s, l);
+    final List<double> rgb = hsl2rgb(h, s, l);
     return rgb2hex(rgb[0], rgb[1], rgb[2]);
   }
 
   /// Converts HSL values to a Flutter Color object.
   static Color hsl2color(int h, double s, double l) {
-    final List<int> rgb = hsl2rgb(h, s, l);
+    final List<double> rgb = hsl2rgb(h, s, l);
     return rgb2color(rgb[0], rgb[1], rgb[2]);
   }
 
   /// Converts HSL values to an integer.
   static int hsl2int(int h, double s, double l) {
-    final List<int> rgb = hsl2rgb(h, s, l);
+    final List<double> rgb = hsl2rgb(h, s, l);
     return rgb2int(rgb[0], rgb[1], rgb[2]);
   }
 
@@ -519,21 +519,21 @@ class ColorConverter {
   ///
   /// Returns a list of doubles representing the xy values. [x, y, brightness]
   static List<double> color2xy(Color color) {
-    return rgb2xy(color.red, color.green, color.blue);
+    return rgb2xy(color.r, color.g, color.b);
   }
 
   /// Converts a Flutter Color object to RGB values.
   ///
   /// Returns a list of integers representing the RGB values. [r, g, b]
-  static List<int> color2rgb(Color color) {
-    return [color.red, color.green, color.blue];
+  static List<double> color2rgb(Color color) {
+    return [color.r, color.g, color.b];
   }
 
   /// Converts a Flutter Color object to HSV values.
   ///
   /// Returns a list of doubles representing the HSV values. [h, s, v]
   static List<double> color2hsv(Color color) {
-    final List<int> rgb = color2rgb(color);
+    final List<double> rgb = color2rgb(color);
     return rgb2hsv(rgb[0], rgb[1], rgb[2]);
   }
 
@@ -541,42 +541,46 @@ class ColorConverter {
   ///
   /// Returns a string representing the hex value. ffffffff
   static String color2hex(Color color) {
-    return rgb2hex(color.red, color.green, color.blue);
+    return rgb2hex(color.r, color.g, color.b);
   }
 
   /// Converts a Flutter Color object to HSL values.
   ///
   /// Returns a list of doubles representing the HSL values. [h, s, l]
   static List<double> color2hsl(Color color) {
-    final List<int> rgb = color2rgb(color);
+    final List<double> rgb = color2rgb(color);
     return rgb2hsl(rgb[0], rgb[1], rgb[2]);
   }
 
   /// Converts a Flutter Color object to an integer.
   static int color2int(Color color) {
-    return color.value;
+    return rgb2int(color.r, color.g, color.b);
   }
 
   /// Converts an integer to xy coordinates in the CIE 1931 color space.
   ///
   /// Returns a list of doubles representing the xy values. [x, y, brightness]
   static List<double> int2xy(int integer) {
-    final List<int> rgb = int2rgb(integer);
+    final List<double> rgb = int2rgb(integer);
     return rgb2xy(rgb[0], rgb[1], rgb[2]);
   }
 
   /// Converts an integer to RGB values.
   ///
-  /// Returns a list of integers representing the RGB values. [r, g, b]
-  static List<int> int2rgb(int integer) {
-    return [integer >> 16 & 0xFF, integer >> 8 & 0xFF, integer & 0xFF];
+  /// Returns a list of double representing the RGB values. [r, g, b]
+  static List<double> int2rgb(int integer) {
+    return [
+      (integer >> 16 & 0xFF).toDouble(),
+      (integer >> 8 & 0xFF).toDouble(),
+      (integer & 0xFF).toDouble(),
+    ];
   }
 
   /// Converts an integer to HSV values.
   ///
   /// Returns a list of doubles representing the HSV values. [h, s, v]
   static List<double> int2hsv(int integer) {
-    final List<int> rgb = int2rgb(integer);
+    final List<double> rgb = int2rgb(integer);
     return rgb2hsv(rgb[0], rgb[1], rgb[2]);
   }
 
@@ -597,7 +601,7 @@ class ColorConverter {
   ///
   /// Returns a list of doubles representing the HSL values. [h, s, l]
   static List<double> int2hsl(int integer) {
-    final List<int> rgb = int2rgb(integer);
+    final List<double> rgb = int2rgb(integer);
     return rgb2hsl(rgb[0], rgb[1], rgb[2]);
   }
 
@@ -647,7 +651,7 @@ extension Converters on Color {
   /// Converts a Flutter Color object to RGB values.
   ///
   /// Returns a list of integers representing the RGB values. [r, g, b]
-  List<int> toRgb() {
+  List<double> toRgb() {
     return ColorConverter.color2rgb(this);
   }
 
@@ -685,7 +689,7 @@ extension Converters on Color {
 
   /// Converts a Flutter Color object to a [ColorRgb] object.
   ColorRgb toColorRgb() {
-    final List<int> rgb = ColorConverter.color2rgb(this);
+    final List<double> rgb = ColorConverter.color2rgb(this);
     return ColorRgb(rgb[0], rgb[1], rgb[2]);
   }
 }

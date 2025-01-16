@@ -98,7 +98,7 @@ class ColorXy extends EntertainmentStreamColor {
   /// The `brightness` parameter is the brightness of the color. If not
   /// provided, it defaults to the calculated brightness of the color. Note,
   /// this is typically a bit dim.
-  factory ColorXy.fromRgb(int r, int g, int b, [double? brightness]) {
+  factory ColorXy.fromRgb(double r, double g, double b, [double? brightness]) {
     if (brightness != null) {
       assert(
         EntertainmentStreamColor.isValidBrightness(brightness),
@@ -227,7 +227,7 @@ class ColorRgb extends EntertainmentStreamColor {
       );
     }
 
-    final List<int> rgbList = ColorConverter.xy2rgb(x, y, brightness ?? 1.0);
+    final List<double> rgbList = ColorConverter.xy2rgb(x, y, brightness ?? 1.0);
 
     return ColorRgb(rgbList[0], rgbList[1], rgbList[2]);
   }
@@ -236,13 +236,13 @@ class ColorRgb extends EntertainmentStreamColor {
   factory ColorRgb.fromColor(Color color) => color.toColorRgb();
 
   /// The red value of the color.
-  final int r;
+  final double r;
 
   /// The green value of the color.
-  final int g;
+  final double g;
 
   /// The blue value of the color.
-  final int b;
+  final double b;
 
   @override
   bool get isOff => r == 0 && g == 0 && b == 0;
@@ -252,9 +252,9 @@ class ColorRgb extends EntertainmentStreamColor {
 
   @override
   ColorRgb copyWith({
-    int? r,
-    int? g,
-    int? b,
+    double? r,
+    double? g,
+    double? b,
   }) =>
       ColorRgb(
         r ?? this.r,
@@ -289,27 +289,24 @@ class ColorRgb extends EntertainmentStreamColor {
     ColorRgb b,
     double t,
   ) {
-    final int red = (a.r + (b.r - a.r) * t)
-        .round()
+    final double red = (a.r + (b.r - a.r) * t)
         .clamp(
-          0,
-          255,
+          0.0,
+          255.0,
         )
-        .toInt();
-    final int green = (a.g + (b.g - a.g) * t)
-        .round()
+        .toDouble();
+    final double green = (a.g + (b.g - a.g) * t)
         .clamp(
-          0,
-          255,
+          0.0,
+          255.0,
         )
-        .toInt();
-    final int blue = (a.b + (b.b - a.b) * t)
-        .round()
+        .toDouble();
+    final double blue = (a.b + (b.b - a.b) * t)
         .clamp(
-          0,
-          255,
+          0.0,
+          255.0,
         )
-        .toInt();
+        .toDouble();
 
     return ColorRgb(red, green, blue);
   }

@@ -212,7 +212,6 @@ class HueHttpClient {
       case _RequestType.delete:
         return await client.delete(huePacket.uri, headers: huePacket.headers);
       case _RequestType.get:
-      default:
         return await client.get(huePacket.uri, headers: huePacket.headers);
     }
   }
