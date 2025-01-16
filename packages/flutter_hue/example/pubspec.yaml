@@ -1,7 +1,7 @@
 name: example
 description: Demonstrates how to use the flutter_hue package.
 publish_to: "none"
-version: 2.0.0-beta.8
+version: 2.0.0-beta.9
 
 environment:
   sdk: ">=3.3.3 <4.0.0"
