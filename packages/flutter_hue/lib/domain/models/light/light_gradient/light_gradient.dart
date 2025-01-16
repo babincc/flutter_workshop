@@ -48,15 +48,15 @@ class LightGradient {
   ///
   /// For control of the gradient points through a PUT a minimum of 2 points and
   /// a maximum of 5 need to be provided.
-  ///
-  /// Throws [Exception] if [points] is set to a list with more than 5 elements.
   List<LightColorXy> get points =>
       List<LightColorXy>.from(_points, growable: false);
   set points(List<LightColorXy> points) {
     if (points.length < 5) {
       _points = points;
     } else {
-      throw Exception("`points` must have 5 or fewer elements");
+      // This was removed because some lights don't follow this rule even though
+      // the Hue API says they should.
+      // throw Exception("`points` must have 5 or fewer elements");
     }
   }
 
