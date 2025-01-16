@@ -1,3 +1,7 @@
+## 2.0.0-beta.10 - January 16, 2025
+
+- Downgraded `path_provider` for dependency conflicts
+
 ## 2.0.0-beta.9 - January 16, 2025
 
 - Downgraded `url_launcher` for dependency conflicts
