@@ -1,3 +1,7 @@
+## 2.0.0-beta.6 - January 15, 2025
+
+- Updated example
+
 ## 2.0.0-beta.5 - August 6, 2024
 
 - Documentation updates

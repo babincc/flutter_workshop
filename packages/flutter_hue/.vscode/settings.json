@@ -89,5 +89,6 @@
     "webrtc",
     "wxyz",
     "zigbee"
-  ]
+  ],
+  "java.configuration.updateBuildConfiguration": "interactive"
 }

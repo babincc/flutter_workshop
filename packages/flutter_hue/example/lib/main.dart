@@ -1,9 +1,10 @@
 import 'dart:async';
 
+import 'package:app_links/app_links.dart';
 import 'package:example/stream_demos/stream_demos_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hue/flutter_hue.dart';
-import 'package:uni_links/uni_links.dart';
+import 'package:radio_group_v2/radio_group_v2.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,16 +13,33 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // TODO: Replace with your client ID
+  static const String clientId = '[clientId]';
+
+  // TODO: Replace with your client secret
+  static const String clientSecret = '[clientSecret]';
+
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: HomePage(),
+      home: HomePage(
+        clientId: clientId,
+        clientSecret: clientSecret,
+      ),
     );
   }
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({
+    super.key,
+    required this.clientId,
+    required this.clientSecret,
+  });
+
+  final String clientId;
+
+  final String clientSecret;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -35,6 +53,9 @@ class _HomePageState extends State<HomePage> {
 
   /// The IP address of the bridges on the network.
   final List<String> bridgeIps = [];
+
+  /// Controls the radio group of bridge IP addresses.
+  final RadioGroupController<String> ipGroupController = RadioGroupController();
 
   /// Controls the bridge discovery process.
   final DiscoveryTimeoutController timeoutController =
@@ -59,11 +80,11 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    deepLinkStream = uriLinkStream.listen(
+    deepLinkStream = AppLinks().uriLinkStream.listen(
       (Uri? uri) {
         if (uri == null) return;
 
-        final int start = uri.toString().indexOf("?");
+        final int start = uri.toString().indexOf('?');
         String queryParams = uri.toString().substring(start);
         Uri truncatedUri = Uri.parse(queryParams);
 
@@ -76,16 +97,15 @@ class _HomePageState extends State<HomePage> {
           // Handle Flutter Hue deep link
           if (pkce != null && code != null && resState != null) {
             String stateSecret;
-            if (resState.contains("-")) {
-              stateSecret = resState.substring(0, resState.indexOf("-"));
+            if (resState.contains('-')) {
+              stateSecret = resState.substring(0, resState.indexOf('-'));
             } else {
               stateSecret = resState;
             }
 
             TokenRepo.fetchRemoteToken(
-              clientId: "[clientId]", // TODO: Replace with your client ID
-              clientSecret:
-                  "[clientSecret]", // TODO: Replace with your client secret
+              clientId: widget.clientId,
+              clientSecret: widget.clientSecret,
               pkce: pkce,
               code: code,
               stateSecret: stateSecret,
@@ -102,11 +122,11 @@ class _HomePageState extends State<HomePage> {
     // Initialize Flutter Hue and keep all of the locally stored data up to
     // date.
     FlutterHueMaintenanceRepo.maintain(
-      clientId: "[clientId]", // TODO: Replace with your client ID
-      clientSecret: "[clientSecret]", // TODO: Replace with your client secret
-      redirectUri: "flutterhue://auth",
-      deviceName: "TestDevice",
-      stateEncrypter: (plaintext) => "abcd${plaintext}1234",
+      clientId: widget.clientId,
+      clientSecret: widget.clientSecret,
+      redirectUri: 'flutterhue://auth',
+      deviceName: 'TestDevice',
+      stateEncrypter: (plaintext) => 'abcd${plaintext}1234',
     );
   }
 
@@ -125,14 +145,14 @@ class _HomePageState extends State<HomePage> {
           onPressed: doSomething,
           icon: const Icon(Icons.science),
         ),
-        title: const Text("Flutter Hue"),
+        title: const Text('Flutter Hue'),
         actions: isLoading
             ? [
                 const Padding(
                   padding: EdgeInsets.only(right: padding),
                   child: Row(
                     children: [
-                      Text("Loading... "),
+                      Text('Loading... '),
                       Icon(Icons.query_builder),
                     ],
                   ),
@@ -146,21 +166,39 @@ class _HomePageState extends State<HomePage> {
             children: [
               const SizedBox(height: padding),
 
-              sectionHeader("Getting Started"),
+              sectionHeader('Getting Started'),
 
               // DISCOVER BRIDGES
               Column(
                 children: [
                   ElevatedButton(
                     onPressed: discoverBridges,
-                    child: const Text("Discover Bridges"),
+                    child: const Text('Discover Bridges'),
                   ),
                   Visibility(
                     visible: bridgeIps.isNotEmpty,
-                    child: TextButton(
-                      onPressed: () => showIps(context),
-                      child: Text("Found ${bridgeIps.length} bridge IP"
-                          "${bridgeIps.length == 1 ? "" : "s"}"),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: padding),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('Found ${bridgeIps.length} bridge IP'
+                              '${bridgeIps.length == 1 ? '' : 's'}'),
+                          RadioGroup(
+                            controller: ipGroupController,
+                            values: bridgeIps,
+                            indexOfDefault: bridgeIps.isEmpty ? -1 : 0,
+                            orientation: RadioGroupOrientation.horizontal,
+                            onChanged: (value) {
+                              setState(() {
+                                bridge = null;
+                                hueNetwork = null;
+                                light = null;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -174,32 +212,43 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   ElevatedButton(
                     onPressed: bridgeIps.isEmpty ? null : () => firstContact(),
-                    child: const Text("First Contact"),
+                    child: const Text('First Contact'),
                   ),
                   const SizedBox(width: 11),
                   ElevatedButton(
                     onPressed: onContactCancel,
-                    child: const Text("Cancel"),
+                    child: const Text('Cancel'),
                   ),
                 ],
               ),
 
+              Visibility(
+                visible: onContactCancel != null,
+                maintainAnimation: true,
+                maintainState: true,
+                maintainSize: true,
+                child: const Text(
+                  'Press the button on your bridge.\n'
+                  'You have 25 seconds.',
+                  textAlign: TextAlign.center,
+                ),
+              ),
               const SizedBox(height: padding * 2),
 
               // ESTABLISH REMOTE CONTACT
               ElevatedButton(
                 onPressed: bridge == null ? null : remoteContact,
-                child: const Text("Establish Remote Contact"),
+                child: const Text('Establish Remote Contact'),
               ),
 
               const SizedBox(height: padding * 2),
 
-              sectionHeader("Reading Data"),
+              sectionHeader('Reading Data'),
 
               // FETCH NETWORK
               ElevatedButton(
                 onPressed: bridge == null ? null : fetchNetwork,
-                child: const Text("Fetch Network"),
+                child: const Text('Fetch Network'),
               ),
 
               const SizedBox(height: padding * 2),
@@ -207,7 +256,7 @@ class _HomePageState extends State<HomePage> {
               // FETCH BRIDGE
               ElevatedButton(
                 onPressed: bridge == null ? null : fetchBridge,
-                child: const Text("Fetch Bridge"),
+                child: const Text('Fetch Bridge'),
               ),
 
               const SizedBox(height: padding * 2),
@@ -215,17 +264,17 @@ class _HomePageState extends State<HomePage> {
               // FETCH LIGHT
               ElevatedButton(
                 onPressed: bridge == null ? null : fetchLight,
-                child: const Text("Fetch Light"),
+                child: const Text('Fetch Light'),
               ),
 
               const SizedBox(height: padding * 2),
 
-              sectionHeader("Writing Data"),
+              sectionHeader('Writing Data'),
 
               // IDENTIFY LIGHT
               ElevatedButton(
                 onPressed: light == null ? null : identifyLight,
-                child: const Text("Identify Light"),
+                child: const Text('Identify Light'),
               ),
 
               const SizedBox(height: padding * 2),
@@ -233,7 +282,7 @@ class _HomePageState extends State<HomePage> {
               // TOGGLE LIGHT ON/OFF
               ElevatedButton(
                 onPressed: light == null ? null : toggleLight,
-                child: const Text("Toggle Light on/off"),
+                child: const Text('Toggle Light on/off'),
               ),
 
               const SizedBox(height: padding * 2),
@@ -246,29 +295,29 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     // RED
                     ElevatedButton(
-                      onPressed: light == null ? null : () => colorLight("red"),
-                      child: const Text("Red"),
+                      onPressed: light == null ? null : () => colorLight('red'),
+                      child: const Text('Red'),
                     ),
 
                     // GREEN
                     ElevatedButton(
                       onPressed:
-                          light == null ? null : () => colorLight("green"),
-                      child: const Text("Green"),
+                          light == null ? null : () => colorLight('green'),
+                      child: const Text('Green'),
                     ),
 
                     // BLUE
                     ElevatedButton(
                       onPressed:
-                          light == null ? null : () => colorLight("blue"),
-                      child: const Text("Blue"),
+                          light == null ? null : () => colorLight('blue'),
+                      child: const Text('Blue'),
                     ),
 
                     // WHITE
                     ElevatedButton(
                       onPressed:
-                          light == null ? null : () => colorLight("white"),
-                      child: const Text("White"),
+                          light == null ? null : () => colorLight('white'),
+                      child: const Text('White'),
                     ),
                   ],
                 ),
@@ -277,7 +326,7 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: padding * 2),
 
               sectionHeader(
-                "Entertainment Streaming",
+                'Entertainment Streaming',
                 GestureDetector(
                   onTap: (hueNetwork == null || !isStreaming)
                       ? null
@@ -294,7 +343,7 @@ class _HomePageState extends State<HomePage> {
                           );
                         },
                   child: Text(
-                    "more >",
+                    'more >',
                     style: TextStyle(
                       color: (hueNetwork == null || !isStreaming)
                           ? Colors.grey
@@ -339,7 +388,7 @@ class _HomePageState extends State<HomePage> {
               ElevatedButton(
                 onPressed:
                     (hueNetwork == null || !isStreaming) ? null : stopStreaming,
-                child: const Text("Stop Streaming"),
+                child: const Text('Stop Streaming'),
               ),
 
               const SizedBox(height: padding),
@@ -383,7 +432,7 @@ class _HomePageState extends State<HomePage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Bridge IP"),
+          title: const Text('Bridge IP'),
           content: SingleChildScrollView(
             child: ListBody(
               children: bridgeIps.map((ip) => Text(ip)).toList(),
@@ -391,7 +440,7 @@ class _HomePageState extends State<HomePage> {
           ),
           actions: [
             TextButton(
-              child: const Text("Ok"),
+              child: const Text('Ok'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -450,7 +499,7 @@ class _HomePageState extends State<HomePage> {
     });
 
     bridge = await BridgeDiscoveryRepo.firstContact(
-      bridgeIpAddr: bridgeIps.first,
+      bridgeIpAddr: ipGroupController.value ?? bridgeIps.first,
       controller: timeoutController,
     );
 
@@ -467,10 +516,10 @@ class _HomePageState extends State<HomePage> {
     });
 
     await BridgeDiscoveryRepo.remoteAuthRequest(
-      clientId: "[clientId]", // TODO: Replace with your client ID
-      redirectUri: "flutterhue://auth",
-      deviceName: "TestDevice",
-      encrypter: (plaintext) => "abcd${plaintext}1234",
+      clientId: widget.clientId,
+      redirectUri: 'flutterhue://auth',
+      deviceName: 'TestDevice',
+      encrypter: (plaintext) => 'abcd${plaintext}1234',
     );
 
     setState(() {
@@ -514,8 +563,8 @@ class _HomePageState extends State<HomePage> {
       Bridge myBridge = Bridge.fromJson(res?.first ?? {});
 
       // Shows a way to display the info in these objects.
-      // log("Bridge Json - ${JsonTool.writeJson(res?.first ?? {})}");
-      // log("Bridge Object - ${JsonTool.writeJson(myBridge.toJson(optimizeFor: OptimizeFor.dontOptimize))}");
+      // log('Bridge Json - ${JsonTool.writeJson(res?.first ?? {})}');
+      // log('Bridge Object - ${JsonTool.writeJson(myBridge.toJson(optimizeFor: OptimizeFor.dontOptimize))}');
     } catch (_) {
       // res list was empty
     }
@@ -560,7 +609,7 @@ class _HomePageState extends State<HomePage> {
       return;
     }
 
-    lightDevice.identifyAction = "identify";
+    lightDevice.identifyAction = 'identify';
 
     await bridge!.put(lightDevice);
 
@@ -595,13 +644,13 @@ class _HomePageState extends State<HomePage> {
     double x;
     double y;
 
-    if (color == "red") {
+    if (color == 'red') {
       x = 0.6718;
       y = 0.3184;
-    } else if (color == "green") {
+    } else if (color == 'green') {
       x = 0.2487;
       y = 0.6923;
-    } else if (color == "blue") {
+    } else if (color == 'blue') {
       x = 0.1121;
       y = 0.1139;
     } else {
@@ -642,7 +691,7 @@ class _HomePageState extends State<HomePage> {
             .entertainmentConfigurations.first
             .startStreaming(bridge!);
 
-        if (!didStart) throw "Failed to start stream";
+        if (!didStart) throw 'Failed to start stream';
       }
 
       // Clear out the stream queue before starting a new stream.
