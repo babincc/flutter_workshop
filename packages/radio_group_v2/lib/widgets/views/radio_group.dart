@@ -156,12 +156,26 @@ class RadioGroupState<T> extends State<RadioGroup<T>> {
   set value(T? value) {
     if (!mounted) return;
 
+    if (value == this.value) return;
+
     setState(() {
       _value = value;
 
       if (widget.onChanged == null) return;
 
       widget.onChanged!(value);
+    });
+  }
+
+  /// Sets the value of the selected element in the radio group without calling
+  /// the `onChanged` callback.
+  void setValueSilently(T? value) {
+    if (!mounted) return;
+
+    if (value == this.value) return;
+
+    setState(() {
+      _value = value;
     });
   }
 

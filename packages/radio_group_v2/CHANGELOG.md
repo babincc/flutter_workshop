@@ -1,3 +1,7 @@
+## 3.3.0 - January 17, 2025
+
+- Added `setValueSilently` and `selectSilentlyAt` methods to allow developers to set the value of the radio group without triggering the `onChanged` method.
+
 ## 3.2.1 - August 13, 2024
 
 - Fixed bug where `setState` could be called after `dispose`.
