@@ -1,7 +1,7 @@
 name: example
 description: Demonstrates how to use the radio_group_v2 package.
 publish_to: "none"
-version: 3.2.1
+version: 3.3.0
 
 environment:
   sdk: ">=3.3.3 <4.0.0"
@@ -16,7 +16,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^5.0.0
+  lints: ^5.1.1
 
 flutter:
   uses-material-design: true

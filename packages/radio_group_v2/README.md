@@ -10,7 +10,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 
 ```yaml
 dependencies:
-  radio_group_v2: ^3.2.1
+  radio_group_v2: ^3.3.0
 ```
 
 Import it to each file you use it in:
@@ -71,14 +71,37 @@ RadioGroup(
 )
 
 // Method 1 - Selects a specific item from the list.
-myController.value = items[1];
+myController.value = items[1]; // Selects Choice2
 
 // Method 2 - Selects whatever item is at the given
 //            index in the list.
-myController.selectAt(2);
+myController.selectAt(2); // Selects Choice3
 ```
 
 ### Example 4
+
+This example shows how to programmatically select an item using two different silent methods. This means, when the new value in is selected in the list, the `onChanged` method will not be called.
+
+```dart
+RadioGroupController myController = RadioGroupController();
+
+List<String> items = ["Choice1", "Choice2", "Choice3"];
+
+RadioGroup(
+  controller: myController,
+  values: items,
+)
+
+// Method 1 - Selects a specific item from the list.
+myController.setValueSilently(items[1]); // Selects Choice2
+
+// Method 2 - Selects whatever item is at the given
+//            index in the list.
+myController.selectSilentlyAt(2); // Selects Choice3
+```
+
+
+### Example 5
 
 This example shows how to retrieve the selected value.
 

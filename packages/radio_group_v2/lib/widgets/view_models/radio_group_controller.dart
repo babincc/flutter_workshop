@@ -103,6 +103,28 @@ class RadioGroupController<T> {
     throw ControllerDecoupledException(radioGroupController: this);
   }
 
+  /// Sets the value of the selected item in `this` controller's radio group
+  /// without calling the `onChanged` callback.
+  ///
+  /// @throws [IllegalValueException] If the `value` provided is not a value in
+  /// the radio group's values list.
+  ///
+  /// @throws [ControllerDecoupledException] If the controller cannot access the
+  /// value of its radio group.
+  void setValueSilently(T? value) {
+    if (_myRadioGroup != null) {
+      if (value != null && !_myRadioGroup!.widget.values.contains(value)) {
+        throw IllegalValueException(value: value);
+      }
+
+      _myRadioGroup!.setValueSilently(value);
+      return;
+    }
+
+    // If it makes it to this point, something has gone wrong.
+    throw ControllerDecoupledException(radioGroupController: this);
+  }
+
   /// Returns the index of the selected item in `this` controller's radio group.
   ///
   /// **Note:** If no item is selected, this method will return `-1`.
@@ -141,6 +163,37 @@ class RadioGroupController<T> {
           iterable: _myRadioGroup!.widget.values,
         );
       }
+    }
+  }
+
+  /// Sets the value of the selected item in `this` controller's radio group to
+  /// the value of the element at `index` in the radio group's value list.
+  ///
+  /// This is done without calling the `onChanged` callback.
+  ///
+  /// **Note:** By setting `index` to `-1`, the radio group will deselect all
+  /// options.
+  ///
+  /// @throws [IndexOutOfBoundsException] If the `index` provided is not within
+  /// the range of the radio group's value list.
+  ///
+  /// @throws [ControllerDecoupledException] If the controller cannot access the
+  /// value of its radio group.
+  void selectSilentlyAt(int index) {
+    if (_myRadioGroup != null) {
+      if (index == -1) {
+        _myRadioGroup!.setValueSilently(null);
+      } else if (index >= 0 && index < _myRadioGroup!.widget.values.length) {
+        _myRadioGroup!.setValueSilently(_myRadioGroup!.widget.values[index]);
+      } else {
+        throw IndexOutOfBoundsException(
+          index: index,
+          iterable: _myRadioGroup!.widget.values,
+        );
+      }
+    } else {
+      // If it makes it to this point, something has gone wrong.
+      throw ControllerDecoupledException(radioGroupController: this);
     }
   }
 }
