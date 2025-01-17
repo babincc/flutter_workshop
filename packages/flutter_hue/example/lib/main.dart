@@ -54,8 +54,15 @@ class _HomePageState extends State<HomePage> {
   /// The IP address of the bridges on the network.
   final List<String> bridgeIps = [];
 
+  /// Bridges that have already been connected to in the past.
+  final List<Bridge> oldBridges = [];
+
   /// Controls the radio group of bridge IP addresses.
   final RadioGroupController<String> ipGroupController = RadioGroupController();
+
+  /// Controls the radio group of old bridges.
+  final RadioGroupController<Bridge> oldBridgeGroupController =
+      RadioGroupController();
 
   /// Controls the bridge discovery process.
   final DiscoveryTimeoutController timeoutController =
@@ -128,6 +135,19 @@ class _HomePageState extends State<HomePage> {
       deviceName: 'TestDevice',
       stateEncrypter: (plaintext) => 'abcd${plaintext}1234',
     );
+
+    // Fetch all of the bridges that have been connected to in the past.
+    BridgeDiscoveryRepo.fetchSavedBridges().then(
+      (bridges) {
+        if (bridges.isNotEmpty) {
+          setState(() {
+            oldBridges.clear();
+            oldBridges.addAll(bridges);
+            bridge = oldBridges.first;
+          });
+        }
+      },
+    );
   }
 
   @override
@@ -169,39 +189,70 @@ class _HomePageState extends State<HomePage> {
               sectionHeader('Getting Started'),
 
               // DISCOVER BRIDGES
-              Column(
-                children: [
-                  ElevatedButton(
-                    onPressed: discoverBridges,
-                    child: const Text('Discover Bridges'),
-                  ),
-                  Visibility(
-                    visible: bridgeIps.isNotEmpty,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: padding),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text('Found ${bridgeIps.length} bridge IP'
-                              '${bridgeIps.length == 1 ? '' : 's'}'),
-                          RadioGroup(
-                            controller: ipGroupController,
-                            values: bridgeIps,
-                            indexOfDefault: bridgeIps.isEmpty ? -1 : 0,
-                            orientation: RadioGroupOrientation.horizontal,
-                            onChanged: (value) {
-                              setState(() {
-                                bridge = null;
-                                hueNetwork = null;
-                                light = null;
-                              });
-                            },
-                          ),
-                        ],
+              Visibility(
+                visible: oldBridges.isNotEmpty,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: padding),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('Previously connected bridge'
+                          '${oldBridges.length == 1 ? '' : 's'}'),
+                      RadioGroup(
+                        controller: oldBridgeGroupController,
+                        values: oldBridges,
+                        indexOfDefault: oldBridges.isEmpty ? -1 : 0,
+                        orientation: RadioGroupOrientation.horizontal,
+                        onChanged: (value) {
+                          setState(() {
+                            ipGroupController.setValueSilently(null);
+                            bridge = value;
+                            hueNetwork = null;
+                            light = null;
+                          });
+                        },
+                        labelBuilder: (value) => Text(value.ipAddress ?? ''),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
+              ),
+
+              const SizedBox(height: padding * 2),
+
+              ElevatedButton(
+                onPressed: discoverBridges,
+                child: const Text('Discover Bridges'),
+              ),
+              Visibility(
+                visible: bridgeIps.isNotEmpty,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: padding),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('Found ${bridgeIps.length} bridge IP'
+                          '${bridgeIps.length == 1 ? '' : 's'}'),
+                      RadioGroup(
+                        controller: ipGroupController,
+                        values: bridgeIps,
+                        indexOfDefault:
+                            (bridgeIps.isEmpty || oldBridges.isNotEmpty)
+                                ? -1
+                                : 0,
+                        orientation: RadioGroupOrientation.horizontal,
+                        onChanged: (value) {
+                          setState(() {
+                            oldBridgeGroupController.setValueSilently(null);
+                            bridge = null;
+                            hueNetwork = null;
+                            light = null;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
               ),
 
               const SizedBox(height: padding * 2),
@@ -211,7 +262,10 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    onPressed: bridgeIps.isEmpty ? null : () => firstContact(),
+                    onPressed: ipGroupController.myRadioGroupKey == null ||
+                            ipGroupController.value == null
+                        ? null
+                        : () => firstContact(),
                     child: const Text('First Contact'),
                   ),
                   const SizedBox(width: 11),

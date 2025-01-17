@@ -1,3 +1,7 @@
+## 2.0.0-beta.11 - January 17, 2025
+
+- Updated example to allow easier testing by giving devs access to previously connected bridges
+
 ## 2.0.0-beta.10 - January 16, 2025
 
 - Downgraded `path_provider` for dependency conflicts

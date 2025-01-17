@@ -1,7 +1,7 @@
 name: example
 description: Demonstrates how to use the flutter_hue package.
 publish_to: "none"
-version: 2.0.0-beta.10
+version: 2.0.0-beta.11
 
 environment:
   sdk: ">=3.3.3 <4.0.0"
@@ -14,7 +14,7 @@ dependencies:
   flutter_hue:
     path: ../
   just_audio: ^0.9.37
-  radio_group_v2: ^3.2.1
+  radio_group_v2: ^3.3.0
 
 dev_dependencies:
   flutter_test:
