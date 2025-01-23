@@ -1,3 +1,12 @@
+## 2.0.0-beta.13 - January 23, 2025
+
+- Fixed UI bug with example
+
+## 2.0.0-beta.12 - January 22, 2025
+
+- Downgraded color converter to work with older versions of Flutter
+- Downgraded some dependencies to work with older versions of Flutter
+
 ## 2.0.0-beta.11 - January 17, 2025
 
 - Updated example to allow easier testing by giving devs access to previously connected bridges

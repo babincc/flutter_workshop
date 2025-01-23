@@ -98,7 +98,7 @@ class ColorXy extends EntertainmentStreamColor {
   /// The `brightness` parameter is the brightness of the color. If not
   /// provided, it defaults to the calculated brightness of the color. Note,
   /// this is typically a bit dim.
-  factory ColorXy.fromRgb(double r, double g, double b, [double? brightness]) {
+  factory ColorXy.fromRgb(int r, int g, int b, [double? brightness]) {
     if (brightness != null) {
       assert(
         EntertainmentStreamColor.isValidBrightness(brightness),
@@ -227,7 +227,8 @@ class ColorRgb extends EntertainmentStreamColor {
       );
     }
 
-    final List<double> rgbList = ColorConverter.xy2rgb(x, y, brightness ?? 1.0);
+    final List<int> rgbList = ColorConverter.xy2rgb(x, y, brightness ?? 1.0);
+    // final List<double> rgbList = ColorConverter.xy2rgb(x, y, brightness ?? 1.0);
 
     return ColorRgb(rgbList[0], rgbList[1], rgbList[2]);
   }
@@ -236,13 +237,13 @@ class ColorRgb extends EntertainmentStreamColor {
   factory ColorRgb.fromColor(Color color) => color.toColorRgb();
 
   /// The red value of the color.
-  final double r;
+  final int r;
 
   /// The green value of the color.
-  final double g;
+  final int g;
 
   /// The blue value of the color.
-  final double b;
+  final int b;
 
   @override
   bool get isOff => r == 0 && g == 0 && b == 0;
@@ -252,9 +253,9 @@ class ColorRgb extends EntertainmentStreamColor {
 
   @override
   ColorRgb copyWith({
-    double? r,
-    double? g,
-    double? b,
+    int? r,
+    int? g,
+    int? b,
   }) =>
       ColorRgb(
         r ?? this.r,
@@ -308,7 +309,7 @@ class ColorRgb extends EntertainmentStreamColor {
         )
         .toDouble();
 
-    return ColorRgb(red, green, blue);
+    return ColorRgb(red.round(), green.round(), blue.round());
   }
 }
 

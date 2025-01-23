@@ -205,6 +205,7 @@ class _HomePageState extends State<HomePage> {
                         orientation: RadioGroupOrientation.horizontal,
                         onChanged: (value) {
                           setState(() {
+                            print('discovered - on change called');
                             ipGroupController.setValueSilently(null);
                             bridge = value;
                             hueNetwork = null;
@@ -262,8 +263,12 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    onPressed: ipGroupController.myRadioGroupKey == null ||
-                            ipGroupController.value == null
+                    onPressed: ((ipGroupController.myRadioGroupKey == null ||
+                                    ipGroupController.value == null) &&
+                                (oldBridgeGroupController.myRadioGroupKey !=
+                                        null &&
+                                    oldBridgeGroupController.value != null)) ||
+                            bridgeIps.isEmpty
                         ? null
                         : () => firstContact(),
                     child: const Text('First Contact'),
