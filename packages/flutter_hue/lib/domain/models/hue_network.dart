@@ -39,7 +39,12 @@ class HueNetwork {
             "All bridges must have an IP address"),
         assert(!bridges.map((bridge) => bridge.applicationKey).contains(null),
             "All bridges must have an application key"),
-        _bridges = bridges;
+        _bridges = bridges {
+    _failedFetches = {};
+    for (ResourceType type in ResourceType.values) {
+      _failedFetches[type] = [];
+    }
+  }
 
   List<Bridge> _bridges;
 
@@ -47,7 +52,7 @@ class HueNetwork {
   ///
   /// Throws [Exception] if any of the bridges do not have an IP address or an
   /// application key.
-  List<Bridge> get bridges => List<Bridge>.from(_bridges, growable: false);
+  List<Bridge> get bridges => List<Bridge>.unmodifiable(_bridges);
   set bridges(List<Bridge> bridges) {
     for (Bridge bridge in bridges) {
       if (bridge.ipAddress == null) {
@@ -135,178 +140,260 @@ class HueNetwork {
   /// All of the [BehaviorInstance] objects on the network that the user's
   /// device has permission to access.
   List<BehaviorInstance> get behaviorInstances =>
-      List.from(_behaviorInstances, growable: false);
+      List.unmodifiable(_behaviorInstances);
 
   final List<BehaviorScript> _behaviorScripts = [];
 
   /// All of the [BehaviorScript] objects on the network that the user's device
   /// has permission to access.
   List<BehaviorScript> get behaviorScripts =>
-      List.from(_behaviorScripts, growable: false);
+      List.unmodifiable(_behaviorScripts);
 
   final List<BridgeHome> _bridgeHomes = [];
 
   /// All of the [BridgeHome] objects on the network that the user's device has
   /// permission to access.
-  List<BridgeHome> get bridgeHomes => List.from(_bridgeHomes, growable: false);
+  List<BridgeHome> get bridgeHomes => List.unmodifiable(_bridgeHomes);
 
   final List<Button> _buttons = [];
 
   /// All of the [Button] objects on the network that the user's device has
   /// permission to access.
-  List<Button> get buttons => List.from(_buttons, growable: false);
+  List<Button> get buttons => List.unmodifiable(_buttons);
 
   final List<Device> _devices = [];
 
   /// All of the [Device] objects on the network that the user's device has
   /// permission to access.
-  List<Device> get devices => List.from(_devices, growable: false);
+  List<Device> get devices => List.unmodifiable(_devices);
 
   final List<DevicePower> _devicePowers = [];
 
   /// All of the [DevicePower] objects on the network that the user's device has
   /// permission to access.
-  List<DevicePower> get devicePowers =>
-      List.from(_devicePowers, growable: false);
+  List<DevicePower> get devicePowers => List.unmodifiable(_devicePowers);
 
   final List<Entertainment> _entertainments = [];
 
   /// All of the [Entertainment] objects on the network that the user's device
   /// has permission to access.
-  List<Entertainment> get entertainments =>
-      List.from(_entertainments, growable: false);
+  List<Entertainment> get entertainments => List.unmodifiable(_entertainments);
 
   final List<EntertainmentConfiguration> _entertainmentConfigurations = [];
 
   /// All of the [EntertainmentConfiguration] objects on the network that the
   /// user's device has permission to access.
   List<EntertainmentConfiguration> get entertainmentConfigurations =>
-      List.from(_entertainmentConfigurations, growable: false);
+      List.unmodifiable(_entertainmentConfigurations);
 
   final List<GeofenceClient> _geofenceClients = [];
 
   /// All of the [GeofenceClient] objects on the network that the user's device
   /// has permission to access.
   List<GeofenceClient> get geofenceClients =>
-      List.from(_geofenceClients, growable: false);
+      List.unmodifiable(_geofenceClients);
 
   final List<Geolocation> _geolocations = [];
 
   /// All of the [Geolocation] objects on the network that the user's device has
   /// permission to access.
-  List<Geolocation> get geolocations =>
-      List.from(_geolocations, growable: false);
+  List<Geolocation> get geolocations => List.unmodifiable(_geolocations);
 
   final List<GroupedLight> _groupedLights = [];
 
   /// All of the [GroupedLight] objects on the network that the user's device
   /// has permission to access.
-  List<GroupedLight> get groupedLights =>
-      List.from(_groupedLights, growable: false);
+  List<GroupedLight> get groupedLights => List.unmodifiable(_groupedLights);
 
   final List<Homekit> _homekits = [];
 
   /// All of the [Homekit] objects on the network that the user's device has
   /// permission to access.
-  List<Homekit> get homekits => List.from(_homekits, growable: false);
+  List<Homekit> get homekits => List.unmodifiable(_homekits);
 
   final List<Light> _lights = [];
 
   /// All of the [Light] objects on the network that the user's device has
   /// permission to access.
-  List<Light> get lights => List.from(_lights, growable: false);
+  List<Light> get lights => List.unmodifiable(_lights);
 
   final List<LightLevel> _lightLevels = [];
 
   /// All of the [LightLevel] objects on the network that the user's device has
   /// permission to access.
-  List<LightLevel> get lightLevels => List.from(_lightLevels, growable: false);
+  List<LightLevel> get lightLevels => List.unmodifiable(_lightLevels);
 
   final List<Matter> _matters = [];
 
   /// All of the [Matter] objects on the network that the user's device has
   /// permission to access.
-  List<Matter> get matters => List.from(_matters, growable: false);
+  List<Matter> get matters => List.unmodifiable(_matters);
 
   final List<MatterFabric> _matterFabrics = [];
 
   /// All of the [MatterFabric] objects on the network that the user's device
   /// has permission to access.
-  List<MatterFabric> get matterFabrics =>
-      List.from(_matterFabrics, growable: false);
+  List<MatterFabric> get matterFabrics => List.unmodifiable(_matterFabrics);
 
   final List<Motion> _motions = [];
 
   /// All of the [Motion] objects on the network that the user's device has
   /// permission to access.
-  List<Motion> get motions => List.from(_motions, growable: false);
+  List<Motion> get motions => List.unmodifiable(_motions);
 
   final List<RelativeRotary> _relativeRotaries = [];
 
   /// All of the [RelativeRotary] objects on the network that the user's device
   /// has permission to access.
   List<RelativeRotary> get relativeRotaries =>
-      List.from(_relativeRotaries, growable: false);
+      List.unmodifiable(_relativeRotaries);
 
   final List<Room> _rooms = [];
 
   /// All of the [Room] objects on the network that the user's device has
   /// permission to access.
-  List<Room> get rooms => List.from(_rooms, growable: false);
+  List<Room> get rooms => List.unmodifiable(_rooms);
 
   final List<Scene> _scenes = [];
 
   /// All of the [Scene] objects on the network that the user's device has
   /// permission to access.
-  List<Scene> get scenes => List.from(_scenes, growable: false);
+  List<Scene> get scenes => List.unmodifiable(_scenes);
 
   final List<SmartScene> _smartScenes = [];
 
   /// All of the [SmartScene] objects on the network that the user's device has
   /// permission to access.
-  List<SmartScene> get smartScenes => List.from(_smartScenes, growable: false);
+  List<SmartScene> get smartScenes => List.unmodifiable(_smartScenes);
 
   final List<Temperature> _temperatures = [];
 
   /// All of the [Temperature] objects on the network that the user's device has
   /// permission to access.
-  List<Temperature> get temperatures =>
-      List.from(_temperatures, growable: false);
+  List<Temperature> get temperatures => List.unmodifiable(_temperatures);
 
   final List<ZgpConnectivity> _zgpConnectivities = [];
 
   /// All of the [ZgpConnectivity] objects on the network that the user's device
   /// has permission to access.
   List<ZgpConnectivity> get zgpConnectivities =>
-      List.from(_zgpConnectivities, growable: false);
+      List.unmodifiable(_zgpConnectivities);
 
   final List<ZigbeeConnectivity> _zigbeeConnectivities = [];
 
   /// All of the [ZigbeeConnectivity] objects on the network that the user's
   /// device has permission to access.
   List<ZigbeeConnectivity> get zigbeeConnectivities =>
-      List.from(_zigbeeConnectivities, growable: false);
+      List.unmodifiable(_zigbeeConnectivities);
 
   final List<ZigbeeDeviceDiscovery> _zigbeeDeviceDiscoveries = [];
 
   /// All of the [ZigbeeDeviceDiscovery] objects on the network that the user's
   /// device has permission to access.
   List<ZigbeeDeviceDiscovery> get zigbeeDeviceDiscoveries =>
-      List.from(_zigbeeDeviceDiscoveries, growable: false);
+      List.unmodifiable(_zigbeeDeviceDiscoveries);
 
   final List<Zone> _zones = [];
 
   /// All of the [Zone] objects on the network that the user's device has
   /// permission to access.
-  List<Zone> get zones => List.from(_zones, growable: false);
+  List<Zone> get zones => List.unmodifiable(_zones);
+
+  late final Map<ResourceType, List<String>> _failedFetches;
+
+  /// All of the failed fetches that occurred during the last fetch.
+  ///
+  /// Each value is a list of the IDs of the resources that failed to be fetched
+  /// with the [ResourceType] as the key.
+  ///
+  /// You can easily check if there are any failed fetches by calling
+  /// [hasFailedFetches].
+  ///
+  /// Try calling [fetchAllFailed] to fetch all of the failed fetches.
+  Map<ResourceType, List<String>> get failedFetches =>
+      Map.unmodifiable(_failedFetches);
+
+  /// Whether or not there are any failed fetches.
+  bool get hasFailedFetches =>
+      _failedFetches.values.any((failedFetches) => failedFetches.isNotEmpty);
 
   /// Fetch all of the Philip's Hue devices on the network that this device has
   /// permission to fetch.
-  Future<void> fetchAll() async {
+  ///
+  /// `decrypter` When the old tokens are read from local storage, they are
+  /// decrypted. This parameter allows you to provide your own decryption
+  /// method. This will be used in addition to the default decryption method.
+  /// This will be performed after the default decryption method.
+  ///
+  /// If this method fails to fetch a resource with an error, the resource will
+  /// be added to the [failedFetches] list.
+  Future<void> fetchAll({
+    String Function(String ciphertext)? decrypter,
+  }) async {
     // Go through all of the resource types on each bridge, and fetch all of
     // the resources of that type on the bridge.
     for (ResourceType type in ResourceType.values) {
-      await fetchAllType(type);
+      await fetchAllType(type, decrypter: decrypter);
+    }
+  }
+
+  /// Fetch all of the Philip's Hue devices on the network that this device has
+  /// permission to fetch which failed to be fetched in the last fetch.
+  ///
+  /// `decrypter` When the old tokens are read from local storage, they are
+  /// decrypted. This parameter allows you to provide your own decryption
+  /// method. This will be used in addition to the default decryption method.
+  /// This will be performed after the default decryption method.
+  ///
+  /// If this method fails to fetch a resource with an error, the resource will
+  /// be added back to the [failedFetches] list.
+  Future<void> fetchAllFailed({
+    String Function(String ciphertext)? decrypter,
+  }) async {
+    for (final ResourceType type in failedFetches.keys) {
+      fetchAllFailedType(type, decrypter: decrypter);
+    }
+  }
+
+  /// Fetch all of the Philip's Hue devices of the given `type` on the network
+  /// that this device has permission to fetch which failed to be fetched in the
+  /// last fetch.
+  ///
+  /// `decrypter` When the old tokens are read from local storage, they are
+  /// decrypted. This parameter allows you to provide your own decryption
+  /// method. This will be used in addition to the default decryption method.
+  /// This will be performed after the default decryption method.
+  ///
+  /// If this method fails to fetch a resource with an error, the resource will
+  /// be added back to the [failedFetches] list.
+  Future<void> fetchAllFailedType(
+    ResourceType type, {
+    String Function(String ciphertext)? decrypter,
+  }) async {
+    final List<String> failedIds = _failedFetches[type] ?? [];
+
+    _failedFetches[type] ??= [];
+    _failedFetches[type]!.clear();
+
+    final Map<Bridge, List<String>> idsMap =
+        await _fetchIdsForType(type, decrypter: decrypter);
+
+    for (final String id in failedIds) {
+      Bridge? bridge;
+
+      for (final Bridge key in idsMap.keys) {
+        if (idsMap[key]!.contains(id)) {
+          bridge = key;
+          break;
+        }
+      }
+
+      fetch(
+        resourceId: id,
+        type: type,
+        bridge: bridge,
+        decrypter: decrypter,
+      );
     }
   }
 
@@ -317,6 +404,9 @@ class HueNetwork {
   /// decrypted. This parameter allows you to provide your own decryption
   /// method. This will be used in addition to the default decryption method.
   /// This will be performed after the default decryption method.
+  ///
+  /// If this method fails to fetch a resource with an error, the resource will
+  /// be added to the [failedFetches] list.
   Future<void> fetchAllType(
     ResourceType type, {
     String Function(String ciphertext)? decrypter,
@@ -325,6 +415,9 @@ class HueNetwork {
     List<Resource>? resourceList = _getListType(type);
     if (resourceList == null) return;
     resourceList.clear();
+
+    _failedFetches[type] ??= [];
+    _failedFetches[type]!.clear();
 
     // Go through each bridge.
     for (Bridge bridge in bridges) {
@@ -353,153 +446,271 @@ class HueNetwork {
       for (String? id in ids) {
         if (id == null) continue;
 
-        Map<String, dynamic>? data = await HueHttpRepo.get(
+        fetch(
+          resourceId: id,
+          type: type,
+          bridge: bridge,
+          decrypter: decrypter,
+        );
+      }
+    }
+  }
+
+  /// Fetches the resource with the given `resourceId` and `type` from the
+  /// network.
+  ///
+  /// If you know which bridge the resource is on, you can provide the `bridge`
+  /// parameter to speed up the process.
+  ///
+  /// `decrypter` When the old tokens are read from local storage, they are
+  /// decrypted. This parameter allows you to provide your own decryption
+  /// method. This will be used in addition to the default decryption method.
+  /// This will be performed after the default decryption method.
+  ///
+  /// If this method fails to fetch the resource with an error, the resource
+  /// will be added to the [failedFetches] list.
+  Future<void> fetch({
+    required String resourceId,
+    required ResourceType type,
+    Bridge? bridge,
+    String Function(String ciphertext)? decrypter,
+  }) async {
+    Bridge? bridgeToUse = bridge;
+
+    if (bridgeToUse == null) {
+      // Go through each bridge to see which one contains the given resourceId.
+      for (Bridge bridge in bridges) {
+        final Map<String, dynamic>? dataMap = await HueHttpRepo.get(
           bridgeIpAddr: bridge.ipAddress!,
           applicationKey: bridge.applicationKey!,
           resourceType: type,
-          pathToResource: id,
           decrypter: decrypter,
         );
 
-        if (data == null) continue;
+        // This would mean there was an error in the GET request.
+        if (dataMap == null) continue;
 
-        switch (type) {
-          case ResourceType.device:
-            _devices.add(Device.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.bridgeHome:
-            _bridgeHomes.add(BridgeHome.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.room:
-            _rooms.add(Room.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.zone:
-            _zones.add(Zone.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.light:
-            _lights.add(Light.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.button:
-            _buttons.add(Button.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.relativeRotary:
-            _relativeRotaries.add(RelativeRotary.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.temperature:
-            _temperatures.add(Temperature.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.lightLevel:
-            _lightLevels.add(LightLevel.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.motion:
-            _motions.add(Motion.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.entertainment:
-            _entertainments.add(Entertainment.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.groupedLight:
-            _groupedLights.add(GroupedLight.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.devicePower:
-            _devicePowers.add(DevicePower.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.zigbeeConnectivity:
-            _zigbeeConnectivities.add(ZigbeeConnectivity.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.zgpConnectivity:
-            _zgpConnectivities.add(ZgpConnectivity.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.zigbeeDeviceDiscovery:
-            _zigbeeDeviceDiscoveries.add(ZigbeeDeviceDiscovery.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.homekit:
-            _homekits.add(Homekit.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.matter:
-            _matters.add(Matter.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.matterFabric:
-            _matterFabrics.add(MatterFabric.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.scene:
-            _scenes.add(Scene.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.entertainmentConfiguration:
-            _entertainmentConfigurations
-                .add(EntertainmentConfiguration.fromJson(data)
-                  ..bridge = bridge
-                  ..hueNetwork = this);
-            break;
-          case ResourceType.behaviorScript:
-            _behaviorScripts.add(BehaviorScript.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.behaviorInstance:
-            _behaviorInstances.add(BehaviorInstance.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.geofenceClient:
-            _geofenceClients.add(GeofenceClient.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.geolocation:
-            _geolocations.add(Geolocation.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          case ResourceType.smartScene:
-            _smartScenes.add(SmartScene.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-            break;
-          default:
-          // Do nothing
+        /// Abbreviated raw data maps for all of the resources of the current
+        /// type.
+        final List<Map<String, dynamic>>? abbrDataList =
+            MiscTools.extractDataList(dataMap);
+
+        // This would mean there is no useful data in the list.
+        if (abbrDataList == null) continue;
+
+        final List<String?> ids = abbrDataList
+            .map((rawMap) => rawMap[ApiFields.id] as String?)
+            .toList();
+
+        if (ids.contains(resourceId)) {
+          bridgeToUse = bridge;
+          break;
         }
       }
     }
+
+    if (bridgeToUse == null) {
+      // Put resource in failed fetches
+      if (!_failedFetches[type]!.contains(resourceId)) {
+        _failedFetches[type]!.add(resourceId);
+      }
+      return;
+    }
+
+    Map<String, dynamic>? data;
+    try {
+      data = await HueHttpRepo.get(
+        bridgeIpAddr: bridgeToUse.ipAddress!,
+        applicationKey: bridgeToUse.applicationKey!,
+        resourceType: type,
+        pathToResource: resourceId,
+        decrypter: decrypter,
+      );
+    } catch (e) {
+      if (!_failedFetches[type]!.contains(resourceId)) {
+        _failedFetches[type]!.add(resourceId);
+      }
+      return;
+    }
+
+    if (data == null) return;
+
+    switch (type) {
+      case ResourceType.device:
+        _devices.add(Device.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.bridgeHome:
+        _bridgeHomes.add(BridgeHome.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.room:
+        _rooms.add(Room.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.zone:
+        _zones.add(Zone.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.light:
+        _lights.add(Light.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.button:
+        _buttons.add(Button.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.relativeRotary:
+        _relativeRotaries.add(RelativeRotary.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.temperature:
+        _temperatures.add(Temperature.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.lightLevel:
+        _lightLevels.add(LightLevel.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.motion:
+        _motions.add(Motion.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.entertainment:
+        _entertainments.add(Entertainment.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.groupedLight:
+        _groupedLights.add(GroupedLight.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.devicePower:
+        _devicePowers.add(DevicePower.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.zigbeeConnectivity:
+        _zigbeeConnectivities.add(ZigbeeConnectivity.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.zgpConnectivity:
+        _zgpConnectivities.add(ZgpConnectivity.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.zigbeeDeviceDiscovery:
+        _zigbeeDeviceDiscoveries.add(ZigbeeDeviceDiscovery.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.homekit:
+        _homekits.add(Homekit.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.matter:
+        _matters.add(Matter.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.matterFabric:
+        _matterFabrics.add(MatterFabric.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.scene:
+        _scenes.add(Scene.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.entertainmentConfiguration:
+        _entertainmentConfigurations
+            .add(EntertainmentConfiguration.fromJson(data)
+              ..bridge = bridge
+              ..hueNetwork = this);
+        break;
+      case ResourceType.behaviorScript:
+        _behaviorScripts.add(BehaviorScript.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.behaviorInstance:
+        _behaviorInstances.add(BehaviorInstance.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.geofenceClient:
+        _geofenceClients.add(GeofenceClient.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.geolocation:
+        _geolocations.add(Geolocation.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      case ResourceType.smartScene:
+        _smartScenes.add(SmartScene.fromJson(data)
+          ..bridge = bridge
+          ..hueNetwork = this);
+        break;
+      default:
+      // Do nothing
+    }
+  }
+
+  Future<Map<Bridge, List<String>>> _fetchIdsForType(
+    ResourceType type, {
+    String Function(String ciphertext)? decrypter,
+  }) async {
+    final Map<Bridge, List<String>> toReturn = {};
+
+    // Go through each bridge to see which one contains the given resourceId.
+    for (Bridge bridge in bridges) {
+      final Map<String, dynamic>? dataMap = await HueHttpRepo.get(
+        bridgeIpAddr: bridge.ipAddress!,
+        applicationKey: bridge.applicationKey!,
+        resourceType: type,
+        decrypter: decrypter,
+      );
+
+      // This would mean there was an error in the GET request.
+      if (dataMap == null) continue;
+
+      /// Abbreviated raw data maps for all of the resources of the current
+      /// type.
+      final List<Map<String, dynamic>>? abbrDataList =
+          MiscTools.extractDataList(dataMap);
+
+      // This would mean there is no useful data in the list.
+      if (abbrDataList == null) continue;
+
+      final List<String?> ids = abbrDataList
+          .map((rawMap) => rawMap[ApiFields.id] as String?)
+          .toList();
+
+      toReturn[bridge] = [];
+      for (String? id in ids) {
+        if (id == null) continue;
+
+        toReturn[bridge]!.add(id);
+      }
+    }
+
+    return toReturn;
   }
 
   /// Returns the resource list that goes with the given `type`.

@@ -1,3 +1,7 @@
+## 2.0.0-beta.14 - January 24, 2025
+
+- Added `failedFetches` and related methods to `HueNetwork`. This addresses [issue #25](https://github.com/babincc/flutter_workshop/issues/25) and gives devs a way to retry failed fetches
+
 ## 2.0.0-beta.13 - January 23, 2025
 
 - Fixed UI bug with example

@@ -140,7 +140,7 @@ class HueHttpClient {
       requestType: requestType,
     );
 
-    List<Map<String, dynamic>> responseArr =
+    final List<Map<String, dynamic>> responseArr =
         JsonTool.readJsonOr(response.body) ?? [];
 
     if (responseArr.isEmpty) return null;
@@ -195,7 +195,7 @@ class HueHttpClient {
     required String? body,
     required _RequestType requestType,
   }) async {
-    _HuePacket huePacket = _HuePacket(
+    final _HuePacket huePacket = _HuePacket(
       type: requestType,
       url: url,
       appKey: applicationKey,
