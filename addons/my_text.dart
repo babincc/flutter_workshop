@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 1.1.0
+// @version 1.1.1
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_text.dart
 
 import 'package:flutter/material.dart';
@@ -118,7 +118,6 @@ class MyText extends StatelessWidget {
       case MyTextStyle.caption:
         return Theme.of(context).textTheme.bodySmall;
       case MyTextStyle.body:
-      default:
         return Theme.of(context).textTheme.bodyMedium;
     }
   }
