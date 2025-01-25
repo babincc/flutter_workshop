@@ -1,18 +1,18 @@
 name: my_skeleton
 description: This is skeleton or starter code for a new Flutter project.
 publish_to: "none"
-version: 1.3.0
+version: 1.4.0
 
 environment:
-  sdk: ">=3.3.4 <4.0.0"
+  sdk: ^3.6.1
 
 dependencies:
-  cloud_firestore: ^4.0.4
+  cloud_firestore: ^5.6.2
   collection: ^1.18.0
   cupertino_icons: ^1.0.2
-  firebase_auth: ^4.1.1
-  firebase_core: ^2.1.1
-  firebase_crashlytics: ^3.1.2
+  firebase_auth: ^5.4.1
+  firebase_core: ^3.10.1
+  firebase_crashlytics: ^4.3.1
   flutter:
     sdk: flutter
   flutter_typeahead: ^5.2.0
@@ -20,17 +20,18 @@ dependencies:
     sdk: flutter
   google_fonts: ^6.1.0
   go_router: ^14.1.2
-  intl: ^0.19.0
+  intl: ^0.20.2
   path_provider: ^2.0.8
   provider: ^6.0.2
   stack_trace: ^1.11.0
 
 dev_dependencies:
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.13.1
+  flutter_launcher_icons: ^0.14.3
   flutter_native_splash: ^2.4.0
+  lints: ^5.1.1
   # flutter pub global activate rename
   # rename setAppName --targets ios,android --value "My Skeleton"
   rename: ^3.0.2

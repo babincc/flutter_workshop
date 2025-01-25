@@ -63,17 +63,19 @@ class LoginScreenViewModel {
     // Only continue if the user's input is formatted correctly.
     if (await hasInputError(displayErrorMsg: true)) return null;
 
+    MyAlert? alert;
+
     await myAuthProvider.logIn(email: email, password: password).then(
       (value) {
         if (value == null) {
           router.goNamed(MyRoutes.dashboardScreen);
         } else {
-          return handleLoginFail(value);
+          alert = handleLoginFail(value);
         }
       },
     );
 
-    return null;
+    return alert;
   }
 
   /// Called when the user clicks the Create Account button.
@@ -106,7 +108,8 @@ class LoginScreenViewModel {
       return MyAlert(
         title: strings.error.capitalizeFirstLetter(),
         content: '${strings.somethingWentWrong.capitalizeFirstLetter()}! '
-            '${strings.tryAgainLater.capitalizeFirstLetter()}.',
+            '${strings.tryAgainLater.capitalizeFirstLetter()}.\n\n'
+            '$error',
         buttons: {strings.ok: () {}},
       );
     }

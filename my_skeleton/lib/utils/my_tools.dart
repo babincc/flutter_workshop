@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 4.0.0
+// @version 4.1.0
 // https://github.com/babincc/flutter_workshop/blob/master/addons/my_tools.dart
 
 import 'dart:async';
@@ -121,9 +121,9 @@ class MyTools {
   /// This method returns a color for text, icons, etc. based on the given
   /// `bgColor` that it will be displayed on top of.
   static Color getForegroundColor(Color bgColor) {
-    final int red = bgColor.red;
-    final int green = bgColor.green;
-    final int blue = bgColor.blue;
+    final double red = bgColor.r;
+    final double green = bgColor.g;
+    final double blue = bgColor.b;
 
     final double darkness =
         1 - (((0.299 * red) + (0.587 * green) + (0.114 * blue)) / 255);
@@ -472,13 +472,25 @@ extension NumTools on num {
   /// 1.toCurrencyStringWithCents(true) == '1.00'
   /// 1000.toCurrencyStringWithCents(true) == '1,000.00'
   /// 500.25.toCurrencyStringWithCents(true) == '500.25'
+  ///
+  /// 1.toCurrencyString(true, false) == '1.00'
+  /// 1000.toCurrencyString(true, false) == '1000.00'
+  /// 500.25.toCurrencyString(true, false) == '500.25'
+  ///
+  /// 1.toCurrencyString(false, false) == '1'
+  /// 1000.toCurrencyString(false, false) == '1000'
+  /// 500.25.toCurrencyString(false, false) == '500'
   /// ```
-  String toCurrencyString([bool withCents = false]) {
+  String toCurrencyString({bool withCents = false, bool withCommas = true}) {
     final intl.NumberFormat currency;
-    if (withCents) {
+    if (withCents && withCommas) {
       currency = intl.NumberFormat('#,##0.00', 'en_US');
-    } else {
+    } else if (!withCents && withCommas) {
       currency = intl.NumberFormat('#,##0', 'en_US');
+    } else if (withCents && !withCommas) {
+      currency = intl.NumberFormat('0.00', 'en_US');
+    } else {
+      currency = intl.NumberFormat('0', 'en_US');
     }
 
     return currency.format(this);
