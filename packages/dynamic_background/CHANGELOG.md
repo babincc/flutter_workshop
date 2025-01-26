@@ -1,3 +1,8 @@
+## 0.3.0 - January 26, 2025
+
+- Added width and height controllers
+- Added a new example to README
+
 ## 0.2.0 - January 26, 2025
 
 - Added diagonal stripes

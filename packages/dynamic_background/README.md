@@ -14,7 +14,7 @@ In the `pubspec.yaml` of your project, add the following dependency:
 
 ```yaml
 dependencies:
-  dynamic_background: ^0.2.0
+  dynamic_background: ^0.3.0
 ```
 
 Import it to each file you use it in:
@@ -111,6 +111,52 @@ DynamicBg(
       shapeOffset: ScrollerShapeOffset.shiftAndMesh,
     ),
     child: yourPageHere(),
+  ),
+),
+```
+
+### Example 6 - Backgrounds for smaller widgets
+
+This example shows that you can apply dynamic backgrounds to widgets rather than the entire screen. Here is a button with an animated background.
+
+```dart
+final double buttonWidth = 500.0;
+final double buttonHeight = 65.0;
+final BorderRadius buttonRadius = BorderRadius.circular(5.0);
+
+ClipRRect(
+  borderRadius: buttonRadius,
+  child: DynamicBg(
+    width: buttonWidth,
+    height: buttonHeight,
+    painterData: ScrollerPainterData(
+      direction: ScrollDirection.right2Left,
+      shape: ScrollerShape.stripesDiagonalForward,
+      backgroundColor: Color.fromARGB(255, 214, 232, 185),
+      color: Color.fromARGB(255, 198, 225, 151),
+      shapeWidth: 24.0,
+      spaceBetweenShapes: 24.0,
+      fadeEdges: false,
+    ),
+    child: Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () {
+          print('Button pressed');
+        },
+        borderRadius: buttonRadius,
+        child: Center(
+          child: Text(
+            'Save',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 25.0,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ),
+      ),
+    ),
   ),
 ),
 ```

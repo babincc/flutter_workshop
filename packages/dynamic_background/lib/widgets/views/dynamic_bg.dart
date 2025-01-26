@@ -13,6 +13,8 @@ class DynamicBg extends StatefulWidget {
     super.key,
     required this.painterData,
     this.duration = const Duration(seconds: 30),
+    this.width,
+    this.height,
     this.child,
   });
 
@@ -26,6 +28,22 @@ class DynamicBg extends StatefulWidget {
 
   /// The child widget to be drawn on top of the background.
   final Widget? child;
+
+  /// The width of the background.
+  ///
+  /// If `null`, it will default to the width of the screen.
+  ///
+  /// If set to `0` of less, it will shrinkwrap the width to the size of the
+  /// child.
+  final double? width;
+
+  /// The height of the background.
+  ///
+  /// If `null`, it will default to the height of the screen.
+  ///
+  /// If set to `0` of less, it will shrinkwrap the height to the size of the
+  /// child.
+  final double? height;
 
   @override
   State<DynamicBg> createState() => _DynamicBgState();
@@ -68,21 +86,32 @@ class _DynamicBgState extends State<DynamicBg>
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: painter,
-      child: Stack(
-        children: [
-          // Sized box opens the screen to the full size of the parent so the
-          // child has access to the full screen, but doesn't need to use it
-          // all, and the background can still be seen.
-          const SizedBox(
-            width: double.infinity,
-            height: double.infinity,
-          ),
+    final double? width;
+    if (widget.width == null) {
+      width = double.infinity;
+    } else if (widget.width! <= 0.0) {
+      width = null;
+    } else {
+      width = widget.width!;
+    }
 
-          // The body of the app that will be placed on top of the background.
-          widget.child ?? const SizedBox.shrink(),
-        ],
+    final double? height;
+    if (widget.height == null) {
+      height = double.infinity;
+    } else if (widget.height! <= 0.0) {
+      height = null;
+    } else {
+      height = widget.height!;
+    }
+
+    return SizedBox(
+      width: width,
+      height: height,
+      child: ClipRect(
+        child: CustomPaint(
+          painter: painter,
+          child: widget.child ?? const SizedBox.shrink(),
+        ),
       ),
     );
   }
