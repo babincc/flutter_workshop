@@ -33,7 +33,7 @@ class DynamicBg extends StatefulWidget {
   ///
   /// If `null`, it will default to the width of the screen.
   ///
-  /// If set to `0` of less, it will shrinkwrap the width to the size of the
+  /// If set to `0` or less, it will shrinkwrap the width to the size of the
   /// child.
   final double? width;
 
@@ -41,7 +41,7 @@ class DynamicBg extends StatefulWidget {
   ///
   /// If `null`, it will default to the height of the screen.
   ///
-  /// If set to `0` of less, it will shrinkwrap the height to the size of the
+  /// If set to `0` or less, it will shrinkwrap the height to the size of the
   /// child.
   final double? height;
 
