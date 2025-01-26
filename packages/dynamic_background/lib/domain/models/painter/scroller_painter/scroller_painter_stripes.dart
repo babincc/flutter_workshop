@@ -1,5 +1,7 @@
+import 'package:dynamic_background/domain/enums/measurement_name.dart';
+import 'package:dynamic_background/domain/enums/scroll_direction.dart';
+import 'package:dynamic_background/domain/enums/scroller_shape.dart';
 import 'package:dynamic_background/domain/models/painter/scroller_painter/scroller_painter.dart';
-import 'package:dynamic_background/domain/models/painter_data/scroller_painter_data.dart';
 import 'package:dynamic_background/exceptions/mismatched_painter_and_data_exception.dart';
 import 'package:flutter/material.dart';
 
@@ -70,9 +72,10 @@ class ScrollerPainterStripes extends ScrollerPainter {
           final double alpha =
               percentOffScreen(xOffset, shapeWidth, size.width);
 
-          paint.color = data.color.withOpacity(1.0 - alpha);
+          paint.color = data.color.withAlpha((255.0 * (1.0 - alpha)).round());
 
-          antiPaint = Paint()..color = data.color.withOpacity(alpha);
+          antiPaint = Paint()
+            ..color = data.color.withAlpha((255.0 * alpha).round());
         }
 
         canvas.drawRect(
@@ -131,9 +134,10 @@ class ScrollerPainterStripes extends ScrollerPainter {
           final double alpha =
               percentOffScreen(yOffset, shapeHeight, size.height);
 
-          paint.color = data.color.withOpacity(1.0 - alpha);
+          paint.color = data.color.withAlpha((255.0 * (1.0 - alpha)).round());
 
-          antiPaint = Paint()..color = data.color.withOpacity(alpha);
+          antiPaint = Paint()
+            ..color = data.color.withAlpha((255.0 * alpha).round());
         }
 
         canvas.drawRect(

@@ -1,8 +1,13 @@
+import 'package:dynamic_background/domain/enums/scroll_direction.dart';
+import 'package:dynamic_background/domain/enums/scroller_shape.dart';
+import 'package:dynamic_background/domain/enums/scroller_shape_offset.dart';
 import 'package:dynamic_background/domain/models/painter/painter.dart';
 import 'package:dynamic_background/domain/models/painter/scroller_painter/scroller_painter_circles.dart';
 import 'package:dynamic_background/domain/models/painter/scroller_painter/scroller_painter_diamonds.dart';
 import 'package:dynamic_background/domain/models/painter/scroller_painter/scroller_painter_squares.dart';
 import 'package:dynamic_background/domain/models/painter/scroller_painter/scroller_painter_stripes.dart';
+import 'package:dynamic_background/domain/models/painter/scroller_painter/scroller_painter_stripes_diagonal_backward.dart';
+import 'package:dynamic_background/domain/models/painter/scroller_painter/scroller_painter_stripes_diagonal_forward.dart';
 import 'package:dynamic_background/domain/models/painter_data/painter_data.dart';
 import 'package:flutter/material.dart';
 
@@ -51,9 +56,11 @@ class ScrollerPainterData extends PainterData {
   /// will remain very close to this value though.
   double get shapeHeight {
     switch (shape) {
-      case ScrollerShape.stripes:
       case ScrollerShape.circles:
       case ScrollerShape.squares:
+      case ScrollerShape.stripes:
+      case ScrollerShape.stripesDiagonalBackward:
+      case ScrollerShape.stripesDiagonalForward:
         return shapeWidth;
       case ScrollerShape.diamonds:
         return ScrollerPainterDiamonds.calcRhombusHeight(shapeWidth);
@@ -77,13 +84,13 @@ class ScrollerPainterData extends PainterData {
   @override
   Painter getPainter(Animation<double> animation) {
     switch (shape) {
-      case ScrollerShape.stripes:
-        return ScrollerPainterStripes(
+      case ScrollerShape.circles:
+        return ScrollerPainterCircles(
           animation: animation,
           data: this,
         );
-      case ScrollerShape.circles:
-        return ScrollerPainterCircles(
+      case ScrollerShape.diamonds:
+        return ScrollerPainterDiamonds(
           animation: animation,
           data: this,
         );
@@ -92,8 +99,18 @@ class ScrollerPainterData extends PainterData {
           animation: animation,
           data: this,
         );
-      case ScrollerShape.diamonds:
-        return ScrollerPainterDiamonds(
+      case ScrollerShape.stripes:
+        return ScrollerPainterStripes(
+          animation: animation,
+          data: this,
+        );
+      case ScrollerShape.stripesDiagonalBackward:
+        return ScrollerPainterStripesDiagonalBackward(
+          animation: animation,
+          data: this,
+        );
+      case ScrollerShape.stripesDiagonalForward:
+        return ScrollerPainterStripesDiagonalForward(
           animation: animation,
           data: this,
         );
@@ -122,49 +139,4 @@ class ScrollerPainterData extends PainterData {
       shapeOffset: shapeOffset ?? this.shapeOffset,
     );
   }
-}
-
-/// The direction the scroller should move in.
-enum ScrollDirection {
-  /// The scroller should move from left to right.
-  left2Right,
-
-  /// The scroller should move from right to left.
-  right2Left,
-
-  /// The scroller should move from top to bottom.
-  top2Bottom,
-
-  /// The scroller should move from bottom to top.
-  bottom2Top,
-}
-
-/// The shapes that will be scrolling across the screen.
-enum ScrollerShape {
-  /// The shapes will be stripes.
-  stripes,
-
-  /// The shapes will be circles.
-  circles,
-
-  /// The shapes will be squares.
-  squares,
-
-  /// The shapes will be diamonds.
-  diamonds,
-}
-
-/// How to align the shapes that will be scrolling.
-enum ScrollerShapeOffset {
-  /// No offset.
-  ///
-  /// The shapes will form a perfect grid.
-  none,
-
-  /// The shapes will be offset, and form a diagonal grid.
-  shift,
-
-  /// Similar to [shift]; however, the shapes will also be moved closer
-  /// together along the plane perpendicular to the direction of movement.
-  shiftAndMesh,
 }

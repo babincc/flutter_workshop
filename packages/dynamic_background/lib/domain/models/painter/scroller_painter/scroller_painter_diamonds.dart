@@ -1,7 +1,10 @@
 import 'dart:math';
 
+import 'package:dynamic_background/domain/enums/measurement_name.dart';
+import 'package:dynamic_background/domain/enums/scroll_direction.dart';
+import 'package:dynamic_background/domain/enums/scroller_shape.dart';
+import 'package:dynamic_background/domain/enums/scroller_shape_offset.dart';
 import 'package:dynamic_background/domain/models/painter/scroller_painter/scroller_painter.dart';
-import 'package:dynamic_background/domain/models/painter_data/scroller_painter_data.dart';
 import 'package:dynamic_background/exceptions/mismatched_painter_and_data_exception.dart';
 import 'package:dynamic_background/utils/math_tools.dart';
 import 'package:flutter/material.dart';
@@ -231,9 +234,10 @@ class ScrollerPainterDiamonds extends ScrollerPainter {
         final double alpha = percentOffScreen(
             xOffset - (shapeWidth / 2.0), shapeWidth, size.width);
 
-        paint.color = data.color.withOpacity(1.0 - alpha);
+        paint.color = data.color.withAlpha((255.0 * (1.0 - alpha)).round());
 
-        antiPaint = Paint()..color = data.color.withOpacity(alpha);
+        antiPaint = Paint()
+          ..color = data.color.withAlpha((255.0 * alpha).round());
       }
 
       final Path path3 = Path()
@@ -460,9 +464,10 @@ class ScrollerPainterDiamonds extends ScrollerPainter {
         final double alpha = percentOffScreen(
             yOffset - (shapeHeight / 2.0), shapeHeight, size.height);
 
-        paint.color = data.color.withOpacity(1.0 - alpha);
+        paint.color = data.color.withAlpha((255.0 * (1.0 - alpha)).round());
 
-        antiPaint = Paint()..color = data.color.withOpacity(alpha);
+        antiPaint = Paint()
+          ..color = data.color.withAlpha((255.0 * alpha).round());
       }
 
       final Path path3 = Path()

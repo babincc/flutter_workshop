@@ -1,5 +1,8 @@
 import 'dart:math';
 
+import 'package:dynamic_background/domain/enums/measurement_name.dart';
+import 'package:dynamic_background/domain/enums/scroll_direction.dart';
+import 'package:dynamic_background/domain/enums/scroller_shape_offset.dart';
 import 'package:dynamic_background/domain/models/painter/painter.dart';
 import 'package:dynamic_background/domain/models/painter_data/scroller_painter_data.dart';
 import 'package:dynamic_background/exceptions/illegal_shape_size_exception.dart';
@@ -214,11 +217,4 @@ abstract class ScrollerPainter extends Painter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return true;
   }
-}
-
-/// The names of the measurements that can be resized.
-enum MeasurementName {
-  shapeWidth,
-  shapeHeight,
-  spaceBetweenShapes,
 }

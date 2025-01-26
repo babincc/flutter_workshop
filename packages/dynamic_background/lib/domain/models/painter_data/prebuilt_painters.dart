@@ -1,3 +1,6 @@
+import 'package:dynamic_background/domain/enums/scroll_direction.dart';
+import 'package:dynamic_background/domain/enums/scroller_shape.dart';
+import 'package:dynamic_background/domain/enums/scroller_shape_offset.dart';
 import 'package:dynamic_background/domain/models/color_schemes.dart';
 import 'package:dynamic_background/domain/models/painter_data/fader_painter_data.dart';
 import 'package:dynamic_background/domain/models/painter_data/scroller_painter_data.dart';
@@ -21,6 +24,22 @@ class PrebuiltPainters {
         spaceBetweenShapes: 0.0,
         fadeEdges: true,
         shapeOffset: ScrollerShapeOffset.none,
+      );
+
+  /// Red and white diagonal stripes scrolling from bottom to top like a candy
+  /// cane.
+  ///
+  /// Recommended delay: 30 seconds
+  ///
+  /// Recommended for light mode.
+  static ScrollerPainterData get candyCane => ScrollerPainterData(
+        direction: ScrollDirection.bottom2Top,
+        shape: ScrollerShape.stripesDiagonalBackward,
+        backgroundColor: ColorSchemes.gentleWhiteBg,
+        color: ColorSchemes.gentleRedFg,
+        shapeWidth: 90.0,
+        spaceBetweenShapes: 90.0,
+        fadeEdges: false,
       );
 
   /// Brown squares scrolling from left to right on a darker brown background.
@@ -56,6 +75,26 @@ class PrebuiltPainters {
         shapeOffset: ScrollerShapeOffset.shift,
       );
 
+  /// Dark colors subtly fading in and out.
+  ///
+  /// Recommended delay: 30 seconds
+  ///
+  /// Recommended for dark mode.
+  static FaderPainterData get dynamicDark => FaderPainterData(
+        behavior: FaderBehavior.random,
+        colors: ColorSchemes.vibrantBlack,
+      );
+
+  /// Light colors subtly fading in and out.
+  ///
+  /// Recommended delay: 30 seconds
+  ///
+  /// Recommended for light mode.
+  static FaderPainterData get dynamicLight => FaderPainterData(
+        behavior: FaderBehavior.random,
+        colors: ColorSchemes.gentleWhite,
+      );
+
   /// Green circles scrolling from bottom to top on a pale green background, like
   /// bubbles in a wiggly plate of jello.
   ///
@@ -71,6 +110,22 @@ class PrebuiltPainters {
         spaceBetweenShapes: 50.0,
         fadeEdges: true,
         shapeOffset: ScrollerShapeOffset.shiftAndMesh,
+      );
+
+  /// Purple stripes scrolling from top to bottom on a pale purple background,
+  /// like the rungs of a ladder passing by as you climb.
+  ///
+  /// Recommended delay: 45 seconds
+  ///
+  /// Recommended for light mode.
+  static ScrollerPainterData get ladderClimb => ScrollerPainterData(
+        direction: ScrollDirection.top2Bottom,
+        shape: ScrollerShape.stripes,
+        backgroundColor: ColorSchemes.gentlePurpleBg,
+        color: ColorSchemes.gentlePurpleFg,
+        shapeWidth: 50.0,
+        spaceBetweenShapes: 150.0,
+        fadeEdges: true,
       );
 
   /// Yellow circles scrolling from left to right on a pale yellow background,
@@ -201,25 +256,5 @@ class PrebuiltPainters {
   static FaderPainterData get winterWind => FaderPainterData(
         behavior: FaderBehavior.breathe,
         colors: ColorSchemes.gentleBlue,
-      );
-
-  /// Dark colors subtly fading in and out.
-  ///
-  /// Recommended delay: 30 seconds
-  ///
-  /// Recommended for dark mode.
-  static FaderPainterData get dynamicDark => FaderPainterData(
-        behavior: FaderBehavior.random,
-        colors: ColorSchemes.vibrantBlack,
-      );
-
-  /// Light colors subtly fading in and out.
-  ///
-  /// Recommended delay: 30 seconds
-  ///
-  /// Recommended for light mode.
-  static FaderPainterData get dynamicLight => FaderPainterData(
-        behavior: FaderBehavior.random,
-        colors: ColorSchemes.gentleWhite,
       );
 }
