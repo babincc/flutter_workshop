@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 0.2.0
+// @version 0.3.0
 // https://github.com/babincc/flutter_workshop/blob/master/packages/dynamic_background/lib/dynamic_background.dart
 
 export 'package:dynamic_background/domain/enums/scroll_direction.dart';
