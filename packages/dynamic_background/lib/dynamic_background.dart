@@ -1,9 +1,10 @@
 // @author Christian Babin
-// @version 0.1.3
+// @version 0.2.0
 // https://github.com/babincc/flutter_workshop/blob/master/packages/dynamic_background/lib/dynamic_background.dart
 
-library dynamic_background;
-
+export 'package:dynamic_background/domain/enums/scroll_direction.dart';
+export 'package:dynamic_background/domain/enums/scroller_shape.dart';
+export 'package:dynamic_background/domain/enums/scroller_shape_offset.dart';
 export 'package:dynamic_background/domain/models/color_schemes.dart';
 export 'package:dynamic_background/domain/models/painter_data/fader_painter_data.dart';
 export 'package:dynamic_background/domain/models/painter_data/painter_data.dart';
