@@ -104,6 +104,16 @@ class Room extends Resource {
   /// The value of [metadata] when this object was instantiated.
   RoomMetadata _originalMetadata;
 
+  @override
+  bool get hasUpdate =>
+      super.hasUpdate ||
+      !const DeepCollectionEquality.unordered()
+          .equals(children, _originalChildren) ||
+      children.any((child) => child.hasUpdate) ||
+      metadata != _originalMetadata ||
+      metadata.hasUpdate ||
+      services.any((service) => service.hasUpdate);
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

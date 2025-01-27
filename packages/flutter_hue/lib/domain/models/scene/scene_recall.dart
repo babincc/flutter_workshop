@@ -82,6 +82,17 @@ class SceneRecall {
   /// The value of [dimming] when this object was instantiated.
   LightDimming _originalDimming;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate =>
+      action != _originalAction ||
+      status != _originalStatus ||
+      duration != _originalDuration ||
+      dimming != _originalDimming ||
+      dimming.hasUpdate;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

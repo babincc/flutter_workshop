@@ -105,6 +105,9 @@ class BehaviorScript extends Resource {
   /// Range: 0 - 255
   final int maxNumberInstances;
 
+  @override
+  bool get hasUpdate => super.hasUpdate || metadata.hasUpdate;
+
   /// Returns a copy of this object with its field values replaced by the
   /// ones provided to this method.
   ///

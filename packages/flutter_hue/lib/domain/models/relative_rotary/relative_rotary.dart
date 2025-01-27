@@ -68,6 +68,9 @@ class RelativeRotary extends Resource {
   /// Describes the last event of the rotary switch.
   final RelativeRotaryLastEvent lastEvent;
 
+  @override
+  bool get hasUpdate => super.hasUpdate || owner.hasUpdate;
+
   /// Returns a copy of this object with its field values replaced by the
   /// ones provided to this method.
   ///

@@ -83,6 +83,12 @@ class BridgeHome extends Resource {
   /// [ResourceType] cannot be found on the [hueNetwork].
   List<Resource> get servicesAsResources => getRelativesAsResources(services);
 
+  @override
+  bool get hasUpdate =>
+      super.hasUpdate ||
+      children.any((child) => child.hasUpdate) ||
+      services.any((service) => service.hasUpdate);
+
   /// Returns a copy of this object with its field values replaced by the
   /// ones provided to this method.
   ///

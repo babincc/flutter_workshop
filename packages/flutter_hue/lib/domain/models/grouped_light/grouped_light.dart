@@ -188,6 +188,26 @@ class GroupedLight extends Resource {
   /// The value of [durationMilliseconds] when this object was instantiated.
   int? _originalDurationMilliseconds;
 
+  @override
+  bool get hasUpdate =>
+      super.hasUpdate ||
+      owner.hasUpdate ||
+      on != _originalOn ||
+      on.hasUpdate ||
+      dimming != _originalDimming ||
+      dimming.hasUpdate ||
+      dimmingDelta != _originalDimmingDelta ||
+      dimmingDelta?.hasUpdate == true ||
+      colorTemperature != _originalColorTemperature ||
+      colorTemperature?.hasUpdate == true ||
+      colorTemperatureDelta != _originalColorTemperatureDelta ||
+      colorTemperatureDelta?.hasUpdate == true ||
+      xy != _originalXy ||
+      xy?.hasUpdate == true ||
+      alert != _originalAlert ||
+      alert.hasUpdate ||
+      durationMilliseconds != _originalDurationMilliseconds;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

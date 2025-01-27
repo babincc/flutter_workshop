@@ -112,6 +112,16 @@ class LightGradient {
   /// Modes a gradient device can deploy the gradient palette of colors.
   final List<String> modeValues;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate =>
+      !(const DeepCollectionEquality.unordered()
+          .equals(points, _originalPoints)) ||
+      points.any((point) => point.hasUpdate) ||
+      mode != _originalMode;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

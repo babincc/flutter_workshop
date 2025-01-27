@@ -332,6 +332,21 @@ class EntertainmentConfiguration extends Resource {
   ) =>
       _entertainmentStream.replaceQueueChannel(channel, newChannelQueue);
 
+  @override
+  bool get hasUpdate =>
+      super.hasUpdate ||
+      metadata != _originalMetadata ||
+      metadata.hasUpdate ||
+      configurationType != _originalConfigurationType ||
+      activeStreamer.hasUpdate ||
+      streamProxy != _originalStreamProxy ||
+      streamProxy.hasUpdate ||
+      !(const DeepCollectionEquality.unordered()
+          .equals(locations, _originalLocations)) ||
+      locations.any((location) => location.hasUpdate) ||
+      lightServices.any((lightService) => lightService.hasUpdate) ||
+      action != _originalAction;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

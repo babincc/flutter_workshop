@@ -67,6 +67,13 @@ class LightMetadata {
   /// Range: 153 – 500
   final int fixedMired;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate =>
+      name != _originalName || !identical(archetype, _originalArchetype);
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

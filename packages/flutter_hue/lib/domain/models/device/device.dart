@@ -106,6 +106,14 @@ class Device extends Resource {
   /// The value of [identifyAction] when this object was instantiated.
   String? _originalIdentifyAction;
 
+  @override
+  bool get hasUpdate =>
+      super.hasUpdate ||
+      metadata != _originalMetadata ||
+      metadata.hasUpdate ||
+      identifyAction != _originalIdentifyAction ||
+      services.any((service) => service.hasUpdate);
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

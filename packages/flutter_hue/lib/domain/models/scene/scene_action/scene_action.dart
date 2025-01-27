@@ -41,6 +41,16 @@ class SceneAction {
   /// The value of [action] when this object was instantiated.
   SceneActionAction _originalAction;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate =>
+      target != _originalTarget ||
+      target.hasUpdate ||
+      action != _originalAction ||
+      action.hasUpdate;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

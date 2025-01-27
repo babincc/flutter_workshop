@@ -44,6 +44,12 @@ abstract class Resource {
   /// The [HueNetwork] that this resource is associated with.
   HueNetwork? hueNetwork;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate => !identical(type, originalType);
+
   /// Returns a list of [Resource] objects that represent the `relatives` of
   /// this [Resource].
   ///

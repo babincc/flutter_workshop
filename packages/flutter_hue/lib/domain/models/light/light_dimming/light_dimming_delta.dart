@@ -59,6 +59,12 @@ class LightDimmingDelta {
   /// The value of [delta] when this object was instantiated.
   double? _originalDelta;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate => action != _originalAction || delta != _originalDelta;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

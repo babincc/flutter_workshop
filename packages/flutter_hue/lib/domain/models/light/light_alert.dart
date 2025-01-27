@@ -51,6 +51,12 @@ class LightAlert {
   /// The value of [action] when this object was first instantiated.
   String? _originalAction;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate => action != _originalAction;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

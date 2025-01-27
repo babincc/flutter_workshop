@@ -853,6 +853,9 @@ class HueNetwork {
       if (nonPuttableResources.contains(resourceList)) continue;
 
       for (Resource resource in resourceList) {
+        // Skip resources that don't have an update.
+        if (!resource.hasUpdate) continue;
+
         Map<String, dynamic> data = resource.toJson();
 
         if (data.isEmpty) continue;

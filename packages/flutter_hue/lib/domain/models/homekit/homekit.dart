@@ -73,6 +73,9 @@ class Homekit extends Resource {
   /// The value of [action] when this object was instantiated.
   String? _originalAction;
 
+  @override
+  bool get hasUpdate => super.hasUpdate || action != _originalAction;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

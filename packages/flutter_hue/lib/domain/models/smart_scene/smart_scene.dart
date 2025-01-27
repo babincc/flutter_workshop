@@ -136,6 +136,17 @@ class SmartScene extends Resource {
   /// The value of [recallAction] when this object was instantiated.
   String? _originalRecallAction;
 
+  @override
+  bool get hasUpdate =>
+      super.hasUpdate ||
+      group.hasUpdate ||
+      metadata != _originalMetadata ||
+      metadata.hasUpdate ||
+      const DeepCollectionEquality.unordered()
+          .equals(weekTimeslots, _originalWeekTimeslots) ||
+      weekTimeslots.any((weekTimeslot) => weekTimeslot.hasUpdate) ||
+      recallAction != _originalRecallAction;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

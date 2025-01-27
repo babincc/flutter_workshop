@@ -81,6 +81,9 @@ class ZigbeeConnectivity extends Resource {
   /// Regex patten `^([0-9A-Fa-f]{2}:){5,7}([0-9A-Fa-f]{2})$`
   final String macAddress;
 
+  @override
+  bool get hasUpdate => super.hasUpdate || owner.hasUpdate;
+
   /// Returns a copy of this object with its field values replaced by the
   /// ones provided to this method.
   ///

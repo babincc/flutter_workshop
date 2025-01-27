@@ -177,6 +177,22 @@ class Scene extends Resource {
   /// The value of [recall] when this object was instantiated.
   bool _originalAutoDynamic;
 
+  @override
+  bool get hasUpdate =>
+      super.hasUpdate ||
+      !(const DeepCollectionEquality.unordered()
+          .equals(actions, _originalActions)) ||
+      actions.any((action) => action.hasUpdate) ||
+      recall != _originalRecall ||
+      recall.hasUpdate ||
+      metadata != _originalMetadata ||
+      metadata.hasUpdate ||
+      group.hasUpdate ||
+      palette != _originalPalette ||
+      palette.hasUpdate ||
+      speed != _originalSpeed ||
+      autoDynamic != _originalAutoDynamic;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///
