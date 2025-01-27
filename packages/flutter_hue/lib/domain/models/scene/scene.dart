@@ -424,7 +424,7 @@ class Scene extends Resource {
         type,
         id,
         idV1,
-        Object.hashAllUnordered(actions),
+        const DeepCollectionEquality.unordered().hash(actions),
         recall,
         metadata,
         group,

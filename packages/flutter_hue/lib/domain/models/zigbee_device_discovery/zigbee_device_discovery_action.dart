@@ -198,8 +198,8 @@ class ZigbeeDeviceDiscoveryAction {
   @override
   int get hashCode => Object.hash(
         actionType,
-        Object.hashAllUnordered(searchCodes),
-        Object.hashAllUnordered(installCodes),
+        const DeepCollectionEquality.unordered().hash(searchCodes),
+        const DeepCollectionEquality.unordered().hash(installCodes),
       );
 
   @override

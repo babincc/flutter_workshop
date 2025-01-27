@@ -209,12 +209,12 @@ class BehaviorScript extends Resource {
         id,
         idV1,
         description,
-        MiscTools.hashAllUnorderedMap(configurationSchema),
-        MiscTools.hashAllUnorderedMap(triggerSchema),
-        MiscTools.hashAllUnorderedMap(stateSchema),
+        const DeepCollectionEquality.unordered().hash(configurationSchema),
+        const DeepCollectionEquality.unordered().hash(triggerSchema),
+        const DeepCollectionEquality.unordered().hash(stateSchema),
         version,
         metadata,
-        Object.hashAllUnordered(supportedFeatures),
+        const DeepCollectionEquality.unordered().hash(supportedFeatures),
         maxNumberInstances,
       );
 

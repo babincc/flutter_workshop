@@ -193,9 +193,9 @@ class LightEffects {
   @override
   int get hashCode => Object.hash(
         effect,
-        Object.hashAllUnordered(effectValues),
+        const DeepCollectionEquality.unordered().hash(effectValues),
         status,
-        Object.hashAllUnordered(statusValues),
+        const DeepCollectionEquality.unordered().hash(statusValues),
       );
 
   @override

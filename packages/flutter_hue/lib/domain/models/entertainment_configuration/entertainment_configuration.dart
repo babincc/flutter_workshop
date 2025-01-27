@@ -593,9 +593,9 @@ class EntertainmentConfiguration extends Resource {
         status,
         activeStreamer,
         streamProxy,
-        Object.hashAllUnordered(channels),
-        Object.hashAllUnordered(locations),
-        Object.hashAllUnordered(lightServices),
+        const DeepCollectionEquality.unordered().hash(channels),
+        const DeepCollectionEquality.unordered().hash(locations),
+        const DeepCollectionEquality.unordered().hash(lightServices),
         action,
       );
 

@@ -271,7 +271,7 @@ class Device extends Resource {
         idV1,
         productData,
         metadata,
-        Object.hashAllUnordered(services),
+        const DeepCollectionEquality.unordered().hash(services),
         identifyAction,
       );
 

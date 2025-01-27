@@ -1,3 +1,8 @@
+## 2.0.0-beta.15 - January 27, 2025
+
+- Breaking change: Removed the hashers and equality checkers from Misc Tools
+- Updated the way resources are fetched and PUT to make the actions more efficient, and to more properly handle errors
+
 ## 2.0.0-beta.14 - January 24, 2025
 
 - Added `failedFetches` and related methods to `HueNetwork`. This addresses [issue #25](https://github.com/babincc/flutter_workshop/issues/25) and gives devs a way to retry failed fetches

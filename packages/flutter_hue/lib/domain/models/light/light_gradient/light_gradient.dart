@@ -299,9 +299,9 @@ class LightGradient {
 
   @override
   int get hashCode => Object.hash(
-        Object.hashAllUnordered(points),
+        const DeepCollectionEquality.unordered().hash(points),
         mode,
-        Object.hashAllUnordered(modeValues),
+        const DeepCollectionEquality.unordered().hash(modeValues),
       );
 
   @override

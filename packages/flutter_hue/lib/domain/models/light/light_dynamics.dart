@@ -233,7 +233,7 @@ class LightDynamics {
   @override
   int get hashCode => Object.hash(
         status,
-        Object.hashAllUnordered(statusValues),
+        const DeepCollectionEquality.unordered().hash(statusValues),
         speed,
         speedValid,
         durationMilliseconds,

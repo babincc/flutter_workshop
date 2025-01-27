@@ -345,7 +345,7 @@ class SmartScene extends Resource {
         idV1,
         metadata,
         group,
-        Object.hashAllUnordered(weekTimeslots),
+        const DeepCollectionEquality.unordered().hash(weekTimeslots),
         activeTimeslot,
         state,
         recallAction,

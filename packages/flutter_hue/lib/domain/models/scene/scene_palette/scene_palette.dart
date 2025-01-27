@@ -243,9 +243,9 @@ class ScenePalette {
 
   @override
   int get hashCode => Object.hash(
-        Object.hashAllUnordered(colors),
-        Object.hashAllUnordered(dimmings),
-        Object.hashAllUnordered(colorTemperatures),
+        const DeepCollectionEquality.unordered().hash(colors),
+        const DeepCollectionEquality.unordered().hash(dimmings),
+        const DeepCollectionEquality.unordered().hash(colorTemperatures),
       );
 
   @override

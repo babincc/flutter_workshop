@@ -175,7 +175,7 @@ class LightAlert {
 
   @override
   int get hashCode => Object.hash(
-        Object.hashAllUnordered(actionValues),
+        const DeepCollectionEquality.unordered().hash(actionValues),
         action,
       );
 

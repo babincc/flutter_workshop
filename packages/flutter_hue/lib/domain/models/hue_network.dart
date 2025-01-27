@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter_hue/constants/api_fields.dart';
 import 'package:flutter_hue/domain/models/behavior_instance/behavior_instance.dart';
 import 'package:flutter_hue/domain/models/behavior_script/behavior_script.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_hue/domain/models/device/device.dart';
 import 'package:flutter_hue/domain/models/device_power/device_power.dart';
 import 'package:flutter_hue/domain/models/entertainment/entertainment.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration.dart';
+import 'package:flutter_hue/domain/models/failed_resource.dart';
 import 'package:flutter_hue/domain/models/geofence_client/geofence_client.dart';
 import 'package:flutter_hue/domain/models/geolocation/geolocation.dart';
 import 'package:flutter_hue/domain/models/grouped_light/grouped_light.dart';
@@ -39,19 +41,14 @@ class HueNetwork {
             "All bridges must have an IP address"),
         assert(!bridges.map((bridge) => bridge.applicationKey).contains(null),
             "All bridges must have an application key"),
-        _bridges = bridges {
-    _failedFetches = {};
-    for (ResourceType type in ResourceType.values) {
-      _failedFetches[type] = [];
-    }
-  }
+        _bridges = bridges;
 
   List<Bridge> _bridges;
 
   /// All of the bridges the user's device has access to on the network.
   ///
-  /// Throws [Exception] if any of the bridges do not have an IP address or an
-  /// application key.
+  /// When setting this value, it will throw an [Exception] if any of the
+  /// bridges do not have an IP address or an application key.
   List<Bridge> get bridges => List<Bridge>.unmodifiable(_bridges);
   set bridges(List<Bridge> bridges) {
     for (Bridge bridge in bridges) {
@@ -106,7 +103,9 @@ class HueNetwork {
   bool removePoint(Bridge bridge) => removeBridge(bridge);
 
   /// A single list that contains all of the resource lists.
-  List<List<Resource>> get resources => [
+  ///
+  /// This list and all of the lists within it are unmodifiable.
+  List<List<Resource>> get resources => List.unmodifiable([
         behaviorInstances,
         behaviorScripts,
         bridgeHomes,
@@ -133,12 +132,14 @@ class HueNetwork {
         zigbeeConnectivities,
         zigbeeDeviceDiscoveries,
         zones,
-      ];
+      ]);
 
   final List<BehaviorInstance> _behaviorInstances = [];
 
   /// All of the [BehaviorInstance] objects on the network that the user's
   /// device has permission to access.
+  ///
+  /// This list is unmodifiable.
   List<BehaviorInstance> get behaviorInstances =>
       List.unmodifiable(_behaviorInstances);
 
@@ -146,6 +147,8 @@ class HueNetwork {
 
   /// All of the [BehaviorScript] objects on the network that the user's device
   /// has permission to access.
+  ///
+  /// This list is unmodifiable.
   List<BehaviorScript> get behaviorScripts =>
       List.unmodifiable(_behaviorScripts);
 
@@ -153,36 +156,48 @@ class HueNetwork {
 
   /// All of the [BridgeHome] objects on the network that the user's device has
   /// permission to access.
+  ///
+  /// This list is unmodifiable.
   List<BridgeHome> get bridgeHomes => List.unmodifiable(_bridgeHomes);
 
   final List<Button> _buttons = [];
 
   /// All of the [Button] objects on the network that the user's device has
   /// permission to access.
+  ///
+  /// This list is unmodifiable.
   List<Button> get buttons => List.unmodifiable(_buttons);
 
   final List<Device> _devices = [];
 
   /// All of the [Device] objects on the network that the user's device has
   /// permission to access.
+  ///
+  /// This list is unmodifiable.
   List<Device> get devices => List.unmodifiable(_devices);
 
   final List<DevicePower> _devicePowers = [];
 
   /// All of the [DevicePower] objects on the network that the user's device has
   /// permission to access.
+  ///
+  /// This list is unmodifiable.
   List<DevicePower> get devicePowers => List.unmodifiable(_devicePowers);
 
   final List<Entertainment> _entertainments = [];
 
   /// All of the [Entertainment] objects on the network that the user's device
   /// has permission to access.
+  ///
+  /// This list is unmodifiable.
   List<Entertainment> get entertainments => List.unmodifiable(_entertainments);
 
   final List<EntertainmentConfiguration> _entertainmentConfigurations = [];
 
   /// All of the [EntertainmentConfiguration] objects on the network that the
   /// user's device has permission to access.
+  ///
+  /// This list is unmodifiable.
   List<EntertainmentConfiguration> get entertainmentConfigurations =>
       List.unmodifiable(_entertainmentConfigurations);
 
@@ -190,6 +205,8 @@ class HueNetwork {
 
   /// All of the [GeofenceClient] objects on the network that the user's device
   /// has permission to access.
+  ///
+  /// This list is unmodifiable.
   List<GeofenceClient> get geofenceClients =>
       List.unmodifiable(_geofenceClients);
 
@@ -197,54 +214,72 @@ class HueNetwork {
 
   /// All of the [Geolocation] objects on the network that the user's device has
   /// permission to access.
+  ///
+  /// This list is unmodifiable.
   List<Geolocation> get geolocations => List.unmodifiable(_geolocations);
 
   final List<GroupedLight> _groupedLights = [];
 
   /// All of the [GroupedLight] objects on the network that the user's device
   /// has permission to access.
+  ///
+  /// This list is unmodifiable.
   List<GroupedLight> get groupedLights => List.unmodifiable(_groupedLights);
 
   final List<Homekit> _homekits = [];
 
   /// All of the [Homekit] objects on the network that the user's device has
   /// permission to access.
+  ///
+  /// This list is unmodifiable.
   List<Homekit> get homekits => List.unmodifiable(_homekits);
 
   final List<Light> _lights = [];
 
   /// All of the [Light] objects on the network that the user's device has
   /// permission to access.
+  ///
+  /// This list is unmodifiable.
   List<Light> get lights => List.unmodifiable(_lights);
 
   final List<LightLevel> _lightLevels = [];
 
   /// All of the [LightLevel] objects on the network that the user's device has
   /// permission to access.
+  ///
+  /// This list is unmodifiable.
   List<LightLevel> get lightLevels => List.unmodifiable(_lightLevels);
 
   final List<Matter> _matters = [];
 
   /// All of the [Matter] objects on the network that the user's device has
   /// permission to access.
+  ///
+  /// This list is unmodifiable.
   List<Matter> get matters => List.unmodifiable(_matters);
 
   final List<MatterFabric> _matterFabrics = [];
 
   /// All of the [MatterFabric] objects on the network that the user's device
   /// has permission to access.
+  ///
+  /// This list is unmodifiable.
   List<MatterFabric> get matterFabrics => List.unmodifiable(_matterFabrics);
 
   final List<Motion> _motions = [];
 
   /// All of the [Motion] objects on the network that the user's device has
   /// permission to access.
+  ///
+  /// This list is unmodifiable.
   List<Motion> get motions => List.unmodifiable(_motions);
 
   final List<RelativeRotary> _relativeRotaries = [];
 
   /// All of the [RelativeRotary] objects on the network that the user's device
   /// has permission to access.
+  ///
+  /// This list is unmodifiable.
   List<RelativeRotary> get relativeRotaries =>
       List.unmodifiable(_relativeRotaries);
 
@@ -252,30 +287,40 @@ class HueNetwork {
 
   /// All of the [Room] objects on the network that the user's device has
   /// permission to access.
+  ///
+  /// This list is unmodifiable.
   List<Room> get rooms => List.unmodifiable(_rooms);
 
   final List<Scene> _scenes = [];
 
   /// All of the [Scene] objects on the network that the user's device has
   /// permission to access.
+  ///
+  /// This list is unmodifiable.
   List<Scene> get scenes => List.unmodifiable(_scenes);
 
   final List<SmartScene> _smartScenes = [];
 
   /// All of the [SmartScene] objects on the network that the user's device has
   /// permission to access.
+  ///
+  /// This list is unmodifiable.
   List<SmartScene> get smartScenes => List.unmodifiable(_smartScenes);
 
   final List<Temperature> _temperatures = [];
 
   /// All of the [Temperature] objects on the network that the user's device has
   /// permission to access.
+  ///
+  /// This list is unmodifiable.
   List<Temperature> get temperatures => List.unmodifiable(_temperatures);
 
   final List<ZgpConnectivity> _zgpConnectivities = [];
 
   /// All of the [ZgpConnectivity] objects on the network that the user's device
   /// has permission to access.
+  ///
+  /// This list is unmodifiable.
   List<ZgpConnectivity> get zgpConnectivities =>
       List.unmodifiable(_zgpConnectivities);
 
@@ -283,6 +328,8 @@ class HueNetwork {
 
   /// All of the [ZigbeeConnectivity] objects on the network that the user's
   /// device has permission to access.
+  ///
+  /// This list is unmodifiable.
   List<ZigbeeConnectivity> get zigbeeConnectivities =>
       List.unmodifiable(_zigbeeConnectivities);
 
@@ -290,6 +337,8 @@ class HueNetwork {
 
   /// All of the [ZigbeeDeviceDiscovery] objects on the network that the user's
   /// device has permission to access.
+  ///
+  /// This list is unmodifiable.
   List<ZigbeeDeviceDiscovery> get zigbeeDeviceDiscoveries =>
       List.unmodifiable(_zigbeeDeviceDiscoveries);
 
@@ -297,28 +346,58 @@ class HueNetwork {
 
   /// All of the [Zone] objects on the network that the user's device has
   /// permission to access.
+  ///
+  /// This list is unmodifiable.
   List<Zone> get zones => List.unmodifiable(_zones);
 
-  late final Map<ResourceType, List<String>> _failedFetches;
+  final List<FailedResource> _failedFetches = [];
 
-  /// All of the failed fetches that occurred during the last fetch.
+  /// All of the resources that failed to be fetched.
   ///
-  /// Each value is a list of the IDs of the resources that failed to be fetched
-  /// with the [ResourceType] as the key.
+  /// Each [FailedResource] object contains an 'error' property that describes
+  /// why the fetch failed.
   ///
   /// You can easily check if there are any failed fetches by calling
   /// [hasFailedFetches].
   ///
   /// Try calling [fetchAllFailed] to fetch all of the failed fetches.
-  Map<ResourceType, List<String>> get failedFetches =>
-      Map.unmodifiable(_failedFetches);
+  ///
+  /// This list is unmodifiable, but it can be cleared with
+  /// [clearFailedFetches].
+  List<FailedResource> get failedFetches => List.unmodifiable(_failedFetches);
 
   /// Whether or not there are any failed fetches.
-  bool get hasFailedFetches =>
-      _failedFetches.values.any((failedFetches) => failedFetches.isNotEmpty);
+  bool get hasFailedFetches => _failedFetches.isNotEmpty;
+
+  /// Adds a [FailedResource] to the [failedFetches] list.
+  ///
+  /// If the [FailedResource] is a duplicate of another [FailedResource] in the
+  /// list, the duplicate will be removed, and the new [FailedResource] will be
+  /// added.
+  void _addFailedFetch(FailedResource failedResource) {
+    final List<FailedResource> duplicates = _failedFetches
+        .where((resource) =>
+            resource.id == failedResource.id &&
+            identical(resource.type, failedResource.type))
+        .toList();
+
+    for (final FailedResource duplicate in duplicates) {
+      _failedFetches.remove(duplicate);
+    }
+
+    _failedFetches.add(failedResource);
+  }
+
+  /// Removes all of the failed fetches.
+  void clearFailedFetches() => _failedFetches.clear();
 
   /// Fetch all of the Philip's Hue devices on the network that this device has
   /// permission to fetch.
+  ///
+  /// `bridges` If you only want to fetch resources from a specific bridge or
+  /// bridges, you can provide a list of bridges. If this parameter is null, all
+  /// bridges will be checked. If any of the bridges in the list are not already
+  /// associated with this [HueNetwork], they will be ignored.
   ///
   /// `decrypter` When the old tokens are read from local storage, they are
   /// decrypted. This parameter allows you to provide your own decryption
@@ -328,11 +407,84 @@ class HueNetwork {
   /// If this method fails to fetch a resource with an error, the resource will
   /// be added to the [failedFetches] list.
   Future<void> fetchAll({
+    List<Bridge>? bridges,
     String Function(String ciphertext)? decrypter,
   }) async {
+    final List<Bridge> bridgesToCheck;
+    if (bridges == null) {
+      bridgesToCheck = this.bridges;
+    } else {
+      bridgesToCheck = [];
+
+      for (final Bridge bridge in bridges) {
+        if (this.bridges.contains(bridge)) {
+          bridgesToCheck.add(bridge);
+        }
+      }
+    }
+
+    if (bridgesToCheck.isEmpty) return;
+
+    /// A map of all of the resource types on each bridge.
+    ///
+    /// No need to make calls for types the bridge doesn't have.
+    final Map<Bridge, Set<ResourceType>> resourceTypesByBridge = {};
+
+    for (final Bridge bridge in bridgesToCheck) {
+      resourceTypesByBridge[bridge] = {};
+
+      // Fetch all of the resource types on the bridge.
+      final Map<String, dynamic>? dataMap;
+      try {
+        dataMap = await HueHttpRepo.get(
+          bridgeIpAddr: bridge.ipAddress!,
+          applicationKey: bridge.applicationKey!,
+          resourceType: null,
+          decrypter: decrypter,
+        );
+      } catch (e) {
+        _addFailedFetch(
+          FailedResource(
+            id: '',
+            type: ResourceType.device,
+            bridge: bridge,
+            error: ErrorType.unknown,
+            additionalInfo: e.toString(),
+          ),
+        );
+        continue;
+      }
+
+      if (dataMap == null) continue;
+
+      /// Abbreviated raw data maps for the bridge's resources.
+      List<Map<String, dynamic>>? abbrDataList =
+          MiscTools.extractDataList(dataMap);
+
+      // This would mean there is no useful data in the list.
+      if (abbrDataList == null) continue;
+
+      for (final Map<String, dynamic> rawMap in abbrDataList) {
+        final ResourceType type =
+            ResourceType.fromString(rawMap[ApiFields.type]);
+
+        resourceTypesByBridge[bridge]!.add(type);
+      }
+    }
+
     // Go through all of the resource types on each bridge, and fetch all of
     // the resources of that type on the bridge.
     for (ResourceType type in ResourceType.values) {
+      final List<Bridge> bridgesWithResourceType = [];
+
+      for (final Bridge bridge in bridgesToCheck) {
+        if (resourceTypesByBridge[bridge]!.contains(type)) {
+          bridgesWithResourceType.add(bridge);
+        }
+      }
+
+      if (bridgesWithResourceType.isEmpty) continue;
+
       await fetchAllType(type, decrypter: decrypter);
     }
   }
@@ -350,7 +502,7 @@ class HueNetwork {
   Future<void> fetchAllFailed({
     String Function(String ciphertext)? decrypter,
   }) async {
-    for (final ResourceType type in failedFetches.keys) {
+    for (final ResourceType type in ResourceType.values) {
       fetchAllFailedType(type, decrypter: decrypter);
     }
   }
@@ -370,28 +522,24 @@ class HueNetwork {
     ResourceType type, {
     String Function(String ciphertext)? decrypter,
   }) async {
-    final List<String> failedIds = _failedFetches[type] ?? [];
+    final List<FailedResource> failedResources = [];
 
-    _failedFetches[type] ??= [];
-    _failedFetches[type]!.clear();
-
-    final Map<Bridge, List<String>> idsMap =
-        await _fetchIdsForType(type, decrypter: decrypter);
-
-    for (final String id in failedIds) {
-      Bridge? bridge;
-
-      for (final Bridge key in idsMap.keys) {
-        if (idsMap[key]!.contains(id)) {
-          bridge = key;
-          break;
-        }
+    for (final FailedResource resource in _failedFetches) {
+      if (identical(resource.type, type)) {
+        failedResources.add(resource);
       }
+    }
 
-      fetch(
-        resourceId: id,
+    if (failedResources.isEmpty) return;
+
+    // Fetch the resources that failed.
+    for (final FailedResource resource in failedResources) {
+      _failedFetches.remove(resource);
+
+      await fetch(
+        resourceId: resource.id,
         type: type,
-        bridge: bridge,
+        bridge: resource.bridge,
         decrypter: decrypter,
       );
     }
@@ -399,6 +547,11 @@ class HueNetwork {
 
   /// Fetch all of the Philip's Hue devices of the given `type` on the network
   /// that this device has permission to fetch.
+  ///
+  /// `bridges` If you only want to fetch resources from a specific bridge or
+  /// bridges, you can provide a list of bridges. If this parameter is null, all
+  /// bridges will be checked. If any of the bridges in the list are not already
+  /// associated with this [HueNetwork], they will be ignored.
   ///
   /// `decrypter` When the old tokens are read from local storage, they are
   /// decrypted. This parameter allows you to provide your own decryption
@@ -409,24 +562,65 @@ class HueNetwork {
   /// be added to the [failedFetches] list.
   Future<void> fetchAllType(
     ResourceType type, {
+    List<Bridge>? bridges,
     String Function(String ciphertext)? decrypter,
   }) async {
-    // Eliminate the possibility of duplicates.
-    List<Resource>? resourceList = _getListType(type);
-    if (resourceList == null) return;
-    resourceList.clear();
+    final List<Bridge> bridgesToCheck;
+    if (bridges == null) {
+      bridgesToCheck = this.bridges;
+    } else {
+      bridgesToCheck = [];
 
-    _failedFetches[type] ??= [];
-    _failedFetches[type]!.clear();
+      for (final Bridge bridge in bridges) {
+        if (this.bridges.contains(bridge)) {
+          bridgesToCheck.add(bridge);
+        }
+      }
+    }
+
+    if (bridgesToCheck.isEmpty) return;
+
+    // Eliminate the possibility of duplicates.
+    final List<Resource>? resourceList = _getListType(type);
+    if (resourceList == null) return;
+    if (const DeepCollectionEquality.unordered()
+        .equals(this.bridges, bridgesToCheck)) {
+      resourceList.clear();
+    } else {
+      final List<Resource> resourcesToRemove = [];
+      for (final Resource resource in resourceList) {
+        if (resource.bridge != null &&
+            bridgesToCheck.contains(resource.bridge)) {
+          resourcesToRemove.add(resource);
+        }
+      }
+      for (final Resource resource in resourcesToRemove) {
+        resourceList.remove(resource);
+      }
+    }
 
     // Go through each bridge.
-    for (Bridge bridge in bridges) {
-      Map<String, dynamic>? dataMap = await HueHttpRepo.get(
-        bridgeIpAddr: bridge.ipAddress!,
-        applicationKey: bridge.applicationKey!,
-        resourceType: type,
-        decrypter: decrypter,
-      );
+    for (Bridge bridge in bridgesToCheck) {
+      final Map<String, dynamic>? dataMap;
+      try {
+        dataMap = await HueHttpRepo.get(
+          bridgeIpAddr: bridge.ipAddress!,
+          applicationKey: bridge.applicationKey!,
+          resourceType: type,
+          decrypter: decrypter,
+        );
+      } catch (e) {
+        _addFailedFetch(
+          FailedResource(
+            id: '',
+            type: type,
+            bridge: bridge,
+            error: ErrorType.typeNotFound,
+            additionalInfo: e.toString(),
+          ),
+        );
+        continue;
+      }
 
       // This would mean there was an error in the GET request.
       if (dataMap == null) continue;
@@ -439,19 +633,8 @@ class HueNetwork {
       // This would mean there is no useful data in the list.
       if (abbrDataList == null) continue;
 
-      List<String?> ids = abbrDataList
-          .map((rawMap) => rawMap[ApiFields.id] as String?)
-          .toList();
-
-      for (String? id in ids) {
-        if (id == null) continue;
-
-        fetch(
-          resourceId: id,
-          type: type,
-          bridge: bridge,
-          decrypter: decrypter,
-        );
+      for (final Map<String, dynamic> rawMap in abbrDataList) {
+        _mapToObject(type, bridge, rawMap);
       }
     }
   }
@@ -475,242 +658,217 @@ class HueNetwork {
     Bridge? bridge,
     String Function(String ciphertext)? decrypter,
   }) async {
-    Bridge? bridgeToUse = bridge;
+    final List<Bridge> bridgesToCheck;
+    if (bridge == null) {
+      bridgesToCheck = bridges;
+    } else {
+      bridgesToCheck = [bridge];
+    }
 
-    if (bridgeToUse == null) {
-      // Go through each bridge to see which one contains the given resourceId.
-      for (Bridge bridge in bridges) {
-        final Map<String, dynamic>? dataMap = await HueHttpRepo.get(
+    bool found = false;
+
+    for (final Bridge bridge in bridgesToCheck) {
+      final Map<String, dynamic>? data;
+      try {
+        data = await HueHttpRepo.get(
           bridgeIpAddr: bridge.ipAddress!,
           applicationKey: bridge.applicationKey!,
           resourceType: type,
+          pathToResource: resourceId,
           decrypter: decrypter,
         );
-
-        // This would mean there was an error in the GET request.
-        if (dataMap == null) continue;
-
-        /// Abbreviated raw data maps for all of the resources of the current
-        /// type.
-        final List<Map<String, dynamic>>? abbrDataList =
-            MiscTools.extractDataList(dataMap);
-
-        // This would mean there is no useful data in the list.
-        if (abbrDataList == null) continue;
-
-        final List<String?> ids = abbrDataList
-            .map((rawMap) => rawMap[ApiFields.id] as String?)
-            .toList();
-
-        if (ids.contains(resourceId)) {
-          bridgeToUse = bridge;
-          break;
-        }
+      } catch (e) {
+        _addFailedFetch(
+          FailedResource(
+            id: resourceId,
+            type: type,
+            bridge: bridge,
+            error: ErrorType.unknown,
+            additionalInfo: e.toString(),
+          ),
+        );
+        continue;
       }
+
+      if (data == null) return;
+
+      // This means the resource is not on this bridge.
+      if (data.toString().contains('Not Found')) continue;
+
+      found = true;
+
+      _mapToObject(type, bridge, data);
     }
 
-    if (bridgeToUse == null) {
-      // Put resource in failed fetches
-      if (!_failedFetches[type]!.contains(resourceId)) {
-        _failedFetches[type]!.add(resourceId);
-      }
-      return;
-    }
-
-    Map<String, dynamic>? data;
-    try {
-      data = await HueHttpRepo.get(
-        bridgeIpAddr: bridgeToUse.ipAddress!,
-        applicationKey: bridgeToUse.applicationKey!,
-        resourceType: type,
-        pathToResource: resourceId,
-        decrypter: decrypter,
+    if (!found) {
+      _addFailedFetch(
+        FailedResource(
+          id: resourceId,
+          type: type,
+          bridge: bridge,
+          error: ErrorType.notFound,
+        ),
       );
-    } catch (e) {
-      if (!_failedFetches[type]!.contains(resourceId)) {
-        _failedFetches[type]!.add(resourceId);
-      }
-      return;
-    }
-
-    if (data == null) return;
-
-    switch (type) {
-      case ResourceType.device:
-        _devices.add(Device.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.bridgeHome:
-        _bridgeHomes.add(BridgeHome.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.room:
-        _rooms.add(Room.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.zone:
-        _zones.add(Zone.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.light:
-        _lights.add(Light.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.button:
-        _buttons.add(Button.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.relativeRotary:
-        _relativeRotaries.add(RelativeRotary.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.temperature:
-        _temperatures.add(Temperature.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.lightLevel:
-        _lightLevels.add(LightLevel.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.motion:
-        _motions.add(Motion.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.entertainment:
-        _entertainments.add(Entertainment.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.groupedLight:
-        _groupedLights.add(GroupedLight.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.devicePower:
-        _devicePowers.add(DevicePower.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.zigbeeConnectivity:
-        _zigbeeConnectivities.add(ZigbeeConnectivity.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.zgpConnectivity:
-        _zgpConnectivities.add(ZgpConnectivity.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.zigbeeDeviceDiscovery:
-        _zigbeeDeviceDiscoveries.add(ZigbeeDeviceDiscovery.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.homekit:
-        _homekits.add(Homekit.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.matter:
-        _matters.add(Matter.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.matterFabric:
-        _matterFabrics.add(MatterFabric.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.scene:
-        _scenes.add(Scene.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.entertainmentConfiguration:
-        _entertainmentConfigurations
-            .add(EntertainmentConfiguration.fromJson(data)
-              ..bridge = bridge
-              ..hueNetwork = this);
-        break;
-      case ResourceType.behaviorScript:
-        _behaviorScripts.add(BehaviorScript.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.behaviorInstance:
-        _behaviorInstances.add(BehaviorInstance.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.geofenceClient:
-        _geofenceClients.add(GeofenceClient.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.geolocation:
-        _geolocations.add(Geolocation.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      case ResourceType.smartScene:
-        _smartScenes.add(SmartScene.fromJson(data)
-          ..bridge = bridge
-          ..hueNetwork = this);
-        break;
-      default:
-      // Do nothing
     }
   }
 
-  Future<Map<Bridge, List<String>>> _fetchIdsForType(
-    ResourceType type, {
-    String Function(String ciphertext)? decrypter,
-  }) async {
-    final Map<Bridge, List<String>> toReturn = {};
-
-    // Go through each bridge to see which one contains the given resourceId.
-    for (Bridge bridge in bridges) {
-      final Map<String, dynamic>? dataMap = await HueHttpRepo.get(
-        bridgeIpAddr: bridge.ipAddress!,
-        applicationKey: bridge.applicationKey!,
-        resourceType: type,
-        decrypter: decrypter,
-      );
-
-      // This would mean there was an error in the GET request.
-      if (dataMap == null) continue;
-
-      /// Abbreviated raw data maps for all of the resources of the current
-      /// type.
-      final List<Map<String, dynamic>>? abbrDataList =
-          MiscTools.extractDataList(dataMap);
-
-      // This would mean there is no useful data in the list.
-      if (abbrDataList == null) continue;
-
-      final List<String?> ids = abbrDataList
-          .map((rawMap) => rawMap[ApiFields.id] as String?)
-          .toList();
-
-      toReturn[bridge] = [];
-      for (String? id in ids) {
-        if (id == null) continue;
-
-        toReturn[bridge]!.add(id);
+  /// Takes the given `data` map and creates an object from it based on the given
+  /// `type`.
+  void _mapToObject(
+    ResourceType type,
+    Bridge bridge,
+    Map<String, dynamic> data,
+  ) {
+    try {
+      switch (type) {
+        case ResourceType.device:
+          _devices.add(Device.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.bridgeHome:
+          _bridgeHomes.add(BridgeHome.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.room:
+          _rooms.add(Room.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.zone:
+          _zones.add(Zone.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.light:
+          _lights.add(Light.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.button:
+          _buttons.add(Button.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.relativeRotary:
+          _relativeRotaries.add(RelativeRotary.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.temperature:
+          _temperatures.add(Temperature.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.lightLevel:
+          _lightLevels.add(LightLevel.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.motion:
+          _motions.add(Motion.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.entertainment:
+          _entertainments.add(Entertainment.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.groupedLight:
+          _groupedLights.add(GroupedLight.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.devicePower:
+          _devicePowers.add(DevicePower.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.zigbeeConnectivity:
+          _zigbeeConnectivities.add(ZigbeeConnectivity.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.zgpConnectivity:
+          _zgpConnectivities.add(ZgpConnectivity.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.zigbeeDeviceDiscovery:
+          _zigbeeDeviceDiscoveries.add(ZigbeeDeviceDiscovery.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.homekit:
+          _homekits.add(Homekit.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.matter:
+          _matters.add(Matter.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.matterFabric:
+          _matterFabrics.add(MatterFabric.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.scene:
+          _scenes.add(Scene.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.entertainmentConfiguration:
+          _entertainmentConfigurations
+              .add(EntertainmentConfiguration.fromJson(data)
+                ..bridge = bridge
+                ..hueNetwork = this);
+          break;
+        case ResourceType.behaviorScript:
+          _behaviorScripts.add(BehaviorScript.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.behaviorInstance:
+          _behaviorInstances.add(BehaviorInstance.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.geofenceClient:
+          _geofenceClients.add(GeofenceClient.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.geolocation:
+          _geolocations.add(Geolocation.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        case ResourceType.smartScene:
+          _smartScenes.add(SmartScene.fromJson(data)
+            ..bridge = bridge
+            ..hueNetwork = this);
+          break;
+        default:
+        // Do nothing
       }
-    }
+    } catch (e) {
+      final String? id = data[ApiFields.id] as String?;
 
-    return toReturn;
+      _addFailedFetch(
+        FailedResource(
+          id: id ?? '',
+          type: type,
+          bridge: bridge,
+          error: ErrorType.dataCorrupted,
+          additionalInfo: e.toString(),
+          json: data,
+        ),
+      );
+    }
   }
 
   /// Returns the resource list that goes with the given `type`.

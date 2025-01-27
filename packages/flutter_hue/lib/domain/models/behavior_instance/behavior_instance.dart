@@ -474,14 +474,14 @@ class BehaviorInstance extends Resource {
         idV1,
         scriptId,
         isEnabled,
-        MiscTools.hashAllUnorderedMap(state),
-        MiscTools.hashAllUnorderedMap(configuration),
-        Object.hashAllUnordered(dependees),
+        const DeepCollectionEquality.unordered().hash(state),
+        const DeepCollectionEquality.unordered().hash(configuration),
+        const DeepCollectionEquality.unordered().hash(dependees),
         status,
         lastError,
         name,
         migratedFrom,
-        (trigger == null ? null : MiscTools.hashAllUnorderedMap(trigger!)),
+        const DeepCollectionEquality.unordered().hash(trigger),
       );
 
   @override

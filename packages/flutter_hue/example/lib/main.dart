@@ -205,7 +205,6 @@ class _HomePageState extends State<HomePage> {
                         orientation: RadioGroupOrientation.horizontal,
                         onChanged: (value) {
                           setState(() {
-                            print('discovered - on change called');
                             ipGroupController.setValueSilently(null);
                             bridge = value;
                             hueNetwork = null;
@@ -600,6 +599,11 @@ class _HomePageState extends State<HomePage> {
       light = hueNetwork!.lights.first;
     } catch (_) {
       // Do nothing
+    }
+
+    if (hueNetwork?.hasFailedFetches == true) {
+      // ignore: avoid_print
+      print('WARNING — Failed to fetch all resources');
     }
 
     setState(() {

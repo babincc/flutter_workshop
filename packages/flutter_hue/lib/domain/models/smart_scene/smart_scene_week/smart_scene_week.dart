@@ -166,8 +166,8 @@ class SmartSceneWeek {
 
   @override
   int get hashCode => Object.hash(
-        Object.hashAllUnordered(timeslots),
-        Object.hashAllUnordered(recurrence),
+        const DeepCollectionEquality.unordered().hash(timeslots),
+        const DeepCollectionEquality.unordered().hash(recurrence),
       );
 
   @override

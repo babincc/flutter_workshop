@@ -276,8 +276,8 @@ class Zone extends Resource {
         type,
         id,
         idV1,
-        Object.hashAllUnordered(children),
-        Object.hashAllUnordered(services),
+        const DeepCollectionEquality.unordered().hash(children),
+        const DeepCollectionEquality.unordered().hash(services),
         metadata,
       );
 

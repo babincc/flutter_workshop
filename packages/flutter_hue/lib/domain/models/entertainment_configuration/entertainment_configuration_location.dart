@@ -263,7 +263,7 @@ class EntertainmentConfigurationLocation {
   int get hashCode => Object.hash(
         service,
         position,
-        Object.hashAllUnordered(positions),
+        const DeepCollectionEquality.unordered().hash(positions),
         equalizationFactor,
       );
 

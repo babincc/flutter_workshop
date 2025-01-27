@@ -1,5 +1,5 @@
 // @author Christian Babin
-// @version 2.0.0-beta.14
+// @version 2.0.0-beta.15
 // https://github.com/babincc/flutter_workshop/blob/master/packages/flutter_hue/lib/flutter_hue.dart
 
 export 'package:flutter_hue/constants/api_fields.dart';
@@ -32,6 +32,7 @@ export 'package:flutter_hue/domain/models/entertainment_configuration/entertainm
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_color.dart';
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_controller.dart';
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_packet.dart';
+export 'package:flutter_hue/domain/models/failed_resource.dart';
 export 'package:flutter_hue/domain/models/geofence_client/geofence_client.dart';
 export 'package:flutter_hue/domain/models/geolocation/geolocation.dart';
 export 'package:flutter_hue/domain/models/grouped_light/grouped_light.dart';
