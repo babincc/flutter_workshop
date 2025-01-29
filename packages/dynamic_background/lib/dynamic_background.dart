@@ -2,6 +2,7 @@
 // @version 0.3.0
 // https://github.com/babincc/flutter_workshop/blob/master/packages/dynamic_background/lib/dynamic_background.dart
 
+export 'package:dynamic_background/domain/enums/fader_behavior.dart';
 export 'package:dynamic_background/domain/enums/scroll_direction.dart';
 export 'package:dynamic_background/domain/enums/scroller_shape.dart';
 export 'package:dynamic_background/domain/enums/scroller_shape_offset.dart';

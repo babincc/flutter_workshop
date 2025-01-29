@@ -118,6 +118,9 @@ class ScrollerPainterData extends PainterData {
   }
 
   @override
+  ScrollerPainterData copy() => copyWith();
+
+  @override
   ScrollerPainterData copyWith({
     ScrollDirection? direction,
     ScrollerShape? shape,
@@ -139,4 +142,45 @@ class ScrollerPainterData extends PainterData {
       shapeOffset: shapeOffset ?? this.shapeOffset,
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    if (other.runtimeType != runtimeType) return false;
+
+    return other is ScrollerPainterData &&
+        identical(other.direction, direction) &&
+        identical(other.shape, shape) &&
+        other.backgroundColor == backgroundColor &&
+        other.color == color &&
+        other.shapeWidth == shapeWidth &&
+        other.spaceBetweenShapes == spaceBetweenShapes &&
+        other.fadeEdges == fadeEdges &&
+        identical(other.shapeOffset, shapeOffset);
+  }
+
+  @override
+  int get hashCode => Object.hash(
+        direction,
+        shape,
+        backgroundColor,
+        color,
+        shapeWidth,
+        spaceBetweenShapes,
+        fadeEdges,
+        shapeOffset,
+      );
+
+  @override
+  String toString() => 'Instance of ScrollerPainterData: {'
+      'direction: $direction, '
+      'shape: $shape, '
+      'backgroundColor: $backgroundColor, '
+      'color: $color, '
+      'shapeWidth: $shapeWidth, '
+      'spaceBetweenShapes: $spaceBetweenShapes, '
+      'fadeEdges: $fadeEdges, '
+      'shapeOffset: $shapeOffset'
+      '}';
 }

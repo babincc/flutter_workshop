@@ -13,6 +13,9 @@ abstract class PainterData {
   /// Returns a [Painter] object that will paint the background.
   Painter getPainter(Animation<double> animation);
 
+  /// Returns a copy of this object.
+  PainterData copy();
+
   /// Returns a copy of this object with its field values replaced by the
   /// ones provided to this method.
   PainterData copyWith();

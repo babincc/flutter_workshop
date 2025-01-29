@@ -1,3 +1,4 @@
+import 'package:dynamic_background/domain/enums/fader_behavior.dart';
 import 'package:dynamic_background/domain/models/painter/painter.dart';
 import 'package:dynamic_background/domain/models/painter_data/fader_painter_data.dart';
 import 'package:dynamic_background/exceptions/empty_color_list_exception.dart';

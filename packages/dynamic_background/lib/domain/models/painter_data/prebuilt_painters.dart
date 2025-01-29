@@ -1,3 +1,4 @@
+import 'package:dynamic_background/domain/enums/fader_behavior.dart';
 import 'package:dynamic_background/domain/enums/scroll_direction.dart';
 import 'package:dynamic_background/domain/enums/scroller_shape.dart';
 import 'package:dynamic_background/domain/enums/scroller_shape_offset.dart';
