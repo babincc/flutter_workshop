@@ -8,13 +8,15 @@ Dynamic Background is a Flutter package that transforms your app's background in
 
 <img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/demos/dynamic_background_demo_2.gif" alt="Four examples of different animated backgrounds." width="650">
 
+<img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/demos/dynamic_background_demo_3.gif" alt="Four examples of different animated backgrounds." width="650">
+
 ## Installation
 
 In the `pubspec.yaml` of your project, add the following dependency:
 
 ```yaml
 dependencies:
-  dynamic_background: ^0.3.0
+  dynamic_background: ^0.4.0
 ```
 
 Import it to each file you use it in:
@@ -59,7 +61,32 @@ DynamicBg(
 ),
 ```
 
-### Example 3 - Prebuilt backgrounds
+### Example 3 - Simple wave
+
+This example shows how to set up an animated background with a blue, sine wave line in the middle of the screen.
+
+Note: The colors being used are provided with this package.
+
+```dart
+DynamicBg(
+  duration: const Duration(seconds: 5),
+  painterData: WavePainterData(
+    waves: [
+      Wave(
+        direction: WaveDirection.left2Right,
+        amplitude: 50.0,
+        offset: 0.5,
+        color: Colors.transparent,
+        lineColor: ColorSchemes.gentleBlueBg,
+        lineThickness: 3.0,
+      ),
+    ],
+  ),
+  child: yourPageHere(),
+),
+```
+
+### Example 4 - Prebuilt backgrounds
 
 This example shows how to use prebuilt backgrounds.
 
@@ -73,7 +100,7 @@ DynamicBg(
 ),
 ```
 
-### Example 4 - Modify prebuilt backgrounds
+### Example 5 - Modify prebuilt backgrounds
 
 This example shows how to modify prebuilt backgrounds to best fit your needs.
 
@@ -89,7 +116,7 @@ DynamicBg(
 ),
 ```
 
-### Example 5 - Stack backgrounds
+### Example 6 - Stack backgrounds
 
 This example shows how to stack backgrounds for interesting new effects.
 
@@ -115,7 +142,7 @@ DynamicBg(
 ),
 ```
 
-### Example 6 - Backgrounds for smaller widgets
+### Example 7 - Backgrounds for smaller widgets
 
 This example shows that you can apply dynamic backgrounds to widgets rather than the entire screen. Here is a button with an animated background.
 
