@@ -42,7 +42,7 @@ class PrebuiltPainters {
           Wave(
             direction: WaveDirection.right2Left,
             gravityDirection: WaveGravityDirection.down,
-            amplitude: 500,
+            amplitude: 500.0,
             frequency: 1,
             phase: 0.0,
             offset: 0.5,
@@ -54,7 +54,7 @@ class PrebuiltPainters {
           Wave(
             direction: WaveDirection.right2Left,
             gravityDirection: WaveGravityDirection.down,
-            amplitude: 500,
+            amplitude: 500.0,
             frequency: 1,
             phase: 0.1,
             offset: 0.5,
@@ -66,7 +66,7 @@ class PrebuiltPainters {
           Wave(
             direction: WaveDirection.right2Left,
             gravityDirection: WaveGravityDirection.down,
-            amplitude: 500,
+            amplitude: 500.0,
             frequency: 1,
             phase: 0.2,
             offset: 0.5,
@@ -78,7 +78,7 @@ class PrebuiltPainters {
           Wave(
             direction: WaveDirection.right2Left,
             gravityDirection: WaveGravityDirection.down,
-            amplitude: 500,
+            amplitude: 500.0,
             frequency: 1,
             phase: 0.3,
             offset: 0.5,
@@ -90,7 +90,7 @@ class PrebuiltPainters {
           Wave(
             direction: WaveDirection.right2Left,
             gravityDirection: WaveGravityDirection.down,
-            amplitude: 500,
+            amplitude: 500.0,
             frequency: 1,
             phase: 0.4,
             offset: 0.5,
@@ -102,7 +102,7 @@ class PrebuiltPainters {
           Wave(
             direction: WaveDirection.right2Left,
             gravityDirection: WaveGravityDirection.down,
-            amplitude: 500,
+            amplitude: 500.0,
             frequency: 1,
             phase: 0.5,
             offset: 0.5,
@@ -114,7 +114,7 @@ class PrebuiltPainters {
           Wave(
             direction: WaveDirection.right2Left,
             gravityDirection: WaveGravityDirection.down,
-            amplitude: 500,
+            amplitude: 500.0,
             frequency: 1,
             phase: 0.6,
             offset: 0.5,
@@ -126,7 +126,7 @@ class PrebuiltPainters {
           Wave(
             direction: WaveDirection.right2Left,
             gravityDirection: WaveGravityDirection.down,
-            amplitude: 500,
+            amplitude: 500.0,
             frequency: 1,
             phase: 0.7,
             offset: 0.5,
@@ -138,7 +138,7 @@ class PrebuiltPainters {
           Wave(
             direction: WaveDirection.right2Left,
             gravityDirection: WaveGravityDirection.down,
-            amplitude: 500,
+            amplitude: 500.0,
             frequency: 1,
             phase: 0.8,
             offset: 0.5,
@@ -150,7 +150,7 @@ class PrebuiltPainters {
           Wave(
             direction: WaveDirection.right2Left,
             gravityDirection: WaveGravityDirection.down,
-            amplitude: 500,
+            amplitude: 500.0,
             frequency: 1,
             phase: 0.9,
             offset: 0.5,
