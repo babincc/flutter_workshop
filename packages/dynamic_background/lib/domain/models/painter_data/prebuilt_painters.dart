@@ -2,9 +2,13 @@ import 'package:dynamic_background/domain/enums/fader_behavior.dart';
 import 'package:dynamic_background/domain/enums/scroll_direction.dart';
 import 'package:dynamic_background/domain/enums/scroller_shape.dart';
 import 'package:dynamic_background/domain/enums/scroller_shape_offset.dart';
+import 'package:dynamic_background/domain/enums/wave_direction.dart';
+import 'package:dynamic_background/domain/enums/wave_gravity_direction.dart';
 import 'package:dynamic_background/domain/models/color_schemes.dart';
 import 'package:dynamic_background/domain/models/painter_data/fader_painter_data.dart';
 import 'package:dynamic_background/domain/models/painter_data/scroller_painter_data.dart';
+import 'package:dynamic_background/domain/models/painter_data/wave_painter_data.dart';
+import 'package:dynamic_background/domain/models/wave.dart';
 import 'package:dynamic_background/utils/platform_tools.dart';
 import 'package:dynamic_background/widgets/views/dynamic_bg.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +17,7 @@ import 'package:flutter/material.dart';
 class PrebuiltPainters {
   /// Pale brown argyle pattern scrolling from left to right, giving '30s vibes.
   ///
-  /// Recommended delay: 45 seconds
+  /// Recommended duration: 45 seconds
   ///
   /// Recommended for light mode.
   static ScrollerPainterData get argyle30s => ScrollerPainterData(
@@ -27,10 +31,141 @@ class PrebuiltPainters {
         shapeOffset: ScrollerShapeOffset.none,
       );
 
+  /// A set of green waves that come together to form what looks like the
+  /// electron cloud of an atom.
+  ///
+  /// Recommended duration: 30 seconds
+  ///
+  /// Recommended for light mode.
+  static WavePainterData get atomicRings => WavePainterData(
+        waves: [
+          Wave(
+            direction: WaveDirection.right2Left,
+            gravityDirection: WaveGravityDirection.down,
+            amplitude: 500,
+            frequency: 1,
+            phase: 0.0,
+            offset: 0.5,
+            useScaledOffset: true,
+            color: Colors.transparent,
+            lineColor: ColorSchemes.gentleGreenBg,
+            lineThickness: 2.0,
+          ),
+          Wave(
+            direction: WaveDirection.right2Left,
+            gravityDirection: WaveGravityDirection.down,
+            amplitude: 500,
+            frequency: 1,
+            phase: 0.1,
+            offset: 0.5,
+            useScaledOffset: true,
+            color: Colors.transparent,
+            lineColor: ColorSchemes.gentleGreenBg,
+            lineThickness: 2.0,
+          ),
+          Wave(
+            direction: WaveDirection.right2Left,
+            gravityDirection: WaveGravityDirection.down,
+            amplitude: 500,
+            frequency: 1,
+            phase: 0.2,
+            offset: 0.5,
+            useScaledOffset: true,
+            color: Colors.transparent,
+            lineColor: ColorSchemes.gentleGreenBg,
+            lineThickness: 2.0,
+          ),
+          Wave(
+            direction: WaveDirection.right2Left,
+            gravityDirection: WaveGravityDirection.down,
+            amplitude: 500,
+            frequency: 1,
+            phase: 0.3,
+            offset: 0.5,
+            useScaledOffset: true,
+            color: Colors.transparent,
+            lineColor: ColorSchemes.gentleGreenBg,
+            lineThickness: 2.0,
+          ),
+          Wave(
+            direction: WaveDirection.right2Left,
+            gravityDirection: WaveGravityDirection.down,
+            amplitude: 500,
+            frequency: 1,
+            phase: 0.4,
+            offset: 0.5,
+            useScaledOffset: true,
+            color: Colors.transparent,
+            lineColor: ColorSchemes.gentleGreenBg,
+            lineThickness: 2.0,
+          ),
+          Wave(
+            direction: WaveDirection.right2Left,
+            gravityDirection: WaveGravityDirection.down,
+            amplitude: 500,
+            frequency: 1,
+            phase: 0.5,
+            offset: 0.5,
+            useScaledOffset: true,
+            color: Colors.transparent,
+            lineColor: ColorSchemes.gentleGreenBg,
+            lineThickness: 2.0,
+          ),
+          Wave(
+            direction: WaveDirection.right2Left,
+            gravityDirection: WaveGravityDirection.down,
+            amplitude: 500,
+            frequency: 1,
+            phase: 0.6,
+            offset: 0.5,
+            useScaledOffset: true,
+            color: Colors.transparent,
+            lineColor: ColorSchemes.gentleGreenBg,
+            lineThickness: 2.0,
+          ),
+          Wave(
+            direction: WaveDirection.right2Left,
+            gravityDirection: WaveGravityDirection.down,
+            amplitude: 500,
+            frequency: 1,
+            phase: 0.7,
+            offset: 0.5,
+            useScaledOffset: true,
+            color: Colors.transparent,
+            lineColor: ColorSchemes.gentleGreenBg,
+            lineThickness: 2.0,
+          ),
+          Wave(
+            direction: WaveDirection.right2Left,
+            gravityDirection: WaveGravityDirection.down,
+            amplitude: 500,
+            frequency: 1,
+            phase: 0.8,
+            offset: 0.5,
+            useScaledOffset: true,
+            color: Colors.transparent,
+            lineColor: ColorSchemes.gentleGreenBg,
+            lineThickness: 2.0,
+          ),
+          Wave(
+            direction: WaveDirection.right2Left,
+            gravityDirection: WaveGravityDirection.down,
+            amplitude: 500,
+            frequency: 1,
+            phase: 0.9,
+            offset: 0.5,
+            useScaledOffset: true,
+            color: Colors.transparent,
+            lineColor: ColorSchemes.gentleGreenBg,
+            lineThickness: 2.0,
+          ),
+        ],
+      );
+
   /// Red and white diagonal stripes scrolling from bottom to top like a candy
   /// cane.
   ///
-  /// Recommended delay: 30 seconds
+  /// Recommended duration: 30 seconds
   ///
   /// Recommended for light mode.
   static ScrollerPainterData get candyCane => ScrollerPainterData(
@@ -45,7 +180,7 @@ class PrebuiltPainters {
 
   /// Brown squares scrolling from left to right on a darker brown background.
   ///
-  /// Recommended delay: 45 seconds
+  /// Recommended duration: 45 seconds
   ///
   /// Recommended for dark mode.
   static ScrollerPainterData get chocolate => ScrollerPainterData(
@@ -62,7 +197,7 @@ class PrebuiltPainters {
   /// Icy blue diamonds raining down from the top of the screen on a pale blue
   /// background.
   ///
-  /// Recommended delay: 45 seconds
+  /// Recommended duration: 45 seconds
   ///
   /// Recommended for light mode.
   static ScrollerPainterData get diamondRain => ScrollerPainterData(
@@ -78,7 +213,7 @@ class PrebuiltPainters {
 
   /// Dark colors subtly fading in and out.
   ///
-  /// Recommended delay: 30 seconds
+  /// Recommended duration: 30 seconds
   ///
   /// Recommended for dark mode.
   static FaderPainterData get dynamicDark => FaderPainterData(
@@ -88,7 +223,7 @@ class PrebuiltPainters {
 
   /// Light colors subtly fading in and out.
   ///
-  /// Recommended delay: 30 seconds
+  /// Recommended duration: 30 seconds
   ///
   /// Recommended for light mode.
   static FaderPainterData get dynamicLight => FaderPainterData(
@@ -99,7 +234,7 @@ class PrebuiltPainters {
   /// Green circles scrolling from bottom to top on a pale green background, like
   /// bubbles in a wiggly plate of jello.
   ///
-  /// Recommended delay: 45 seconds
+  /// Recommended duration: 45 seconds
   ///
   /// Recommended for dark mode.
   static ScrollerPainterData get jello => ScrollerPainterData(
@@ -116,7 +251,7 @@ class PrebuiltPainters {
   /// Purple stripes scrolling from top to bottom on a pale purple background,
   /// like the rungs of a ladder passing by as you climb.
   ///
-  /// Recommended delay: 45 seconds
+  /// Recommended duration: 45 seconds
   ///
   /// Recommended for light mode.
   static ScrollerPainterData get ladderClimb => ScrollerPainterData(
@@ -132,7 +267,7 @@ class PrebuiltPainters {
   /// Yellow circles scrolling from left to right on a pale yellow background,
   /// like lemons in the sunshine.
   ///
-  /// Recommended delay: 30 seconds
+  /// Recommended duration: 30 seconds
   ///
   /// Recommended for light mode.
   static ScrollerPainterData get lemonSunshine => ScrollerPainterData(
@@ -146,10 +281,55 @@ class PrebuiltPainters {
         shapeOffset: ScrollerShapeOffset.shift,
       );
 
+  /// Translucent white waves splashing like milk in a glass.
+  ///
+  /// Recommended duration: 100 seconds
+  ///
+  /// Recommended for dark mode.
+  static WavePainterData milkWaves = WavePainterData(
+    waves: [
+      Wave(
+        direction: WaveDirection.right2Left,
+        gravityDirection: WaveGravityDirection.down,
+        amplitude: 80.0,
+        frequency: 24,
+        offset: 0.80,
+        useScaledOffset: true,
+        color: ColorSchemes.gentleWhiteBg.withAlpha(128),
+        lineColor: null,
+        lineThickness: 1.0,
+      ),
+      Wave(
+        direction: WaveDirection.right2Left,
+        gravityDirection: WaveGravityDirection.down,
+        amplitude: 80.0,
+        frequency: 16,
+        phase: 0.5,
+        offset: 0.83,
+        useScaledOffset: true,
+        color: ColorSchemes.gentleWhiteBg.withAlpha(128),
+        lineColor: null,
+        lineThickness: 1.0,
+      ),
+      Wave(
+        direction: WaveDirection.right2Left,
+        gravityDirection: WaveGravityDirection.down,
+        amplitude: 40.0,
+        frequency: 19,
+        phase: 0.3,
+        offset: 0.87,
+        useScaledOffset: true,
+        color: ColorSchemes.gentleWhiteBg.withAlpha(128),
+        lineColor: null,
+        lineThickness: 1.0,
+      ),
+    ],
+  );
+
   /// Very pale red and white stripes scrolling from right to left, giving the
   /// impression of an American flag waving in the wind.
   ///
-  /// Recommended delay: 100 seconds
+  /// Recommended duration: 100 seconds
   ///
   /// Recommended for light mode.
   static ScrollerPainterData get patriotic => const ScrollerPainterData(
@@ -166,7 +346,7 @@ class PrebuiltPainters {
   /// Light grey circles scrolling from bottom to top on a pale white background,
   /// like bubbles in a glass of Sprite.
   ///
-  /// Recommended delay: 45 seconds
+  /// Recommended duration: 45 seconds
   ///
   /// Recommended for light mode.
   static ScrollerPainterData get sprite => ScrollerPainterData(
@@ -183,7 +363,7 @@ class PrebuiltPainters {
   /// Red circles scrolling from right to left on a pale red background, like
   /// seeds on a rotating strawberry.
   ///
-  /// Recommended delay: 45 seconds
+  /// Recommended duration: 45 seconds
   ///
   /// Recommended for light mode.
   static ScrollerPainterData get strawberrySlide => ScrollerPainterData(
@@ -200,7 +380,7 @@ class PrebuiltPainters {
   /// Brown circles scrolling from left to right on a pale yellow background,
   /// looking like sunflowers.
   ///
-  /// Recommended delay: 45 seconds
+  /// Recommended duration: 45 seconds
   ///
   /// Recommended for light mode.
   static ScrollerPainterData get sunflower => ScrollerPainterData(
@@ -217,7 +397,7 @@ class PrebuiltPainters {
   /// A ColorSchemes.gentle sunrise with yellow circles rising from the bottom of the screen on
   /// a yellow-orange background.
   ///
-  /// Recommended delay: 90 seconds
+  /// Recommended duration: 90 seconds
   ///
   /// Recommended for light mode.
   static ScrollerPainterData get sunRise => ScrollerPainterData(
@@ -234,7 +414,7 @@ class PrebuiltPainters {
   /// A ColorSchemes.gentle sunset with orange circles sinking from the top of the screen on a
   /// yellow-orange background.
   ///
-  /// Recommended delay: 90 seconds
+  /// Recommended duration: 90 seconds
   ///
   /// Recommended for dark mode.
   static ScrollerPainterData get sunSet => ScrollerPainterData(
@@ -251,7 +431,7 @@ class PrebuiltPainters {
   /// A ColorSchemes.gentle fade of blue colors, giving the impression of a cold winter wind
   /// blowing through the screen.
   ///
-  /// Recommended delay: 15 seconds
+  /// Recommended duration: 15 seconds
   ///
   /// Recommended for light mode.
   static FaderPainterData get winterWind => FaderPainterData(

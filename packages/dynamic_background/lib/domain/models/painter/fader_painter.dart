@@ -6,11 +6,11 @@ import 'package:dynamic_background/utils/color_tools.dart';
 import 'package:dynamic_background/utils/math_tools.dart';
 import 'package:flutter/material.dart';
 
-/// This is the painter for full screen color fading animations.
+/// This is the painter for color fading animations.
 class FaderPainter extends Painter {
   /// Creates a [FaderPainter] object.
   ///
-  /// This is the painter for full screen color fading animations.
+  /// This is the painter for color fading animations.
   FaderPainter({
     required super.animation,
     required this.data,

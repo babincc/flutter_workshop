@@ -27,7 +27,8 @@ class FaderPainterData extends PainterData {
 
   /// The colors the fader will go through.
   ///
-  /// This list is not directly modifiable.
+  /// This list is not directly modifiable. Call the add, insert, and remove
+  /// methods to modify the list.
   List<Color> get colors => List.unmodifiable(_colors);
 
   /// Adds a `color` to the end of the list of [colors] the fader will go
@@ -87,8 +88,8 @@ class FaderPainterData extends PainterData {
   ///
   /// Returns `true` if the `color` was in the list, `false` otherwise.
   ///
-  /// If the list of colors has only one color, this method will return `false`
-  /// and the color will not be removed. The list must never be empty.
+  /// If the list of [colors] has only one color, this method will return
+  /// `false` and the `color` will not be removed. The list must never be empty.
   ///
   /// ```dart
   /// List<Color> colors = [red, blue, green];
@@ -116,7 +117,7 @@ class FaderPainterData extends PainterData {
   ///
   /// Throws a [RangeError] if the `index` is out of bounds.
   ///
-  /// If the list of colors has only one color, this method will return `null`
+  /// If the list of [colors] has only one color, this method will return `null`
   /// and the color will not be removed. The list must never be empty.
   ///
   /// ```dart
@@ -153,10 +154,10 @@ class FaderPainterData extends PainterData {
   /// print(colors); // [blue, green]
   /// ```
   ///
-  /// If the list of colors has only one color (this also goes for multiple
-  /// instances of the one color), this method will return `false`
-  /// and the color will be removed, expect for one instance of it. The list
-  /// must never be empty.
+  /// If the list of [colors] has only one color (this also goes for multiple
+  /// instances of the one color), this method will return `false` and the
+  /// `color` will be removed, expect for one instance of it. The list must
+  /// never be empty.
   ///
   /// Example:
   ///

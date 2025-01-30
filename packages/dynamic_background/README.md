@@ -8,13 +8,15 @@ Dynamic Background is a Flutter package that transforms your app's background in
 
 <img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/demos/dynamic_background_demo_2.gif" alt="Four examples of different animated backgrounds." width="650">
 
+<img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/demos/dynamic_background_demo_3.gif" alt="Four examples of different animated backgrounds." width="650">
+
 ## Installation
 
 In the `pubspec.yaml` of your project, add the following dependency:
 
 ```yaml
 dependencies:
-  dynamic_background: ^0.3.0
+  dynamic_background: ^0.4.0
 ```
 
 Import it to each file you use it in:

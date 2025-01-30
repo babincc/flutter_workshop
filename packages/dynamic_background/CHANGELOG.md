@@ -1,3 +1,8 @@
+## 0.4.0 - January 30, 2025
+
+- Added wave animations
+- Made models more robust with standard methods like `copy()`, `toString()`, etc.
+
 ## 0.3.0 - January 26, 2025
 
 - Added width and height controllers
