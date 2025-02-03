@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class Wave {
   /// Creates a new [Wave] object.
-  Wave({
+  const Wave({
     this.direction = WaveDirection.right2Left,
     this.gravityDirection = WaveGravityDirection.down,
     this.amplitude = 40.0,

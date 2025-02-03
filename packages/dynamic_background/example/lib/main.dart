@@ -13,28 +13,40 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         body: DynamicBg(
-          duration: const Duration(seconds: 45),
+          duration: const Duration(seconds: 10),
           // painterData: PrebuiltPainters.chocolate, // Try a prebuilt painter
-          painterData: ScrollerPainterData(
-            direction: ScrollDirection.left2Right,
-            shape: ScrollerShape.circles,
-            backgroundColor: ColorSchemes.gentlePurpleBg,
-            color: ColorSchemes.gentlePurpleFg,
-            shapeWidth: 24.0,
-            spaceBetweenShapes: 24.0,
-            fadeEdges: true,
-            shapeOffset: ScrollerShapeOffset.shiftAndMesh,
+          painterData: LavaPainterData(
+            numBlobs: 1,
+            speed: 15.0,
+            fadeBetweenColors: true,
+            allSameColor: true,
+            changeColorsTogether: true,
+            colors: [
+              Colors.red,
+              Colors.orange,
+              Colors.yellow,
+            ],
           ),
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(width: 25),
-                Expanded(child: Image.asset('assets/images/logo.png')),
-                const SizedBox(width: 25),
-              ],
-            ),
-          ),
+          // painterData: ScrollerPainterData(
+          //   direction: ScrollDirection.left2Right,
+          //   shape: ScrollerShape.circles,
+          //   backgroundColor: ColorSchemes.gentlePurpleBg,
+          //   color: ColorSchemes.gentlePurpleFg,
+          //   shapeWidth: 24.0,
+          //   spaceBetweenShapes: 24.0,
+          //   fadeEdges: true,
+          //   shapeOffset: ScrollerShapeOffset.shiftAndMesh,
+          // ),
+          // child: Center(
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: [
+          //       const SizedBox(width: 25),
+          //       Expanded(child: Image.asset('assets/images/logo.png')),
+          //       const SizedBox(width: 25),
+          //     ],
+          //   ),
+          // ),
         ),
       ),
     );

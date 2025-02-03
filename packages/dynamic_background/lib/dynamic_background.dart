@@ -10,6 +10,7 @@ export 'package:dynamic_background/domain/enums/wave_direction.dart';
 export 'package:dynamic_background/domain/enums/wave_gravity_direction.dart';
 export 'package:dynamic_background/domain/models/color_schemes.dart';
 export 'package:dynamic_background/domain/models/painter_data/fader_painter_data.dart';
+export 'package:dynamic_background/domain/models/painter_data/lava_painter_data.dart';
 export 'package:dynamic_background/domain/models/painter_data/painter_data.dart';
 export 'package:dynamic_background/domain/models/painter_data/prebuilt_painters.dart';
 export 'package:dynamic_background/domain/models/painter_data/scroller_painter_data.dart';
