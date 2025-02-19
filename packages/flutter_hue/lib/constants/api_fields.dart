@@ -54,6 +54,8 @@ class ApiFields {
 
   static const String clientId = "client_id";
 
+  static const String clientKey = "clientkey";
+
   static const String code = "code";
 
   static const String codeChallenge = "code_challenge";
@@ -123,6 +125,8 @@ class ApiFields {
   static const String gamut = "gamut";
 
   static const String gamutType = "gamut_type";
+
+  static const String generateClientKey = "generateclientkey";
 
   static const String gradient = "gradient";
 
@@ -331,6 +335,8 @@ class ApiFields {
   static const String statusValues = "status_values";
 
   static const String steps = "steps";
+
+  static const String stop = "stop";
 
   static const String streamProxy = "stream_proxy";
 

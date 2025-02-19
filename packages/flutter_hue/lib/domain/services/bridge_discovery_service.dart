@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_hue/domain/models/bridge/discovered_bridge.dart';
 import 'package:http/http.dart';
 import 'package:multicast_dns/multicast_dns.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -9,8 +10,8 @@ import 'package:url_launcher/url_launcher.dart';
 /// It is advised that you use [BridgeDiscoveryRepo] instead of this class.
 class BridgeDiscoveryService {
   /// Searches the network for bridges using mDNS.
-  static Future<List<String>> discoverBridgesMdns() async {
-    List<String> bridges = [];
+  static Future<List<DiscoveredBridge>> discoverBridgesMdns() async {
+    final List<DiscoveredBridge> bridges = [];
 
     final Set<String> discoveredPtr = {};
     final Set<SrvResourceRecord> discoveredSvr = {};
@@ -34,7 +35,21 @@ class BridgeDiscoveryService {
                 ResourceRecordQuery.addressIPv4(srv.target))) {
           if (!discoveredIp.add(ip)) continue;
 
-          bridges.add(ip.address.address);
+          final String target = srv.target;
+
+          final String rawIdFromMdns;
+          if (target.contains('.')) {
+            rawIdFromMdns = target.substring(0, target.indexOf('.'));
+          } else {
+            rawIdFromMdns = target;
+          }
+
+          bridges.add(
+            DiscoveredBridge.fromMdns(
+              rawIdFromMdns: rawIdFromMdns,
+              ipAddress: ip.address.address,
+            ),
+          );
         }
       }
     }
@@ -45,8 +60,8 @@ class BridgeDiscoveryService {
   }
 
   /// Searches the network for bridges using the endpoint method.
-  static Future<List<String>> discoverBridgesEndpoint() async {
-    List<String> bridges = [];
+  static Future<List<DiscoveredBridge>> discoverBridgesEndpoint() async {
+    final List<DiscoveredBridge> bridges = [];
 
     final Client client = Client();
 
@@ -61,7 +76,19 @@ class BridgeDiscoveryService {
       );
 
       for (Map<String, dynamic> result in results) {
-        bridges.add(result["internalipaddress"]);
+        try {
+          final String rawIdFromEndpoint = result["id"];
+          final String ipAddress = result["internalipaddress"];
+
+          bridges.add(
+            DiscoveredBridge.fromEndpoint(
+              rawIdFromEndpoint: rawIdFromEndpoint,
+              ipAddress: ipAddress,
+            ),
+          );
+        } catch (e) {
+          continue;
+        }
       }
     }
 

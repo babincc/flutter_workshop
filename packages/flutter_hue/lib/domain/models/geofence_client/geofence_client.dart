@@ -81,6 +81,10 @@ class GeofenceClient extends Resource {
   /// The value of [isAtHome] when this object was instantiated.
   bool? _originalIsAtHome;
 
+  @override
+  bool get hasUpdate =>
+      super.hasUpdate || name != _originalName || isAtHome != _originalIsAtHome;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

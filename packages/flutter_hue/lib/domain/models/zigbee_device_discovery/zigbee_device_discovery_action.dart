@@ -83,6 +83,17 @@ class ZigbeeDeviceDiscoveryAction {
   /// The value of [installCodes] when this object was instantiated.
   List<String> _originalInstallCodes;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate =>
+      actionType != _originalActionType ||
+      !(const DeepCollectionEquality.unordered()
+          .equals(searchCodes, _originalSearchCodes)) ||
+      !(const DeepCollectionEquality.unordered()
+          .equals(installCodes, _originalInstallCodes));
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///
@@ -187,8 +198,8 @@ class ZigbeeDeviceDiscoveryAction {
   @override
   int get hashCode => Object.hash(
         actionType,
-        Object.hashAllUnordered(searchCodes),
-        Object.hashAllUnordered(installCodes),
+        const DeepCollectionEquality.unordered().hash(searchCodes),
+        const DeepCollectionEquality.unordered().hash(installCodes),
       );
 
   @override

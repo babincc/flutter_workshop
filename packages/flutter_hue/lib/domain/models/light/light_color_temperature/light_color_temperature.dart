@@ -71,6 +71,12 @@ class LightColorTemperature {
     return Validators.isValidMirek(mirek);
   }
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate => mirek != _originalMirek;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

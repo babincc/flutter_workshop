@@ -24,7 +24,7 @@ class FlutterHueMaintenanceRepo {
   ///
   /// `deviceName` The device name should be the name of the app or device
   /// accessing the remote API. The `deviceName` is used in the user’s “My Apps”
-  /// overview in the Hue Account (visualized as: “<appName> on <deviceName>”).
+  /// overview in the Hue Account (visualized as: “[appName] on [deviceName]”).
   ///
   /// `state` Provides any state that might be useful to your application upon
   /// receipt of the response. The Hue Authorization Server round-trips this
@@ -105,7 +105,7 @@ class FlutterHueMaintenanceRepo {
   ///
   /// `deviceName` The device name should be the name of the app or device
   /// accessing the remote API. The `deviceName` is used in the user’s “My Apps”
-  /// overview in the Hue Account (visualized as: “<appName> on <deviceName>”).
+  /// overview in the Hue Account (visualized as: “[appName] on [deviceName]”).
   ///
   /// `state` Provides any state that might be useful to your application upon
   /// receipt of the response. The Hue Authorization Server round-trips this

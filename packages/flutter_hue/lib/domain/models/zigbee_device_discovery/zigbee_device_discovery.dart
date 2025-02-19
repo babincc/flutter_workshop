@@ -84,6 +84,13 @@ class ZigbeeDeviceDiscovery extends Resource {
   /// The value of [action] when this object was instantiated.
   ZigbeeDeviceDiscoveryAction? _originalAction;
 
+  @override
+  bool get hasUpdate =>
+      super.hasUpdate ||
+      owner.hasUpdate ||
+      action != _originalAction ||
+      action?.hasUpdate == true;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

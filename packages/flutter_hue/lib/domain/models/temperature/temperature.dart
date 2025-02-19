@@ -88,6 +88,10 @@ class Temperature extends Resource {
   /// Whether or not the value presented in temperature is valid.
   final bool isValidTemperature;
 
+  @override
+  bool get hasUpdate =>
+      super.hasUpdate || owner.hasUpdate || isEnabled != _originalIsEnabled;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

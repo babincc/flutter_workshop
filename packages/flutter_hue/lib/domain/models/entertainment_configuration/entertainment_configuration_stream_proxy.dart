@@ -43,6 +43,12 @@ class EntertainmentConfigurationStreamProxy {
   /// Can be type BridgeDevice or ZigbeeDevice.
   final Relative node;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate => node.hasUpdate;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

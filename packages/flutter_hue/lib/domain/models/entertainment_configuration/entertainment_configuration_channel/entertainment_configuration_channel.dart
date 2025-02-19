@@ -119,7 +119,7 @@ class EntertainmentConfigurationChannel {
   int get hashCode => Object.hash(
         channelId,
         position,
-        Object.hashAllUnordered(members),
+        const DeepCollectionEquality.unordered().hash(members),
       );
 
   @override

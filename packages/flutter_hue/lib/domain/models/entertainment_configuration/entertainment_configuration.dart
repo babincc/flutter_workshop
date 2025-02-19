@@ -1,11 +1,15 @@
 // ignore_for_file: deprecated_member_use_from_same_package
 
+import 'dart:async';
+
 import 'package:collection/collection.dart';
 import 'package:flutter_hue/constants/api_fields.dart';
+import 'package:flutter_hue/domain/models/bridge/bridge.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_channel/entertainment_configuration_channel.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_location.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_metadata.dart';
 import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_stream_proxy.dart';
+import 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_controller.dart';
 import 'package:flutter_hue/domain/models/relative.dart';
 import 'package:flutter_hue/domain/models/resource.dart';
 import 'package:flutter_hue/domain/models/resource_type.dart';
@@ -40,7 +44,9 @@ class EntertainmentConfiguration extends Resource {
         _originalAction = action,
         _originalStreamProxy = streamProxy.copyWith(),
         _originalLocations =
-            locations.map((location) => location.copyWith()).toList();
+            locations.map((location) => location.copyWith()).toList() {
+    _entertainmentStream = EntertainmentStreamController(this);
+  }
 
   /// Creates a [EntertainmentConfiguration] object from the JSON response to a
   /// GET request.
@@ -104,6 +110,7 @@ class EntertainmentConfiguration extends Resource {
         _originalLocations = [],
         lightServices = [],
         _originalAction = null,
+        _entertainmentStream = EntertainmentStreamController.empty(),
         super.empty();
 
   /// Clip v1 resource identifier.
@@ -232,6 +239,113 @@ class EntertainmentConfiguration extends Resource {
 
   /// The value of [action] when this object was instantiated.
   String? _originalAction;
+
+  /// Handles the entertainment stream.
+  late final EntertainmentStreamController _entertainmentStream;
+
+  /// Start streaming for `this` entertainment configuration.
+  ///
+  /// The `bridge` parameter is the bridge to establish the handshake with.
+  ///
+  /// `decrypter` When the old tokens are read from local storage, they are
+  /// decrypted. This parameter allows you to provide your own decryption
+  /// method. This will be used in addition to the default decryption method.
+  /// This will be performed after the default decryption method.
+  ///
+  /// May throw [ExpiredAccessTokenException] if trying to connect to the bridge
+  /// remotely and the token is expired. If this happens, refresh the token with
+  /// [TokenRepo.refreshRemoteToken].
+  Future<bool> startStreaming(
+    Bridge bridge, {
+    String Function(String ciphertext)? decrypter,
+  }) async =>
+      await _entertainmentStream.startStreaming(
+        bridge,
+        decrypter: decrypter,
+      );
+
+  /// Stop streaming for `this` entertainment configuration.
+  ///
+  /// The `bridge` parameter is the bridge to establish the handshake with.
+  ///
+  /// `decrypter` When the old tokens are read from local storage, they are
+  /// decrypted. This parameter allows you to provide your own decryption
+  /// method. This will be used in addition to the default decryption method.
+  /// This will be performed after the default decryption method.
+  ///
+  /// May throw [ExpiredAccessTokenException] if trying to connect to the bridge
+  /// remotely and the token is expired. If this happens, refresh the token with
+  /// [TokenRepo.refreshRemoteToken].
+  Future<bool> stopStreaming(
+    Bridge bridge, {
+    String Function(String ciphertext)? decrypter,
+  }) async =>
+      _entertainmentStream.stopStreaming(
+        bridge,
+        decrypter: decrypter,
+      );
+
+  /// The current length of the queue in the given `channel`.
+  ///
+  /// This is the number of commands that are waiting to be sent to the bridge
+  /// for the given `channel`.
+  ///
+  /// This is used to see if the queue is getting backed up. If so, you can call
+  /// [flushStreamQueue], [replaceStreamQueue], or [replaceStreamQueueChannel]
+  /// to help deal with the backup.
+  int queueLengthInChannel(int channel) =>
+      _entertainmentStream.queueLengthInChannel(channel);
+
+  /// Adds a command to the stream queue.
+  void addToStreamQueue(EntertainmentStreamCommand command) =>
+      _entertainmentStream.addToQueue(command);
+
+  /// Adds a list of commands to the stream queue.
+  void addAllToStreamQueue(List<EntertainmentStreamCommand> commands) =>
+      _entertainmentStream.addAllToQueue(commands);
+
+  /// Empties the queue.
+  void flushStreamQueue() => _entertainmentStream.flushQueue();
+
+  /// Empty the queue and replace it with `newQueue`.
+  ///
+  /// The keys in `newQueue` are the channels that the commands are for.
+  ///
+  /// The values in `newQueue` are the commands to send to the bridge.
+  ///
+  /// Throws [InvalidCommandChannelException] if a command in `newQueue` map is
+  /// not in the same channel as the channel it was initialized with.
+  void replaceStreamQueue(
+    Map<int, List<EntertainmentStreamCommand>> newQueue,
+  ) =>
+      _entertainmentStream.replaceQueue(newQueue);
+
+  /// Empty the queue only in the given 'channel' and replace that data with
+  /// `newQueue`.
+  ///
+  /// Throws [InvalidCommandChannelException] if a command in `newQueue` is does
+  /// not have the same channel as the `channel` parameter provided to this
+  /// method.
+  void replaceStreamQueueChannel(
+    int channel,
+    List<EntertainmentStreamCommand> newChannelQueue,
+  ) =>
+      _entertainmentStream.replaceQueueChannel(channel, newChannelQueue);
+
+  @override
+  bool get hasUpdate =>
+      super.hasUpdate ||
+      metadata != _originalMetadata ||
+      metadata.hasUpdate ||
+      configurationType != _originalConfigurationType ||
+      activeStreamer.hasUpdate ||
+      streamProxy != _originalStreamProxy ||
+      streamProxy.hasUpdate ||
+      !(const DeepCollectionEquality.unordered()
+          .equals(locations, _originalLocations)) ||
+      locations.any((location) => location.hasUpdate) ||
+      lightServices.any((lightService) => lightService.hasUpdate) ||
+      action != _originalAction;
 
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
@@ -388,7 +502,7 @@ class EntertainmentConfiguration extends Resource {
     // PUT FULL
     if (identical(optimizeFor, OptimizeFor.putFull)) {
       return {
-        ApiFields.type: type,
+        ApiFields.type: type.value,
         ApiFields.metadata: metadata.toJson(optimizeFor: optimizeFor),
         ApiFields.configurationType: configurationType,
         ApiFields.action: action,
@@ -405,7 +519,7 @@ class EntertainmentConfiguration extends Resource {
     // POST
     if (identical(optimizeFor, OptimizeFor.post)) {
       return {
-        ApiFields.type: type,
+        ApiFields.type: type.value,
         ApiFields.metadata: metadata.toJson(optimizeFor: optimizeFor),
         ApiFields.configurationType: configurationType,
         ApiFields.streamProxy: streamProxy.toJson(optimizeFor: optimizeFor),
@@ -479,9 +593,9 @@ class EntertainmentConfiguration extends Resource {
         status,
         activeStreamer,
         streamProxy,
-        Object.hashAllUnordered(channels),
-        Object.hashAllUnordered(locations),
-        Object.hashAllUnordered(lightServices),
+        const DeepCollectionEquality.unordered().hash(channels),
+        const DeepCollectionEquality.unordered().hash(locations),
+        const DeepCollectionEquality.unordered().hash(lightServices),
         action,
       );
 

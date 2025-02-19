@@ -207,6 +207,14 @@ void main() {
       const List<int> rgb6 = [255, 255, 255];
       const List<int> rgb7 = [138, 72, 136];
 
+      // const List<double> rgb1 = [255.0, 0.0, 0.0];
+      // const List<double> rgb2 = [0.0, 255.0, 0.0];
+      // const List<double> rgb3 = [0.0, 0.0, 255.0];
+      // const List<double> rgb4 = [128.0, 128.0, 128.0];
+      // const List<double> rgb5 = [0.0, 0.0, 0.0];
+      // const List<double> rgb6 = [255.0, 255.0, 255.0];
+      // const List<double> rgb7 = [138.0, 72.0, 136.0];
+
       test(
         "xy",
         () {

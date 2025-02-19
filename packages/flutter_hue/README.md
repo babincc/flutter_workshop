@@ -8,6 +8,26 @@ Note: This SDK uses Philips Hue's new API v2.
 
 With Flutter Hue, developers can easily discover Hue bridges on the network, establish communication with them, and manipulate their connected devices. All of this is shown in the examples below. Also shown is how to change the color of lights and turning them on and off.
 
+<div style="background-color: #101010; border-radius: 25px;" align="center">
+	</br>
+	<span style="color: #efefef;">
+		<h4>Special thanks to <a href="https://www.vibesandlogic.com/" target="_blank" style="color: #3270c7;">Vibes + Logic</a> and the <a href="https://www.vibesandlogic.com/lumens-ai-app" target="_blank" style="color: #3270c7;">Lumens App</a> for their support!</h4>
+	</span>
+	</br>
+	</br>
+	<a href="https://www.vibesandlogic.com/" target="_blank">
+		<img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/sponsors/vibes_and_logic_logo.gif" alt="Vibes and Logic Logo" height="50">
+	</a>
+	</br>
+	</br>
+	<a href="https://www.vibesandlogic.com/lumens-ai-app" target="_blank">
+		<img src="https://raw.githubusercontent.com/babincc/flutter_workshop/master/packages/resources/sponsors/lumens_logo.png" alt="Lumens App Logo" height="85">
+	</a>
+	</br>
+	</br>
+	</br>
+</div>
+
 ## Features
 
 Shown in this demo gif:
@@ -27,7 +47,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 
 ```yaml
 dependencies:
-  flutter_hue: ^1.2.5
+  flutter_hue: ^2.0.0-beta.15
 ```
 
 Import it to each file you use it in:
@@ -52,9 +72,9 @@ It is not necessary, but it is highly recommended that you add this code snippet
 
 ```dart
 FlutterHueMaintenanceRepo.maintain(
-	clientId: "[clientId]",
-	clientSecret: "[clientSecret]",
-	redirectUri: "flutterhue://auth",
+  clientId: "[clientId]",
+  clientSecret: "[clientSecret]",
+  redirectUri: "flutterhue://auth",
 );
 ```
 
@@ -65,7 +85,9 @@ Note: If your app does not support remote connection, just use `FlutterHueMainte
 This example shows how to get a list of all of the IP addresses of the Philips Hue bridges on the network.
 
 ```dart
-List<String> bridgeIps = await BridgeDiscoveryRepo.discoverBridges();
+List<DiscoveredBridge> newBridges = await BridgeDiscoveryRepo.discoverBridges();
+
+List<String> ipAddresses = newBridges.map((e) => e.ipAddress).toList();
 ```
 
 ### Example 2 - First contact with bridge
@@ -76,8 +98,8 @@ Warning: Any device with this key will have access to the bridge. It is meant to
 
 ```dart
 Bridge myBridge = await BridgeDiscoveryRepo.firstContact(
-	bridgeIpAddr: 192.168.1.1, // Get IP in example 1
-	controller: timeoutController,
+  bridgeIpAddr: 192.168.1.1, // Get IP in example 1
+  controller: timeoutController,
 );
 ```
 
@@ -107,11 +129,11 @@ Light myLight = myHueNetwork.lights.first;
 
 // Set a new color that you want to change the light to
 myLight = myLight
-	.copyWith(
-		color: myLight.color.copyWith(
-			xy: LightColorXy(x: 0.6718, y: 0.3184),
-		),
-	);
+  .copyWith(
+    color: myLight.color.copyWith(
+      xy: LightColorXy(x: 0.6718, y: 0.3184),
+    ),
+  );
 
 // Send the PUT request to change the color of the light.
 await bridge.put(myLight);
@@ -124,7 +146,7 @@ This example shows how to turn multiple lights on and off.
 ```dart
 // Get the grouped light from the room
 GroupedLight myGroupedLight = myHueNetwork.rooms.first.servicesAsResources
-        .firstWhere((resource) => resource is GroupedLight) as GroupedLight;
+    .firstWhere((resource) => resource is GroupedLight) as GroupedLight;
 
 // Toggle the on/off state
 myGroupedLight.on.isOn = !myGroupedLight.on.isOn;
@@ -161,9 +183,57 @@ This example shows how to use Philips Hue's icons.
 Icon(HueIcon.classicBulb);
 
 IconButton(
-     onPressed: () {},
-     icon: Icon(HueIcon.stringLight),
+    onPressed: () {},
+    icon: Icon(HueIcon.stringLight),
 );
+```
+
+### Example 8 - Entertainment Streaming
+
+This example shows how to use Entertainment Streaming. It's important to note, you will need to use the official Philips Hue app to create entertainment areas before you can use Flutter Hue to interact with them. At the time of writing this, Philips does not give third party apps the ability to create entertainment areas.
+
+```dart
+// Get one of your stream areas that you made in the official Hue app.
+EntertainmentConfiguration myEntertainmentStreamConfiguration =
+    myHueNetwork.entertainmentConfigurations.first;
+
+// Start the stream.
+myEntertainmentStreamConfiguration.startStreaming(myBridge);
+
+// These are the colors that are used by the stream commands.
+final ColorXy red = ColorXy.fromRgb(255, 0, 0, 1.0);
+final ColorXy blue = ColorXy.fromRgb(0, 0, 255, 1.0);
+
+// The amount of time the light will remain on each color before switching to
+// the next.
+const int waitDurationMillis = 500;
+
+final EntertainmentStreamCommand command1 = EntertainmentStreamCommand(
+  channel: 0,
+  color: red,
+  waitAfterAnimation: const Duration(milliseconds: waitDurationMillis),
+);
+
+final EntertainmentStreamCommand command2 = EntertainmentStreamCommand(
+  channel: 0,
+  color: blue,
+  waitAfterAnimation: const Duration(milliseconds: waitDurationMillis),
+);
+
+// Infinity loop the stream commands. This toggles the light between red and
+// blue forever.
+while (true) {
+  // IMPORTANT NOTE: The copy method is used here to ensure that the same
+  // command isn't added to the queue multiple times. If the same command is
+  // added multiple times, the bridge will only execute the command once.
+  myEntertainmentStreamConfiguration.addAllToStreamQueue(
+    [command1.copy(), command2.copy()],
+  );
+
+  // Wait before adding the next set of instructions to the loop. This is not
+  // required, but it is encouraged to improve efficiency.
+  await Future.delayed(const Duration(milliseconds: waitDurationMillis * 2));
+}
 ```
 
 <hr>

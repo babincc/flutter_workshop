@@ -47,6 +47,12 @@ class LightColor {
   /// The gamut types supported by hue.
   final LightColorGamutType gamutType;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate => xy != _originalXy || xy.hasUpdate || gamut.hasUpdate;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

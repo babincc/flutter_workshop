@@ -46,6 +46,18 @@ class SmartSceneWeek {
   /// The value of [recurrence] when this object was instantiated.
   List<String> _originalRecurrence;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate =>
+      !(const DeepCollectionEquality.unordered()
+          .equals(timeslots, _originalTimeslots)) ||
+      timeslots.any((timeslot) => timeslot.hasUpdate) ||
+      !(const DeepCollectionEquality.unordered()
+          .equals(recurrence, _originalRecurrence)) ||
+      recurrence.any((recurrence) => !_originalRecurrence.contains(recurrence));
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///
@@ -154,8 +166,8 @@ class SmartSceneWeek {
 
   @override
   int get hashCode => Object.hash(
-        Object.hashAllUnordered(timeslots),
-        Object.hashAllUnordered(recurrence),
+        const DeepCollectionEquality.unordered().hash(timeslots),
+        const DeepCollectionEquality.unordered().hash(recurrence),
       );
 
   @override

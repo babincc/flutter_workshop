@@ -1,8 +1,6 @@
 // @author Christian Babin
-// @version 1.2.5
+// @version 2.0.0-beta.15
 // https://github.com/babincc/flutter_workshop/blob/master/packages/flutter_hue/lib/flutter_hue.dart
-
-library flutter_hue;
 
 export 'package:flutter_hue/constants/api_fields.dart';
 export 'package:flutter_hue/constants/folders.dart';
@@ -12,6 +10,7 @@ export 'package:flutter_hue/domain/models/behavior_script/behavior_script.dart';
 export 'package:flutter_hue/domain/models/behavior_script/behavior_script_metadata.dart';
 export 'package:flutter_hue/domain/models/bridge/bridge.dart';
 export 'package:flutter_hue/domain/models/bridge/bridge_extensions.dart';
+export 'package:flutter_hue/domain/models/bridge/discovered_bridge.dart';
 export 'package:flutter_hue/domain/models/bridge_home/bridge_home.dart';
 export 'package:flutter_hue/domain/models/button/button.dart';
 export 'package:flutter_hue/domain/models/device/device.dart';
@@ -30,6 +29,10 @@ export 'package:flutter_hue/domain/models/entertainment_configuration/entertainm
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_metadata.dart';
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_position.dart';
 export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_configuration_stream_proxy.dart';
+export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_color.dart';
+export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_controller.dart';
+export 'package:flutter_hue/domain/models/entertainment_configuration/entertainment_stream/entertainment_stream_packet.dart';
+export 'package:flutter_hue/domain/models/failed_resource.dart';
 export 'package:flutter_hue/domain/models/geofence_client/geofence_client.dart';
 export 'package:flutter_hue/domain/models/geolocation/geolocation.dart';
 export 'package:flutter_hue/domain/models/grouped_light/grouped_light.dart';
@@ -106,6 +109,7 @@ export 'package:flutter_hue/domain/models/zigbee_device_discovery/zigbee_device_
 export 'package:flutter_hue/domain/models/zigbee_device_discovery/zigbee_device_discovery_action.dart';
 export 'package:flutter_hue/domain/models/zone/zone.dart';
 export 'package:flutter_hue/domain/repos/bridge_discovery_repo.dart';
+export 'package:flutter_hue/domain/repos/entertainment_stream_repo.dart';
 export 'package:flutter_hue/domain/repos/flutter_hue_maintenance_repo.dart';
 export 'package:flutter_hue/domain/repos/hue_http_repo.dart';
 export 'package:flutter_hue/domain/repos/local_storage_repo.dart';
@@ -114,6 +118,7 @@ export 'package:flutter_hue/exceptions/coordinate_exception.dart';
 export 'package:flutter_hue/exceptions/corrupt_token_data_exception.dart';
 export 'package:flutter_hue/exceptions/expired_token_exception.dart';
 export 'package:flutter_hue/exceptions/gradient_exception.dart';
+export 'package:flutter_hue/exceptions/invalid_command_channel_exception.dart';
 export 'package:flutter_hue/exceptions/invalid_id_exception.dart';
 export 'package:flutter_hue/exceptions/invalid_name_exception.dart';
 export 'package:flutter_hue/exceptions/invalid_value_exception.dart';

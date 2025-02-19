@@ -118,6 +118,24 @@ class SceneActionAction {
   /// The value of [durationMilliseconds] when this object was instantiated.
   int? _originalDurationMilliseconds;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate =>
+      on != _originalOn ||
+      on.hasUpdate ||
+      dimming != _originalDimming ||
+      dimming.hasUpdate ||
+      xy != _originalXy ||
+      xy.hasUpdate ||
+      colorTemperature != _originalColorTemperature ||
+      colorTemperature.hasUpdate ||
+      gradient != _originalGradient ||
+      gradient.hasUpdate ||
+      effect != _originalEffect ||
+      durationMilliseconds != _originalDurationMilliseconds;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

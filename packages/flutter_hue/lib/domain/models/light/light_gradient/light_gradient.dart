@@ -48,15 +48,15 @@ class LightGradient {
   ///
   /// For control of the gradient points through a PUT a minimum of 2 points and
   /// a maximum of 5 need to be provided.
-  ///
-  /// Throws [Exception] if [points] is set to a list with more than 5 elements.
   List<LightColorXy> get points =>
       List<LightColorXy>.from(_points, growable: false);
   set points(List<LightColorXy> points) {
     if (points.length < 5) {
       _points = points;
     } else {
-      throw Exception("`points` must have 5 or fewer elements");
+      // This was removed because some lights don't follow this rule even though
+      // the Hue API says they should.
+      // throw Exception("`points` must have 5 or fewer elements");
     }
   }
 
@@ -111,6 +111,16 @@ class LightGradient {
 
   /// Modes a gradient device can deploy the gradient palette of colors.
   final List<String> modeValues;
+
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate =>
+      !(const DeepCollectionEquality.unordered()
+          .equals(points, _originalPoints)) ||
+      points.any((point) => point.hasUpdate) ||
+      mode != _originalMode;
 
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
@@ -289,9 +299,9 @@ class LightGradient {
 
   @override
   int get hashCode => Object.hash(
-        Object.hashAllUnordered(points),
+        const DeepCollectionEquality.unordered().hash(points),
         mode,
-        Object.hashAllUnordered(modeValues),
+        const DeepCollectionEquality.unordered().hash(modeValues),
       );
 
   @override

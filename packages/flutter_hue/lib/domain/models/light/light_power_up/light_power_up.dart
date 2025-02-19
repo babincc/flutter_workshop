@@ -77,6 +77,19 @@ class LightPowerUp {
   /// The value of [color] when this object was instantiated.
   LightPowerUpColor _originalColor;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate =>
+      !identical(preset, _originalPreset) ||
+      on != _originalOn ||
+      on.hasUpdate ||
+      dimming != _originalDimming ||
+      dimming.hasUpdate ||
+      color != _originalColor ||
+      color.hasUpdate;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

@@ -109,6 +109,16 @@ class SmartSceneWeekStartTime {
   /// The value [second] when this object was instantiated.
   int _originalSecond;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate =>
+      kind != _originalKind ||
+      hour != _originalHour ||
+      minute != _originalMinute ||
+      second != _originalSecond;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

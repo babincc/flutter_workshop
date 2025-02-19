@@ -43,6 +43,16 @@ class SmartSceneWeekTimeslot {
   /// The value of [target] when this object was instantiated.
   Relative _originalTarget;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate =>
+      startTime != _originalStartTime ||
+      startTime.hasUpdate ||
+      target != _originalTarget ||
+      target.hasUpdate;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

@@ -86,7 +86,7 @@ class EntertainmentSegmentCapabilities {
   int get hashCode => Object.hash(
         isConfigurable,
         maxSegments,
-        Object.hashAllUnordered(segments),
+        const DeepCollectionEquality.unordered().hash(segments),
       );
 
   @override

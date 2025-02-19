@@ -14,11 +14,7 @@ class LightTimedEffects {
     required int duration,
     required this.status,
     required this.statusValues,
-  })  : assert(Validators.isValidValue(effect, effectValues),
-            '`effectValues` does not contain "$effect"'),
-        assert(Validators.isValidValue(status, statusValues),
-            '`statusValues` does not contain "$status"'),
-        assert(duration >= 0, "`duration` must be greater than 0"),
+  })  : assert(duration >= 0, "`duration` must be greater than 0"),
         _originalEffect = effect,
         _effect = effect,
         _originalDuration = duration,
@@ -94,6 +90,13 @@ class LightTimedEffects {
 
   /// Possible status values in which a light could be when playing a timed effect.
   final List<String> statusValues;
+
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate =>
+      effect != _originalEffect || duration != _originalDuration;
 
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
@@ -232,10 +235,10 @@ class LightTimedEffects {
   @override
   int get hashCode => Object.hash(
         effect,
-        Object.hashAllUnordered(effectValues),
+        const DeepCollectionEquality.unordered().hash(effectValues),
         duration,
         status,
-        Object.hashAllUnordered(statusValues),
+        const DeepCollectionEquality.unordered().hash(statusValues),
       );
 
   @override

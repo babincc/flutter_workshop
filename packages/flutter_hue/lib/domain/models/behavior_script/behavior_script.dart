@@ -105,6 +105,9 @@ class BehaviorScript extends Resource {
   /// Range: 0 - 255
   final int maxNumberInstances;
 
+  @override
+  bool get hasUpdate => super.hasUpdate || metadata.hasUpdate;
+
   /// Returns a copy of this object with its field values replaced by the
   /// ones provided to this method.
   ///
@@ -206,12 +209,12 @@ class BehaviorScript extends Resource {
         id,
         idV1,
         description,
-        MiscTools.hashAllUnorderedMap(configurationSchema),
-        MiscTools.hashAllUnorderedMap(triggerSchema),
-        MiscTools.hashAllUnorderedMap(stateSchema),
+        const DeepCollectionEquality.unordered().hash(configurationSchema),
+        const DeepCollectionEquality.unordered().hash(triggerSchema),
+        const DeepCollectionEquality.unordered().hash(stateSchema),
         version,
         metadata,
-        Object.hashAllUnordered(supportedFeatures),
+        const DeepCollectionEquality.unordered().hash(supportedFeatures),
         maxNumberInstances,
       );
 

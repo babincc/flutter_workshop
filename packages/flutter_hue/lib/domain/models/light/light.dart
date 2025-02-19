@@ -5,8 +5,8 @@ import 'package:flutter_hue/domain/models/light/light_alert.dart';
 import 'package:flutter_hue/domain/models/light/light_color/light_color.dart';
 import 'package:flutter_hue/domain/models/light/light_color_temperature/light_color_temperature.dart';
 import 'package:flutter_hue/domain/models/light/light_color_temperature/light_color_temperature_delta.dart';
-import 'package:flutter_hue/domain/models/light/light_dimming/light_dimming_full.dart';
 import 'package:flutter_hue/domain/models/light/light_dimming/light_dimming_delta.dart';
+import 'package:flutter_hue/domain/models/light/light_dimming/light_dimming_full.dart';
 import 'package:flutter_hue/domain/models/light/light_dynamics.dart';
 import 'package:flutter_hue/domain/models/light/light_effects.dart';
 import 'package:flutter_hue/domain/models/light/light_gradient/light_gradient_full.dart';
@@ -251,6 +251,37 @@ class Light extends Resource {
 
   /// The value of [powerUp] when this object was instantiated.
   LightPowerUp _originalPowerUp;
+
+  @override
+  bool get hasUpdate =>
+      super.hasUpdate ||
+      owner.hasUpdate ||
+      metadata != _originalMetadata ||
+      metadata.hasUpdate ||
+      on != _originalOn ||
+      on.hasUpdate ||
+      dimming != _originalDimming ||
+      dimming.hasUpdate ||
+      dimmingDelta != _originalDimmingDelta ||
+      dimmingDelta?.hasUpdate == true ||
+      colorTemperature != _originalColorTemperature ||
+      colorTemperature.hasUpdate ||
+      colorTemperatureDelta != _originalColorTemperatureDelta ||
+      colorTemperatureDelta?.hasUpdate == true ||
+      color != _originalColor ||
+      color.hasUpdate ||
+      dynamics != _originalDynamics ||
+      dynamics.hasUpdate ||
+      alert != _originalAlert ||
+      alert.hasUpdate ||
+      gradient != _originalGradient ||
+      gradient.hasUpdate ||
+      effects != _originalEffects ||
+      effects.hasUpdate ||
+      timedEffects != _originalTimedEffects ||
+      timedEffects.hasUpdate ||
+      powerUp != _originalPowerUp ||
+      powerUp.hasUpdate;
 
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.

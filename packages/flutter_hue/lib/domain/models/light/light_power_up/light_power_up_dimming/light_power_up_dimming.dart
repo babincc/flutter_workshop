@@ -35,6 +35,9 @@ class LightPowerUpDimming extends LightDimming {
   /// The value of [mode] when this object was instantiated.
   LightPowerUpDimmingMode _originalMode;
 
+  @override
+  bool get hasUpdate => super.hasUpdate || mode != _originalMode;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

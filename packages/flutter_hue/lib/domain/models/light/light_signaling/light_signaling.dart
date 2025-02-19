@@ -70,7 +70,7 @@ class LightSignaling {
   @override
   int get hashCode => Object.hash(
         status,
-        Object.hashAllUnordered(signalValues),
+        const DeepCollectionEquality.unordered().hash(signalValues),
       );
 
   @override

@@ -102,6 +102,17 @@ class EntertainmentConfigurationLocation {
   /// The value of [equalizationFactor] when this object was instantiated.
   double _originalEqualizationFactor;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate =>
+      service.hasUpdate ||
+      service != _originalService ||
+      !(const DeepCollectionEquality.unordered()
+          .equals(positions, _originalPositions)) ||
+      equalizationFactor != _originalEqualizationFactor;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///
@@ -252,7 +263,7 @@ class EntertainmentConfigurationLocation {
   int get hashCode => Object.hash(
         service,
         position,
-        Object.hashAllUnordered(positions),
+        const DeepCollectionEquality.unordered().hash(positions),
         equalizationFactor,
       );
 

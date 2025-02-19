@@ -83,6 +83,12 @@ class BridgeHome extends Resource {
   /// [ResourceType] cannot be found on the [hueNetwork].
   List<Resource> get servicesAsResources => getRelativesAsResources(services);
 
+  @override
+  bool get hasUpdate =>
+      super.hasUpdate ||
+      children.any((child) => child.hasUpdate) ||
+      services.any((service) => service.hasUpdate);
+
   /// Returns a copy of this object with its field values replaced by the
   /// ones provided to this method.
   ///
@@ -179,8 +185,8 @@ class BridgeHome extends Resource {
         type,
         id,
         idV1,
-        Object.hashAllUnordered(children),
-        Object.hashAllUnordered(services),
+        const DeepCollectionEquality.unordered().hash(children),
+        const DeepCollectionEquality.unordered().hash(services),
       );
 
   @override

@@ -77,6 +77,9 @@ class ZgpConnectivity extends Resource {
   /// Identifies the source of this.
   final String sourceId;
 
+  @override
+  bool get hasUpdate => super.hasUpdate || owner.hasUpdate;
+
   /// Returns a copy of this object with its field values replaced by the
   /// ones provided to this method.
   ///

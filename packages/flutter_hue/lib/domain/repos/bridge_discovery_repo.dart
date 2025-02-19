@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_hue/constants/api_fields.dart';
 import 'package:flutter_hue/constants/folders.dart';
 import 'package:flutter_hue/domain/models/bridge/bridge.dart';
+import 'package:flutter_hue/domain/models/bridge/discovered_bridge.dart';
 import 'package:flutter_hue/domain/models/resource_type.dart';
 import 'package:flutter_hue/domain/repos/hue_http_repo.dart';
 import 'package:flutter_hue/domain/repos/local_storage_repo.dart';
@@ -26,7 +27,8 @@ class BridgeDiscoveryRepo {
 
   /// Searches the network for Philips Hue bridges.
   ///
-  /// Returns a list of all of their IP addresses.
+  /// Returns a list of [DiscoveredBridge] objects. These contain the IP address
+  /// of the bridge and a partial ID of the bridge.
   ///
   /// If saved bridges are not saved to the default folder, provide their
   /// location with `savedBridgesDir`.
@@ -35,7 +37,7 @@ class BridgeDiscoveryRepo {
   /// decrypted. This parameter allows you to provide your own decryption
   /// method. This will be used in addition to the default decryption method.
   /// This will be performed after the default decryption method.
-  static Future<List<String>> discoverBridges({
+  static Future<List<DiscoveredBridge>> discoverBridges({
     Directory? savedBridgesDir,
     bool writeToLocal = true,
     String Function(String ciphertext)? decrypter,
@@ -54,7 +56,7 @@ class BridgeDiscoveryRepo {
     }
 
     /// Bridges found using MDNS.
-    List<String> bridgesFromMdns;
+    List<DiscoveredBridge> bridgesFromMdns;
     if (kIsWeb) {
       // mDNS does not work on web.
       bridgesFromMdns = [];
@@ -63,38 +65,56 @@ class BridgeDiscoveryRepo {
     }
 
     /// Bridges found using the endpoint method.
-    List<String> bridgesFromEndpoint =
+    List<DiscoveredBridge> bridgesFromEndpoint =
         await BridgeDiscoveryService.discoverBridgesEndpoint();
 
     // Remove duplicates from the two search methods.
-    Set<String> uniqueValues = {};
-    uniqueValues.addAll(bridgesFromMdns);
+    Set<DiscoveredBridge> uniqueValues = {};
+    for (final DiscoveredBridge bridgeFromMdns in bridgesFromMdns) {
+      for (final DiscoveredBridge bridgeFromEndpoint in bridgesFromEndpoint) {
+        if (bridgeFromMdns.ipAddress == bridgeFromEndpoint.ipAddress) {
+          bridgeFromMdns.rawIdFromEndpoint =
+              bridgeFromEndpoint.rawIdFromEndpoint;
+          bridgesFromEndpoint.remove(bridgeFromEndpoint);
+          break;
+        }
+      }
+      uniqueValues.add(bridgeFromMdns);
+    }
     uniqueValues.addAll(bridgesFromEndpoint);
 
     if (savedBridges.isEmpty) return uniqueValues.toList();
 
-    List<String> ipAddresses = [];
+    List<DiscoveredBridge> newBridges = [];
 
     // Remove the bridges that are already saved to the device from the search
     // results.
-    for (String ip in uniqueValues) {
+    for (final DiscoveredBridge discoveredBridge in uniqueValues) {
+      bool isSaved = false;
+
       for (Bridge bridge in savedBridges) {
-        if (bridge.ipAddress == null || bridge.ipAddress != ip) {
-          ipAddresses.add(ip);
+        if (bridge.ipAddress != null &&
+            bridge.ipAddress == discoveredBridge.ipAddress) {
+          isSaved = true;
+          break;
         }
+      }
+
+      if (!isSaved) {
+        newBridges.add(discoveredBridge);
       }
     }
 
     // Keep locally saved bridges up to date.
     if (writeToLocal) {
-      for (String ip in ipAddresses) {
+      for (final DiscoveredBridge newBridge in newBridges) {
         // This will go through each of the bridges who's IP address have just
         // been collected and tries to connect to them. If there is a successful
         // connection, then this isn't the first time contact has been made with
         // the bridge. In this case, the file will be overridden with the new IP
         // address.
         await firstContact(
-          bridgeIpAddr: ip,
+          bridgeIpAddr: newBridge.ipAddress,
           savedBridgesDir: savedBridgesDir,
           writeToLocal: writeToLocal,
           controller: DiscoveryTimeoutController(timeoutSeconds: 1),
@@ -102,7 +122,7 @@ class BridgeDiscoveryRepo {
       }
     }
 
-    return ipAddresses;
+    return newBridges;
   }
 
   /// Initiates the first contact between this device and the given bridge.
@@ -141,35 +161,16 @@ class BridgeDiscoveryRepo {
 
     Map<String, dynamic>? response;
 
-    /// Used as the suffix of this device's name in the bridge whitelist.
-    String device;
-    if (kIsWeb) {
-      device = "web";
-    } else {
-      switch (Platform.operatingSystem) {
-        case "android":
-        case "fuchsia":
-        case "linux":
-          device = Platform.operatingSystem;
-          break;
-        case "ios":
-          device = "iPhone";
-          break;
-        case "macos":
-          device = "mac";
-          break;
-        case "windows":
-          device = "pc";
-          break;
-        default:
-          device = "device";
-      }
-    }
-
     String? appKey;
 
-    String body =
-        JsonTool.writeJson({ApiFields.deviceType: "FlutterHue#$device"});
+    String? clientKey;
+
+    final String body = JsonTool.writeJson(
+      {
+        ApiFields.deviceType: HueHttpRepo.deviceType,
+        ApiFields.generateClientKey: true,
+      },
+    );
 
     // Try for [timeoutSeconds] to connect with the bridge.
     int counter = 0;
@@ -202,6 +203,7 @@ class BridgeDiscoveryRepo {
                   "link button not pressed";
             } else {
               appKey = response![ApiFields.success][ApiFields.username];
+              clientKey = response![ApiFields.success][ApiFields.clientKey];
               return appKey == null || appKey!.isEmpty;
             }
           } catch (_) {
@@ -222,8 +224,11 @@ class BridgeDiscoveryRepo {
 
     if (bridgeJson == null) return null;
 
-    Bridge bridge = Bridge.fromJson(bridgeJson);
-    bridge = bridge.copyWith(ipAddress: bridgeIpAddr, applicationKey: appKey);
+    final Bridge bridge = Bridge.fromJson(bridgeJson).copyWith(
+      ipAddress: bridgeIpAddr,
+      applicationKey: appKey,
+      clientKey: clientKey,
+    );
 
     if (bridge.id.isEmpty) return null;
 
@@ -253,7 +258,7 @@ class BridgeDiscoveryRepo {
   ///
   /// `deviceName` The device name should be the name of the app or device
   /// accessing the remote API. The `deviceName` is used in the user’s “My Apps”
-  /// overview in the Hue Account (visualized as: “<appName> on <deviceName>”).
+  /// overview in the Hue Account (visualized as: “[appName] on [deviceName]”).
   ///
   /// `state` Provides any state that might be useful to your application upon
   /// receipt of the response. The Hue Authorization Server round-trips this

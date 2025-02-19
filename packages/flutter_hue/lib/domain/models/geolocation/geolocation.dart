@@ -103,6 +103,12 @@ class Geolocation extends Resource {
   /// The value of [latitude] when this object was instantiated.
   double? _originalLatitude;
 
+  @override
+  bool get hasUpdate =>
+      super.hasUpdate ||
+      !identical(latitude, _originalLatitude) ||
+      !identical(longitude, _originalLongitude);
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

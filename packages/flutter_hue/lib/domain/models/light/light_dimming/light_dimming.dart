@@ -49,6 +49,12 @@ class LightDimming {
   /// The value of [brightness] when this object was instantiated.
   double get originalBrightness => _originalBrightness;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate => brightness != _originalBrightness;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

@@ -60,6 +60,21 @@ class ScenePalette {
 
   List<ScenePaletteColorTemperature> _originalColorTemperatures;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate =>
+      !(const DeepCollectionEquality.unordered()
+          .equals(colors, _originalColors)) ||
+      colors.any((color) => color.hasUpdate) ||
+      !(const DeepCollectionEquality.unordered()
+          .equals(dimmings, _originalDimmings)) ||
+      dimmings.any((dimming) => dimming.hasUpdate) ||
+      !(const DeepCollectionEquality.unordered()
+          .equals(colorTemperatures, _originalColorTemperatures)) ||
+      colorTemperatures.any((colorTemp) => colorTemp.hasUpdate);
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///
@@ -228,9 +243,9 @@ class ScenePalette {
 
   @override
   int get hashCode => Object.hash(
-        Object.hashAllUnordered(colors),
-        Object.hashAllUnordered(dimmings),
-        Object.hashAllUnordered(colorTemperatures),
+        const DeepCollectionEquality.unordered().hash(colors),
+        const DeepCollectionEquality.unordered().hash(dimmings),
+        const DeepCollectionEquality.unordered().hash(colorTemperatures),
       );
 
   @override

@@ -85,6 +85,10 @@ class Motion extends Resource {
   /// Whether or not the value presented in [motion] is valid.
   final bool isValidMotion;
 
+  @override
+  bool get hasUpdate =>
+      super.hasUpdate || owner.hasUpdate || isEnabled != _originalIsEnabled;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

@@ -24,6 +24,12 @@ class LightOn {
   /// The value of [isOn] when this object was instantiated.
   bool _originalIsOn;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate => isOn != _originalIsOn;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

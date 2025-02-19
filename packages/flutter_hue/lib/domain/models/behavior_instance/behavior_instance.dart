@@ -226,6 +226,18 @@ class BehaviorInstance extends Resource {
   /// The value of [trigger] when this object was instantiated.
   Map<String, dynamic>? _originalTrigger;
 
+  @override
+  bool get hasUpdate =>
+      super.hasUpdate ||
+      scriptId != _originalScriptId ||
+      isEnabled != _originalIsEnabled ||
+      !(const DeepCollectionEquality.unordered()
+          .equals(configuration, _originalConfiguration)) ||
+      name != _originalName ||
+      migratedFrom != _originalMigratedFrom ||
+      !(const DeepCollectionEquality.unordered()
+          .equals(trigger, _originalTrigger));
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///
@@ -462,14 +474,14 @@ class BehaviorInstance extends Resource {
         idV1,
         scriptId,
         isEnabled,
-        MiscTools.hashAllUnorderedMap(state),
-        MiscTools.hashAllUnorderedMap(configuration),
-        Object.hashAllUnordered(dependees),
+        const DeepCollectionEquality.unordered().hash(state),
+        const DeepCollectionEquality.unordered().hash(configuration),
+        const DeepCollectionEquality.unordered().hash(dependees),
         status,
         lastError,
         name,
         migratedFrom,
-        (trigger == null ? null : MiscTools.hashAllUnorderedMap(trigger!)),
+        const DeepCollectionEquality.unordered().hash(trigger),
       );
 
   @override

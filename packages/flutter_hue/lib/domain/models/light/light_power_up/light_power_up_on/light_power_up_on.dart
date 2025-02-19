@@ -43,6 +43,12 @@ class LightPowerUpOn {
   /// Whether or not this light is on.
   bool get isOn => on.isOn;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate => mode != _originalMode || on != _originalOn;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///

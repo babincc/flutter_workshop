@@ -25,7 +25,26 @@ class HueHttpClient {
     required String applicationKey,
     required String? token,
   }) async =>
-      await _submitRequest(
+      await _submitRequestForBody(
+        url: url,
+        applicationKey: applicationKey,
+        token: token,
+        body: null,
+        requestType: _RequestType.get,
+      );
+
+  /// Fetch the headers of a resource call.
+  ///
+  /// `url` is the target.
+  ///
+  /// `applicationKey` is the key associated with this devices in the bridge's
+  /// whitelist.
+  static Future<Map<String, String>?> getHeaders({
+    required String url,
+    required String applicationKey,
+    required String? token,
+  }) async =>
+      await _submitRequestForHeaders(
         url: url,
         applicationKey: applicationKey,
         token: token,
@@ -47,7 +66,7 @@ class HueHttpClient {
     required String? token,
     required String body,
   }) async =>
-      await _submitRequest(
+      await _submitRequestForBody(
         url: url,
         applicationKey: applicationKey,
         token: token,
@@ -69,7 +88,7 @@ class HueHttpClient {
     required String? token,
     required String body,
   }) async =>
-      await _submitRequest(
+      await _submitRequestForBody(
         url: url,
         applicationKey: applicationKey,
         token: token,
@@ -88,13 +107,76 @@ class HueHttpClient {
     required String applicationKey,
     required String? token,
   }) async =>
-      await _submitRequest(
+      await _submitRequestForBody(
         url: url,
         applicationKey: applicationKey,
         token: token,
         body: null,
         requestType: _RequestType.delete,
       );
+
+  /// HTTP request logic that focuses on the body of the message.
+  ///
+  /// `url` is the target.
+  ///
+  /// `applicationKey` is the key associated with this devices in the bridge's
+  /// whitelist.
+  ///
+  /// `body` is the actual content being sent to the bridge.
+  ///
+  /// `requestType` the type of HTTP request being made.
+  static Future<Map<String, dynamic>?> _submitRequestForBody({
+    required String url,
+    required String? applicationKey,
+    required String? token,
+    required String? body,
+    required _RequestType requestType,
+  }) async {
+    final Response response = await _submitRequest(
+      url: url,
+      applicationKey: applicationKey,
+      token: token,
+      body: body,
+      requestType: requestType,
+    );
+
+    final List<Map<String, dynamic>> responseArr =
+        JsonTool.readJsonOr(response.body) ?? [];
+
+    if (responseArr.isEmpty) return null;
+
+    return responseArr.first;
+  }
+
+  /// HTTP request logic that focuses on the headers of the message.
+  ///
+  /// `url` is the target.
+  ///
+  /// `applicationKey` is the key associated with this devices in the bridge's
+  /// whitelist.
+  ///
+  /// `body` is the actual content being sent to the bridge.
+  ///
+  /// `requestType` the type of HTTP request being made.
+  static Future<Map<String, String>?> _submitRequestForHeaders({
+    required String url,
+    required String? applicationKey,
+    required String? token,
+    required String? body,
+    required _RequestType requestType,
+  }) async {
+    final Response response = await _submitRequest(
+      url: url,
+      applicationKey: applicationKey,
+      token: token,
+      body: body,
+      requestType: requestType,
+    );
+
+    if (response.headers.isEmpty) return null;
+
+    return response.headers;
+  }
 
   /// Actual logic for HTTP request.
   ///
@@ -106,45 +188,32 @@ class HueHttpClient {
   /// `body` is the actual content being sent to the bridge.
   ///
   /// `requestType` the type of HTTP request being made.
-  static Future<Map<String, dynamic>?> _submitRequest({
+  static Future<Response> _submitRequest({
     required String url,
     required String? applicationKey,
     required String? token,
     required String? body,
     required _RequestType requestType,
   }) async {
-    _HuePacket huePacket = _HuePacket(
+    final _HuePacket huePacket = _HuePacket(
       type: requestType,
       url: url,
       appKey: applicationKey,
       token: token,
     );
 
-    Response response;
     switch (requestType) {
       case _RequestType.post:
-        response = await client.post(huePacket.uri,
+        return await client.post(huePacket.uri,
             headers: huePacket.headers, body: body);
-        break;
       case _RequestType.put:
-        response = await client.put(huePacket.uri,
+        return await client.put(huePacket.uri,
             headers: huePacket.headers, body: body);
-        break;
       case _RequestType.delete:
-        response =
-            await client.delete(huePacket.uri, headers: huePacket.headers);
-        break;
+        return await client.delete(huePacket.uri, headers: huePacket.headers);
       case _RequestType.get:
-      default:
-        response = await client.get(huePacket.uri, headers: huePacket.headers);
+        return await client.get(huePacket.uri, headers: huePacket.headers);
     }
-
-    List<Map<String, dynamic>> responseArr =
-        JsonTool.readJsonOr(response.body) ?? [];
-
-    if (responseArr.isEmpty) return null;
-
-    return responseArr.first;
   }
 }
 

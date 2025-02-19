@@ -40,6 +40,12 @@ class LightColorGamut {
   /// CIE XY gamut position in the blue color channel.
   final LightColorXy blue;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate => red.hasUpdate || green.hasUpdate || blue.hasUpdate;
+
   /// Returns a copy of this object with its field values replaced by the
   /// ones provided to this method.
   ///

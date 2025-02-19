@@ -1,23 +1,28 @@
 name: example
 description: Demonstrates how to use the flutter_hue package.
 publish_to: "none"
-version: 1.2.5
-
+version: 2.0.0-beta.15
 environment:
-  sdk: ">=2.19.2 <3.0.0"
+  sdk: ">=3.3.3 <4.0.0"
 
 dependencies:
+  app_links: ^6.3.3
+  cupertino_icons: ^1.0.6
   flutter:
     sdk: flutter
   flutter_hue:
     path: ../
-  cupertino_icons: ^1.0.2
-  uni_links: ^0.5.1
+  just_audio: ^0.9.37
+  radio_group_v2: ^3.3.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.1
+  flutter_lints: ^5.0.0
+  lints: ^5.0.0
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/

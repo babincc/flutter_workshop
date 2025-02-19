@@ -64,6 +64,12 @@ class LightEffects {
   /// Possible status values in which a light could be when playing an effect.
   final List<String> statusValues;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate => effect != _originalEffect;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///
@@ -187,9 +193,9 @@ class LightEffects {
   @override
   int get hashCode => Object.hash(
         effect,
-        Object.hashAllUnordered(effectValues),
+        const DeepCollectionEquality.unordered().hash(effectValues),
         status,
-        Object.hashAllUnordered(statusValues),
+        const DeepCollectionEquality.unordered().hash(statusValues),
       );
 
   @override

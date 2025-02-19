@@ -48,6 +48,16 @@ class ScenePaletteColor {
   /// The value of [dimming] when this object was instantiated.
   LightDimming _originalDimming;
 
+  /// Whether or not this object has been updated.
+  ///
+  /// If `true`, then the data in this object differs from what is on the
+  /// bridge.
+  bool get hasUpdate =>
+      xy != _originalXy ||
+      xy.hasUpdate ||
+      dimming != _originalDimming ||
+      dimming.hasUpdate;
+
   /// Called after a successful PUT request, this method refreshed the
   /// "original" data in this object.
   ///
