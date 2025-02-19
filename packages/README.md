@@ -24,7 +24,7 @@ Brief summary on the package...
 
 ## dart_connect_metro
 
-**[view on pub.dev](https://pub.dev/packages/dart_connect_metro)** (external link)
+<a href="https://pub.dev/packages/dart_connect_metro" target="_blank" style="font-weight: bold;">view on pub.dev</a>
 
 **[source code](dart_connect_metro#readme)**
 
@@ -34,7 +34,7 @@ A Dart SDK that gives developers easy access to DC Metro data in real time.
 
 ## dart_gov_fbi
 
-**[view on pub.dev](https://pub.dev/packages/dart_gov_fbi)** (external link)
+<a href="https://pub.dev/packages/dart_gov_fbi" target="_blank" style="font-weight: bold;">view on pub.dev</a>
 
 **[source code](dart_gov_fbi#readme)**
 
@@ -44,7 +44,7 @@ A dart SDK that allows developers to communicate with the FBI's public APIs.
 
 ## dynamic_background
 
-**[view on pub.dev](https://pub.dev/packages/dynamic_background)** (external link)
+<a href="https://pub.dev/packages/dynamic_background" target="_blank" style="font-weight: bold;">view on pub.dev</a>
 
 **[source code](dynamic_background#readme)**
 
@@ -54,17 +54,19 @@ Effortlessly customize sleek stripes, gradients, or playful shapes for dynamic U
 
 ## flutter_hue
 
-**[view on pub.dev](https://pub.dev/packages/flutter_hue)** (external link)
+<a href="https://pub.dev/packages/flutter_hue" target="_blank" style="font-weight: bold;">view on pub.dev</a>
 
-**[source code](flutter_hue#readme)**
+<a href="https://github.com/babincc/flutter_hue#readme" target="_blank" style="font-weight: bold;">source code</a>
 
 An SDK designed for the Flutter framework that enables developers to easily integrate Philips Hue smart devices into their applications.
+
+See <a href="https://pub.dev/packages/dart_hue" target="_blank">dart_hue</a> for pure Dart version.
 
 [back to top](#table-of-contents)
 
 ## n_dimensional_array
 
-**[view on pub.dev](https://pub.dev/packages/n_dimensional_array)** (external link)
+<a href="https://pub.dev/packages/n_dimensional_array" target="_blank" style="font-weight: bold;">view on pub.dev</a>
 
 **[source code](n_dimensional_array#readme)**
 
@@ -74,7 +76,7 @@ As the name suggests, n_dimensional_array allows you to create arrays or lists o
 
 ## radio_group_v2
 
-**[view on pub.dev](https://pub.dev/packages/radio_group_v2)** (external link)
+<a href="https://pub.dev/packages/radio_group_v2" target="_blank" style="font-weight: bold;">view on pub.dev</a>
 
 **[source code](radio_group_v2#readme)**
 

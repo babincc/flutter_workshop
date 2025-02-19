@@ -48,6 +48,7 @@ GoogleService-Info.plist
 .pub/
 /build/
 pubspec.lock
+linux/flutter/ephemeral/
 
 # Web related
 lib/generated_plugin_registrant.dart
