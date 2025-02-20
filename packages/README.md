@@ -46,9 +46,9 @@ A dart SDK that allows developers to communicate with the FBI's public APIs.
 
 <a href="https://pub.dev/packages/dynamic_background" target="_blank" style="font-weight: bold;">view on pub.dev</a>
 
-**[source code](dynamic_background#readme)**
+<a href="https://github.com/babincc/dynamic_background#readme" target="_blank" style="font-weight: bold;">source code</a>
 
-Effortlessly customize sleek stripes, gradients, or playful shapes for dynamic UI backgrounds that captivate users instantly.
+Allows developers to create animated backgrounds for their Flutter apps.
 
 [back to top](#table-of-contents)
 
@@ -68,7 +68,7 @@ See <a href="https://pub.dev/packages/dart_hue" target="_blank">dart_hue</a> for
 
 <a href="https://pub.dev/packages/n_dimensional_array" target="_blank" style="font-weight: bold;">view on pub.dev</a>
 
-**[source code](n_dimensional_array#readme)**
+<a href="https://github.com/babincc/n_dimensional_array#readme" target="_blank" style="font-weight: bold;">source code</a>
 
 As the name suggests, n_dimensional_array allows you to create arrays or lists of n number of dimensions.
 
