@@ -36,7 +36,7 @@ A Dart SDK that gives developers easy access to DC Metro data in real time.
 
 <a href="https://pub.dev/packages/dart_gov_fbi" target="_blank" style="font-weight: bold;">view on pub.dev</a>
 
-**[source code](dart_gov_fbi#readme)**
+<a href="https://github.com/babincc/dart_gov_fbi#readme" target="_blank" style="font-weight: bold;">source code</a>
 
 A dart SDK that allows developers to communicate with the FBI's public APIs.
 
