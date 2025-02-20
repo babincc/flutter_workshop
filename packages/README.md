@@ -78,7 +78,7 @@ As the name suggests, n_dimensional_array allows you to create arrays or lists o
 
 <a href="https://pub.dev/packages/radio_group_v2" target="_blank" style="font-weight: bold;">view on pub.dev</a>
 
-**[source code](radio_group_v2#readme)**
+<a href="https://github.com/babincc/radio_group_v2#readme" target="_blank" style="font-weight: bold;">source code</a>
 
 A widget that groups radio buttons so they can work together to give the user a pleasant experience when making selections within the app.
 
