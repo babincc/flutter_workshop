@@ -26,7 +26,7 @@ Brief summary on the package...
 
 <a href="https://pub.dev/packages/dart_connect_metro" target="_blank" style="font-weight: bold;">view on pub.dev</a>
 
-**[source code](dart_connect_metro#readme)**
+<a href="https://github.com/babincc/dart_connect_metro#readme" target="_blank" style="font-weight: bold;">source code</a>
 
 A Dart SDK that gives developers easy access to DC Metro data in real time.
 
