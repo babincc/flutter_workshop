@@ -8,7 +8,7 @@ By clicking [here](my_skeleton#readme), you can view skeleton or starter code fo
 
 ## Packages
 
-By clicking [here](packages#readme), you can view the packages I've made and learn how to use them.
+By clicking [here](Packages_README.md), you can view the packages I've made and learn how to use them.
 
 ## Add-Ons
 
