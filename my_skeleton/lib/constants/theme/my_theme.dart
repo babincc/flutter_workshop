@@ -16,27 +16,25 @@ class MyTheme {
             Brightness.dark, // For Android (dark == dark icons)
         statusBarBrightness: Brightness.light, // For iOS (light == dark icons)
       ),
+      backgroundColor: Colors.transparent,
+      surfaceTintColor: Colors.transparent,
+      elevation: 0.0,
     ),
     canvasColor: MyColors.lightBackground,
     textTheme: textTheme,
     inputDecorationTheme: InputDecorationTheme(
-      floatingLabelBehavior: FloatingLabelBehavior.always,
       contentPadding: const EdgeInsets.symmetric(
         horizontal: MyMeasurements.textPadding * 2,
         vertical: MyMeasurements.textPadding,
       ),
-      hintStyle: const TextStyle(
-        color: MyColors.lightHint,
-      ),
-      errorStyle: const TextStyle(
-        color: MyColors.lightError,
-      ),
+      hintStyle: const TextStyle(color: MyColors.lightHint),
+      errorStyle: const TextStyle(color: MyColors.lightError),
       filled: true,
       fillColor: MyColors.lightTextField,
-      enabledBorder: border,
-      focusedBorder: border,
-      errorBorder: border,
-      focusedErrorBorder: border,
+      enabledBorder: lightBorder,
+      focusedBorder: lightFocusBorder,
+      errorBorder: lightErrorBorder,
+      focusedErrorBorder: lightFocusBorder,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -45,12 +43,8 @@ class MyTheme {
         disabledBackgroundColor: MyColors.lightDisabled,
         disabledForegroundColor: MyColors.onLightDisabled,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(MyMeasurements.borderRadius),
-        ),
-        textStyle: const TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
+        shape: const StadiumBorder(),
+        textStyle: const TextStyle(fontWeight: FontWeight.bold),
       ),
     ),
     dividerTheme: const DividerThemeData(
@@ -71,27 +65,25 @@ class MyTheme {
             Brightness.light, // For Android (light == light icons)
         statusBarBrightness: Brightness.dark, // For iOS (dark == light icons)
       ),
+      backgroundColor: Colors.transparent,
+      surfaceTintColor: Colors.transparent,
+      elevation: 0.0,
     ),
     canvasColor: MyColors.darkBackground,
     textTheme: textTheme,
     inputDecorationTheme: InputDecorationTheme(
-      floatingLabelBehavior: FloatingLabelBehavior.always,
       contentPadding: const EdgeInsets.symmetric(
         horizontal: MyMeasurements.textPadding * 2,
         vertical: MyMeasurements.textPadding,
       ),
-      hintStyle: const TextStyle(
-        color: MyColors.darkHint,
-      ),
-      errorStyle: const TextStyle(
-        color: MyColors.darkError,
-      ),
+      hintStyle: const TextStyle(color: MyColors.darkHint),
+      errorStyle: const TextStyle(color: MyColors.darkError),
       filled: true,
       fillColor: MyColors.darkTextField,
-      enabledBorder: border,
-      focusedBorder: border,
-      errorBorder: border,
-      focusedErrorBorder: border,
+      enabledBorder: darkBorder,
+      focusedBorder: darkFocusBorder,
+      errorBorder: darkErrorBorder,
+      focusedErrorBorder: darkFocusBorder,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -100,12 +92,8 @@ class MyTheme {
         disabledBackgroundColor: MyColors.darkDisabled,
         disabledForegroundColor: MyColors.onDarkDisabled,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(MyMeasurements.borderRadius),
-        ),
-        textStyle: const TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
+        shape: const StadiumBorder(),
+        textStyle: const TextStyle(fontWeight: FontWeight.bold),
       ),
     ),
     dividerTheme: const DividerThemeData(
@@ -115,9 +103,30 @@ class MyTheme {
     ),
   );
 
+  /// The light border for the text fields.
+  static OutlineInputBorder get lightBorder => _border(MyColors.lightBorder);
+
+  /// The dark border for the text fields.
+  static OutlineInputBorder get darkBorder => _border(MyColors.darkBorder);
+
+  /// The light focus border for the text fields.
+  static OutlineInputBorder get lightFocusBorder =>
+      _border(MyColors.lightBorderFocused);
+
+  /// The dark focus border for the text fields.
+  static OutlineInputBorder get darkFocusBorder =>
+      _border(MyColors.darkBorderFocused);
+
+  /// The light error border for the text fields.
+  static OutlineInputBorder get lightErrorBorder =>
+      _border(MyColors.lightError);
+
+  /// The dark error border for the text fields.
+  static OutlineInputBorder get darkErrorBorder => _border(MyColors.darkError);
+
   /// The border for the text fields.
-  static final OutlineInputBorder border = OutlineInputBorder(
-    borderSide: BorderSide.none,
+  static OutlineInputBorder _border(Color color) => OutlineInputBorder(
+    borderSide: BorderSide(color: color, width: MyMeasurements.borderWidth),
     borderRadius: BorderRadius.circular(MyMeasurements.borderRadius),
     gapPadding: MyMeasurements.textPadding,
   );
@@ -164,23 +173,23 @@ class MyTheme {
       fontSize: MyMeasurements.defaultFontSizeBodyLarge,
       height: MyMeasurements.defaultHeightBodyLarge,
     ),
-    bodyMedium: GoogleFonts.openSans().copyWith(
+    bodyMedium: GoogleFonts.inter().copyWith(
       fontSize: MyMeasurements.defaultFontSizeBodyMedium,
       height: MyMeasurements.defaultHeightBodyMedium,
     ),
-    bodySmall: GoogleFonts.openSans().copyWith(
+    bodySmall: GoogleFonts.inter().copyWith(
       fontSize: MyMeasurements.defaultFontSizeBodySmall,
       height: MyMeasurements.defaultHeightBodySmall,
     ),
-    labelLarge: GoogleFonts.openSans().copyWith(
+    labelLarge: GoogleFonts.inter().copyWith(
       fontSize: MyMeasurements.defaultFontSizeLabelLarge,
       height: MyMeasurements.defaultHeightLabelLarge,
     ),
-    labelMedium: GoogleFonts.openSans().copyWith(
+    labelMedium: GoogleFonts.inter().copyWith(
       fontSize: MyMeasurements.defaultFontSizeLabelMedium,
       height: MyMeasurements.defaultHeightLabelMedium,
     ),
-    labelSmall: GoogleFonts.openSans().copyWith(
+    labelSmall: GoogleFonts.inter().copyWith(
       fontSize: MyMeasurements.defaultFontSizeLabelSmall,
       height: MyMeasurements.defaultHeightLabelSmall,
     ),

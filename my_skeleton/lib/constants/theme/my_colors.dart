@@ -143,8 +143,12 @@ class MyColors {
   // ///////////////////////// Secondary Container ////////////////////////// //
 
   /// The secondary container color in light mode.
-  static const Color lightSecondaryContainer =
-      Color.fromRGBO(246, 246, 246, 1.0);
+  static const Color lightSecondaryContainer = Color.fromRGBO(
+    246,
+    246,
+    246,
+    1.0,
+  );
 
   /// The secondary container color in dark mode.
   static const Color darkSecondaryContainer = Color.fromRGBO(40, 40, 39, 1.0);
@@ -177,6 +181,17 @@ class MyColors {
   /// Returns the text field color for the current [themeType].
   Color get textField =>
       identical(themeType, MyThemeType.light) ? lightTextField : darkTextField;
+
+  /// The text field color when hovered over in light mode.
+  static const Color lightTextFieldHover = Color.fromRGBO(240, 240, 240, 1.0);
+
+  /// The text field color when hovered over in dark mode.
+  static const Color darkTextFieldHover = Color.fromRGBO(60, 60, 64, 1.0);
+
+  /// Returns the text field color when hovered over for the current [themeType].
+  Color get textFieldHover => identical(themeType, MyThemeType.light)
+      ? lightTextFieldHover
+      : darkTextFieldHover;
 
   /// The color of the hint on text fields in light mode.
   static const Color lightHint = Color.fromRGBO(100, 100, 100, 1.0);
@@ -254,11 +269,26 @@ class MyColors {
   Color get divider =>
       identical(themeType, MyThemeType.light) ? lightDivider : darkDivider;
 
-  // //////////////////////////////// Misc. ///////////////////////////////// //
+  // //////////////////////////////// Border //////////////////////////////// //
 
-  /// A color near black to use throughout the app.
-  static const Color nearBlack = Color.fromRGBO(25, 25, 25, 1.0);
+  /// The color of borders in light mode.
+  static const Color lightBorder = Color.fromRGBO(203, 203, 203, 1.0);
 
-  /// A color near white to use throughout the app.
-  static const Color nearWhite = Color.fromRGBO(246, 246, 246, 1.0);
+  /// The color of borders in dark mode.
+  static const Color darkBorder = Color.fromRGBO(203, 203, 203, 1.0);
+
+  /// Returns the color of borders for the current [themeType].
+  Color get border =>
+      identical(themeType, MyThemeType.light) ? lightBorder : darkBorder;
+
+  /// The color of focused borders in light mode.
+  static const Color lightBorderFocused = Color.fromRGBO(223, 223, 223, 1.0);
+
+  /// The color of focused borders in dark mode.
+  static const Color darkBorderFocused = Color.fromRGBO(223, 223, 223, 1.0);
+
+  /// Returns the color of focused borders for the current [themeType].
+  Color get borderFocused => identical(themeType, MyThemeType.light)
+      ? lightBorderFocused
+      : darkBorderFocused;
 }

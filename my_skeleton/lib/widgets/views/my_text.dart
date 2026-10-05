@@ -27,10 +27,10 @@ class MyText extends StatelessWidget {
     this.textHeightBehavior,
     this.selectionColor,
   }) : assert(
-          myTextStyle == MyTextStyle.body || style == null,
-          'ERROR: Either `myTextStyle` needs to be [MyTextStyle.body] OR '
-          '`style` needs to be `null`!',
-        );
+         myTextStyle == MyTextStyle.body || style == null,
+         'ERROR: Either `myTextStyle` needs to be [MyTextStyle.body] OR '
+         '`style` needs to be `null`!',
+       );
 
   /// [Text.data]
   final String data;
@@ -106,15 +106,13 @@ class MyText extends StatelessWidget {
   static TextStyle? getStyle(BuildContext context, MyTextStyle myTextStyle) {
     switch (myTextStyle) {
       case MyTextStyle.display:
-        return Theme.of(context).textTheme.displayLarge?.copyWith(
-              fontWeight: FontWeight.w900,
-            );
+        return Theme.of(context).textTheme.displayLarge
+            ?.copyWith(fontWeight: FontWeight.w900);
       case MyTextStyle.title:
         return Theme.of(context).textTheme.headlineSmall;
       case MyTextStyle.header:
-        return Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            );
+        return Theme.of(context).textTheme.titleMedium
+            ?.copyWith(fontWeight: FontWeight.bold);
       case MyTextStyle.caption:
         return Theme.of(context).textTheme.bodySmall;
       case MyTextStyle.body:
@@ -138,5 +136,5 @@ enum MyTextStyle {
   header,
 
   /// The smallest text like fine print.
-  caption;
+  caption,
 }

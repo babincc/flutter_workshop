@@ -7,35 +7,40 @@
 import 'dart:io';
 
 import 'package:collection/collection.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
+import 'package:my_skeleton/domain/models/my_error.dart';
+import 'package:my_skeleton/domain/repos/my_error_repo.dart';
 import 'package:stack_trace/stack_trace.dart';
 
 /// This class is used to help with debugging.
 class DebugLog {
   const DebugLog._();
 
-  /// Prints a message to the console in testing, and sends it to Crashlytics
+  /// Prints a message to the console in testing, and sends it to the database
   /// in production.
   ///
   /// ```dart
-  /// DebugLog.out('Howdy'); // "Howdy"
-  /// DebugLog.out('Howdy', logType: LogType.error); // "Howdy" (in red)
+  /// DebugLog.out('MyFile', 'MyMethod', 'Howdy'); // "MyFile/MyMethod: Howdy"
+  /// DebugLog.out('MyFile', 'MyMethod', 'Howdy', logType: LogType.error); // "MyFile/MyMethod: Howdy" (in red)
   /// ```
   ///
   /// In the above examples, if the app is live, nothing happens. The example
-  /// below shows how to send to Crashlytics.
+  /// below shows how to send to the database.
   ///
   /// ```dart
-  /// // If live, this will send "Howdy" to Crashlytics.
+  /// // If live, this will send "Howdy" to the database.
   /// // If testing, this will print "Howdy" to the console.
-  /// DebugLog.out('Howdy', sendToCrashlytics: true);
+  /// DebugLog.out('MyFile', 'MyMethod', 'Howdy', sendToDatabase: true);
   /// ```
   static void out(
+    String file,
+    String method,
     Object? message, {
     LogType logType = LogType.debug,
-    bool sendToCrashlytics = false,
+    bool sendToDatabase = false,
   }) {
+    String messagePrefix = '$file/$method: ';
+
     String messageString;
     if (message == null) {
       messageString = 'null';
@@ -44,20 +49,23 @@ class DebugLog {
     } else {
       messageString = message.toString();
     }
+    messageString = messagePrefix + messageString;
 
     final List<String> messageList = messageString.split('\n');
 
     final Trace trace = Trace.current();
 
     final Frame? frame = trace.frames.firstWhereOrNull(
-        (frame) => !frame.uri.toString().contains('debug_log.dart'));
+      (frame) => !frame.uri.toString().contains('debug_log.dart'),
+    );
 
     String callPath;
 
     if (frame == null) {
       callPath = 'unknown_calling_class: ';
     } else {
-      callPath = '${frame.uri} ${frame.line ?? '??'}:${frame.column ?? '??'}\t'
+      callPath =
+          '${frame.uri} ${frame.line ?? '??'}:${frame.column ?? '??'}\t'
           '${frame.member ?? 'unknown_calling_method'}';
     }
 
@@ -100,9 +108,16 @@ class DebugLog {
       return;
     }
 
-    if (sendToCrashlytics) {
-      // Send the message to Crashlytics.
-      _sendToCrashlytics('$callPath: $messageString');
+    if (sendToDatabase && kReleaseMode) {
+      final MyError error = MyError(
+        file: file,
+        method: method,
+        message: messageString,
+        logType: logType,
+        trace: callPath,
+      );
+
+      MyErrorRepo.sendError(error);
     }
   }
 
@@ -149,28 +164,6 @@ class DebugLog {
 
     print('\x1B[34m$message\x1B[0m');
   }
-
-  /// Sends a `message` to Crashlytics.
-  static Future<void> _sendToCrashlytics(String message) async {
-    /// The Crashlytics instance.
-    final FirebaseCrashlytics crashlytics = FirebaseCrashlytics.instance;
-
-    /// Get the stack trace of the call to this debugger.
-    List<String> stackTraceList = StackTrace.current.toString().split('\n');
-
-    // Remove the first two lines of the stack trace, which are the call to
-    // this debugger.
-    stackTraceList = stackTraceList.getRange(2, stackTraceList.length).toList();
-
-    /// The stack trace as a string.
-    final String stackTraceString = stackTraceList.join('\n');
-
-    /// The stack trace as a StackTrace object.
-    final StackTrace stackTrace = StackTrace.fromString(stackTraceString);
-
-    /// The Crashlytics message.
-    await crashlytics.recordError(message, stackTrace, printDetails: false);
-  }
 }
 
 /// The type of log to be printed.
@@ -179,21 +172,34 @@ enum LogType {
   ///
   /// Will print in orange text if not in production, and the console supports
   /// it.
-  warning,
+  warning('warning'),
 
   /// Something important and app breaking.
   ///
   /// Will print in red text if not in production, and the console supports it.
-  error,
+  error('error'),
 
   /// Something that is important to know was successful.
   ///
   /// Will print in green text if not in production, and the console supports
   /// it.
-  success,
+  success('success'),
 
   /// Something that is useful for debugging.
   ///
   /// Will print in blue text if not in production, and the console supports it.
-  debug,
+  debug('debug');
+
+  const LogType(this.value);
+
+  /// The string representation of this [LogType].
+  final String value;
+
+  /// Get a [LogType] from a given string `value`.
+  static LogType fromString(String value) {
+    return values.firstWhere(
+      (role) => role.value == value,
+      orElse: () => debug,
+    );
+  }
 }

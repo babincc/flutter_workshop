@@ -116,4 +116,52 @@ class MyValidator {
     // false.
     return regExp.hasMatch(name);
   }
+
+  /// This method checks to see if a given string is a valid username.
+  ///
+  /// It will return `true` if the username provided is formatted correctly.
+  static bool isValidUsername(String? username) {
+    // If there is no string, it is not a valid username.
+    if (username == null || username.isEmpty) return false;
+
+    /// The regex pattern to compare the possible username to.
+    const String pattern = r'^[a-zA-Z0-9_.+-~]+$';
+
+    /// The regex object that will be compared to the possible username.
+    final regExp = RegExp(pattern);
+
+    // Return `true` if the username is formatted correctly; otherwise, return
+    // false.
+    return regExp.hasMatch(username);
+  }
+
+  /// This method checks to see if a given string is a valid URL.
+  ///
+  /// It will return `true` if the URL provided is formatted correctly.
+  static bool isValidUrl(String? url) {
+    // If there is no string, it is not a valid URL.
+    if (url == null || url.isEmpty) return false;
+
+    final uri = Uri.tryParse(url);
+    return uri != null && uri.hasScheme && uri.hasAuthority;
+  }
+
+  /// This method checks to see if a given string is a hex color code.
+  ///
+  /// It will return `true` if the hex code provided is formatted correctly.
+  static bool isValidHexColor(String? hex) {
+    // If there is no string, it is not a valid hex code.
+    if (hex == null || hex.isEmpty) return false;
+
+    /// The regex pattern to compare the possible hex code to.
+    const String pattern =
+        r'^#?([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}|[A-Fa-f0-9]{8})$';
+
+    /// The regex object that will be compared to the possible hex code.
+    final regExp = RegExp(pattern);
+
+    // Return `true` if the hex code is formatted correctly; otherwise, return
+    // false.
+    return regExp.hasMatch(hex);
+  }
 }

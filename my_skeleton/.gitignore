@@ -5,9 +5,11 @@
 *.swp
 .DS_Store
 .atom/
+.build/
 .buildlog/
 .history
 .svn/
+.swiftpm/
 migrate_working_dir/
 
 # Environment files
@@ -23,15 +25,14 @@ firebase_options.dart
 google-services.json
 GoogleService-Info.plist
 
-#VS Code related
-.VSCodeCounter
-
 # IntelliJ related
 *.iml
 *.ipr
 *.iws
 .idea/
 
+#VS Code related
+.VSCodeCounter
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
@@ -47,6 +48,7 @@ GoogleService-Info.plist
 .pub-cache/
 .pub/
 /build/
+/coverage/
 pubspec.lock
 linux/flutter/ephemeral/
 
@@ -63,3 +65,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Widget Preview related
+.widget_preview/

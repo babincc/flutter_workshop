@@ -329,22 +329,20 @@ class MyTools {
     );
 
     // Delay the insertion until the current frame is complete.
-    SchedulerBinding.instance.addPostFrameCallback(
-      (_) {
-        Overlay.of(context).insert(overlayEntry);
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      Overlay.of(context).insert(overlayEntry);
 
-        // Schedule a frame to ensure the widget is fully laid out.
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          final Size? size = _SizeMeasureWidget.getSize(key);
+      // Schedule a frame to ensure the widget is fully laid out.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final Size? size = _SizeMeasureWidget.getSize(key);
 
-          // Complete the future with the size.
-          completer.complete(size);
+        // Complete the future with the size.
+        completer.complete(size);
 
-          // Remove the widget from the Overlay.
-          overlayEntry.remove();
-        });
-      },
-    );
+        // Remove the widget from the Overlay.
+        overlayEntry.remove();
+      });
+    });
 
     return completer.future;
   }
@@ -369,18 +367,6 @@ class MyTools {
     final Size size = textPainter.size;
 
     return size;
-  }
-
-  /// The path separator for the current platform.
-  static String get pathSeparator {
-    String pathSeparator;
-    try {
-      pathSeparator = Platform.pathSeparator;
-    } catch (e) {
-      pathSeparator = '/';
-    }
-
-    return pathSeparator;
   }
 }
 
@@ -504,8 +490,9 @@ class _SizeMeasureWidget extends StatefulWidget {
   final Widget child;
 
   static Size? getSize(
-      // ignore: library_private_types_in_public_api
-      GlobalKey<_SizeMeasureWidgetState> key) {
+    // ignore: library_private_types_in_public_api
+    GlobalKey<_SizeMeasureWidgetState> key,
+  ) {
     if (key.currentState != null && key.currentState!.mounted) {
       return key.currentState!.calculateSize();
     }
@@ -544,25 +531,17 @@ class _SizeMeasureWidgetState extends State<_SizeMeasureWidget> {
                     constraints: BoxConstraints(maxWidth: _screenSize!.width),
                     child: widget.child,
                   ),
-                  // TODO Making this "Expanded" will make the width of the widget
-                  //  cut in half if the widget we are measuring is also an
-                  //  "Expanded" widget.
-                  Expanded(
-                    child: Container(
-                      key: _sizeKey1,
-                    ),
-                  ),
+                  // WARNING: Making this "Expanded" will make the width of the
+                  // widget cut in half if the widget we are measuring is also
+                  // an "Expanded" widget.
+                  Expanded(child: Container(key: _sizeKey1)),
                 ],
               ),
             ),
-            // TODO Making this "Expanded" will make the height of the widget cut
-            //  in half if the widget we are measuring is also an "Expanded"
-            //  widget.
-            Expanded(
-              child: Container(
-                key: _sizeKey2,
-              ),
-            )
+            // WARNING: Making this "Expanded" will make the height of the
+            // widget cut in half if the widget we are measuring is also an
+            // "Expanded" widget.
+            Expanded(child: Container(key: _sizeKey2)),
           ],
         ),
       ),

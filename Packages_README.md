@@ -8,7 +8,7 @@ Here are all the packages I have made. There will be a link on each one to tell 
 - [Dynamic BG](#dynamic_background)
 - [Flutter Hue](#flutter_hue)
 - [n-Dimensional Array](#n_dimensional_array)
-- [Radio Group](#radio_group_v2)
+- [Radio Group Builder](#radio_group_builder)
 
 <!---     TEMPLATE
 ## class_name
@@ -74,12 +74,14 @@ As the name suggests, n_dimensional_array allows you to create arrays or lists o
 
 [back to top](#table-of-contents)
 
-## radio_group_v2
+## radio_group_builder
 
-<a href="https://pub.dev/packages/radio_group_v2" target="_blank" style="font-weight: bold;">view on pub.dev</a>
+<a href="https://pub.dev/packages/radio_group_builder" target="_blank" style="font-weight: bold;">view on pub.dev</a>
 
-<a href="https://github.com/babincc/radio_group_v2#readme" target="_blank" style="font-weight: bold;">source code</a>
+<a href="https://github.com/babincc/radio_group_builder#readme" target="_blank" style="font-weight: bold;">source code</a>
 
-A widget that groups radio buttons so they can work together to give the user a pleasant experience when making selections within the app.
+Build labeled radio buttons from a list with vertical or wrapping layouts, decoration, and a controller for value/index selection and silent updates.
+
+See <a href="https://pub.dev/packages/radio_group_v2" target="_blank">radio_group_v2</a> for deprecated version.
 
 [back to top](#table-of-contents)

@@ -1,31 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_skeleton/constants/strings/strings.dart';
 import 'package:my_skeleton/constants/theme/my_measurements.dart';
 import 'package:my_skeleton/navigation/my_routes.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
-import 'package:my_skeleton/providers/my_string_provider.dart';
 
 class MyDrawerMenu extends StatelessWidget {
   const MyDrawerMenu({super.key});
 
   @override
   Widget build(BuildContext context) {
-    /// All of the strings on this page.
-    final Strings strings = MyStringProvider.of(
-      context,
-      listen: true,
-    ).strings;
-
     return Drawer(
       child: Column(
         children: [
           // HEADER
           const DrawerHeader(
             decoration: BoxDecoration(),
-            child: Row(
-              children: [],
-            ),
+            child: Row(children: []),
           ),
 
           // PROFILE
@@ -34,14 +24,9 @@ class MyDrawerMenu extends StatelessWidget {
               children: [
                 const Padding(
                   padding: EdgeInsets.only(right: MyMeasurements.textPadding),
-                  child: Icon(
-                    Icons.person,
-                  ),
+                  child: Icon(Icons.person),
                 ),
-                Text(
-                  strings.profile.capitalizeEachWord(),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
+                Text('Profile'),
               ],
             ),
             onTap: () {
@@ -56,14 +41,9 @@ class MyDrawerMenu extends StatelessWidget {
               children: [
                 const Padding(
                   padding: EdgeInsets.only(right: MyMeasurements.textPadding),
-                  child: Icon(
-                    Icons.settings,
-                  ),
+                  child: Icon(Icons.settings),
                 ),
-                Text(
-                  strings.settings.capitalizeEachWord(),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
+                Text('Settings'),
               ],
             ),
             onTap: () {
@@ -78,14 +58,9 @@ class MyDrawerMenu extends StatelessWidget {
               children: [
                 const Padding(
                   padding: EdgeInsets.only(right: MyMeasurements.textPadding),
-                  child: Icon(
-                    Icons.edit_document,
-                  ),
+                  child: Icon(Icons.edit_document),
                 ),
-                Text(
-                  strings.formExample.capitalizeEachWord(),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
+                Text('Form Example'),
               ],
             ),
             onTap: () {
@@ -100,14 +75,9 @@ class MyDrawerMenu extends StatelessWidget {
               children: [
                 const Padding(
                   padding: EdgeInsets.only(right: MyMeasurements.textPadding),
-                  child: Icon(
-                    Icons.help,
-                  ),
+                  child: Icon(Icons.help),
                 ),
-                Text(
-                  strings.help.capitalizeEachWord(),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
+                Text('Help'),
               ],
             ),
             onTap: () {
@@ -122,29 +92,20 @@ class MyDrawerMenu extends StatelessWidget {
               children: [
                 const Padding(
                   padding: EdgeInsets.only(right: MyMeasurements.textPadding),
-                  child: Icon(
-                    Icons.logout,
-                  ),
+                  child: Icon(Icons.logout),
                 ),
-                Text(
-                  strings.logOut.capitalizeEachWord(),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
+                Text('Sign Out'),
               ],
             ),
             onTap: () {
-              MyAuthProvider.of(context).logOut().then(
-                (value) {
-                  if (context.mounted) {
-                    context.goNamed(MyRoutes.loginScreen);
-                  }
-                },
-              );
+              MyAuthProvider.of(context).logOut(context).then((value) {
+                if (context.mounted) {
+                  context.goNamed(MyRoutes.loginScreen);
+                }
+              });
             },
           ),
-          const SizedBox(
-            height: MyMeasurements.distanceFromEdge,
-          ),
+          const SizedBox(height: MyMeasurements.distanceFromEdge),
         ],
       ),
     );

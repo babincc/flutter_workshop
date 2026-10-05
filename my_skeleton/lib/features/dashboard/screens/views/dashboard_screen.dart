@@ -10,11 +10,7 @@ class DashboardScreen extends StatelessWidget {
     return MyScaffold(
       appBar: AppBar(),
       drawer: const MyDrawerMenu(),
-      builder: (context) => const Column(
-        children: [
-          Text('Howdy'),
-        ],
-      ),
+      builder: (context) => const Column(children: [Text('Howdy')]),
     );
   }
 }

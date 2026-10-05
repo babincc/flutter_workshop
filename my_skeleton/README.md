@@ -2,7 +2,7 @@
 
 **[View source code](lib)**
 
-This is skeleton or starter code for a new Flutter project.
+This is skeleton (starter) code for a new Flutter project.
 
 <br>
 

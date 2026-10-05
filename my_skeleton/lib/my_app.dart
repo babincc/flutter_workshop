@@ -5,9 +5,9 @@ import 'package:my_skeleton/domain/models/my_app_initializer.dart';
 import 'package:my_skeleton/domain/models/my_root_providers_container.dart';
 import 'package:my_skeleton/navigation/my_routes.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
-import 'package:my_skeleton/providers/my_string_provider.dart';
 import 'package:my_skeleton/providers/my_theme_provider.dart';
 import 'package:my_skeleton/providers/my_user_provider.dart';
+import 'package:my_skeleton/utils/debug_log.dart';
 import 'package:provider/provider.dart';
 
 /// This file sets up the app and is the root file connecting all of the others
@@ -31,17 +31,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<MyThemeProvider>.value(
           value: myRootProviders.myThemeProvider,
         ),
-        ChangeNotifierProvider<MyStringProvider>.value(
-          value: myRootProviders.myStringProvider,
-        ),
       ],
       builder: (context, _) {
         return Selector<MyAuthProvider, bool>(
           selector: (context, myAuthProvider) => myAuthProvider.isLoggedIn,
           builder: (context, isLoggedIn, _) {
             return AnnotatedRegion<SystemUiOverlayStyle>(
-              value: identical(context.watch<MyThemeProvider>().themeType,
-                      MyThemeType.dark)
+              value:
+                  context.watch<MyThemeProvider>().themeType == MyThemeType.dark
                   ? SystemUiOverlayStyle.light
                   : SystemUiOverlayStyle.dark,
               child: FutureBuilder(
@@ -56,37 +53,42 @@ class MyApp extends StatelessWidget {
                     didInit = false;
                   }
 
-                  if (identical(
-                      snapshot.connectionState, ConnectionState.done)) {
+                  if (snapshot.connectionState == ConnectionState.done) {
                     if (!didInit) {
-                      // Failed to initialize the app, display error screen.
-                      WidgetsBinding.instance.addPostFrameCallback(
-                        (_) {
-                          myRootProviders.myGoRouter
-                              .goNamed(MyRoutes.errorScreen);
-                        },
-                      );
+                      // Failed to initialize the app, display error
+                      // screen.
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        DebugLog.out(
+                          'MyApp',
+                          'build',
+                          'Error\n'
+                              '\tdidInit: $didInit\n'
+                              '${MyAppInitializer.debugOutput}',
+                          logType: LogType.error,
+                          sendToDatabase: true,
+                        );
+
+                        myRootProviders.myGoRouter.goNamed(
+                          MyRoutes.errorScreen,
+                        );
+                      });
                     }
 
                     // App is initialized, display the app.
                     return GestureDetector(
                       onTap: () =>
                           FocusManager.instance.primaryFocus?.unfocus(),
-                      child: MaterialApp.router(
-                        title: 'My Skeleton',
+                      child: _myMaterialAppRouter(
+                        context: context,
                         routerConfig: myRootProviders.myGoRouter,
-                        theme: context.select<MyThemeProvider, ThemeData>(
-                            (MyThemeProvider myTheme) => myTheme.themeData),
                       ),
                     );
                   } else {
                     // App is not initialized, display a blank screen.
-                    return MaterialApp(
-                      title: 'My Skeleton',
-                      theme: context.select<MyThemeProvider, ThemeData>(
-                          (MyThemeProvider myTheme) => myTheme.themeData),
+                    return _myMaterialApp(
+                      context: context,
                       builder: (context, _) {
-                        return const Scaffold();
+                        return const Scaffold(); // TODO: Add a splash screen here
                       },
                     );
                   }
@@ -96,6 +98,35 @@ class MyApp extends StatelessWidget {
           },
         );
       },
+    );
+  }
+
+  // TODO: Change to app title.
+  static const String _title = 'My Skeleton';
+
+  Widget _myMaterialApp({
+    required BuildContext context,
+    required Widget Function(BuildContext, Widget?)? builder,
+  }) {
+    return MaterialApp(
+      title: _title,
+      theme: context.select<MyThemeProvider, ThemeData>(
+        (MyThemeProvider myTheme) => myTheme.themeData,
+      ),
+      builder: builder,
+    );
+  }
+
+  Widget _myMaterialAppRouter({
+    required BuildContext context,
+    required RouterConfig<Object>? routerConfig,
+  }) {
+    return MaterialApp.router(
+      title: _title,
+      routerConfig: routerConfig,
+      theme: context.select<MyThemeProvider, ThemeData>(
+        (MyThemeProvider myTheme) => myTheme.themeData,
+      ),
     );
   }
 }

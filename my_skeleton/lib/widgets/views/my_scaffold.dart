@@ -80,13 +80,11 @@ class MyScaffold extends StatelessWidget {
         } else {
           final NavigatorState navigator = Navigator.of(context);
 
-          await onPopInvoked!().then(
-            (canPop) {
-              if (canPop && navigator.mounted) {
-                navigator.pop();
-              }
-            },
-          );
+          await onPopInvoked!().then((canPop) {
+            if (canPop && navigator.mounted) {
+              navigator.pop();
+            }
+          });
         }
       },
       child: Scaffold(
@@ -94,9 +92,8 @@ class MyScaffold extends StatelessWidget {
         drawer: drawer,
         backgroundColor: backgroundColor,
         body: SafeArea(
-          child: Padding(
-            padding: padding,
-            child: _buildLayout(context),
+          child: SingleChildScrollView(
+            child: Padding(padding: padding, child: _buildLayout(context)),
           ),
         ),
       ),
@@ -106,9 +103,7 @@ class MyScaffold extends StatelessWidget {
   /// This method lays out the given [child] based on [isCentered].
   Widget _buildLayout(BuildContext context) {
     if (isCentered) {
-      return Center(
-        child: builder(context),
-      );
+      return Center(child: builder(context));
     }
 
     return builder(context);

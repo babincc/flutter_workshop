@@ -59,18 +59,6 @@ class MyFileExplorer {
 
   bool _didInit = false;
 
-  /// The path separator for the current platform.
-  static String get pathSeparator {
-    String pathSeparator;
-    try {
-      pathSeparator = Platform.pathSeparator;
-    } catch (e) {
-      pathSeparator = '/';
-    }
-
-    return pathSeparator;
-  }
-
   /// The path to the app's documents directory.
   ///
   /// This directory is used to store user-generated content.
@@ -253,7 +241,7 @@ class MyFileExplorer {
     }
 
     // Check for path separators.
-    if (fileName.contains(pathSeparator)) {
+    if (fileName.contains('/') || fileName.contains('\\')) {
       return false;
     }
 
@@ -295,11 +283,8 @@ class MyFileExplorer {
   /// May throw an exception if called before the instance of this class is
   /// initialized. To make sure the instance is initialized, call and `await`
   /// [ensureInitialized].
-  String createPath({
-    required LocalDir localDir,
-    required String subPath,
-  }) {
-    final String localDirPath = '${getPath(localDir)}$pathSeparator';
+  String createPath({required LocalDir localDir, required String subPath}) {
+    final String localDirPath = '${getPath(localDir)}/';
     final String subPathSterile = sterilizePath(subPath);
 
     // Check for valid sub-path.
@@ -347,7 +332,7 @@ class MyFileExplorer {
       throw FormatException('$fileName is not a valid file name!');
     }
 
-    return '$path$pathSeparator$fileNameSterile';
+    return '$path/$fileNameSterile';
   }
 
   /// Returns a new file path by combining the given `filePath` and
@@ -373,7 +358,12 @@ class MyFileExplorer {
   /// ```
   static String getNewNameWithPath(String filePath, String newFileName) {
     try {
-      return '${filePath.substring(0, filePath.lastIndexOf(pathSeparator) + 1)}'
+      if (filePath.contains('\\')) {
+        return '${filePath.substring(0, filePath.lastIndexOf('\\') + 1)}'
+            '$newFileName';
+      }
+
+      return '${filePath.substring(0, filePath.lastIndexOf('/') + 1)}'
           '$newFileName';
     } catch (e) {
       throw FormatException('$filePath is not a valid file path.');
@@ -450,14 +440,21 @@ class MyFileExplorer {
 
     String fileName;
 
-    if (filePath.contains(pathSeparator)) {
+    if (filePath.contains('/')) {
       fileName = filePath.substring(
-          filePath.lastIndexOf(pathSeparator) + 1, filePath.lastIndexOf('.'));
+        filePath.lastIndexOf('/') + 1,
+        filePath.lastIndexOf('.'),
+      );
+    } else if (filePath.contains('\\')) {
+      fileName = filePath.substring(
+        filePath.lastIndexOf('\\') + 1,
+        filePath.lastIndexOf('.'),
+      );
     } else {
       fileName = filePath.substring(0, filePath.lastIndexOf('.'));
     }
 
-    if (fileName.isEmpty || fileName == pathSeparator) {
+    if (fileName.isEmpty || fileName == '/' || fileName == '\\') {
       return null;
     }
 
@@ -469,14 +466,14 @@ class MyFileExplorer {
     String filePathClean;
 
     // Remove leading path separator.
-    if (filePath.startsWith(pathSeparator)) {
+    if (filePath.startsWith('/') || filePath.startsWith('\\')) {
       filePathClean = filePath.substring(1);
     } else {
       filePathClean = filePath;
     }
 
     // Remove trailing path separator.
-    if (filePathClean.endsWith(pathSeparator)) {
+    if (filePathClean.endsWith('/') || filePathClean.endsWith('\\')) {
       filePathClean = filePathClean.substring(0, filePathClean.length - 1);
     }
 
@@ -506,15 +503,9 @@ class MyFileExplorer {
     '=',
   ];
 
-  static final List<String> _illegalFileNameChars = [
-    '\\',
-    '/',
-    pathSeparator,
-  ];
+  static final List<String> _illegalFileNameChars = ['\\', '/'];
 
-  static const List<String> _illegalPathChars = [
-    '..',
-  ];
+  static const List<String> _illegalPathChars = ['..'];
 
   /// Removes illegal characters from the givin `fileName`.
   static String sterilizeFileName(String fileName) {
@@ -563,11 +554,11 @@ class MyFileExplorer {
     }
 
     // Remove double path separators.
-    while (filePathSterile.contains('$pathSeparator$pathSeparator')) {
-      filePathSterile.replaceAll(
-        '$pathSeparator$pathSeparator',
-        pathSeparator,
-      );
+    while (filePathSterile.contains('//')) {
+      filePathSterile.replaceAll('//', '/');
+    }
+    while (filePathSterile.contains('\\\\')) {
+      filePathSterile.replaceAll('\\\\', '\\');
     }
 
     // Remove improper leading chars.
@@ -594,7 +585,7 @@ class MyFileExplorer {
     }
 
     // Check for double path separators.
-    if (filePath.contains('$pathSeparator$pathSeparator')) {
+    if (filePath.contains('//') || filePath.contains('\\\\')) {
       return false;
     }
 

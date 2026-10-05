@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_skeleton/navigation/my_router.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
-import 'package:my_skeleton/providers/my_string_provider.dart';
 import 'package:my_skeleton/providers/my_theme_provider.dart';
 import 'package:my_skeleton/providers/my_user_provider.dart';
 
@@ -21,24 +19,17 @@ class MyRootProvidersContainer {
   ///
   /// This must NEVER include Futures or async operations.
   void _init() {
-    myAuthProvider = MyAuthProvider(FirebaseAuth.instance);
-
-    myUserProvider = MyUserProvider();
-
+    myAuthProvider = MyAuthProvider();
     myThemeProvider = MyThemeProvider();
-
-    myStringProvider = MyStringProvider();
-
     myGoRouter = MyRouter.getRoutes(myAuthProvider);
+    myUserProvider = MyUserProvider();
   }
 
   late final MyAuthProvider myAuthProvider;
 
-  late final MyUserProvider myUserProvider;
-
   late final MyThemeProvider myThemeProvider;
 
-  late final MyStringProvider myStringProvider;
-
   late final GoRouter myGoRouter;
+
+  late final MyUserProvider myUserProvider;
 }

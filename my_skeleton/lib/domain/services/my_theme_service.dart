@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:my_skeleton/constants/config.dart';
+import 'package:my_skeleton/constants/files/config.dart';
 import 'package:my_skeleton/domain/enums/my_theme_type.dart';
 import 'package:my_skeleton/utils/my_file_explorer.dart';
 
@@ -15,12 +15,12 @@ class MyThemeService {
 
   /// The file that stores the user's theme preference.
   static File get themePref => File(
-        MyFileExplorer().createPathToFile(
-          localDir: LocalDir.appSupportDir,
-          subPath: dirName,
-          fileName: fileName,
-        ),
-      );
+    MyFileExplorer().createPathToFile(
+      localDir: LocalDir.appSupportDir,
+      subPath: dirName,
+      fileName: fileName,
+    ),
+  );
 
   /// Reads the user's preferred theme type from their local files.
   ///
@@ -44,9 +44,6 @@ class MyThemeService {
       themePrefFile.createSync(recursive: true);
     }
 
-    themePrefFile.writeAsStringSync(
-      themeType.value,
-      flush: true,
-    );
+    themePrefFile.writeAsStringSync(themeType.value, flush: true);
   }
 }

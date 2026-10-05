@@ -1,46 +1,62 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:my_skeleton/constants/database/db_collections.dart';
+import 'package:my_skeleton/constants/database/db_columns.dart';
+import 'package:my_skeleton/constants/database/db_tables.dart';
 import 'package:my_skeleton/domain/models/my_user.dart';
+import 'package:my_skeleton/utils/debug_log.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MyUserService {
-  /// The "users" collection in Firebase.
-  static final CollectionReference usersCol =
-      FirebaseFirestore.instance.collection(DbCollections.users);
+  static final SupabaseClient supabase = Supabase.instance.client;
 
-  /// Creates a new user, and adds them to Firebase.
-  static Future<MyUser> createUserDoc(MyUser myUser) async {
-    /// The bundle of documents that will be sent to Firebase to be created.
-    WriteBatch batch = FirebaseFirestore.instance.batch();
-
-    // The documents being sent to Firebase.
-    DocumentReference userDoc = usersCol.doc(myUser.id);
-    // TODO create other docs that should be sent with user creation
-
-    // Prep the docs to go to Firebase.
-    batch.set(userDoc, myUser.toJson());
-    // TODO add other docs that should be sent with user creation
-
-    // Write the new docs to Firebase.
-    await batch.commit();
-
-    return myUser;
-  }
-
-  /// Fetches the user from Firebase.
+  /// Fetches the user from Supabase.
   ///
   /// Returns `null` if the user does not exist.
   static Future<MyUser?> fetchUser(String userId) async {
-    /// Fetch the user document from Firebase.
-    final DocumentSnapshot userDoc = await usersCol.doc(userId).get();
+    /// Fetch the user data from Supabase.
+    final Map<String, dynamic>? data = await supabase
+        .from(DbTables.users)
+        .select()
+        .eq(DbColumns.userId, userId)
+        .maybeSingle();
 
-    /// If the document does not exist, return null.
-    if (userDoc.data() == null) return null;
+    /// If the data does not exist, return null.
+    if (data == null) {
+      DebugLog.out(
+        'MyUserService',
+        'fetchUser',
+        'Failed to fetch user $userId from Supabase!',
+        logType: LogType.error,
+        sendToDatabase: true,
+      );
+      return null;
+    }
 
-    /// If the data is corrupt, return null.
-    if (userDoc.data() is! Map<String, dynamic>) return null;
+    return MyUser.fromJson(data);
+  }
 
-    Map<String, dynamic> dataMap = userDoc.data() as Map<String, dynamic>;
+  /// Updates the given `user` in Supabase.
+  ///
+  /// Returns `true` if the `user` was updated in Supabase; otherwise, false.
+  static Future<bool> updateUser(MyUser user) async {
+    bool wasSuccessful = true;
 
-    return MyUser.fromJson(userDoc.id, dataMap);
+    try {
+      await supabase
+          .from(DbTables.users)
+          .update(user.toJson())
+          .eq(DbColumns.userId, user.id);
+    } catch (e) {
+      DebugLog.out(
+        'MyUserService',
+        'updateUser',
+        'Failed to update user ${user.id} in '
+            'Supabase!\n'
+            'ErrorMsg: $e',
+        logType: LogType.error,
+        sendToDatabase: true,
+      );
+      wasSuccessful = false;
+    }
+
+    return wasSuccessful;
   }
 }

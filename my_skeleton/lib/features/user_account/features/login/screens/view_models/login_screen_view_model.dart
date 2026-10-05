@@ -1,116 +1,89 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_skeleton/constants/strings/strings.dart';
 import 'package:my_skeleton/navigation/my_routes.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/utils/my_validator.dart';
-import 'package:my_skeleton/widgets/views/my_alert.dart';
+import 'package:my_skeleton/widgets/views/my_alert/my_alert.dart';
 import 'package:my_skeleton/widgets/views/my_text_field.dart';
 
 /// This is used to control all of the logic on the login screen.
 class LoginScreenViewModel {
   /// Creates a view model for the login screen's UI.
-  LoginScreenViewModel(this.strings)
-      : emailFieldKey = GlobalKey(),
-        passwordFieldKey = GlobalKey(),
-        emailController = TextEditingController(),
-        passwordController = TextEditingController();
+  LoginScreenViewModel({required this.authProvider})
+    : emailKey = GlobalKey(),
+      emailController = TextEditingController() {
+    emailController.text = authProvider.lastEmailSentAddress ?? '';
+  }
 
-  /// The strings used throughout the app.
-  final Strings strings;
+  final MyAuthProvider authProvider;
 
   /// The key for the email text field.
-  final GlobalKey<MyTextFieldState> emailFieldKey;
-
-  /// The key for the password text field.
-  final GlobalKey<MyTextFieldState> passwordFieldKey;
+  final GlobalKey<MyTextFieldState> emailKey;
 
   /// The text editing controller for the email text field.
   final TextEditingController emailController;
 
-  /// The text editing controller for the password text field.
-  final TextEditingController passwordController;
-
   /// The tests that are run to see if the user's email input is valid.
   List<MyTextFieldValidator> get emailValidators => [
-        const MyTextFieldValidator.testEmpty(testTrigger: TestTrigger.never),
-        MyTextFieldValidator(
-          test: (value) => MyValidator.isValidEmail(value),
-          expected: true,
-          errorText: strings.invalidEmail,
-        ),
-      ];
+    const MyTextFieldValidator.testEmpty(testTrigger: TestTrigger.never),
+    MyTextFieldValidator(
+      test: (value) => MyValidator.isValidEmail(value),
+      expected: true,
+      errorText: 'Invalid email',
+    ),
+  ];
 
   /// Called when the user clicks the Log In button.
   ///
   /// Verifies the user's credentials are properly formatted and if they are, it
-  /// sends them to Firebase to be verified. Upon receiving successful Firebase
+  /// sends them to Supabase to be verified. Upon receiving successful Supabase
   /// authentication, this method sends the user to their dashboard.
   ///
-  /// Will return a [MyAlert] object if there is an error when giving Firebase
+  /// Will return a [MyAlert] object if there is an error when giving Supabase
   /// the sign up credentials. Invalid user and invalid password are not
   /// included as exceptions here. This is for unforeseen errors.
-  Future<MyAlert?> onLogIn({
-    required MyAuthProvider myAuthProvider,
-    required GoRouter router,
-  }) async {
+  Future<MyAlert?> onLogIn({required GoRouter router}) async {
     /// The text the user typed in the email field.
     String email = emailController.text.trim();
-
-    /// The text the user typed in the password field.
-    String password = passwordController.text.trim();
 
     // Only continue if the user's input is formatted correctly.
     if (await hasInputError(displayErrorMsg: true)) return null;
 
     MyAlert? alert;
 
-    await myAuthProvider.logIn(email: email, password: password).then(
-      (value) {
-        if (value == null) {
-          router.goNamed(MyRoutes.dashboardScreen);
-        } else {
-          alert = handleLoginFail(value);
-        }
-      },
-    );
+    await authProvider.sendOtp(email).then((value) {
+      if (value == null) {
+        router.pushNamed(MyRoutes.otpPage);
+        emailController.dispose();
+      } else {
+        alert = handleLoginFail(value);
+      }
+    });
 
     return alert;
   }
 
-  /// Called when the user clicks the Create Account button.
+  /// This method is called after the user's credentials are sent to Supabase
+  /// and Supabase sends back an exception.
   ///
-  /// Sends the user to the sign up page where they can fill in their
-  /// information, verify it is real, and be given a new Firebase account.
-  void onSignUp(GoRouter router) {
-    router.goNamed(MyRoutes.createAccountScreen);
-  }
-
-  /// This method is called after the user's credentials are sent to Firebase
-  /// and Firebase sends back an exception.
-  ///
-  /// `error` is the error message that was sent by Firebase.
+  /// `error` is the error message that was sent by Supabase.
   MyAlert? handleLoginFail(String error) {
-    if (error == 'user-not-found') {
+    if (error.contains('email_not_confirmed')) {
       MyTextField.setErrorText(
-        key: emailFieldKey,
-        errorText: strings.emailDoesNotExist,
+        key: emailKey,
+        errorText: 'Email address not verified',
       );
-      MyTextField.setErrorText(
-        key: passwordFieldKey,
-      );
-    } else if (error == 'wrong-password') {
-      MyTextField.setErrorText(
-        key: passwordFieldKey,
-        errorText: strings.invalidPassword,
+    } else if (error.contains('over_email_send_rate_limit')) {
+      return MyAlert(
+        title: 'Please Wait',
+        content: 'You must wait before sending another passcode.',
+        buttons: {'Okay': () {}},
       );
     } else {
       return MyAlert(
-        title: strings.error.capitalizeFirstLetter(),
-        content: '${strings.somethingWentWrong.capitalizeFirstLetter()}! '
-            '${strings.tryAgainLater.capitalizeFirstLetter()}.\n\n'
-            '$error',
-        buttons: {strings.ok: () {}},
+        title: 'Error',
+        content: 'Something went wrong! Please try again later.',
+        buttons: {'Okay': () {}},
       );
     }
 
@@ -125,30 +98,13 @@ class LoginScreenViewModel {
   ///
   /// Returns `true` if there are any errors.
   Future<bool> hasInputError({bool displayErrorMsg = false}) async {
-    bool emailHasError = false;
-    if (emailFieldKey.currentState != null) {
-      emailHasError = await emailFieldKey.currentState!.hasErrors(
+    bool emailHasErrors = false;
+    if (emailKey.currentState != null && emailKey.currentState!.mounted) {
+      emailHasErrors = await emailKey.currentState!.hasErrors(
         displayErrorMsg: displayErrorMsg,
       );
     }
 
-    bool passwordHasError = false;
-    if (passwordController.text.isEmpty) {
-      passwordHasError = true;
-
-      if (displayErrorMsg) {
-        MyTextField.setErrorText(
-          key: passwordFieldKey,
-          errorText: strings.required,
-        );
-      }
-    } else {
-      MyTextField.setErrorText(
-        key: passwordFieldKey,
-        errorText: null,
-      );
-    }
-
-    return emailHasError || passwordHasError;
+    return emailHasErrors;
   }
 }

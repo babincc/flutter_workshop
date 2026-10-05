@@ -1,7 +1,23 @@
 /// This class is a standardization of all of the spacing used in the app.
 class MyMeasurements {
+  /// The height of alert icons.
+  ///
+  /// Note: This is used for special, "short and sweet" alerts only.
+  static const double alertIconSize = 50.0;
+
+  /// The font size of alert text.
+  ///
+  /// Note: This is used for special, "short and sweet" alerts only.
+  static const double alertFontSize = 20.0;
+
   /// The radius of corners throughout the app.
   static const double borderRadius = 10.0;
+
+  /// The width of borders throughout the app.
+  static const double borderWidth = 2.0;
+
+  /// The desired max width for certain content.
+  static const double contentWidth = 575.0;
 
   /// The default height of display large text.
   static const double defaultHeightDisplayLarge = 1.12;
@@ -117,21 +133,17 @@ class MyMeasurements {
   /// The height and width of icons.
   static const double iconSize = 24.0;
 
+  /// The height and width of icons.
+  static const double iconSizeSmall = 16.0;
+
   /// The width of screen breakpoint for the responsive design.
   ///
   /// Note: The screen must go BELOW this width to be considered responsive. If
   /// the size is equal to this value, it is NOT considered responsive.
   static const double responsiveBreakpoint = 840.0;
 
-  /// How far a shadow extends.
-  ///
-  /// This is for shadows spreading left/right.
-  static const double shadowSpreadHorizontal = 9.3;
-
-  /// How far a shadow extends.
-  ///
-  /// This is for shadows spreading up/down.
-  static const double shadowSpreadVertical = 8.1;
+  /// The width of each individual form field in my segmented text field widget.
+  static const double mySegmentedTextFieldWidth = 30.0;
 
   /// The width of a block of text.
   static const double textBlockWidth = 250.0;

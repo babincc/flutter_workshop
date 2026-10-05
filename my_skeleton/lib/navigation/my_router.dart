@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_skeleton/features/dashboard/screens/views/dashboard_screen.dart';
-import 'package:my_skeleton/features/error_404/screens/views/error_screen.dart';
+import 'package:my_skeleton/features/error/features/general/screens/views/error_screen.dart';
 import 'package:my_skeleton/features/form_example/screens/views/form_example_screen.dart';
 import 'package:my_skeleton/features/help/screens/views/help_screen.dart';
-import 'package:my_skeleton/features/settings/screens/views/settings_screen.dart';
-import 'package:my_skeleton/features/user_account/features/create_account/screens/views/create_account_screen.dart';
+import 'package:my_skeleton/features/user_account/features/login/screens/views/login_otp_page.dart';
 import 'package:my_skeleton/features/user_account/features/login/screens/views/login_screen.dart';
 import 'package:my_skeleton/features/user_account/features/profile/screens/views/profile_screen.dart';
 import 'package:my_skeleton/navigation/my_routes.dart';
@@ -23,11 +22,8 @@ class MyRouter {
         /// All of the pages that do not need the user to be logged in for them
         /// to be accessed.
         const List<String> publicPages = [
-          // MyRoutes.aboutScreen,
-          MyRoutes.helpScreen,
           MyRoutes.loginScreen,
-          MyRoutes.settingsScreen,
-          MyRoutes.createAccountScreen,
+          MyRoutes.otpPage,
         ];
 
         /// This will be `true` if the user is attempting to log in.
@@ -71,14 +67,6 @@ class MyRouter {
           ),
         ),
         GoRoute(
-          name: MyRoutes.createAccountScreen,
-          path: MyRoutes.createAccountScreen,
-          pageBuilder: (context, state) => MaterialPage<void>(
-            key: state.pageKey,
-            child: const CreateAccountScreen(),
-          ),
-        ),
-        GoRoute(
           name: MyRoutes.dashboardScreen,
           path: MyRoutes.dashboardScreen,
           pageBuilder: (context, state) => MaterialPage<void>(
@@ -105,10 +93,8 @@ class MyRouter {
         GoRoute(
           name: MyRoutes.helpScreen,
           path: MyRoutes.helpScreen,
-          pageBuilder: (context, state) => MaterialPage<void>(
-            key: state.pageKey,
-            child: const HelpScreen(),
-          ),
+          pageBuilder: (context, state) =>
+              MaterialPage<void>(key: state.pageKey, child: const HelpScreen()),
         ),
         GoRoute(
           name: MyRoutes.loginScreen,
@@ -119,6 +105,14 @@ class MyRouter {
           ),
         ),
         GoRoute(
+          name: MyRoutes.otpPage,
+          path: MyRoutes.otpPage,
+          pageBuilder: (context, state) => MaterialPage<void>(
+            key: state.pageKey,
+            child: const LoginOtpPage(),
+          ),
+        ),
+        GoRoute(
           name: MyRoutes.profileScreen,
           path: MyRoutes.profileScreen,
           pageBuilder: (context, state) => MaterialPage<void>(
@@ -126,19 +120,9 @@ class MyRouter {
             child: const ProfileScreen(),
           ),
         ),
-        GoRoute(
-          name: MyRoutes.settingsScreen,
-          path: MyRoutes.settingsScreen,
-          pageBuilder: (context, state) => MaterialPage<void>(
-            key: state.pageKey,
-            child: const SettingsScreen(),
-          ),
-        ),
       ],
-      errorPageBuilder: (context, state) => MaterialPage<void>(
-        key: state.pageKey,
-        child: const ErrorScreen(),
-      ),
+      errorPageBuilder: (context, state) =>
+          MaterialPage<void>(key: state.pageKey, child: const ErrorScreen()),
     );
   }
 }

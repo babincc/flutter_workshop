@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_skeleton/constants/theme/my_measurements.dart';
 import 'package:my_skeleton/features/form_example/screens/view_models/form_example_screen_view_model.dart';
-import 'package:my_skeleton/widgets/views/my_alert.dart';
+import 'package:my_skeleton/widgets/views/my_alert/my_alert.dart';
 import 'package:my_skeleton/widgets/views/my_scaffold.dart';
 import 'package:my_skeleton/widgets/views/my_text_field.dart';
 
@@ -13,9 +13,7 @@ class FormExampleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
-      appBar: AppBar(
-        title: const Text('Form Example'),
-      ),
+      appBar: AppBar(title: const Text('Form Example')),
       builder: (context) => SingleChildScrollView(
         child: Column(
           children: [
@@ -65,13 +63,11 @@ class FormExampleScreen extends StatelessWidget {
             // SUBMIT BUTTON
             ElevatedButton(
               onPressed: () async {
-                await viewModel.onSubmit().then(
-                  (wasSuccessful) {
-                    if (!wasSuccessful) return;
+                await viewModel.onSubmit().then((wasSuccessful) {
+                  if (!wasSuccessful) return;
 
-                    // DO SOMETHING
-                  },
-                );
+                  // DO SOMETHING
+                });
               },
               child: const Text('Submit'),
             ),
@@ -84,10 +80,7 @@ class FormExampleScreen extends StatelessWidget {
                 await MyAlert(
                   title: 'Clear Form',
                   content: 'Are you sure you want to clear the form?',
-                  buttons: {
-                    'Cancel': () {},
-                    'Clear': viewModel.clearForm,
-                  },
+                  buttons: {'Cancel': () {}, 'Clear': viewModel.clearForm},
                 ).show(context);
               },
               style: ElevatedButton.styleFrom(
