@@ -1,25 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_skeleton/constants/theme/my_measurements.dart';
 import 'package:my_skeleton/domain/enums/my_theme_type.dart';
 import 'package:my_skeleton/domain/models/my_app_initializer.dart';
 import 'package:my_skeleton/domain/models/my_root_providers_container.dart';
-import 'package:my_skeleton/navigation/my_routes.dart';
 import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/providers/my_theme_provider.dart';
 import 'package:my_skeleton/providers/my_user_provider.dart';
-import 'package:my_skeleton/utils/debug_log.dart';
 import 'package:provider/provider.dart';
 
 /// This file sets up the app and is the root file connecting all of the others
 /// at runtime. This file controls the navigation and the theme of the entire
 /// app.
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final MyRootProvidersContainer myRootProviders = MyRootProvidersContainer();
+  State<MyApp> createState() => _MyAppState();
+}
 
+class _MyAppState extends State<MyApp> {
+  late final MyRootProvidersContainer myRootProviders;
+  final MyAppInitializer initializer = MyAppInitializer();
+
+  @override
+  void initState() {
+    super.initState();
+    myRootProviders = MyRootProvidersContainer();
+  }
+
+  @override
+  void dispose() {
+    initializer.dispose();
+    myRootProviders.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<MyAuthProvider>.value(
@@ -33,18 +51,16 @@ class MyApp extends StatelessWidget {
         ),
       ],
       builder: (context, _) {
-        return Selector<MyAuthProvider, bool>(
-          selector: (context, myAuthProvider) => myAuthProvider.isLoggedIn,
-          builder: (context, isLoggedIn, _) {
+        return Selector<MyAuthProvider, String?>(
+          selector: (context, myAuthProvider) => myAuthProvider.user?.id,
+          builder: (context, userId, _) {
             return AnnotatedRegion<SystemUiOverlayStyle>(
               value:
                   context.watch<MyThemeProvider>().themeType == MyThemeType.dark
                   ? SystemUiOverlayStyle.light
                   : SystemUiOverlayStyle.dark,
               child: FutureBuilder(
-                future: MyAppInitializer.didInit
-                    ? Future.value(true)
-                    : MyAppInitializer.initApp(context),
+                future: initializer.initApp(context),
                 builder: (context, snapshot) {
                   final bool didInit;
                   if (snapshot.hasData && snapshot.data is bool) {
@@ -57,21 +73,38 @@ class MyApp extends StatelessWidget {
                     if (!didInit) {
                       // Failed to initialize the app, display error
                       // screen.
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        DebugLog.out(
-                          'MyApp',
-                          'build',
-                          'Error\n'
-                              '\tdidInit: $didInit\n'
-                              '${MyAppInitializer.debugOutput}',
-                          logType: LogType.error,
-                          sendToDatabase: true,
-                        );
+                      return _myMaterialApp(
+                        context: context,
+                        builder: (context, _) => Scaffold(
+                          body: Center(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Text(
+                                  'Unable to load your profile. Check your '
+                                  'connection and profile setup.',
+                                ),
 
-                        myRootProviders.myGoRouter.goNamed(
-                          MyRoutes.errorScreen,
-                        );
-                      });
+                                SizedBox(height: MyMeasurements.elementSpread),
+
+                                TextButton(
+                                  onPressed: () => setState(initializer.retry),
+                                  child: const Text('Retry'),
+                                ),
+
+                                SizedBox(height: MyMeasurements.elementSpread),
+
+                                TextButton(
+                                  onPressed: () => myRootProviders
+                                      .myAuthProvider
+                                      .logOut(context),
+                                  child: const Text('Sign out'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
                     }
 
                     // App is initialized, display the app.

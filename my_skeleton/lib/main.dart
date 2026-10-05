@@ -8,13 +8,18 @@ Future<void> main() async {
   // Removes the # sign from web urls.
   // usePathUrlStrategy();
 
+  const supabaseUrl = String.fromEnvironment('SUPABASE_URL');
+  const supabaseKey = String.fromEnvironment('SUPABASE_PUBLISHABLE_KEY');
+  if (supabaseUrl.isEmpty || supabaseKey.isEmpty) {
+    throw StateError(
+      'Set SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY with --dart-define.',
+    );
+  }
+
   // Initialize app.
   WidgetsFlutterBinding.ensureInitialized();
   await MyFileExplorer().ensureInitialized();
-  await Supabase.initialize(
-    url: 'https://laksjdflaksgahgkjdkhfk.supabase.co',
-    publishableKey: 'sb_publishable_kJHKJGggbJGjhd78dbEBbedgejkhe',
-  );
+  await Supabase.initialize(url: supabaseUrl, publishableKey: supabaseKey);
 
   runApp(const MyApp());
 }

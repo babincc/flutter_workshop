@@ -40,10 +40,17 @@ class MyUserService {
     bool wasSuccessful = true;
 
     try {
-      await supabase
+      final updated = await supabase
           .from(DbTables.users)
-          .update(user.toJson())
-          .eq(DbColumns.userId, user.id);
+          .update({
+            DbColumns.nameFirst: user.firstName,
+            DbColumns.nameLast: user.lastName,
+            DbColumns.birthday: user.birthday.toIso8601String(),
+          })
+          .eq(DbColumns.userId, user.id)
+          .select(DbColumns.userId)
+          .maybeSingle();
+      wasSuccessful = updated != null;
     } catch (e) {
       DebugLog.out(
         'MyUserService',

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_skeleton/constants/theme/my_colors.dart';
@@ -12,18 +14,38 @@ import 'package:my_skeleton/widgets/views/my_scaffold.dart';
 import 'package:my_skeleton/widgets/views/my_segmented_text_field.dart';
 import 'package:my_skeleton/widgets/views/my_text.dart';
 
-class LoginOtpPage extends StatelessWidget {
+class LoginOtpPage extends StatefulWidget {
   const LoginOtpPage({super.key});
+
+  @override
+  State<LoginOtpPage> createState() => _LoginOtpPageState();
+}
+
+class _LoginOtpPageState extends State<LoginOtpPage> {
+  late final LoginOtpPageViewModel viewModel;
+  late final Timer _cooldownTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel = LoginOtpPageViewModel(authProvider: MyAuthProvider.of(context));
+    _cooldownTimer = Timer.periodic(const Duration(seconds: 1), (_) {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _cooldownTimer.cancel();
+    viewModel.otpController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final MyAuthProvider authProvider = MyAuthProvider.of(context);
 
     final MyColors colors = MyThemeProvider.of(context).colors;
-
-    final LoginOtpPageViewModel viewModel = LoginOtpPageViewModel(
-      authProvider: authProvider,
-    );
 
     return MyScaffold(
       builder: (context) => SingleChildScrollView(
@@ -125,24 +147,16 @@ class LoginOtpPage extends StatelessWidget {
                   MyText('Resend Code', color: colors.primary),
 
                   // COOL DOWN
-                  StreamBuilder(
-                    stream: Stream.periodic(const Duration(seconds: 1)),
-                    builder: (context, snapshot) {
-                      if (!viewModel.canResend) {
-                        return const SizedBox.shrink();
-                      }
-
-                      return Padding(
-                        padding: const EdgeInsets.only(
-                          left: MyMeasurements.textPadding,
-                        ),
-                        child: MyText(
-                          '(${viewModel.remainingCooldownSec})',
-                          color: colors.primary,
-                        ),
-                      );
-                    },
-                  ),
+                  if (!viewModel.canResend)
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: MyMeasurements.textPadding,
+                      ),
+                      child: MyText(
+                        '(${viewModel.remainingCooldownSec})',
+                        color: colors.primary,
+                      ),
+                    ),
                 ],
               ),
             ),

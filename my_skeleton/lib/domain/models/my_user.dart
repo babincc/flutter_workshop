@@ -140,7 +140,7 @@ class MyUser implements Comparable<MyUser> {
       DbColumns.userId: id,
       DbColumns.nameFirst: firstName,
       DbColumns.nameLast: lastName,
-      DbColumns.role: role,
+      DbColumns.role: role.value,
       DbColumns.birthday: birthday.toIso8601String(),
       DbColumns.rank: rank,
       DbColumns.friendIds: friendIds,

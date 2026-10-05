@@ -5,15 +5,16 @@ import 'package:my_skeleton/providers/my_theme_provider.dart';
 import 'package:my_skeleton/providers/my_user_provider.dart';
 
 class MyRootProvidersContainer {
-  MyRootProvidersContainer._() {
+  MyRootProvidersContainer() {
     _init();
   }
 
-  factory MyRootProvidersContainer() => _instance;
-
-  /// The single instance of this class.
-  static final MyRootProvidersContainer _instance =
-      MyRootProvidersContainer._();
+  void dispose() {
+    myGoRouter.dispose();
+    myAuthProvider.dispose();
+    myUserProvider.dispose();
+    myThemeProvider.dispose();
+  }
 
   /// Initialize all the top-level providers.
   ///

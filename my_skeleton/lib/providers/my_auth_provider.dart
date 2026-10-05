@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:my_skeleton/constants/defaults.dart';
-import 'package:my_skeleton/domain/models/my_app_initializer.dart';
 import 'package:my_skeleton/utils/debug_log.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -11,7 +10,8 @@ class MyAuthProvider extends ChangeNotifier {
   /// Creates an auth service that keeps track of and controls the user's access
   /// to Supabase.
   MyAuthProvider() : lastEmailSentTime = Defaults.dateTime {
-    isLoggedIn = _supabaseAuth.currentUser != null;
+    _userId = _supabaseAuth.currentUser?.id;
+    isLoggedIn = _userId != null;
 
     _setUpAuthSub();
   }
@@ -21,6 +21,7 @@ class MyAuthProvider extends ChangeNotifier {
   final GoTrueClient _supabaseAuth = Supabase.instance.client.auth;
 
   bool _isLoggedIn = false;
+  String? _userId;
 
   /// Whether or not the current user is logged in.
   bool get isLoggedIn => _isLoggedIn;
@@ -33,43 +34,57 @@ class MyAuthProvider extends ChangeNotifier {
 
   bool _didSetUpAuthSub = false;
 
-  late final StreamSubscription<AuthState> _authSubscription;
+  late StreamSubscription<AuthState> _authSubscription;
 
   void _setUpAuthSub() {
     if (_didSetUpAuthSub) return;
 
     _didSetUpAuthSub = true;
 
-    _authSubscription = _supabaseAuth.onAuthStateChange.listen((data) {
-      final AuthChangeEvent event = data.event;
-      // final Session? session = data.session;
+    _authSubscription = _supabaseAuth.onAuthStateChange.listen(
+      (data) {
+        final previousUserId = _userId;
+        _userId = data.session?.user.id;
+        final AuthChangeEvent event = data.event;
+        // final Session? session = data.session;
 
-      switch (event) {
-        case AuthChangeEvent.initialSession:
-          isLoggedIn = data.session != null;
-          break;
-        case AuthChangeEvent.signedIn:
-          isLoggedIn = true;
-          break;
-        case AuthChangeEvent.signedOut:
-          isLoggedIn = false;
-          break;
-        case AuthChangeEvent.passwordRecovery:
-          // handle password recovery
-          break;
-        case AuthChangeEvent.tokenRefreshed:
-          // handle token refreshed
-          break;
-        case AuthChangeEvent.userUpdated:
-          // handle user updated
-          break;
-        case AuthChangeEvent.mfaChallengeVerified:
-          // handle mfa challenge verified
-          break;
-        default:
-        // Do nothing
-      }
-    });
+        switch (event) {
+          case AuthChangeEvent.initialSession:
+            isLoggedIn = data.session != null;
+            break;
+          case AuthChangeEvent.signedIn:
+            isLoggedIn = true;
+            break;
+          case AuthChangeEvent.signedOut:
+            isLoggedIn = false;
+            break;
+          case AuthChangeEvent.passwordRecovery:
+            // handle password recovery
+            break;
+          case AuthChangeEvent.tokenRefreshed:
+            // handle token refreshed
+            break;
+          case AuthChangeEvent.userUpdated:
+            // handle user updated
+            break;
+          case AuthChangeEvent.mfaChallengeVerified:
+            // handle mfa challenge verified
+            break;
+          default:
+          // Do nothing
+        }
+        if (previousUserId != _userId) notifyListeners();
+      },
+      onError: (Object error, StackTrace stackTrace) {
+        DebugLog.out(
+          'MyAuthProvider',
+          '_setUpAuthSub',
+          'Auth stream error: $error',
+          logType: LogType.error,
+          sendToDatabase: true,
+        );
+      },
+    );
   }
 
   /// Ends the stream subscription to the auth events.
@@ -126,8 +141,6 @@ class MyAuthProvider extends ChangeNotifier {
 
   /// Logs the user out of their Supabase account.
   Future<void> logOut(BuildContext context) async {
-    MyAppInitializer.clearApp(context);
-
     await _supabaseAuth.signOut();
   }
 

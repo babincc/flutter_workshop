@@ -5,107 +5,61 @@ import 'package:my_skeleton/providers/my_auth_provider.dart';
 import 'package:my_skeleton/providers/my_user_provider.dart';
 
 class MyAppInitializer {
-  /// Whether or not the init process is happening.
-  static bool _lockOut = false;
+  MyAppInitializer({this.fetchUser = MyUserRepo.fetchUser});
 
-  /// Whether or not the app has been initialized.
-  static bool get didInit => _didInitUser && _didInitOtherCustomThing;
+  final Future<MyUser?> Function(String) fetchUser;
+  Future<bool>? _initialization;
+  String? _userId;
+  int _generation = 0;
 
-  /// Whether or not the user has been initialized.
-  static bool _didInitUser = false;
-
-  /// Additional inits here.
-  static bool _didInitOtherCustomThing = false;
-
-  /// All init values to print for debugging.
-  static String get debugOutput =>
-      '_didInitUser: $_didInitUser\n'
-      '_didInitOtherCustomThing: $_didInitOtherCustomThing';
-
-  /// Initializes the app.
-  static Future<bool> initApp(BuildContext context) async {
-    if (_lockOut) return false;
-
-    _lockOut = true;
-
-    // Skip if already initialized.
-    if (didInit) {
-      _lockOut = false;
-      return true;
-    }
-
-    // Get providers before async.
+  Future<bool> initApp(BuildContext context) {
     final MyAuthProvider myAuthProvider = MyAuthProvider.of(context);
     final MyUserProvider myUserProvider = MyUserProvider.of(context);
-
-    // Initialize user.
-    await _initUser(myAuthProvider, myUserProvider);
-
-    // Init other things.
-    await _initOtherThings();
-
-    _lockOut = false;
-    return didInit;
+    return initialize(myAuthProvider.user?.id, myUserProvider);
   }
 
-  /// Cleans the app state.
-  ///
-  /// This is useful when a user logs out.
-  static void clearApp(BuildContext context) {
-    if (_lockOut) return;
+  Future<bool> initialize(String? userId, MyUserProvider myUserProvider) {
+    if (_initialization != null && _userId == userId) return _initialization!;
 
-    _lockOut = true;
+    _userId = userId;
 
-    // Get providers.
-    final MyUserProvider myUserProvider = MyUserProvider.of(context);
+    final int generation = ++_generation;
 
-    _clearUser(myUserProvider);
+    _initialization = _initialize(userId, myUserProvider, generation);
 
-    _clearOtherThings();
-
-    _lockOut = false;
+    return _initialization!;
   }
 
-  /// Initializes the user.
-  static Future<void> _initUser(
-    MyAuthProvider myAuthProvider,
+  Future<bool> _initialize(
+    String? userId,
     MyUserProvider myUserProvider,
+    int generation,
   ) async {
-    if (_didInitUser) return;
+    // Defer notifications until after the widget build that starts this work.
+    await Future<void>.value();
 
-    /// The user ID of the current user.
-    final String? userId = myAuthProvider.user?.id;
+    if (generation != _generation) return false;
 
-    // Skip if user ID is null.
-    if (userId == null) return;
-
-    // Fetch user data from Firestore.
-    final MyUser? fetchedUser = await MyUserRepo.fetchUser(userId);
-
-    // Skip if user is null.
-    if (fetchedUser == null) return;
-
-    myUserProvider.user = fetchedUser;
-
-    _didInitUser = true;
-  }
-
-  /// Clears the user.
-  static void _clearUser(MyUserProvider myUserProvider) {
     myUserProvider.user = MyUser.empty();
 
-    _didInitUser = false;
+    if (userId == null) return true;
+
+    final user = await fetchUser(userId);
+
+    if (generation != _generation) return false;
+
+    if (user == null) return false;
+
+    myUserProvider.user = user;
+
+    return true;
   }
 
-  /// Initializes other things.
-  static Future<void> _initOtherThings() async {
-    if (_didInitOtherCustomThing) return;
-
-    _didInitOtherCustomThing = true;
+  void retry() {
+    _initialization = null;
   }
 
-  /// Clears other things.
-  static void _clearOtherThings() {
-    _didInitOtherCustomThing = false;
+  void dispose() {
+    ++_generation;
   }
 }

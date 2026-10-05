@@ -5,10 +5,24 @@ import 'package:my_skeleton/widgets/views/my_alert/my_alert.dart';
 import 'package:my_skeleton/widgets/views/my_scaffold.dart';
 import 'package:my_skeleton/widgets/views/my_text_field.dart';
 
-class FormExampleScreen extends StatelessWidget {
-  FormExampleScreen({super.key});
+class FormExampleScreen extends StatefulWidget {
+  const FormExampleScreen({super.key});
 
+  @override
+  State<FormExampleScreen> createState() => _FormExampleScreenState();
+}
+
+class _FormExampleScreenState extends State<FormExampleScreen> {
   final FormExampleScreenViewModel viewModel = FormExampleScreenViewModel();
+
+  @override
+  void dispose() {
+    viewModel.colorController.dispose();
+    viewModel.shapeController.dispose();
+    viewModel.luckyNumberController.dispose();
+    viewModel.emailController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

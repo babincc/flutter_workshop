@@ -71,13 +71,11 @@ class MyScaffold extends StatelessWidget {
     );
 
     return PopScope(
-      canPop: false,
+      canPop: onPopInvoked == null,
       onPopInvokedWithResult: (didPop, _) async {
         if (didPop) return;
 
-        if (onPopInvoked == null) {
-          Navigator.of(context).pop();
-        } else {
+        if (onPopInvoked != null) {
           final NavigatorState navigator = Navigator.of(context);
 
           await onPopInvoked!().then((canPop) {

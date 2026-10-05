@@ -10,19 +10,32 @@ import 'package:my_skeleton/widgets/views/my_scaffold.dart';
 import 'package:my_skeleton/widgets/views/my_text_field.dart';
 
 /// The screen the user is sent to when they are not connected to Supabase.
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   /// Creates a screen that gives the user different choices to get connected to
   /// Supabase.
   const LoginScreen({super.key});
 
   @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  late final LoginScreenViewModel viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel = LoginScreenViewModel(authProvider: MyAuthProvider.of(context));
+  }
+
+  @override
+  void dispose() {
+    viewModel.emailController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final MyAuthProvider authProvider = MyAuthProvider.of(context);
-
-    final LoginScreenViewModel viewModel = LoginScreenViewModel(
-      authProvider: authProvider,
-    );
-
     return MyScaffold(
       builder: (context) => SingleChildScrollView(
         child: Column(

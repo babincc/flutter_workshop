@@ -55,14 +55,16 @@ class MySegmentedTextFieldController {
   }
 
   /// Whether or not the form is completely filled.
-  bool get isFilled => text.trim().length == controllers.length;
+  bool get isFilled =>
+      controllers.isNotEmpty &&
+      controllers.every((controller) => controller.text.trim().length == 1);
 
   /// Sets the value of the text in the form field at `index` to the given
   /// `value`.
   ///
   /// Throws `Exception` if `index` is out of bounds.
   void setTextAt(int index, String value) {
-    final String char = value.split('').first;
+    final String char = value.isEmpty ? '' : value[0];
 
     if (index < 0 || index >= controllers.length) {
       throw Exception(
@@ -80,7 +82,7 @@ class MySegmentedTextFieldController {
   ///
   /// Throws `Exception` if `index` is out of bounds.
   void setFocus(int index) {
-    if (index > controllers.length - 1) {
+    if (index < 0 || index >= controllers.length) {
       throw Exception(
         '$index is out of bounds for range 0-${controllers.length - 1}!',
       );
@@ -115,5 +117,7 @@ class MySegmentedTextFieldController {
     for (final focusNode in focusNodes) {
       focusNode.dispose();
     }
+    controllers.clear();
+    focusNodes.clear();
   }
 }

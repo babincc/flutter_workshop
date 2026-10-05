@@ -8,16 +8,34 @@ import 'package:my_skeleton/providers/my_user_provider.dart';
 import 'package:my_skeleton/widgets/views/my_alert/my_alert.dart';
 import 'package:my_skeleton/widgets/views/my_scaffold.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final ProfileScreenViewModel viewModel = ProfileScreenViewModel(
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  late final ProfileScreenViewModel viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel = ProfileScreenViewModel(
       user: MyUserProvider.of(context).user,
       supabaseUser: MyAuthProvider.of(context).user,
     );
+  }
 
+  @override
+  void dispose() {
+    viewModel.profilePersonalInfoFormViewModel.dispose();
+    viewModel.profileLoginInfoFormViewModel.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MyScaffold(
       appBar: AppBar(title: const Text('Profile')),
       onPopInvoked: () async {

@@ -134,8 +134,15 @@ class MyTextFieldState extends State<MyTextField> {
   /// The regex that will be used to validate this text field's input.
   List<TextInputFormatter>? inputFormatters;
 
+  TextEditingController? _internalController;
+  TextEditingController get _controller =>
+      widget.controller ?? _internalController!;
+
   @override
   void initState() {
+    if (widget.controller == null) {
+      _internalController = TextEditingController();
+    }
     keyboardType = widget.keyboardType;
     inputFormatters = widget.inputFormatters;
 
@@ -186,10 +193,30 @@ class MyTextFieldState extends State<MyTextField> {
   }
 
   @override
+  void didUpdateWidget(covariant MyTextField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.controller == null && _internalController == null) {
+      _internalController = TextEditingController.fromValue(
+        oldWidget.controller?.value,
+      );
+    } else if (widget.controller != null) {
+      _internalController?.dispose();
+      _internalController = null;
+    }
+  }
+
+  @override
+  void dispose() {
+    _internalController?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: widget.controller ?? TextEditingController(),
-      decoration: widget.decoration ??
+      controller: _controller,
+      decoration:
+          widget.decoration ??
           InputDecoration(
             labelText: widget.label,
             hintText: widget.hint,
@@ -253,8 +280,8 @@ class MyTextFieldState extends State<MyTextField> {
     bool displayErrorMsg = true,
     TestTrigger? testTrigger,
   }) async {
-    // If there are no tests or no controller, there can be no errors.
-    if (widget.validators == null || widget.controller == null) return false;
+    // If there are no validators, there can be no validation errors.
+    if (widget.validators == null) return false;
 
     bool hasErrors = false;
     String? errorMsg;
@@ -267,7 +294,7 @@ class MyTextFieldState extends State<MyTextField> {
       if (testTrigger == null ||
           identical(validator.testTrigger, testTrigger)) {
         completedTests++;
-        if (!(await validator.isValid(widget.controller!.text.trim()))) {
+        if (!(await validator.isValid(_controller.text.trim()))) {
           hasErrors = true;
           errorMsg = validator.errorText;
           break;
@@ -315,15 +342,15 @@ class MyTextFieldValidator {
     required this.expected,
     this.errorText,
     this.testTrigger = TestTrigger.onComplete,
-  }) : _test = test;
+  }) : _test = test; // ignore: prefer_initializing_formals
 
   /// Pre-built validator to test if the text field input is empty.
   const MyTextFieldValidator.testEmpty({
     this.key,
     this.errorText = 'Required',
     this.testTrigger = TestTrigger.onComplete,
-  })  : _test = _isEmpty,
-        expected = false;
+  }) : _test = _isEmpty,
+       expected = false;
 
   /// A unique key to identify this text field validator.
   final Key? key;

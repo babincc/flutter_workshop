@@ -22,13 +22,6 @@ class _ProfilePersonalInfoFormState extends State<ProfilePersonalInfoForm> {
   ProfilePersonalInfoFormViewModel get viewModel => widget.viewModel;
 
   @override
-  void dispose() {
-    viewModel.dispose();
-
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -56,8 +49,9 @@ class _ProfilePersonalInfoFormState extends State<ProfilePersonalInfoForm> {
                   leave = true;
                 }
 
-                if (!leave) return;
+                if (!mounted || !leave) return;
 
+                if (!mounted) return;
                 setState(() {
                   viewModel.readOnly = !viewModel.readOnly;
                   viewModel.clearForm();
@@ -157,6 +151,7 @@ class _ProfilePersonalInfoFormState extends State<ProfilePersonalInfoForm> {
                 color: myThemeProvider.colors.success,
               );
 
+              if (!mounted) return;
               setState(() {
                 viewModel.readOnly = true;
               });

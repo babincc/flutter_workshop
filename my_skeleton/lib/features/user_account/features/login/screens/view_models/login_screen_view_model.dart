@@ -54,7 +54,6 @@ class LoginScreenViewModel {
     await authProvider.sendOtp(email).then((value) {
       if (value == null) {
         router.pushNamed(MyRoutes.otpPage);
-        emailController.dispose();
       } else {
         alert = handleLoginFail(value);
       }

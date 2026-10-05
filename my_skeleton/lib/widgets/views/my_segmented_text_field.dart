@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:my_skeleton/constants/theme/my_colors.dart';
 import 'package:my_skeleton/constants/theme/my_measurements.dart';
 import 'package:my_skeleton/providers/my_theme_provider.dart';
 import 'package:my_skeleton/widgets/view_models/my_segmented_text_field_controller.dart';
 import 'package:my_skeleton/widgets/views/my_text.dart';
 
 class MySegmentedTextField extends StatefulWidget {
-  MySegmentedTextField({
+  const MySegmentedTextField({
     super.key,
     required this.numFields,
-    MySegmentedTextFieldController? controller,
-  }) : controller = controller ?? MySegmentedTextFieldController();
+    this.controller,
+  }) : assert(numFields > 0);
 
   /// The number of text fields to include.
   final int numFields;
 
-  final MySegmentedTextFieldController controller;
+  final MySegmentedTextFieldController? controller;
 
   /// This method allows the error text to be set manually from outside of this
   /// widget.
@@ -38,23 +37,50 @@ class MySegmentedTextFieldState extends State<MySegmentedTextField> {
   /// know their input is invalid.
   String? errorText;
 
+  late MySegmentedTextFieldController _controller;
+  final Map<FocusNode, VoidCallback> _focusListeners = {};
+
+  void _removeFocusListeners() {
+    for (final entry in _focusListeners.entries) {
+      entry.key.removeListener(entry.value);
+    }
+    _focusListeners.clear();
+  }
+
   @override
   void initState() {
     super.initState();
 
-    widget.controller.init(widget.numFields);
+    _controller = widget.controller ?? MySegmentedTextFieldController();
+    _initController();
+  }
+
+  void _initController() {
+    _removeFocusListeners();
+    _controller.init(widget.numFields);
 
     for (int i = 0; i < widget.numFields; i++) {
-      widget.controller.focusNodes[i].addListener(
-        (() => widget.controller.handleFocusChange(i)),
-      );
+      void listener() => _controller.handleFocusChange(i);
+      _focusListeners[_controller.focusNodes[i]] = listener;
+      _controller.focusNodes[i].addListener(listener);
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant MySegmentedTextField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.controller != widget.controller) {
+      _removeFocusListeners();
+      if (oldWidget.controller == null) _controller.dispose();
+      _controller = widget.controller ?? MySegmentedTextFieldController();
+      _initController();
+    } else if (oldWidget.numFields != widget.numFields) {
+      _initController();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final MyColors colors = MyThemeProvider.of(context).colors;
-
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -67,24 +93,27 @@ class MySegmentedTextFieldState extends State<MySegmentedTextField> {
         ),
 
         // ERROR TEXT
-        MyText(errorText ?? '', color: colors.error),
+        MyText(
+          errorText ?? '',
+          color: MyThemeProvider.of(context).colors.error,
+        ),
       ],
     );
   }
 
   Widget _buildField(BuildContext context, int index) {
-    if (index < 0 || index >= widget.controller.controllers.length) {
+    if (index < 0 || index >= _controller.controllers.length) {
       throw Exception(
         '$index is out of bounds for range 0-'
-        '${widget.controller.controllers.length - 1}!',
+        '${_controller.controllers.length - 1}!',
       );
     }
 
-    final FocusNode focusNode = widget.controller.focusNodes[index];
+    final FocusNode focusNode = _controller.focusNodes[index];
     final TextEditingController textEditingController =
-        widget.controller.controllers[index];
+        _controller.controllers[index];
 
-    final bool isLast = index == widget.controller.controllers.length - 1;
+    final bool isLast = index == _controller.controllers.length - 1;
 
     return Container(
       width: MyMeasurements.mySegmentedTextFieldWidth,
@@ -109,7 +138,7 @@ class MySegmentedTextFieldState extends State<MySegmentedTextField> {
             final pasted = value.replaceAll(RegExp(r'[^0-9]'), '');
 
             if (pasted.length > 2) {
-              widget.controller.text = pasted;
+              _controller.text = pasted;
               FocusScope.of(context).unfocus();
               return;
             }
@@ -121,7 +150,7 @@ class MySegmentedTextFieldState extends State<MySegmentedTextField> {
           // Handle delete
           if (value.isEmpty) {
             if (index > 0) {
-              widget.controller.focusNodes[index - 1].requestFocus();
+              _controller.focusNodes[index - 1].requestFocus();
             }
             return;
           }
@@ -129,8 +158,8 @@ class MySegmentedTextFieldState extends State<MySegmentedTextField> {
           // Replace existing digit with new one
           textEditingController.text = value;
 
-          if (index + 1 < widget.controller.controllers.length) {
-            widget.controller.focusNodes[index + 1].requestFocus();
+          if (index + 1 < _controller.controllers.length) {
+            _controller.focusNodes[index + 1].requestFocus();
           } else {
             focusNode.unfocus();
           }
@@ -151,7 +180,8 @@ class MySegmentedTextFieldState extends State<MySegmentedTextField> {
 
   @override
   void dispose() {
-    widget.controller.dispose();
+    _removeFocusListeners();
+    if (widget.controller == null) _controller.dispose();
 
     super.dispose();
   }

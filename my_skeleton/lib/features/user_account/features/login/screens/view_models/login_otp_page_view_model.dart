@@ -53,7 +53,6 @@ class LoginOtpPageViewModel {
     await myAuthProvider.logIn(email: email, otp: passcode).then((value) {
       if (value == null) {
         router.goNamed(MyRoutes.dashboardScreen);
-        otpController.dispose();
       } else {
         alert = handleLoginFail(value);
       }
@@ -71,6 +70,7 @@ class LoginOtpPageViewModel {
     if (authProvider.lastEmailSentAddress == null) {
       return handleLoginFail('no_email_found');
     }
+    if (!canResend) return null;
 
     MyAlert? alert;
 
@@ -127,6 +127,5 @@ class LoginOtpPageViewModel {
       DateTime.now().difference(authProvider.lastEmailSentTime).inSeconds;
 
   /// Whether or not the OTP cooldown has expired.
-  bool get canResend =>
-      !(remainingCooldownSec > _cooldownSec || remainingCooldownSec <= 0);
+  bool get canResend => remainingCooldownSec <= 0;
 }

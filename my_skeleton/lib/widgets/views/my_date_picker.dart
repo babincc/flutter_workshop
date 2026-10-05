@@ -52,7 +52,7 @@ class MyDatePickerState extends State<MyDatePicker> {
                   lastDate: DateTime(99999, 12, 31),
                 );
 
-                if (issueDate == null) return;
+                if (!mounted || issueDate == null) return;
 
                 setState(() {
                   widget.viewModel.selectedDate = issueDate;

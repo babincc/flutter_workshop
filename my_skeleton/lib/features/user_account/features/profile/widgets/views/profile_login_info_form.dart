@@ -22,13 +22,6 @@ class _ProfileLoginInfoFormState extends State<ProfileLoginInfoForm> {
   ProfileLoginInfoFormViewModel get viewModel => widget.viewModel;
 
   @override
-  void dispose() {
-    viewModel.dispose();
-
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -56,8 +49,9 @@ class _ProfileLoginInfoFormState extends State<ProfileLoginInfoForm> {
                   leave = true;
                 }
 
-                if (!leave) return;
+                if (!mounted || !leave) return;
 
+                if (!mounted) return;
                 setState(() {
                   viewModel.readOnly = !viewModel.readOnly;
                   viewModel.clearForm();
@@ -172,6 +166,7 @@ class _ProfileLoginInfoFormState extends State<ProfileLoginInfoForm> {
                 );
               }
 
+              if (!mounted) return;
               setState(() {
                 viewModel.readOnly = true;
               });

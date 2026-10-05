@@ -8,9 +8,7 @@ import 'package:path_provider/path_provider.dart';
 
 /// This class allows for the easy exploration of this app's working directory.
 class MyFileExplorer {
-  MyFileExplorer._() {
-    _init();
-  }
+  MyFileExplorer._();
 
   /// An object that allows for the easy exploration of this app's working
   /// directory.
@@ -35,29 +33,12 @@ class MyFileExplorer {
     appDocsDir = await getApplicationDocumentsDirectory();
     appSupportDir = await getApplicationSupportDirectory();
     tempDir = await getTemporaryDirectory();
-
-    _didInit = true;
   }
 
-  /// Makes sure that the instance of this class is initialized.
-  ///
-  /// Throws a [FileSystemException] if the instance is not initialized in time.
-  Future<void> ensureInitialized() async {
-    int counter = 0;
+  Future<void>? _initialization;
 
-    while (!_didInit) {
-      await Future.delayed(const Duration(milliseconds: 100));
-      counter++;
-
-      if (counter > 100) {
-        throw const FileSystemException(
-          'MyFileExplorer did not initialize in time!',
-        );
-      }
-    }
-  }
-
-  bool _didInit = false;
+  /// Initializes directories once and propagates platform errors to the caller.
+  Future<void> ensureInitialized() => _initialization ??= _init();
 
   /// The path to the app's documents directory.
   ///
@@ -555,10 +536,10 @@ class MyFileExplorer {
 
     // Remove double path separators.
     while (filePathSterile.contains('//')) {
-      filePathSterile.replaceAll('//', '/');
+      filePathSterile = filePathSterile.replaceAll('//', '/');
     }
     while (filePathSterile.contains('\\\\')) {
-      filePathSterile.replaceAll('\\\\', '\\');
+      filePathSterile = filePathSterile.replaceAll('\\\\', '\\');
     }
 
     // Remove improper leading chars.
@@ -571,7 +552,7 @@ class MyFileExplorer {
       }
     }
 
-    return filePathSterile;
+    return cleanPath(filePathSterile);
   }
 
   /// Whether the given `filePath` is legal or not.
